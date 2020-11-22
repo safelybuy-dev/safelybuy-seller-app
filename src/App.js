@@ -3,7 +3,6 @@ import "./tailwind.generated.css";
 import googleplay from "./assets/images/googleplay.png";
 import {
   appleDownload,
-  backgroundGradientMobile,
   backroundGradient,
   bag,
   bitcoinIcon,
@@ -17,6 +16,7 @@ import {
   tickets,
   twitter,
 } from "./svg";
+import Button from "./components/Button";
 
 function App() {
   return (
@@ -30,13 +30,9 @@ function App() {
               Transact with no regret
             </div>
           </div>
-          <div>
-            <button className="border-b-2 border-black pb-1 mr-3">
-              Sign Up
-            </button>
-            <button className="ml-3 bg-green-500 text-white px-8 py-2 rounded-full">
-              Login
-            </button>
+          <div className="flex items-center">
+            <Button text="Sign up" underlined />
+            <Button text="Login" primary roundedFull />
           </div>
         </header>
         <h1 className="pt-8 pb-2 px-12 text-6xl z-10 md:px-8 md:text-4xl">
@@ -62,9 +58,7 @@ function App() {
             <div className="rounded p-4 bg-white mb-4 w-max flex justify-center md:mb-2 md:p-1">
               {bag}
             </div>
-            <button className="text-white bg-black px-6 py-1 text-xs rounded-lg md:px-3">
-              Shopping
-            </button>
+            <Button text="Shopping" alternate roundedLg />
           </div>
           <div className="rounded-lg m-4 p-4 bg-white z-10 items-center flex flex-col bg-opacity-50 md:transform md:scale-75 md:p-3 md:m-1">
             <div className="relative rounded p-4 bg-white mb-4 w-max flex justify-center md:mb-2 md:p-1">
@@ -73,9 +67,7 @@ function App() {
               </div>
               {sellSwapPhone}
             </div>
-            <button className="text-white bg-black px-6 py-1 text-xs rounded-lg md:px-3">
-              Sell or Swap Phones
-            </button>
+            <Button text="Sell or Swap Phone" alternate roundedLg />
           </div>
           <div className="rounded-lg m-4 p-4 bg-white z-10 items-center flex flex-col bg-opacity-50 md:transform md:scale-75 md:p-3 md:m-1">
             <div className="relative rounded p-4 bg-white mb-4 w-max flex justify-center md:mb-2 md:p-1">
@@ -84,25 +76,19 @@ function App() {
               </div>
               {deliveryIcon}
             </div>
-            <button className="text-white bg-black px-6 py-1 text-xs rounded-lg md:px-3">
-              Delivery
-            </button>
+            <Button text="Delivery" alternate roundedLg />
           </div>
           <div className="rounded-lg m-4 p-4 bg-white z-10 items-center flex flex-col bg-opacity-50 md:transform md:scale-75 md:p-3 md:m-1">
             <div className="rounded p-4 bg-white mb-4 w-max flex justify-center md:mb-2 md:p-1">
               {bitcoinIcon}
             </div>
-            <button className="text-white bg-black px-6 py-1 text-xs rounded-lg md:px-3">
-              Bitcoin & Gift Cards
-            </button>
+            <Button alternate roundedLg text="Bitcoin & Gift Cards" />
           </div>
           <div className="rounded-lg m-4 p-4 bg-white z-10 items-center flex flex-col bg-opacity-50 md:transform md:scale-75 md:p-3 md:m-1">
             <div className="rounded p-4 bg-white mb-4 w-max flex justify-center md:mb-2 md:p-1">
               {tickets}
             </div>
-            <button className="text-white bg-black px-6 py-1 text-xs rounded-lg md:px-3">
-              Tickets
-            </button>
+            <Button text="Tickets" alternate roundedLg />
           </div>
         </div>
       </div>
@@ -125,10 +111,10 @@ function App() {
             <div className="p-3">{appleDownload}</div>
           </div>
           <div className="flex flex-col items-start text-left w-4/12 md:w-full md:items-center md:text-center">
-            <button className="rounded bg-green-500 text-white px-10 py-2 mb-4">
+            <Button primary rounded>
               Refer a Friend
-            </button>
-            <p className="font-normal">
+            </Button>
+            <p className="font-normal mt-4">
               Lorem ipsum dolor, sit amet consectetur adipisicing elit.
               Asperiores nulla numquam nostrum dignissimos placeat facilis id
               consequuntur.
@@ -140,7 +126,7 @@ function App() {
             {twitter}
           </div>
         </footer>
-      </div> 
+      </div>
     </div>
   );
 }
