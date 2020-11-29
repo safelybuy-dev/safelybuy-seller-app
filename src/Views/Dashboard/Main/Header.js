@@ -1,5 +1,6 @@
 import React from "react";
 import Logo from "../../../components/Logo";
+import { useComponentVisible } from "../../../hooks";
 import {
   ArrowDown,
   ArrowUp,
@@ -13,19 +14,49 @@ import {
   UserAvatar,
 } from "../../../svg";
 
-const NavItem = ({ color, svg, hasDropdown, children, last }) => (
-  <li className={`flex ${!last ? "mr-14" : "mr-0"} items-center text-sm`}>
-    <div className={`bg-${color}-400 mr-2 rounded-full inline-block p-2`}>
-      {svg}
+const NavItem = ({ color, svg, hasDropdown, children, last }) => {
+  const {
+    ref,
+    isComponentVisible,
+    setIsComponentVisible,
+  } = useComponentVisible(false);
+  return (
+    <div className="relative">
+      <li
+        onClick={(e) => {
+          if (isComponentVisible) setIsComponentVisible(false);
+          else setIsComponentVisible(true);
+          e.stopPropagation();
+        }}
+        className={`flex ${
+          !last ? "mr-14" : "mr-0"
+        } items-center cursor-pointer text-sm`}
+      >
+        <div className={`bg-${color}-400 mr-2 rounded-full inline-block p-2`}>
+          {svg}
+        </div>
+        <span>{children}</span>
+        {hasDropdown && (
+          <span
+            className={`mt-px ml-2 inline-block transform duration-200 ${
+              isComponentVisible ? "rotate-180" : "rotate-0"
+            }`}
+          >
+            <ArrowDown className="bg-red-500" color="#000" />
+          </span>
+        )}
+      </li>
+      <div ref={ref}>
+        {hasDropdown && isComponentVisible && (
+          <div className="absolute">
+            Hello .... We die there!!!
+            {/* Dropdown Menu */}
+          </div>
+        )}
+      </div>
     </div>
-    <span>{children}</span>
-    {hasDropdown && (
-      <span className="mt-px ml-2 inline-block">
-        <ArrowDown color="#000" />
-      </span>
-    )}
-  </li>
-);
+  );
+};
 
 const Header = () => {
   return (
