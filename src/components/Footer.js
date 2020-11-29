@@ -3,7 +3,7 @@ import Button from "./Button";
 import { AppleDownload, Facebook, Instagram, Twitter } from "../svg";
 import googleplay from "../assets/images/googleplay.png";
 
-export default function Footer() {
+export default function Footer({ admin }) {
   return (
     <footer className="bg-white px-8 py-8 w-full flex flex-wrap items-center absolute bottom-0 md:px-6">
       <div className="flex w-5/12 md:w-full justify-start md:justify-center md:transform md:scale-75 md:pb-4">
@@ -17,9 +17,11 @@ export default function Footer() {
         <div className="p-3">{<AppleDownload />}</div>
       </div>
       <div className="flex flex-col items-start text-left w-5/12 md:w-full md:items-center md:text-center">
-        <Button primary rounded>
-          Refer a Friend
-        </Button>
+        {!admin && (
+          <Button primary rounded>
+            Refer a Friend
+          </Button>
+        )}
         <p className="font-normal mt-4">
           Lorem ipsum dolor, sit amet consectetur adipisicing elit. Asperiores
           nulla numquam nostrum dignissimos placeat facilis id consequuntur.

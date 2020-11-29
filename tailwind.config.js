@@ -758,6 +758,7 @@ module.exports = {
     extend: {
       margin: ["first", "last"],
       textAlign: ["last"],
+      padding: ["first", "last"]
     },
     accessibility: ["responsive", "focus-within", "focus"],
     alignContent: ["responsive"],

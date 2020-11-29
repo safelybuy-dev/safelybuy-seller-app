@@ -31,18 +31,28 @@ const Header = () => {
   return (
     <header className="flex bg-white flex-col px-12 py-6 md:p-6 md:py-3">
       <div className="flex tracking-wide justify-between">
-        <Logo color="purple" text="Administrator" />
+        <div className="flex md:hidden">
+          <Logo color="purple" text="Administrator" />
+        </div>
+        <div className="hidden md:flex items-center">
+          <div className="mr-2 mb-1">
+            <Hamburger scale={1} color="black" />
+          </div>
+          <Logo color="purple" text="Admin" allowSub />
+        </div>
         <div className="flex items-center">
-          <div className="p-4 rounded-xl shadow-xl mr-2">{<Bell />}</div>
-          <div className="flex px-4 py-2 rounded-full shadow-xl ml-2 items-center">
+          <div className="p-4 md:p-2 rounded-xl md:rounded-lg shadow-xl md:shadow-lg mr-2 md:mr-1">
+            {<Bell />}
+          </div>
+          <div className="flex p-2 rounded-full shadow-xl ml-2 md:ml-0 items-center">
             {<UserAvatar scale={1.5} />}
-            <div className="ml-3 flex flex-col">
+            <div className="ml-3 flex flex-col md:hidden">
               <span className="font-normal text-xs">Kareem Chibuzor</span>
               <span className="uppercase text-gray-400 text-xs">
                 Super Admin
               </span>
             </div>
-            <div className="ml-4 flex flex-col justify-between">
+            <div className="ml-4 flex flex-col justify-between md:hidden">
               <div className="mb-px">
                 <ArrowUp />
               </div>
@@ -51,7 +61,7 @@ const Header = () => {
           </div>
         </div>
       </div>
-      <nav className="flex items-center ml-4 tracking-wide justify-between mt-6">
+      <nav className="flex items-center ml-4 tracking-wide justify-between mt-6 md:hidden">
         <ul className="flex">
           <NavItem
             color="lime"
@@ -89,7 +99,7 @@ const Header = () => {
             Giftcard
           </NavItem>
         </ul>
-        <div className="bg-purple-100 px-2 py-3 rounded-md">
+        <div className="bg-purple-100 block px-2 py-3 rounded-md">
           {<Hamburger />}
         </div>
       </nav>

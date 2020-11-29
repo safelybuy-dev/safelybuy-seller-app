@@ -4,18 +4,18 @@ import Header from "./Main/Header";
 import Highlight from "./Main/Highlight";
 import TopStat from "./Main/TopStat";
 import RecentSalesTable from "./Main/RecentSales";
-import { Bag, BitcoinIcon, Tickets, DeliveryIcon } from "../../svg";
+import { Bag, BitcoinIcon, Tickets, DeliveryIcon, ArrowRight } from "../../svg";
 
 export default function Main() {
   return (
     <div className="relative bg-purple-50 min-h-screen">
       <Header />
-      <div className="flex py-12 px-16 pb-60 md:py-10">
-        <div className="flex flex-col tracking-wide w-4/12">
+      <div className="flex py-12 px-16 pb-60 md:pb-96 md:flex-wrap md:justify-center md:py-8 md:px-6">
+        <div className="flex flex-col tracking-wide w-4/12 sm:w-full">
           <Highlight />
         </div>
-        <div className="flex flex-col w-full">
-          <div className="flex w-full justify-between">
+        <div className="flex flex-col w-full md:mt-8">
+          <div className="flex w-full justify-between md:justify-around md:flex-wrap">
             <TopStat
               title="Shopping"
               value={509}
@@ -46,15 +46,23 @@ export default function Main() {
               color="yellow"
             />
           </div>
-          <div className="mt-8 mb-4">
-            <h3 className="text-2xl tracking-wider">Recent Sales</h3>
-            <div className="mt-5 py-8 px-10 rounded-3xl bg-white w-100 overflow-x-scroll">
+          <div className="mt-8 mb-4 md:-mx-6 md:bg-white md:py-8 md:px-10 md:px-4">
+            <h3 className="text-2xl md:pb-6 md:bg-white tracking-wider">
+              Recent Sales
+            </h3>
+            <div className="mt-5 py-8 px-10 md:py-0 md:px-0 md:mt-0 rounded-3xl md:rounded-none bg-white w-100 overflow-x-scroll">
               <RecentSalesTable />
+            </div>
+            <div className="flex justify-between mt-8 pb-8 w-full">
+              <span className="text-gray-500">Showing 8 of 100</span>
+              <div className="flex items-center text-purple-500">
+                See all &nbsp; <ArrowRight />
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <Footer />
+      <Footer admin />
     </div>
   );
 }

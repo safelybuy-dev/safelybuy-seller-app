@@ -1,6 +1,5 @@
 import React from "react";
 import { useTable } from "react-table";
-import { ArrowRight } from "../../../svg";
 
 const RecentSales = () => {
   const data = React.useMemo(
@@ -11,6 +10,7 @@ const RecentSales = () => {
           month: "short",
           day: "numeric",
           hour: "numeric",
+          hour12: true,
           minute: "numeric",
         }).format(Date.now()),
         name: <p className="text-purple-500">Kareem Chibuzor</p>,
@@ -24,10 +24,10 @@ const RecentSales = () => {
           </>
         ),
         desc: (
-          <p>
+          <div>
             <p className="text-gray-400 text-xs">Item sold</p>
             <p className="text-purple-600 text-xs">#12230223938489</p>
-          </p>
+          </div>
         ),
         orderId: "12230223938489",
         amount: (
@@ -44,6 +44,7 @@ const RecentSales = () => {
           year: "numeric",
           month: "short",
           day: "numeric",
+          hour12: true,
           hour: "numeric",
           minute: "numeric",
         }).format(Date.now()),
@@ -58,10 +59,10 @@ const RecentSales = () => {
           </>
         ),
         desc: (
-          <p>
+          <div>
             <p className="text-gray-400 text-xs">Item shipped</p>
             <p className="text-purple-600 text-xs">#12230223938489</p>
-          </p>
+          </div>
         ),
         orderId: "12230223938489",
         amount: (
@@ -78,6 +79,7 @@ const RecentSales = () => {
           year: "numeric",
           month: "short",
           day: "numeric",
+          hour12: true,
           hour: "numeric",
           minute: "numeric",
         }).format(Date.now()),
@@ -92,10 +94,10 @@ const RecentSales = () => {
           </>
         ),
         desc: (
-          <p>
+          <div>
             <p className="text-gray-400 text-xs">Ticket sold</p>
             <p className="text-purple-600 text-xs">#12230225678325</p>
-          </p>
+          </div>
         ),
         orderId: "12230223938489",
         amount: (
@@ -112,6 +114,7 @@ const RecentSales = () => {
           year: "numeric",
           month: "short",
           day: "numeric",
+          hour12: true,
           hour: "numeric",
           minute: "numeric",
         }).format(Date.now()),
@@ -126,9 +129,9 @@ const RecentSales = () => {
           </>
         ),
         desc: (
-          <p>
+          <div>
             <p className="text-gray-400 text-xs">Bitcoin sold</p>
-          </p>
+          </div>
         ),
         orderId: "12230223938489",
         amount: (
@@ -145,6 +148,7 @@ const RecentSales = () => {
           year: "numeric",
           month: "short",
           day: "numeric",
+          hour12: true,
           hour: "numeric",
           minute: "numeric",
         }).format(Date.now()),
@@ -159,9 +163,9 @@ const RecentSales = () => {
           </>
         ),
         desc: (
-          <p>
+          <div>
             <p className="text-gray-400 text-xs">Giftcard bought</p>
-          </p>
+          </div>
         ),
         orderId: "12230223938489",
         amount: (
@@ -178,6 +182,7 @@ const RecentSales = () => {
           year: "numeric",
           month: "short",
           day: "numeric",
+          hour12: true,
           hour: "numeric",
           minute: "numeric",
         }).format(Date.now()),
@@ -192,10 +197,10 @@ const RecentSales = () => {
           </>
         ),
         desc: (
-          <p>
+          <div>
             <p className="text-gray-400 text-xs">Item sold</p>
             <p className="text-purple-600 text-xs">#12230223938489</p>
-          </p>
+          </div>
         ),
         orderId: "12230223938489",
         amount: (
@@ -212,6 +217,7 @@ const RecentSales = () => {
           year: "numeric",
           month: "short",
           day: "numeric",
+          hour12: true,
           hour: "numeric",
           minute: "numeric",
         }).format(Date.now()),
@@ -226,10 +232,10 @@ const RecentSales = () => {
           </>
         ),
         desc: (
-          <p>
+          <div>
             <p className="text-gray-400 text-xs">Item sold</p>
             <p className="text-purple-600 text-xs">#12230223938489</p>
-          </p>
+          </div>
         ),
         orderId: "12230223938489",
         amount: (
@@ -246,6 +252,7 @@ const RecentSales = () => {
           year: "numeric",
           month: "short",
           day: "numeric",
+          hour12: true,
           hour: "numeric",
           minute: "numeric",
         }).format(Date.now()),
@@ -260,10 +267,10 @@ const RecentSales = () => {
           </>
         ),
         desc: (
-          <p>
+          <div>
             <p className="text-gray-400 text-xs">Ticket sold</p>
             <p className="text-purple-600 text-xs">#12230223938489</p>
-          </p>
+          </div>
         ),
         orderId: "12230223938489",
         amount: (
@@ -323,7 +330,8 @@ const RecentSales = () => {
                 {row.cells.map((cell) => {
                   return (
                     <td
-                      className="border-b-2 border-gray-100 py-4"
+                      style={{ minWidth: "120px" }}
+                      className="border-b-2 pr-4 min-w-max last:pr-0 border-gray-100 py-4"
                       {...cell.getCellProps()}
                     >
                       {cell.render("Cell")}
@@ -335,12 +343,6 @@ const RecentSales = () => {
           })}
         </tbody>
       </table>
-      <div className="flex justify-between mt-8 w-full">
-        <span className="text-gray-500">Showing 8 of 100</span>
-        <div className="flex items-center text-purple-500">
-          See all &nbsp; <ArrowRight />
-        </div>
-      </div>
     </>
   );
 };
