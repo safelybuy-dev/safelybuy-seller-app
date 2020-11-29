@@ -757,6 +757,7 @@ module.exports = {
   variants: {
     extend: {
       margin: ["first", "last"],
+      textAlign: ["last"],
     },
     accessibility: ["responsive", "focus-within", "focus"],
     alignContent: ["responsive"],

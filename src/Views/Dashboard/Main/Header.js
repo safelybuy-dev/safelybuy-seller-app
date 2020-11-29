@@ -14,13 +14,13 @@ import {
 } from "../../../svg";
 
 const NavItem = ({ color, svg, hasDropdown, children, last }) => (
-  <li className={`flex ${!last ? "mr-10" : "mr-0"} items-center text-sm`}>
+  <li className={`flex ${!last ? "mr-14" : "mr-0"} items-center text-sm`}>
     <div className={`bg-${color}-400 mr-2 rounded-full inline-block p-2`}>
       {svg}
     </div>
     <span>{children}</span>
     {hasDropdown && (
-      <span className="mt-1 ml-2 inline-block">
+      <span className="mt-px ml-2 inline-block">
         <ArrowDown color="#000" />
       </span>
     )}
@@ -56,34 +56,34 @@ const Header = () => {
           <NavItem
             color="lime"
             hasDropdown
-            svg={<Bag scale={0.3} color="white" />}
+            svg={<Bag scale={0.255319148936} color="white" />}
           >
             Shopping
           </NavItem>
           <NavItem
             color="green"
-            svg={<DeliveryIcon scale={0.3} color="white" />}
+            svg={<DeliveryIcon scale={0.255319148936} color="white" />}
           >
             Delivery
           </NavItem>
           <NavItem
             color="purple"
             hasDropdown
-            svg={<Tickets scale={0.3} color={"white"} />}
+            svg={<Tickets scale={0.255319148936} color={"white"} />}
           >
             Tickets
           </NavItem>
           <NavItem
             color="yellow"
             hasDropdown
-            svg={<BitcoinIcon scale={0.3} color={"white"} />}
+            svg={<BitcoinIcon scale={0.255319148936} color={"white"} />}
           >
             Bitcoin
           </NavItem>
           <NavItem
             color="orange"
             hasDropdown
-            svg={<GiftCardIcon scale={0.3} color={"white"} />}
+            svg={<GiftCardIcon scale={0.255319148936} color={"white"} />}
             last
           >
             Giftcard
