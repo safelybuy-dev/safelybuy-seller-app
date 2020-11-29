@@ -17,9 +17,9 @@ export default function Highlight() {
       <h3 className="text-3xl pb-8">Seller of the month</h3>
       <div className="flex flex-col bg-purple-700 rounded-2xl p-4 divide-y divide-purple-500">
         <div className="flex pb-6 items-center">
-          <span className="inline-block p-2">{<UserAvatar />}</span>
-          <div className="flex flex-col ml-1">
-            <p className="mb-1">Kareem Chibuzor</p>
+          <span className="inline-block p-2">{<UserAvatar scale={2.5} />}</span>
+          <div className="flex flex-col">
+            <p className="mb-1 text-lg">Kareem Chibuzor</p>
             <div className="text-xs bg-purple-800 py-1 px-2 rounded-full inline-block">
               kareeemchi@gmail.com
             </div>

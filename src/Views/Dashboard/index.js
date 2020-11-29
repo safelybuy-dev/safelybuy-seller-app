@@ -23,28 +23,28 @@ export default function Main() {
               title="Shopping"
               value={509}
               caption="New orders in the last 24 hours"
-              svg={<Bag />}
+              svg={<Bag color="white" />}
               color="lime"
             />
             <TopStat
               title="Delivery"
               value={25}
               caption="Delivery orders in the last 24 hours"
-              svg={<DeliveryIcon />}
+              svg={<DeliveryIcon color="white" />}
               color="green"
             />
             <TopStat
               title="Tickets"
               value={340}
               caption="Tickets sold in the last 24 hours"
-              svg={<Tickets />}
+              svg={<Tickets color="white" />}
               color="purple"
             />
             <TopStat
               title="Trading"
               value={3}
               caption="Items traded in the last 24 hours"
-              svg={<BitcoinIcon />}
+              svg={<BitcoinIcon color="white" />}
               color="yellow"
             />
           </div>

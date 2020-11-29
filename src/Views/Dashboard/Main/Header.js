@@ -35,7 +35,7 @@ const Header = () => {
         <div className="flex items-center">
           <div className="p-4 rounded-xl shadow-xl mr-2">{<Bell />}</div>
           <div className="flex px-4 py-2 rounded-full shadow-xl ml-2 items-center">
-            {<UserAvatar />}
+            {<UserAvatar scale={1.5} />}
             <div className="ml-3 flex flex-col">
               <span className="font-normal text-xs">Kareem Chibuzor</span>
               <span className="uppercase text-gray-400 text-xs">
@@ -53,19 +53,39 @@ const Header = () => {
       </div>
       <nav className="flex items-center ml-4 tracking-wide justify-between mt-6">
         <ul className="flex">
-          <NavItem color="lime" hasDropdown svg={<Bag />}>
+          <NavItem
+            color="lime"
+            hasDropdown
+            svg={<Bag scale={0.3} color="white" />}
+          >
             Shopping
           </NavItem>
-          <NavItem color="green" svg={<DeliveryIcon />}>
+          <NavItem
+            color="green"
+            svg={<DeliveryIcon scale={0.3} color="white" />}
+          >
             Delivery
           </NavItem>
-          <NavItem color="purple" hasDropdown svg={<Tickets />}>
+          <NavItem
+            color="purple"
+            hasDropdown
+            svg={<Tickets scale={0.3} color={"white"} />}
+          >
             Tickets
           </NavItem>
-          <NavItem color="yellow" hasDropdown svg={<BitcoinIcon />}>
+          <NavItem
+            color="yellow"
+            hasDropdown
+            svg={<BitcoinIcon scale={0.3} color={"white"} />}
+          >
             Bitcoin
           </NavItem>
-          <NavItem color="orange" hasDropdown svg={<GiftCardIcon />} last>
+          <NavItem
+            color="orange"
+            hasDropdown
+            svg={<GiftCardIcon scale={0.3} color={"white"} />}
+            last
+          >
             Giftcard
           </NavItem>
         </ul>
