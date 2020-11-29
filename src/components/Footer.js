@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "./Button";
-import { appleDownload, facebook, instagram, twitter } from "../svg";
+import { AppleDownload, Facebook, Instagram, Twitter } from "../svg";
 import googleplay from "../assets/images/googleplay.png";
 
 export default function Footer() {
@@ -14,7 +14,7 @@ export default function Footer() {
           width="202"
           style={{ height: "79px" }}
         />
-        <div className="p-3">{appleDownload}</div>
+        <div className="p-3">{<AppleDownload />}</div>
       </div>
       <div className="flex flex-col items-start text-left w-5/12 md:w-full md:items-center md:text-center">
         <Button primary rounded>
@@ -26,9 +26,9 @@ export default function Footer() {
         </p>
       </div>
       <div className="self-end justify-around px-3 flex w-2/12 md:w-full md:pt-4">
-        {facebook}
-        {instagram}
-        {twitter}
+        {<Facebook />}
+        {<Instagram />}
+        {<Twitter />}
       </div>
     </footer>
   );

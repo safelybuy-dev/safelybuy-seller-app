@@ -1,12 +1,12 @@
 import {
-  backroundGradient,
-  bag,
-  bitcoinIcon,
-  deliveryIcon,
-  devicesIcon,
-  devicesIconMobile,
-  sellSwapPhone,
-  tickets,
+  BackroundGradient,
+  Bag,
+  BitcoinIcon,
+  DeliveryIcon,
+  DevicesIcon,
+  DevicesIconMobile,
+  SellSwapPhone,
+  Tickets,
 } from "./svg";
 import Button from "./components/Button";
 import Logo from "./components/Logo";
@@ -33,33 +33,33 @@ const SamplePage = () => (
         className="px-20 w-ful top-0 absolute flex justify-center md:hidden"
         style={{ filter: "blur(80px)" }}
       >
-        {backroundGradient}
+        {<BackroundGradient />}
       </div>
       <div
         className="px-0 w-full top-0 absolute hidden justify-center md:flex"
         style={{ filter: "blur(40px)" }}
       >
-        {backroundGradient}
+        {<BackroundGradient />}
       </div>
       <div className="flex justify-center flex-wrap">
-        <SpotlightCard text="Shopping" svg={bag} />
+        <SpotlightCard text="Shopping" svg={<Bag />} />
         <SpotlightCard
           tag
           tagText="50% OFF"
           text="Sell/Swap Phone"
-          svg={sellSwapPhone}
+          svg={<SellSwapPhone />}
         />
-        <SpotlightCard tag tagText="PROMO" text="Delivery" svg={deliveryIcon} />
-        <SpotlightCard text="Bitcoin & Gift Cards" svg={bitcoinIcon} />
-        <SpotlightCard text="Tickets" svg={tickets} />
+        <SpotlightCard tag tagText="PROMO" text="Delivery" svg={<DeliveryIcon />} />
+        <SpotlightCard text="Bitcoin & Gift Cards" svg={<BitcoinIcon />} />
+        <SpotlightCard text="Tickets" svg={<Tickets />} />
       </div>
     </div>
     <div className="relative z-10">
       <div className="relative hidden justify-center mt-10 md:flex">
-        {devicesIconMobile}
+        {<DevicesIconMobile />}
       </div>
       <div className="px-12 relative flex justify-center mt-10 md:hidden">
-        {devicesIcon}
+        {<DevicesIcon />}
       </div>
       <Footer />
     </div>

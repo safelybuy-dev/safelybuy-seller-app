@@ -1,5 +1,5 @@
 import React from "react";
-import { userAvatarBig } from "../../../svg";
+import { UserAvatar } from "../../../svg";
 
 export default function Highlight() {
   const date = new Date();
@@ -17,9 +17,7 @@ export default function Highlight() {
       <h3 className="text-3xl pb-8">Seller of the month</h3>
       <div className="flex flex-col bg-purple-700 rounded-2xl p-4 divide-y divide-purple-500">
         <div className="flex pb-6 items-center">
-          <span className="inline-block p-2">
-            {userAvatarBig}
-          </span>
+          <span className="inline-block p-2">{<UserAvatar />}</span>
           <div className="flex flex-col ml-1">
             <p className="mb-1">Kareem Chibuzor</p>
             <div className="text-xs bg-purple-800 py-1 px-2 rounded-full inline-block">
@@ -28,7 +26,9 @@ export default function Highlight() {
           </div>
         </div>
         <div className="py-6">
-            <span className="block text-7xl tracking-widest font-extrabold">300</span>
+          <span className="block text-7xl tracking-widest font-extrabold">
+            300
+          </span>
           <span className="text-lg opacity-70">Items sold this month</span>
         </div>
         <div className="py-4">

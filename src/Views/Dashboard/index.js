@@ -4,7 +4,7 @@ import Header from "./Main/Header";
 import Highlight from "./Main/Highlight";
 import TopStat from "./Main/TopStat";
 import RecentSalesTable from "./Main/RecentSales";
-import { bagWhite, bitcoinWhite, ticketsWhite, deliveryWhite } from "../../svg";
+import { Bag, BitcoinIcon, Tickets, DeliveryIcon } from "../../svg";
 
 export default function Main() {
   return (
@@ -23,28 +23,28 @@ export default function Main() {
               title="Shopping"
               value={509}
               caption="New orders in the last 24 hours"
-              svg={bagWhite}
+              svg={<Bag />}
               color="lime"
             />
             <TopStat
               title="Delivery"
               value={25}
               caption="Delivery orders in the last 24 hours"
-              svg={deliveryWhite}
+              svg={<DeliveryIcon />}
               color="green"
             />
             <TopStat
               title="Tickets"
               value={340}
               caption="Tickets sold in the last 24 hours"
-              svg={ticketsWhite}
+              svg={<Tickets />}
               color="purple"
             />
             <TopStat
               title="Trading"
               value={3}
               caption="Items traded in the last 24 hours"
-              svg={bitcoinWhite}
+              svg={<BitcoinIcon />}
               color="yellow"
             />
           </div>
