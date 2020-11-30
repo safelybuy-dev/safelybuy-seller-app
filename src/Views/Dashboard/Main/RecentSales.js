@@ -306,7 +306,7 @@ const RecentSales = () => {
   } = useTable({ columns, data });
 
   return (
-    <>
+    <div className="overflow-x-scroll">
       <table {...getTableProps()} className="w-full text-sm">
         <thead className="text-left border-b-2 border-gray-100">
           {headerGroups.map((headerGroup) => (
@@ -343,7 +343,7 @@ const RecentSales = () => {
           })}
         </tbody>
       </table>
-    </>
+    </div>
   );
 };
 

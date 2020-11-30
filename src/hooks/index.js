@@ -16,7 +16,7 @@ export const useComponentVisible = (initialIsVisible) => {
     if (ref.current && !ref.current.contains(event.target)) {
       setIsComponentVisible(false);
     }
-    // event.stopPropagation();
+    event.stopPropagation();
   };
 
   useEffect(() => {

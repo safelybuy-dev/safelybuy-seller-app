@@ -14,7 +14,14 @@ import {
   UserAvatar,
 } from "../../../svg";
 
-const NavItem = ({ color, svg, hasDropdown, children, last }) => {
+const NavItem = ({
+  color,
+  svg,
+  hasDropdown,
+  children,
+  last,
+  dropDownLinks,
+}) => {
   const {
     ref,
     isComponentVisible,
@@ -30,7 +37,7 @@ const NavItem = ({ color, svg, hasDropdown, children, last }) => {
         }}
         className={`flex ${
           !last ? "mr-14" : "mr-0"
-        } items-center cursor-pointer text-sm`}
+        } items-center cursor-pointer hover:bg-${color}-100 transform active:shadow-sm hover:scale-105 hover:shadow-lg rounded-full pr-4 text-sm`}
       >
         <div className={`bg-${color}-400 mr-2 rounded-full inline-block p-2`}>
           {svg}
@@ -48,9 +55,16 @@ const NavItem = ({ color, svg, hasDropdown, children, last }) => {
       </li>
       <div ref={ref}>
         {hasDropdown && isComponentVisible && (
-          <div className="absolute">
-            Hello .... We die there!!!
-            {/* Dropdown Menu */}
+          <div
+            className={`absolute bg-white z-10 rounded-xl border-gray-100 border-2`}
+          >
+            <ul>
+              {dropDownLinks.map((e) => (
+                <a key={Date.now() + Math.random()} href={e.url}>
+                  <li className={`p-2 hover:bg-${color}-100`}>{e.text}</li>
+                </a>
+              ))}
+            </ul>
           </div>
         )}
       </div>
@@ -98,6 +112,10 @@ const Header = () => {
             color="lime"
             hasDropdown
             svg={<Bag scale={0.255319148936} color="white" />}
+            dropDownLinks={[
+              { text: "Manage Inventory", url: "#" },
+              { text: "Order Mannagement", url: "#" },
+            ]}
           >
             Shopping
           </NavItem>
@@ -111,6 +129,10 @@ const Header = () => {
             color="purple"
             hasDropdown
             svg={<Tickets scale={0.255319148936} color={"white"} />}
+            dropDownLinks={[
+              { text: "Manage Inventory", url: "#" },
+              { text: "Order Mannagement", url: "#" },
+            ]}
           >
             Tickets
           </NavItem>
@@ -118,6 +140,10 @@ const Header = () => {
             color="yellow"
             hasDropdown
             svg={<BitcoinIcon scale={0.255319148936} color={"white"} />}
+            dropDownLinks={[
+              { text: "Manage Inventory", url: "#" },
+              { text: "Order Mannagement", url: "#" },
+            ]}
           >
             Bitcoin
           </NavItem>
@@ -125,7 +151,10 @@ const Header = () => {
             color="orange"
             hasDropdown
             svg={<GiftCardIcon scale={0.255319148936} color={"white"} />}
-            last
+            dropDownLinks={[
+              { text: "Manage Inventory", url: "#" },
+              { text: "Order Mannagement", url: "#" },
+            ]}
           >
             Giftcard
           </NavItem>
