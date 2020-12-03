@@ -4,6 +4,7 @@ import { useComponentVisible } from "../../../hooks";
 import {
   ArrowDown,
   ArrowUp,
+  AngleRight,
   Bag,
   Bell,
   BitcoinIcon,
@@ -13,6 +14,9 @@ import {
   Tickets,
   UserAvatar,
 } from "../../../svg";
+
+const buttonStyles = (color) =>
+  `hover:bg-${color}-100 transform active:shadow-sm active:bg-${color}-200 hover:scale-105 active:scale-100 hover:shadow-xl focus:outline-none`;
 
 const NavItem = ({
   color,
@@ -29,7 +33,7 @@ const NavItem = ({
   } = useComponentVisible(false);
   return (
     <div className="relative">
-      <li
+      <button
         onClick={(e) => {
           if (isComponentVisible) setIsComponentVisible(false);
           else setIsComponentVisible(true);
@@ -37,7 +41,7 @@ const NavItem = ({
         }}
         className={`flex ${
           !last ? "mr-14" : "mr-0"
-        } items-center cursor-pointer hover:bg-${color}-100 transform active:shadow-sm hover:scale-105 hover:shadow-lg rounded-full pr-4 text-sm`}
+        } items-center focus:outline-none cursor-pointer hover:bg-${color}-100 transform active:shadow-sm active:bg-${color}-200 hover:scale-105 active:scale-100 hover:shadow-xl rounded-full pr-4 text-sm`}
       >
         <div className={`bg-${color}-400 mr-2 rounded-full inline-block p-2`}>
           {svg}
@@ -52,20 +56,20 @@ const NavItem = ({
             <ArrowDown className="bg-red-500" color="#000" />
           </span>
         )}
-      </li>
+      </button>
       <div ref={ref}>
         {hasDropdown && isComponentVisible && (
-          <div
-            className={`absolute bg-white z-10 rounded-xl border-gray-100 border-2`}
+          <ul
+            className={`absolute header-dropdown mt-2 bg-white w-60 z-10 rounded-xl border-gray-100 border-2`}
           >
-            <ul>
-              {dropDownLinks.map((e) => (
-                <a key={Date.now() + Math.random()} href={e.url}>
-                  <li className={`p-2 hover:bg-${color}-100`}>{e.text}</li>
-                </a>
-              ))}
-            </ul>
-          </div>
+            {dropDownLinks.map((e) => (
+              <a key={Date.now() + Math.random()} href={e.url}>
+                <li className={`py-2 px-4 rounded-xl hover:bg-${color}-100`}>
+                  {e.text}
+                </li>
+              </a>
+            ))}
+          </ul>
         )}
       </div>
     </div>
@@ -73,6 +77,24 @@ const NavItem = ({
 };
 
 const Header = () => {
+  const {
+    ref: notRef,
+    isComponentVisible: notIsVisible,
+    setIsComponentVisible: setNotIsVisible,
+  } = useComponentVisible(false);
+
+  const {
+    ref: userRef,
+    isComponentVisible: userIsVisible,
+    setIsComponentVisible: setUserIsVisible,
+  } = useComponentVisible(false);
+
+  const {
+    ref: barRef,
+    isComponentVisible: barIsVisible,
+    setIsComponentVisible: setBarIsVisible,
+  } = useComponentVisible(false);
+
   return (
     <header className="flex bg-white flex-col px-12 py-6 md:p-6 md:py-3">
       <div className="flex tracking-wide justify-between">
@@ -86,22 +108,71 @@ const Header = () => {
           <Logo color="purple" text="Admin" allowSub />
         </div>
         <div className="flex items-center">
-          <div className="p-4 md:p-2 rounded-xl md:rounded-lg shadow-xl md:shadow-lg mr-2 md:mr-1">
+          <button
+            className={`transform p-3 focus:outline-none md:p-2 rounded-xl md:rounded-lg shadow-xl md:shadow-lg mr-2 md:mr-1 hover:bg-purple-100 transform active:shadow-sm active:bg-purple-200 hover:scale-105 active:scale-100 hover:shadow-xl`}
+          >
             {<Bell />}
-          </div>
-          <div className="flex p-2 rounded-full shadow-xl ml-2 md:ml-0 items-center">
-            {<UserAvatar scale={1.5} />}
-            <div className="ml-3 flex flex-col md:hidden">
-              <span className="font-normal text-xs">Kareem Chibuzor</span>
-              <span className="uppercase text-gray-400 text-xs">
-                Super Admin
-              </span>
-            </div>
-            <div className="ml-4 flex flex-col justify-between md:hidden">
-              <div className="mb-px">
-                <ArrowUp />
+          </button>
+          <div className="relative">
+            <button
+              onClick={(e) => {
+                if (userIsVisible) setUserIsVisible(false);
+                else setUserIsVisible(true);
+                e.stopPropagation();
+              }}
+              className={`flex p-1  pr-4 rounded-full shadow-xl ml-2 md:ml-0 items-center ${buttonStyles(
+                "purple"
+              )}`}
+            >
+              {<UserAvatar scale={1.5} />}
+              <div className="ml-3 flex flex-col md:hidden">
+                <span className="font-normal text-xs">Kareem Chibuzor</span>
+                <span className="uppercase text-gray-400 text-xs">
+                  Super Admin
+                </span>
               </div>
-              <div className="mt-px">{<ArrowDown />}</div>
+              <div className="ml-4 flex flex-col justify-between md:hidden">
+                <div className="mb-px">
+                  <ArrowUp />
+                </div>
+                <div className="mt-px">{<ArrowDown />}</div>
+              </div>
+            </button>
+            <div ref={userRef}>
+              {userIsVisible && (
+                <ul
+                  className={`absolute w-40 mt-2 bg-white z-10 rounded-xl border-gray-100 border-2`}
+                >
+                  {[
+                    {
+                      url: "#",
+                      text: "Messages",
+                      unread: true,
+                      svg: <AngleRight />,
+                    },
+                    { url: "#", text: "Settings" },
+                    { url: "#", text: "Logout", color: "red" },
+                  ].map((e) => (
+                    <a key={Date.now() + Math.random()} href={e.url}>
+                      <li
+                        className={`py-2 px-4 rounded-xl hover:bg-purple-100 flex items-center justify-between`}
+                      >
+                        <div>
+                          <span
+                            className={`${e.color && `text-${e.color}-500`}`}
+                          >
+                            {e.text}
+                          </span>
+                          {e.unread && (
+                            <div className="relative h-2 w-2 ml-1 -top-2 inline-block bg-red-500 rounded-full"></div>
+                          )}
+                        </div>
+                        {e.svg && e.svg}
+                      </li>
+                    </a>
+                  ))}
+                </ul>
+              )}
             </div>
           </div>
         </div>
@@ -131,7 +202,7 @@ const Header = () => {
             svg={<Tickets scale={0.255319148936} color={"white"} />}
             dropDownLinks={[
               { text: "Manage Inventory", url: "#" },
-              { text: "Order Mannagement", url: "#" },
+              { text: "Tickets Mannagement", url: "#" },
             ]}
           >
             Tickets
@@ -141,8 +212,8 @@ const Header = () => {
             hasDropdown
             svg={<BitcoinIcon scale={0.255319148936} color={"white"} />}
             dropDownLinks={[
-              { text: "Manage Inventory", url: "#" },
-              { text: "Order Mannagement", url: "#" },
+              { text: "Bitcoin History", url: "#" },
+              { text: "Set Bitcoin Prices", url: "#" },
             ]}
           >
             Bitcoin
@@ -152,15 +223,48 @@ const Header = () => {
             hasDropdown
             svg={<GiftCardIcon scale={0.255319148936} color={"white"} />}
             dropDownLinks={[
-              { text: "Manage Inventory", url: "#" },
-              { text: "Order Mannagement", url: "#" },
+              { text: "Gift Card History", url: "#" },
+              { text: "Set Giftcard Prices", url: "#" },
             ]}
           >
             Giftcard
           </NavItem>
         </ul>
-        <div className="bg-purple-100 block px-2 py-3 rounded-md">
-          {<Hamburger />}
+        <div className="relative">
+          <button
+            onClick={(e) => {
+              if (barIsVisible) setBarIsVisible(false);
+              else setBarIsVisible(true);
+              e.stopPropagation();
+            }}
+            className={`bg-purple-100 block px-2 py-3 rounded-md ${buttonStyles()}`}
+          >
+            {<Hamburger />}
+          </button>
+          <div ref={barRef}>
+            {barIsVisible && (
+              <ul
+                className={`absolute right-0 w-72 mt-2 bg-white z-10 rounded-xl border-gray-100 border-2`}
+              >
+                {[
+                  { url: "#", text: "Administrator Management" },
+                  { url: "#", text: "Customer Management" },
+                  { url: "#", text: "Content Management" },
+                  { url: "#", text: "Discount Promotion Management" },
+                  { url: "#", text: "Seller's Management" },
+                  { url: "#", text: "Email Marketing" },
+                  { url: "#", text: "Referral Management" },
+                  { url: "#", text: "Payment Request" },
+                ].map((e) => (
+                  <a key={Date.now() + Math.random()} href={e.url}>
+                    <li className={`py-2 px-4 rounded-xl hover:bg-purple-100`}>
+                      {e.text}
+                    </li>
+                  </a>
+                ))}
+              </ul>
+            )}
+          </div>
         </div>
       </nav>
     </header>

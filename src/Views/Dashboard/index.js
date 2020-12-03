@@ -11,10 +11,10 @@ export default function Main() {
     <div className="relative bg-purple-50 min-h-screen">
       <Header />
       <div className="flex py-12 px-16 pb-60 md:pb-96 md:flex-wrap md:justify-center md:py-8 md:px-6">
-        <div className="flex flex-col tracking-wide w-4/12 md:w-7/12 sm:w-full">
+        <div className="flex flex-col tracking-wide md:w-7/12 sm:w-full">
           <Highlight />
         </div>
-        <div className="flex flex-col w-8/12 md:w-full md:mt-8">
+        <div className="flex flex-col flex-1 w-7/12 md:w-full md:mt-8">
           <div className="flex w-full justify-between md:justify-around md:flex-wrap">
             <TopStat
               title="Shopping"
