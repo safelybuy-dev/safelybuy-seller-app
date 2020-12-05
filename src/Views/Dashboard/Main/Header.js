@@ -127,7 +127,7 @@ const Header = () => {
                 <div
                   className={`absolute w-80 -right-24 mt-2 bg-white z-10 rounded-xl border-gray-100 border-2`}
                 >
-                  <div className="flex justify-between p-4 border-gray-100 border-b-2">
+                  <div className="flex justify-between px-6 py-4 border-gray-100 border-b-2">
                     <span className="text-purple-500">Notifications</span>
                     <div className="relative inline-block px-2 py-px text-sm bg-purple-500 text-white rounded-full">
                       3
@@ -138,25 +138,25 @@ const Header = () => {
                       {
                         url: "#",
                         text: "Order #1233434434 has been delivered.",
-                        svg: <Invoice />,
+                        svg: <Invoice scale={1.2} />,
                         color: "orange",
                       },
                       {
                         url: "#",
                         text: "Order #1233434434 has been delivered.",
-                        svg: <Invoice />,
+                        svg: <Invoice scale={1.2} />,
                         color: "orange",
                       },
                       {
                         url: "#",
                         text: "One or more products are out of stock.",
-                        svg: <Archive />,
+                        svg: <Archive scale={1.2} />,
                         color: "blue",
                       },
                     ].map((e) => (
                       <a key={Date.now() + Math.random()} href={e.url}>
                         <li
-                          className={`py-2 px-4 hover:bg-purple-100 flex items-center justify-between`}
+                          className={`py-2 px-6 hover:bg-purple-100 flex items-center justify-between`}
                         >
                           <div>
                             <div className={`flex text-gray-800`}>
@@ -175,7 +175,9 @@ const Header = () => {
                               </div>
                             </div>
                           </div>
-                          <AngleRight />
+                          <div className="inline-block ml-4">
+                            <AngleRight scale={1.7} />
+                          </div>
                         </li>
                       </a>
                     ))}
