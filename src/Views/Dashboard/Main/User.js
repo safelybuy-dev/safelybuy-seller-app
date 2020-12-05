@@ -1,11 +1,11 @@
 import React from "react";
 import { ArrowDown, ArrowUp, AngleRight, UserAvatar } from "../../../svg";
 import { buttonStyles } from "./Header";
+import { UserMenuMobile } from "./UserMenuMobile";
 
 const User = ({ userIsVisible, setUserIsVisible, userRef }) => (
   <div className="relative">
     <div className="relative">
-      {" "}
       <button
         onClick={(e) => {
           if (userIsVisible) setUserIsVisible(false);
@@ -30,8 +30,14 @@ const User = ({ userIsVisible, setUserIsVisible, userRef }) => (
       </button>
       <div ref={userRef}>
         {userIsVisible && (
+          <UserMenuMobile
+            isMenuOpen={userIsVisible}
+            setIsMenuOpen={setUserIsVisible}
+          />
+        )}
+        {userIsVisible && (
           <ul
-            className={`absolute w-40 mt-2 bg-white z-10 rounded-xl border-gray-100 border-2`}
+            className={`absolute w-40 mt-2 bg-white z-10 rounded-xl border-gray-100 border-2 md:invisible`}
           >
             {[
               {
