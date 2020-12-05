@@ -1,16 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 import Footer from "../../components/Footer";
 import Header from "./Main/Header";
 import Highlight from "./Main/Highlight";
 import TopStat from "./Main/TopStat";
 import RecentSalesTable from "./Main/RecentSales";
-import { Bag, BitcoinIcon, Tickets, DeliveryIcon, ArrowRight } from "../../svg";
+import {
+  Bag,
+  BitcoinIcon,
+  Tickets,
+  DeliveryIcon,
+  ArrowRight,
+  AngleRight,
+  CloseIcon,
+} from "../../svg";
+import Logo from "../../components/Logo";
+import { mainMenuItems } from "../../data";
+import { MobileMenu } from "./Main/MobileMenu";
+
+const MenuItem = ({ text, url }) => {
+  return (
+    <a href={url}>
+      <button className="flex py-4 justify-between w-full items-center">
+        <span className="font-normal text-xl tracking-wide">{text}</span>{" "}
+        <AngleRight scale={1.6} />
+      </button>
+    </a>
+  );
+};
 
 export default function Main() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
     <div className="relative bg-purple-50 min-h-screen">
-      <Header />
-      <div className="flex py-12 px-16 pb-60 md:pb-96 md:flex-wrap md:justify-center md:py-8 md:px-6">
+      <Header setIsMenuOpen={setIsMenuOpen} />
+      <MobileMenu isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+      <div className="flex py-12 px-16 pb-60 md:pb-96 md:flex-wrap md:justify-center md:py-24 md:px-6">
         <div className="flex flex-col tracking-wide md:w-7/12 sm:w-full">
           <Highlight />
         </div>

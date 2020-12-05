@@ -11,7 +11,7 @@ import MenuBar from "./MenuBar";
 export const buttonStyles = (color) =>
   `hover:bg-${color}-100 transform active:shadow-sm active:bg-${color}-200 hover:scale-105 active:scale-100 hover:shadow-xl focus:outline-none`;
 
-const Header = () => {
+const Header = ({ setIsMenuOpen }) => {
   const {
     ref: notRef,
     isComponentVisible: notIsVisible,
@@ -31,14 +31,19 @@ const Header = () => {
   } = useComponentVisible(false);
 
   return (
-    <header className="flex bg-white flex-col px-12 py-6 md:p-6 md:py-3">
+    <header className="flex bg-white flex-col px-12 py-6 md:p-6 md:py-3 md:fixed md:top-0 md:z-20 md:w-full shadow-md">
       <div className="flex tracking-wide justify-between">
         <div className="flex md:hidden">
           <Logo color="purple" text="Administrator" />
         </div>
         <div className="hidden md:flex items-center">
           <div className="mr-2 mb-1">
-            <Hamburger scale={1} color="black" />
+            <button
+              onClick={() => setIsMenuOpen(true)}
+              className={`block px-2 py-3 rounded-md ${buttonStyles()}`}
+            >
+              <Hamburger scale={1} color="black" />
+            </button>
           </div>
           <Logo color="purple" text="Admin" allowSub />
         </div>
