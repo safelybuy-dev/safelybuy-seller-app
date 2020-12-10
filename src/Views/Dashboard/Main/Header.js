@@ -31,7 +31,7 @@ const Header = ({ setIsMenuOpen }) => {
   } = useComponentVisible(false);
 
   return (
-    <header className="flex bg-white flex-col px-12 py-6 md:p-6 md:py-3 md:fixed md:top-0 md:z-20 md:w-full shadow-md">
+    <header className="flex bg-white flex-col px-12 py-6 md:p-6 md:py-3 fixed top-0 z-20 w-full shadow-md">
       <div className="flex tracking-wide justify-between">
         <div className="flex md:hidden">
           <Logo color="purple" text="Administrator" />

@@ -45,13 +45,18 @@ const SamplePage = () => (
         <SpotlightCard text="Shopping" svg={<Bag />} />
         <SpotlightCard
           tag
+          tagText="PROMO"
+          text="Delivery"
+          svg={<DeliveryIcon />}
+        />
+        <SpotlightCard text="Tickets" svg={<Tickets />} />
+        <SpotlightCard text="Bitcoin & Gift Cards" svg={<BitcoinIcon />} />
+        <SpotlightCard
+          tag
           tagText="50% OFF"
           text="Sell/Swap Phone"
           svg={<SellSwapPhone />}
         />
-        <SpotlightCard tag tagText="PROMO" text="Delivery" svg={<DeliveryIcon />} />
-        <SpotlightCard text="Bitcoin & Gift Cards" svg={<BitcoinIcon />} />
-        <SpotlightCard text="Tickets" svg={<Tickets />} />
       </div>
     </div>
     <div className="relative z-10">

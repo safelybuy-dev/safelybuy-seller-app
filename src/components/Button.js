@@ -3,7 +3,7 @@ import React from "react";
 const Button = ({
   text,
   primary,
-  secondary,
+  full,
   alternate,
   primaryOutline,
   secondaryOutline,
@@ -16,8 +16,9 @@ const Button = ({
   roundedFull,
   icon,
   children,
+  xSmall,
 }) => (
-  <div className="relative inline-block">
+  <div className={`relative inline-block ${full ? `w-full` : ""}`}>
     <button
       className={`${
         primary ? `bg-green-500 text-white px-10 py-2 border-green-500` : ""
@@ -29,8 +30,9 @@ const Button = ({
         disabled ? `text-white bg-gray cursor-not-allowed` : ""
       } ${primaryOutline ? `border-2 text-green-500 bg-white` : ""} ${
         secondaryOutline ? `border-2 text-purple-500 bg-white` : ""
-      }`}
+      } ${full ? `w-full` : ""}`}
       disabled={disabled}
+      style={{ [xSmall && "fontSize"]: "8px" }}
     >
       {text || children}
     </button>
