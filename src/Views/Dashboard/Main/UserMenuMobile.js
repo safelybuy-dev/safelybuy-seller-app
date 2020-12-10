@@ -122,7 +122,7 @@ export const UserMenuMobile = ({ isMenuOpen, setIsMenuOpen }) => {
             <LogOut />
             <div className="pl-3">
               <span className="font-normal text-xl tracking-wide">
-                Messages
+                Logout
               </span>
             </div>
           </button>

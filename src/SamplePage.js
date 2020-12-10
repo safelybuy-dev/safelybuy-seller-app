@@ -41,7 +41,7 @@ const SamplePage = () => (
       >
         {<BackroundGradient />}
       </div>
-      <div className="flex justify-center flex-wrap">
+      <div className="flex md:hidden justify-center w-full flex-wrap">
         <SpotlightCard text="Shopping" svg={<Bag />} />
         <SpotlightCard
           tag
@@ -54,9 +54,32 @@ const SamplePage = () => (
         <SpotlightCard
           tag
           tagText="50% OFF"
-          text="Sell/Swap Phone"
+          text="Sell or Swap Phone"
           svg={<SellSwapPhone />}
         />
+      </div>
+      <div className="hidden md:flex justify-center w-full flex-wrap">
+        <SpotlightCard text="Shopping" small svg={<Bag />} />
+        <SpotlightCard
+          tag
+          tagText="50% OFF"
+          text="Sell or Swap Phone"
+          svg={<SellSwapPhone />}
+          small
+        />
+        <SpotlightCard
+          small
+          text="Bitcoin & Gift Cards"
+          svg={<BitcoinIcon />}
+        />
+        <SpotlightCard
+          tag
+          tagText="PROMO"
+          text="Delivery"
+          svg={<DeliveryIcon />}
+          small
+        />
+        <SpotlightCard small text="Tickets" svg={<Tickets />} />
       </div>
     </div>
     <div className="relative z-10">
