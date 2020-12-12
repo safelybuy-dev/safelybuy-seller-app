@@ -5,11 +5,20 @@ import NavItem from "./NavItem";
 import { Hamburger } from "../../../svg";
 import { navMenuItems } from "../../../data";
 import Notifications from "./Notifications";
+import NotificationDetails from "./NotificationDetails";
 import User from "./User";
 import MenuBar from "./MenuBar";
 
 export const buttonStyles = (color) =>
   `hover:bg-${color}-100 transform active:shadow-sm active:bg-${color}-200 hover:scale-105 active:scale-100 hover:shadow-xl focus:outline-none`;
+
+function openNav() {
+  document.getElementById("myNav").style.width = "100%";
+}
+
+function closeNav() {
+  document.getElementById("myNav").style.width = "0%";
+}
 
 const Header = ({ setIsMenuOpen }) => {
   const {
@@ -32,6 +41,10 @@ const Header = ({ setIsMenuOpen }) => {
 
   return (
     <header className="flex bg-white flex-col px-12 py-6 md:p-6 md:py-3 fixed top-0 z-20 w-full shadow-md">
+      <NotificationDetails
+        setNotIsVisible={setNotIsVisible}
+        closeNav={closeNav}
+      />
       <div className="flex tracking-wide justify-between">
         <div className="flex md:hidden">
           <Logo color="purple" text="Administrator" />
@@ -52,6 +65,7 @@ const Header = ({ setIsMenuOpen }) => {
             notRef={notRef}
             setNotIsVisible={setNotIsVisible}
             notIsVisible={notIsVisible}
+            openNav={openNav}
           />
           <User
             userRef={userRef}

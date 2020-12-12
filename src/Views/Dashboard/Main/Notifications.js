@@ -1,7 +1,7 @@
 import React from "react";
 import { AngleRight, Bell, ArrowRight, Invoice, Archive } from "../../../svg";
 
-const Notifications = ({ notIsVisible, setNotIsVisible, notRef }) => (
+const Notifications = ({ notIsVisible, setNotIsVisible, notRef, openNav }) => (
   <div className="relative">
     <button
       onClick={(e) => {
@@ -16,7 +16,7 @@ const Notifications = ({ notIsVisible, setNotIsVisible, notRef }) => (
     <div ref={notRef}>
       {notIsVisible && (
         <div
-          className={`absolute w-80 -right-24 mt-2 bg-white z-10 rounded-xl border-gray-100 border-2`}
+          className={`absolute w-80 -right-24 md:-right-14 mt-2 bg-white z-10 rounded-xl border-gray-100 border-2`}
         >
           <div className="flex justify-between px-6 py-4 border-gray-100 border-b-2">
             <span className="text-purple-500">Notifications</span>
@@ -73,7 +73,13 @@ const Notifications = ({ notIsVisible, setNotIsVisible, notRef }) => (
               </a>
             ))}
           </ul>
-          <button className="align-center rounded-b-xl hover:bg-purple-100 w-full p-4 border-gray-100 border-t-2">
+          <button
+            onClick={() => {
+              setNotIsVisible(false);
+              openNav();
+            }}
+            className="align-center rounded-b-xl hover:bg-purple-100 w-full p-4 border-gray-100 border-t-2"
+          >
             <span className="text-purple-500 inline-block mr-4">See more</span>
             <ArrowRight />
           </button>

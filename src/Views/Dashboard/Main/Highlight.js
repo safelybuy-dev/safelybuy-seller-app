@@ -1,13 +1,21 @@
 import React from "react";
 import { UserAvatar } from "../../../svg";
 
+export const options = {
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+};
+
+export const optionsAlt = {
+  weekday: "short",
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+};
+
 export default function Highlight() {
   const date = new Date();
-  const options = {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  };
 
   return (
     <div className="rounded-2xl bg-purple-500 md:text-center py-4 px-6 pb-8 text-white mr-8 md:mr-0">
