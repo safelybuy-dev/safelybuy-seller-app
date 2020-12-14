@@ -5,7 +5,7 @@ import googleplay from "../assets/images/googleplay.png";
 
 export default function Footer({ admin }) {
   return (
-    <footer className="bg-gray-100 px-8 py-8 w-full z-40 flex flex-wrap items-center absolute bottom-0 md:px-6">
+    <footer className="bg-gray-100 border-t border-gray-200 px-8 py-8 w-full z-40 flex flex-wrap items-center absolute bottom-0 md:px-6">
       <div className="flex w-5/12 lg:w-6/12 md:w-full justify-start md:justify-center md:transform md:scale-75 md:pb-4">
         <img
           src={googleplay}

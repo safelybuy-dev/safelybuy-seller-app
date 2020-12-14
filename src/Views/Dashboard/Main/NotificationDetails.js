@@ -4,7 +4,7 @@ import { CloseIcon } from "../../../svg";
 import moment from "moment";
 import { Invoice, Settings } from "../../../svg";
 
-const isToday = (someDate) => {
+export const isToday = (someDate) => {
   const today = new Date();
   return (
     someDate.getDate() === today.getDate() &&

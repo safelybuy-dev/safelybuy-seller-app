@@ -385,6 +385,7 @@ module.exports = {
       "5/6": "83.333333%",
       full: "100%",
       screen: "100vh",
+      messCustom: "calc(100vh - 31rem)",
     }),
     inset: (theme, { negative }) => ({
       auto: "auto",
@@ -496,6 +497,7 @@ module.exports = {
       0: "0px",
       full: "100%",
       screen: "100vh",
+      messCustom: "calc(100vh - 31rem)",
     },
     minWidth: {
       0: "0px",
@@ -760,6 +762,7 @@ module.exports = {
       margin: ["first", "last"],
       textAlign: ["last"],
       padding: ["first", "last"],
+      borderWidth: ["first", "last"],
     },
     accessibility: ["responsive", "focus-within", "focus"],
     alignContent: ["responsive"],

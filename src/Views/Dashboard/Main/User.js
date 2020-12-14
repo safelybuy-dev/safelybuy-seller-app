@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { ArrowDown, ArrowUp, AngleRight, UserAvatar } from "../../../svg";
 import { buttonStyles } from "./Header";
 import { UserMenuMobile } from "./UserMenuMobile";
@@ -41,7 +42,7 @@ const User = ({ userIsVisible, setUserIsVisible, userRef }) => (
           >
             {[
               {
-                url: "#",
+                url: "/admin/messages",
                 text: "Messages",
                 unread: true,
                 svg: <AngleRight />,
@@ -49,7 +50,7 @@ const User = ({ userIsVisible, setUserIsVisible, userRef }) => (
               { url: "#", text: "Settings" },
               { url: "#", text: "Logout", color: "red" },
             ].map((e) => (
-              <a key={Date.now() + Math.random()} href={e.url}>
+              <Link key={Date.now() + Math.random()} to={e.url}>
                 <li
                   className={`py-2 px-4 rounded-xl hover:bg-purple-100 flex items-center justify-between`}
                 >
@@ -63,7 +64,7 @@ const User = ({ userIsVisible, setUserIsVisible, userRef }) => (
                   </div>
                   {e.svg && e.svg}
                 </li>
-              </a>
+              </Link>
             ))}
           </ul>
         )}
