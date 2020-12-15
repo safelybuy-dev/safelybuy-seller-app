@@ -8,6 +8,7 @@ import {
 } from "../../../svg";
 import { navMenuItems } from "../../../data";
 import { useComponentVisible } from "../../../hooks";
+import { Link } from "react-router-dom";
 
 const NavItem = ({
   color,
@@ -90,7 +91,7 @@ export const UserMenuMobile = ({ isMenuOpen, setIsMenuOpen }) => {
         </button>
       </div>
       <div className="flex h-full flex-col pt-28 pb-8 px-6 overflow-y-scroll">
-        <a href="/messages">
+        <Link onClick={() => setIsMenuOpen(false)} to={"/admin/messages"}>
           <button className="flex py-4 justify-between w-full items-center">
             <div>
               <span className="font-normal text-xl tracking-wide">
@@ -102,7 +103,7 @@ export const UserMenuMobile = ({ isMenuOpen, setIsMenuOpen }) => {
             </div>
             <AngleRight scale={1.6} />
           </button>
-        </a>
+        </Link>
         <small className="pt-10 pb-4 text-xs uppercase">Navigation</small>
         <div className="flex flex-col py-4 rounded-3xl shadow-2xl p-6">
           {navMenuItems.map((item) => (
@@ -117,16 +118,14 @@ export const UserMenuMobile = ({ isMenuOpen, setIsMenuOpen }) => {
             </NavItem>
           ))}
         </div>
-        <a href="/messages">
+        <Link to={"/admin/messages"}>
           <button className="flex pt-8 w-full items-center">
             <LogOut />
             <div className="pl-3">
-              <span className="font-normal text-xl tracking-wide">
-                Logout
-              </span>
+              <span className="font-normal text-xl tracking-wide">Logout</span>
             </div>
           </button>
-        </a>
+        </Link>
       </div>
     </div>
   );

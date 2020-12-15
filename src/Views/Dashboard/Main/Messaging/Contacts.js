@@ -4,7 +4,7 @@ import Search from "./Search";
 
 const Contacts = ({ contacts, setContacts, setSelectedContact }) => {
   return (
-    <div className="w-5/12 border-r">
+    <div className="w-5/12 md:w-full border-r md:border-0">
       <Search setContacts={setContacts} />
       <ContactList
         setSelectedContact={setSelectedContact}

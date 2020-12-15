@@ -7,6 +7,7 @@ const ContactList = ({ contacts, setSelectedContact }) => {
     <div>
       {contacts.map((contact) => (
         <div
+          key={Math.random()}
           onClick={() => setSelectedContact(contact)}
           className="contact cursor-pointer flex items-center border-b last:border-b-0 py-4 justify-between hover:bg-purple-50 active:bg-purple-100"
         >
