@@ -1,7 +1,7 @@
 import "./App.css";
 import "./tailwind.generated.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Dashboard from "./Views/Dashboard"
+import Dashboard from "./Views/Dashboard";
 import SamplePage from "./SamplePage";
 
 function App() {
@@ -9,11 +9,11 @@ function App() {
     <Router>
       <Switch>
         <Route path="/about"></Route>
-        <Route path="/admin">
-          <Dashboard />
+        <Route path="/sample">
+          <SamplePage />
         </Route>
         <Route path="/">
-          <SamplePage />
+          <Dashboard />
         </Route>
       </Switch>
     </Router>

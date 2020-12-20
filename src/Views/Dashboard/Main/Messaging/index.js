@@ -3,7 +3,6 @@ import Chat from "./Chat";
 import Contacts from "./Contacts";
 import person1 from "../../../../assets/images/image1.jpeg";
 import person2 from "../../../../assets/images/image2.jpeg";
-import { AngleRight } from "../../../../svg";
 
 const Messaging = () => {
   const [contacts, setContacts] = useState([

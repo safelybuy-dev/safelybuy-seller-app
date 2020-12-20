@@ -42,7 +42,7 @@ const User = ({ userIsVisible, setUserIsVisible, userRef }) => (
           >
             {[
               {
-                url: "/admin/messages",
+                url: "/messages",
                 text: "Messages",
                 unread: true,
                 svg: <AngleRight />,

@@ -91,7 +91,7 @@ export const UserMenuMobile = ({ isMenuOpen, setIsMenuOpen }) => {
         </button>
       </div>
       <div className="flex h-full flex-col pt-28 pb-8 px-6 overflow-y-scroll">
-        <Link onClick={() => setIsMenuOpen(false)} to={"/admin/messages"}>
+        <Link onClick={() => setIsMenuOpen(false)} to={"/messages"}>
           <button className="flex py-4 justify-between w-full items-center">
             <div>
               <span className="font-normal text-xl tracking-wide">
@@ -118,7 +118,7 @@ export const UserMenuMobile = ({ isMenuOpen, setIsMenuOpen }) => {
             </NavItem>
           ))}
         </div>
-        <Link to={"/admin/messages"}>
+        <Link to={"/messages"}>
           <button className="flex pt-8 w-full items-center">
             <LogOut />
             <div className="pl-3">
