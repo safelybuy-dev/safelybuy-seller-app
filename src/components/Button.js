@@ -3,6 +3,7 @@ import React from "react";
 const Button = ({
   text,
   primary,
+  secondary,
   full,
   alternate,
   primaryOutline,
@@ -17,8 +18,16 @@ const Button = ({
   icon,
   children,
   xSmall,
+  preTagText,
 }) => (
   <div className={`relative inline-block ${full ? `w-full` : ""}`}>
+    <div
+      className={`absolute top-2 rounded-full left-4 px-2 text-white text-xs py-1 ${
+        primary && "bg-green-800"
+      } ${secondary && "bg-purple-800"} ${danger && "bg-red-800"}`}
+    >
+      {preTagText}
+    </div>
     <button
       className={`${
         primary ? `bg-green-500 text-white px-10 py-2 border-green-500` : ""
@@ -30,7 +39,11 @@ const Button = ({
         disabled ? `text-white bg-gray cursor-not-allowed` : ""
       } ${primaryOutline ? `border-2 text-green-500 bg-white` : ""} ${
         secondaryOutline ? `border-2 text-purple-500 bg-white` : ""
-      } ${full ? `w-full` : ""}`}
+      } ${full ? `w-full` : ""} ${
+        secondary ? `bg-purple-600 text-white px-8 py-2` : ""
+      }  ${danger ? `bg-red-500 text-white px-8 py-2` : ""} ${
+        preTagText ? `pl-16` : ""
+      } `}
       disabled={disabled}
       style={{ [xSmall && "fontSize"]: "7px" }}
     >

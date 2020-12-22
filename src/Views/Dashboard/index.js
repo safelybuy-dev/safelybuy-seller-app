@@ -6,6 +6,7 @@ import { Route, Switch } from "react-router-dom";
 import Main from "./Main";
 import Messaging from "./Main/Messaging";
 import Shopping from "../Shopping";
+import Inventory from "../Shopping/Inventory";
 import Delivery from "../Delivery";
 import Tickets from "../Tickets";
 import Bitcoin from "../Bitcoin";
@@ -37,7 +38,7 @@ export default function Dashboard() {
             <Shopping />
           </Route>
           <Route exact path="/shopping/inventory">
-            <Shopping />
+            <Inventory />
           </Route>
           <Route exact path="/delivery">
             <Delivery />
