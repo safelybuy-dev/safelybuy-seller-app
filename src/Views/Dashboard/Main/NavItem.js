@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { useComponentVisible } from "../../../hooks";
 import { ArrowDown } from "../../../svg";
 
@@ -47,11 +48,11 @@ const NavItem = ({
             className={`absolute header-dropdown mt-2 bg-white w-60 z-10 rounded-xl border-gray-100 border-2`}
           >
             {dropDownLinks.map((e) => (
-              <a key={Date.now() + Math.random()} href={e.url}>
+              <Link key={Date.now() + Math.random()} to={e.url}>
                 <li className={`py-2 px-4 rounded-xl hover:bg-${color}-100`}>
                   {e.text}
                 </li>
-              </a>
+              </Link>
             ))}
           </ul>
         )}

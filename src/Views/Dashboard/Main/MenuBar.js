@@ -2,6 +2,7 @@ import React from "react";
 import { Hamburger } from "../../../svg";
 import { mainMenuItems } from "../../../data";
 import { buttonStyles } from "./Header";
+import {Link} from "react-router-dom";
 
 const MenuBar = ({ barIsVisible, setBarIsVisible, barRef }) => (
   <div className="relative">
@@ -21,11 +22,11 @@ const MenuBar = ({ barIsVisible, setBarIsVisible, barRef }) => (
           className={`absolute right-0 w-72 mt-2 bg-white z-10 rounded-xl border-gray-100 border-2`}
         >
           {mainMenuItems.map((e) => (
-            <a key={Date.now() + Math.random()} href={e.url}>
+            <Link key={Date.now() + Math.random()} to={e.url}>
               <li className={`py-2 px-4 rounded-xl hover:bg-purple-100`}>
                 {e.text}
               </li>
-            </a>
+            </Link>
           ))}
         </ul>
       )}

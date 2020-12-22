@@ -6,8 +6,8 @@ export const navMenuItems = [
     hasDropdown: true,
     SVG: Bag,
     dropdownLinks: [
-      { text: "Manage Inventory", url: "#" },
-      { text: "Order Mannagement", url: "#" },
+      { text: "Manage Inventory", url: "/shopping/inventory" },
+      { text: "Order Mannagement", url: "/shopping/orders" },
     ],
     text: "Shopping",
   },
@@ -22,8 +22,8 @@ export const navMenuItems = [
     hasDropdown: true,
     SVG: Tickets,
     dropdownLinks: [
-      { text: "Manage Inventory", url: "#" },
-      { text: "Tickets Mannagement", url: "#" },
+      { text: "Manage Inventory", url: "/tickets/inventory" },
+      { text: "Tickets Mannagement", url: "/tickets/sales" },
     ],
     text: "Tickets",
   },
@@ -32,8 +32,8 @@ export const navMenuItems = [
     hasDropdown: true,
     SVG: BitcoinIcon,
     dropdownLinks: [
-      { text: "Bitcoin History", url: "#" },
-      { text: "Set Bitcoin Prices", url: "#" },
+      { text: "Bitcoin History", url: "/bitcoin/history" },
+      { text: "Set Bitcoin Prices", url: "/bitcoin/prices" },
     ],
     text: "Bitcoin",
   },
@@ -42,8 +42,8 @@ export const navMenuItems = [
     hasDropdown: true,
     SVG: GiftCardIcon,
     dropdownLinks: [
-      { text: "Gift Card History", url: "#" },
-      { text: "Set Giftcard Prices", url: "#" },
+      { text: "Gift Card History", url: "/giftcard/history" },
+      { text: "Set Giftcard Prices", url: "/giftcard/prices" },
     ],
     text: "Gift Card",
   },
@@ -51,11 +51,11 @@ export const navMenuItems = [
 
 export const mainMenuItems = [
   { url: "#", text: "Administrator Management" },
-  { url: "#", text: "Customer Management" },
-  { url: "#", text: "Content Management" },
-  { url: "#", text: "Discount Promotion Management" },
-  { url: "#", text: "Seller's Management" },
-  { url: "#", text: "Email Marketing" },
-  { url: "#", text: "Referral Management" },
-  { url: "#", text: "Payment Request" },
+  { url: "/customers", text: "Customer Management" },
+  { url: "/contents", text: "Content Management" },
+  { url: "/discounts", text: "Discount Promotion Management" },
+  { url: "/sellers", text: "Seller's Management" },
+  { url: "/mails", text: "Email Marketing" },
+  { url: "/referrals", text: "Referral Management" },
+  { url: "/payments", text: "Payment Request" },
 ];
