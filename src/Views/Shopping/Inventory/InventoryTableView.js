@@ -9,6 +9,7 @@ const InventoryTableView = () => {
       <TabHeader active={active} setActive={setActive} />
       <div className="bg-white relative rounded-b-2xl rounded-tr-2xl p-10 z-50">
         <TableHeader active={active} setActive={setActive} />
+        
       </div>
     </div>
   );
