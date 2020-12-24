@@ -1,252 +1,352 @@
 import React from "react";
 import { useTable } from "react-table";
+import image4 from "../../../assets/images/image4.png";
+import Button from "../../../components/Button";
 
-const RecentSales = () => {
+const TableBody = () => {
   const data = React.useMemo(
     () => [
       {
-        createdAt: new Intl.DateTimeFormat("en-GB", {
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-          hour: "numeric",
-          hour12: true,
-          minute: "numeric",
-        }).format(Date.now()),
-        name: <p className="text-purple-500">Kareem Chibuzor</p>,
-        status: (
+        status: "Active",
+        image: (
+          <img
+            className="w-12 h-12 object-cover rounded-lg"
+            src={image4}
+            alt="..."
+          />
+        ),
+        sku: (
           <>
-            <div className="relative w-8 h-4 inline-block">
-              <div className="absolute animate-ping mt-1 w-4 bg-gray-100 mr-2 h-4 inline-block"></div>
-              <div className="absolute top-1 left-1 mt-1 w-2 bg-black h-2 inline-block"></div>
-            </div>
-            Processing
+            <div>SB-#2123434343</div>
+            <div className="text-sm text-gray-400">New</div>
           </>
         ),
         desc: (
           <div>
-            <p className="text-purple-600 text-sm">12239-0229-384</p>
-            <p className="text-sm mt-2">iPhone Xmax</p>
-            <div className="flex mt-3">
-              <div className="flex flex-col text-xs text-gray-300 uppercase">
-                contact buyer
-                <span className="text-purple-500 capitalize">
-                  Elvis Presely
-                </span>
-              </div>
-              <div className="flex ml-4 flex-col text-xs text-gray-300 uppercase">
-                contact seller
-                <span className="text-purple-500 capitalize">
-                  Kareem Chibuzor
-                </span>
-              </div>
-            </div>
+            <p className="text-purple-600 text-sm">Xaomi Pocophone F1</p>
+            <p className="text-sm text-gray-400">128GB RAM / 64GB ROM</p>
           </div>
         ),
-        orderId: "12230223938489",
-        amount: (
-          <p className="text-right">
-            {Number(120000).toLocaleString("en-NG", {
-              style: "currency",
-              currency: "NGN",
-            })}
-          </p>
+        location: "Warri, Delta",
+        seller: <p className="text-purple-500">Kareem Chibuzor</p>,
+        date: (
+          <div>
+            <p className="">
+              {new Intl.DateTimeFormat("en-GB", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+                hour: "numeric",
+                hour12: true,
+                minute: "numeric",
+              }).format(Date.now())}
+            </p>
+            <p className="text-sm text-gray-400">
+              {new Intl.DateTimeFormat("en-GB", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+                hour: "numeric",
+                hour12: true,
+                minute: "numeric",
+              }).format(Date.now())}
+            </p>
+          </div>
+        ),
+        actions: (
+          <div>
+            <Button roundedFull primary>
+              Approve
+            </Button>
+            <span className="inline-block p-1"></span>
+            <Button roundedFull danger>
+              Deny
+            </Button>
+          </div>
         ),
       },
       {
-        createdAt: new Intl.DateTimeFormat("en-GB", {
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-          hour12: true,
-          hour: "numeric",
-          minute: "numeric",
-        }).format(Date.now()),
-        name: <p className="text-purple-500">Kareem Chibuzor</p>,
-        status: (
+        status: "Active",
+        image: (
+          <img
+            className="w-12 h-12 object-cover rounded-lg"
+            src={image4}
+            alt="..."
+          />
+        ),
+        sku: (
           <>
-            <div className="relative w-8 h-4 inline-block">
-              <div className="absolute animate-ping mt-1 w-4 bg-yellow-100 mr-2 h-4 inline-block"></div>
-              <div className="absolute top-1 left-1 mt-1 w-2 bg-yellow-400 h-2 inline-block"></div>
-            </div>
-            Shipped
+            <div>SB-#2123434343</div>
+            <div className="text-sm text-gray-400">New</div>
           </>
         ),
         desc: (
           <div>
-            <p className="text-purple-600 text-sm">12239-0229-384</p>
-            <p className="text-sm mt-2">iPhone Xmax</p>
-            <div className="flex mt-3">
-              <div className="flex flex-col text-xs text-gray-300 uppercase">
-                contact buyer
-                <span className="text-purple-500 capitalize">
-                  Elvis Presely
-                </span>
-              </div>
-              <div className="flex ml-4 flex-col text-xs text-gray-300 uppercase">
-                contact seller
-                <span className="text-purple-500 capitalize">
-                  Kareem Chibuzor
-                </span>
-              </div>
-            </div>
+            <p className="text-purple-600 text-sm">Xaomi Pocophone F1</p>
+            <p className="text-sm text-gray-400">128GB RAM / 64GB ROM</p>
           </div>
         ),
-        orderId: "12230223938489",
-        amount: (
-          <p className="text-right">
-            {Number(4450).toLocaleString("en-NG", {
-              style: "currency",
-              currency: "NGN",
-            })}
-          </p>
+        location: "Warri, Delta",
+        seller: <p className="text-purple-500">Kareem Chibuzor</p>,
+        date: (
+          <div>
+            <p className="">
+              {new Intl.DateTimeFormat("en-GB", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+                hour: "numeric",
+                hour12: true,
+                minute: "numeric",
+              }).format(Date.now())}
+            </p>
+            <p className="text-sm text-gray-400">
+              {new Intl.DateTimeFormat("en-GB", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+                hour: "numeric",
+                hour12: true,
+                minute: "numeric",
+              }).format(Date.now())}
+            </p>
+          </div>
+        ),
+        actions: (
+          <>
+            <div className="justify-around">
+              <Button rounded secondary>
+                Edit
+              </Button>
+              <span className="inline-block p-2"></span>
+              <Button rounded primary>
+                Print Details
+              </Button>
+            </div>
+            <span className="inline-block p-px"></span>
+            <div className="justify-around">
+              <Button rounded alternate>
+                Sold Out
+              </Button>
+              <span className="inline-block p-2"></span>
+              <Button rounded danger>
+                Delete
+              </Button>
+            </div>
+          </>
         ),
       },
       {
-        createdAt: new Intl.DateTimeFormat("en-GB", {
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-          hour12: true,
-          hour: "numeric",
-          minute: "numeric",
-        }).format(Date.now()),
-        name: <p className="text-purple-500">Kareem Chibuzor</p>,
-        status: (
+        status: "Active",
+        image: (
+          <img
+            className="w-12 h-12 object-cover rounded-lg"
+            src={image4}
+            alt="..."
+          />
+        ),
+        sku: (
           <>
-            <div className="relative w-8 h-4 inline-block">
-              <div className="absolute animate-ping mt-1 w-4 bg-purple-100 mr-2 h-4 inline-block"></div>
-              <div className="absolute top-1 left-1 mt-1 w-2 bg-purple-400 h-2 inline-block"></div>
-            </div>
-            Delivered
+            <div>SB-#2123434343</div>
+            <div className="text-sm text-gray-400">New</div>
           </>
         ),
         desc: (
           <div>
-            <p className="text-purple-600 text-sm">12239-0229-384</p>
-            <p className="text-sm mt-2">iPhone Xmax</p>
-            <div className="flex mt-3">
-              <div className="flex flex-col text-xs text-gray-300 uppercase">
-                contact buyer
-                <span className="text-purple-500 capitalize">
-                  Elvis Presely
-                </span>
-              </div>
-              <div className="flex ml-4 flex-col text-xs text-gray-300 uppercase">
-                contact seller
-                <span className="text-purple-500 capitalize">
-                  Kareem Chibuzor
-                </span>
-              </div>
-            </div>
+            <p className="text-purple-600 text-sm">Xaomi Pocophone F1</p>
+            <p className="text-sm text-gray-400">128GB RAM / 64GB ROM</p>
           </div>
         ),
-        orderId: "12230223938489",
-        amount: (
-          <p className="text-right">
-            {Number(12000).toLocaleString("en-NG", {
-              style: "currency",
-              currency: "NGN",
-            })}
-          </p>
+        location: "Warri, Delta",
+        seller: <p className="text-purple-500">Kareem Chibuzor</p>,
+        date: (
+          <div>
+            <p className="">
+              {new Intl.DateTimeFormat("en-GB", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+                hour: "numeric",
+                hour12: true,
+                minute: "numeric",
+              }).format(Date.now())}
+            </p>
+            <p className="text-sm text-gray-400">
+              {new Intl.DateTimeFormat("en-GB", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+                hour: "numeric",
+                hour12: true,
+                minute: "numeric",
+              }).format(Date.now())}
+            </p>
+          </div>
+        ),
+        actions: (
+          <>
+            <div className="justify-around">
+              <Button rounded secondary>
+                Edit
+              </Button>
+              <span className="inline-block p-2"></span>
+              <Button rounded primary>
+                Print Details
+              </Button>
+            </div>
+            <span className="inline-block p-px"></span>
+            <div className="justify-around">
+              <Button rounded alternate>
+                Sold Out
+              </Button>
+              <span className="inline-block p-2"></span>
+              <Button rounded danger>
+                Delete
+              </Button>
+            </div>
+          </>
         ),
       },
       {
-        createdAt: new Intl.DateTimeFormat("en-GB", {
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-          hour12: true,
-          hour: "numeric",
-          minute: "numeric",
-        }).format(Date.now()),
-        name: <p className="text-purple-500">Kareem Chibuzor</p>,
-        status: (
+        status: "Active",
+        image: (
+          <img
+            className="w-12 h-12 object-cover rounded-lg"
+            src={image4}
+            alt="..."
+          />
+        ),
+        sku: (
           <>
-            <div className="relative w-8 h-4 inline-block">
-              <div className="absolute animate-ping mt-1 w-4 bg-green-100 mr-2 h-4 inline-block"></div>
-              <div className="absolute top-1 left-1 mt-1 w-2 bg-green-400 h-2 inline-block"></div>
-            </div>
-            Completed
+            <div>SB-#2123434343</div>
+            <div className="text-sm text-gray-400">New</div>
           </>
         ),
         desc: (
           <div>
-            <p className="text-purple-600 text-sm">12239-0229-384</p>
-            <p className="text-sm mt-2">iPhone Xmax</p>
-            <div className="flex mt-3">
-              <div className="flex flex-col text-xs text-gray-300 uppercase">
-                contact buyer
-                <span className="text-purple-500 capitalize">
-                  Elvis Presely
-                </span>
-              </div>
-              <div className="flex ml-4 flex-col text-xs text-gray-300 uppercase">
-                contact seller
-                <span className="text-purple-500 capitalize">
-                  Kareem Chibuzor
-                </span>
-              </div>
-            </div>
+            <p className="text-purple-600 text-sm">Xaomi Pocophone F1</p>
+            <p className="text-sm text-gray-400">128GB RAM / 64GB ROM</p>
           </div>
         ),
-        orderId: "12230223938489",
-        amount: (
-          <p className="text-right">
-            {Number(46000).toLocaleString("en-NG", {
-              style: "currency",
-              currency: "NGN",
-            })}
-          </p>
+        location: "Warri, Delta",
+        seller: <p className="text-purple-500">Kareem Chibuzor</p>,
+        date: (
+          <div>
+            <p className="">
+              {new Intl.DateTimeFormat("en-GB", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+                hour: "numeric",
+                hour12: true,
+                minute: "numeric",
+              }).format(Date.now())}
+            </p>
+            <p className="text-sm text-gray-400">
+              {new Intl.DateTimeFormat("en-GB", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+                hour: "numeric",
+                hour12: true,
+                minute: "numeric",
+              }).format(Date.now())}
+            </p>
+          </div>
+        ),
+        actions: (
+          <>
+            <div className="justify-around">
+              <Button rounded secondary>
+                Edit
+              </Button>
+              <span className="inline-block p-2"></span>
+              <Button rounded primary>
+                Print Details
+              </Button>
+            </div>
+            <span className="inline-block p-px"></span>
+            <div className="justify-around">
+              <Button rounded alternate>
+                Sold Out
+              </Button>
+              <span className="inline-block p-2"></span>
+              <Button rounded danger>
+                Delete
+              </Button>
+            </div>
+          </>
         ),
       },
       {
-        createdAt: new Intl.DateTimeFormat("en-GB", {
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-          hour12: true,
-          hour: "numeric",
-          minute: "numeric",
-        }).format(Date.now()),
-        name: <p className="text-purple-500">Kareem Chibuzor</p>,
-        status: (
+        status: "Active",
+        image: (
+          <img
+            className="w-12 h-12 object-cover rounded-lg"
+            src={image4}
+            alt="..."
+          />
+        ),
+        sku: (
           <>
-            <div className="relative w-8 h-4 inline-block">
-              <div className="absolute animate-ping mt-1 w-4 bg-gray-100 mr-2 h-4 inline-block"></div>
-              <div className="absolute top-1 left-1 mt-1 w-2 bg-black h-2 inline-block"></div>
-            </div>
-            Processing
+            <div>SB-#2123434343</div>
+            <div className="text-sm text-gray-400">New</div>
           </>
         ),
         desc: (
           <div>
-            <p className="text-purple-600 text-sm">12239-0229-384</p>
-            <p className="text-sm mt-2">iPhone Xmax</p>
-            <div className="flex mt-3">
-              <div className="flex flex-col text-xs text-gray-300 uppercase">
-                contact buyer
-                <span className="text-purple-500 capitalize">
-                  Elvis Presely
-                </span>
-              </div>
-              <div className="flex ml-4 flex-col text-xs text-gray-300 uppercase">
-                contact seller
-                <span className="text-purple-500 capitalize">
-                  Kareem Chibuzor
-                </span>
-              </div>
-            </div>
+            <p className="text-purple-600 text-sm">Xaomi Pocophone F1</p>
+            <p className="text-sm text-gray-400">128GB RAM / 64GB ROM</p>
           </div>
         ),
-        orderId: "12230223938489",
-        amount: (
-          <p className="text-right">
-            {Number(520090).toLocaleString("en-NG", {
-              style: "currency",
-              currency: "NGN",
-            })}
-          </p>
+        location: "Warri, Delta",
+        seller: <p className="text-purple-500">Kareem Chibuzor</p>,
+        date: (
+          <div>
+            <p className="">
+              {new Intl.DateTimeFormat("en-GB", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+                hour: "numeric",
+                hour12: true,
+                minute: "numeric",
+              }).format(Date.now())}
+            </p>
+            <p className="text-sm text-gray-400">
+              {new Intl.DateTimeFormat("en-GB", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+                hour: "numeric",
+                hour12: true,
+                minute: "numeric",
+              }).format(Date.now())}
+            </p>
+          </div>
+        ),
+        actions: (
+          <>
+            <div className="justify-around">
+              <Button rounded secondary>
+                Edit
+              </Button>
+              <span className="inline-block p-2"></span>
+              <Button rounded primary>
+                Print Details
+              </Button>
+            </div>
+            <span className="inline-block p-px"></span>
+            <div className="justify-around">
+              <Button rounded alternate>
+                Sold Out
+              </Button>
+              <span className="inline-block p-2"></span>
+              <Button rounded danger>
+                Delete
+              </Button>
+            </div>
+          </>
         ),
       },
     ],
@@ -255,10 +355,38 @@ const RecentSales = () => {
 
   const columns = React.useMemo(
     () => [
-      { Header: "Date", accessor: "createdAt" },
-      { Header: "Order Information", accessor: "desc" },
       { Header: "Status", accessor: "status" },
-      { Header: "Amount", accessor: "amount" },
+      { Header: "Image", accessor: "image" },
+      {
+        Header: (
+          <div className="flex flex-col">
+            <div>SKU</div>
+            <div className="text-sm text-gray-400">Condition</div>
+          </div>
+        ),
+        accessor: "sku",
+      },
+      {
+        Header: (
+          <div className="flex flex-col">
+            <div>Product Name</div>
+            <div className="text-sm text-gray-400">Description</div>
+          </div>
+        ),
+        accessor: "desc",
+      },
+      { Header: "Product Location", accessor: "location" },
+      { Header: "Seller", accessor: "seller" },
+      {
+        Header: (
+          <div className="flex flex-col">
+            <div>Date created</div>
+            <div className="text-sm text-gray-400">Last updated</div>
+          </div>
+        ),
+        accessor: "date",
+      },
+      { Header: "Actions", accessor: "actions" },
     ],
     []
   );
@@ -272,16 +400,13 @@ const RecentSales = () => {
   } = useTable({ columns, data });
 
   return (
-    <div className="overflow-x-scroll">
+    <div className="overflow-x-scroll mt-8">
       <table {...getTableProps()} className="w-full text-sm">
         <thead className="text-left border-b-2 border-gray-100">
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
-                <th
-                  className="pb-4 font-normal last:text-right"
-                  {...column.getHeaderProps()}
-                >
+                <th className="pb-4 font-normal" {...column.getHeaderProps()}>
                   {column.render("Header")}
                 </th>
               ))}
@@ -297,7 +422,7 @@ const RecentSales = () => {
                   return (
                     <td
                       style={{ minWidth: "120px" }}
-                      className="border-b-2 pr-4 min-w-max last:pr-0 border-gray-100 py-4"
+                      className="border-b-2 pr-4 min-w-max border-gray-100 py-4"
                       {...cell.getCellProps()}
                     >
                       {cell.render("Cell")}
@@ -313,4 +438,4 @@ const RecentSales = () => {
   );
 };
 
-export default RecentSales;
+export default TableBody;

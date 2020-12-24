@@ -21,13 +21,15 @@ const Button = ({
   preTagText,
 }) => (
   <div className={`relative inline-block ${full ? `w-full` : ""}`}>
-    <div
-      className={`absolute top-2 rounded-full left-4 px-2 text-white text-xs py-1 ${
-        primary && "bg-green-800"
-      } ${secondary && "bg-purple-800"} ${danger && "bg-red-800"}`}
-    >
-      {preTagText}
-    </div>
+    {preTagText && (
+      <div
+        className={`absolute top-2 rounded-full left-4 px-2 text-white text-xs py-1 ${
+          primary && "bg-green-800"
+        } ${secondary && "bg-purple-800"} ${danger && "bg-red-800"}`}
+      >
+        {preTagText}
+      </div>
+    )}
     <button
       className={`${
         primary ? `bg-green-500 text-white px-10 py-2 border-green-500` : ""
