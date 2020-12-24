@@ -14,12 +14,22 @@ const Inventory = () => {
       />
       <div className="flex justify-between w-full">
         <h2 className="text-xl">Manage Inventory</h2>
-        <Button
-          text="View recently added"
-          secondary
-          roundedFull
-          preTagText="50"
-        />
+        <span className="inline-block md:hidden">
+          <Button
+            text="View recently added"
+            secondary
+            roundedFull
+            preTagText="50"
+          />
+        </span>
+        <span className="hidden md:inline-block">
+          <Button
+            text="Recent"
+            secondary
+            roundedFull
+            preTagText="50"
+          />
+        </span>
       </div>
       <InventoryTableView />
     </div>

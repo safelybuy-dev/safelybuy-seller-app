@@ -14,7 +14,7 @@ export default function SortBy({ selectRef, isVisible, setIsVisible }) {
 
   return (
     <div>
-      <div className="ml-4 w-56 relative">
+      <div className="ml-4 w-56 md:w-1/2 md:ml-0 relative">
         <button
           onClick={(e) => {
             if (isVisible) setIsVisible(false);
@@ -36,8 +36,8 @@ export default function SortBy({ selectRef, isVisible, setIsVisible }) {
         <div
           ref={selectRef}
           className={`transition ease-in duration-100 ${
-            isVisible ? "opacity-100" : "opacity-0"
-          } absolute mt-1 w-full rounded-md bg-white shadow-lg`}
+            isVisible ? "block" : "hidden"
+          } absolute mt-1 w-full rounded-md bg-white shadow-lg z-20`}
         >
           <ul className="max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
             {options.map((option) => (

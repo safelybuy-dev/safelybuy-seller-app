@@ -16,10 +16,10 @@ export default function TableHeader({ active, setActive }) {
     setIsComponentVisible: setIsItemVisible,
   } = useComponentVisible(false);
   return (
-    <div className="flex justify-between">
+    <div className="flex justify-between w-full md:flex-col md:flex-wrap">
       {/* Search box */}
-      <div className="flex">
-        <div className="relative w-96">
+      <div className="flex md:w-full md:flex-col md:flex-wrap">
+        <div className="relative w-96 md:w-full">
           <input
             className="border-2 border-purple-100 w-full focus:outline-none mb-4 px-12 py-2 rounded-full"
             type="search"
@@ -36,13 +36,13 @@ export default function TableHeader({ active, setActive }) {
           setIsVisible={setIsSortVisible}
         />
       </div>
-      <div className="flex items-center">
+      <div className="flex items-center md:w-full md:border-t md:border-b md:mt-4 md:py-4 md:justify-between">
         <ItemsPerPage
           selectRef={itemsRef}
           isVisible={isItemsVisible}
           setIsVisible={setIsItemVisible}
         />
-        <div className="flex items-center">
+        <div className="flex items-center md:w-1/2 md:justify-center">
           Page
           <input
             className="inline-block py-1 w-8 text-center mx-1 border rounded-md"

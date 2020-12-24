@@ -40,7 +40,7 @@ const Header = ({ setIsMenuOpen }) => {
   } = useComponentVisible(false);
 
   return (
-    <header className="flex bg-white flex-col px-12 py-6 md:p-6 md:py-3 fixed top-0 z-20 w-full shadow-md">
+    <header className="flex bg-white flex-col px-12 py-6 md:p-6 md:py-3 fixed top-0 z-50 w-full shadow-md">
       <NotificationDetails
         setNotIsVisible={setNotIsVisible}
         closeNav={closeNav}

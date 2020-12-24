@@ -3,7 +3,7 @@ import { useTable } from "react-table";
 import image4 from "../../../assets/images/image4.png";
 import Button from "../../../components/Button";
 
-const TableBody = () => {
+const TableBody = ({ active, setActive }) => {
   const data = React.useMemo(
     () => [
       {
@@ -113,7 +113,7 @@ const TableBody = () => {
           </div>
         ),
         actions: (
-          <>
+          <div className="min-w-max">
             <div className="justify-around">
               <Button rounded secondary>
                 Edit
@@ -133,7 +133,7 @@ const TableBody = () => {
                 Delete
               </Button>
             </div>
-          </>
+          </div>
         ),
       },
       {
@@ -421,7 +421,7 @@ const TableBody = () => {
                 {row.cells.map((cell) => {
                   return (
                     <td
-                      style={{ minWidth: "120px" }}
+                      style={{ minWidth: "180px" }}
                       className="border-b-2 pr-4 min-w-max border-gray-100 py-4"
                       {...cell.getCellProps()}
                     >
