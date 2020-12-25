@@ -24,8 +24,8 @@ export default function Dashboard() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
     <div className="relative bg-purple-50 min-h-screen">
-      <Header setIsMenuOpen={setIsMenuOpen} />
-      <MobileMenu isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+      <Header setIsMenuOpen={setIsMenuOpen} isMenuOpen={isMenuOpen} />
+      <MobileMenu isMenuOpen={isMenuOpen} />
       <div className="flex py-56 px-16 pb-60 md:pb-96 md:flex-wrap md:justify-center md:py-24 md:px-6">
         <Switch>
           <Route exact path="/messages">

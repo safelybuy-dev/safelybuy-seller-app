@@ -2,7 +2,7 @@ import React from "react";
 import Logo from "../../../components/Logo";
 import { useComponentVisible } from "../../../hooks";
 import NavItem from "./NavItem";
-import { Hamburger } from "../../../svg";
+import { Hamburger, CloseIcon } from "../../../svg";
 import { navMenuItems } from "../../../data";
 import Notifications from "./Notifications";
 import NotificationDetails from "./NotificationDetails";
@@ -20,7 +20,7 @@ function closeNav() {
   document.getElementById("myNav").style.width = "0%";
 }
 
-const Header = ({ setIsMenuOpen }) => {
+const Header = ({ setIsMenuOpen, isMenuOpen }) => {
   const {
     ref: notRef,
     isComponentVisible: notIsVisible,
@@ -52,10 +52,14 @@ const Header = ({ setIsMenuOpen }) => {
         <div className="hidden md:flex items-center">
           <div className="mr-2 mb-1">
             <button
-              onClick={() => setIsMenuOpen(true)}
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
               className={`block px-2 py-3 rounded-md ${buttonStyles()}`}
             >
-              <Hamburger scale={1} color="black" />
+              {!isMenuOpen ? (
+                <Hamburger scale={1} color="black" />
+              ) : (
+                <CloseIcon />
+              )}
             </button>
           </div>
           <Logo color="purple" text="Admin" allowSub />
