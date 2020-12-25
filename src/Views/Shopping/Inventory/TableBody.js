@@ -3,7 +3,12 @@ import { useTable } from "react-table";
 import image4 from "../../../assets/images/image4.png";
 import Button from "../../../components/Button";
 
-const TableBody = ({ active, setActive }) => {
+const TableBody = ({
+  active,
+  setActive,
+  setSelectedProduct,
+  setSelectedSeller,
+}) => {
   const data = React.useMemo(
     () => [
       {
@@ -23,12 +28,24 @@ const TableBody = ({ active, setActive }) => {
         ),
         desc: (
           <div>
-            <p className="text-purple-600 text-sm">Xaomi Pocophone F1</p>
+            <p
+              onClick={() => setSelectedProduct({ name: "New Meaning" })}
+              className="text-purple-600 cursor-pointer text-sm"
+            >
+              Xaomi Pocophone F1
+            </p>
             <p className="text-sm text-gray-400">128GB RAM / 64GB ROM</p>
           </div>
         ),
         location: "Warri, Delta",
-        seller: <p className="text-purple-500">Kareem Chibuzor</p>,
+        seller: (
+          <p
+            onClick={() => setSelectedSeller({ name: "New Meaning" })}
+            className="text-purple-500 cursor-pointer"
+          >
+            Kareem Chibuzor
+          </p>
+        ),
         date: (
           <div>
             <p className="">
@@ -82,12 +99,24 @@ const TableBody = ({ active, setActive }) => {
         ),
         desc: (
           <div>
-            <p className="text-purple-600 text-sm">Xaomi Pocophone F1</p>
+            <p
+              onClick={() => setSelectedProduct({ name: "New Meaning" })}
+              className="text-purple-600 cursor-pointer text-sm"
+            >
+              Xaomi Pocophone F1
+            </p>
             <p className="text-sm text-gray-400">128GB RAM / 64GB ROM</p>
           </div>
         ),
         location: "Warri, Delta",
-        seller: <p className="text-purple-500">Kareem Chibuzor</p>,
+        seller: (
+          <p
+            onClick={() => setSelectedSeller({ name: "New Meaning" })}
+            className="text-purple-500 cursor-pointer"
+          >
+            Kareem Chibuzor
+          </p>
+        ),
         date: (
           <div>
             <p className="">
@@ -153,12 +182,24 @@ const TableBody = ({ active, setActive }) => {
         ),
         desc: (
           <div>
-            <p className="text-purple-600 text-sm">Xaomi Pocophone F1</p>
+            <p
+              onClick={() => setSelectedProduct({ name: "New Meaning" })}
+              className="text-purple-600 cursor-pointer text-sm"
+            >
+              Xaomi Pocophone F1
+            </p>
             <p className="text-sm text-gray-400">128GB RAM / 64GB ROM</p>
           </div>
         ),
         location: "Warri, Delta",
-        seller: <p className="text-purple-500">Kareem Chibuzor</p>,
+        seller: (
+          <p
+            onClick={() => setSelectedSeller({ name: "New Meaning" })}
+            className="text-purple-500 cursor-pointer"
+          >
+            Kareem Chibuzor
+          </p>
+        ),
         date: (
           <div>
             <p className="">
@@ -224,12 +265,24 @@ const TableBody = ({ active, setActive }) => {
         ),
         desc: (
           <div>
-            <p className="text-purple-600 text-sm">Xaomi Pocophone F1</p>
+            <p
+              onClick={() => setSelectedProduct({ name: "New Meaning" })}
+              className="text-purple-600 cursor-pointer text-sm"
+            >
+              Xaomi Pocophone F1
+            </p>
             <p className="text-sm text-gray-400">128GB RAM / 64GB ROM</p>
           </div>
         ),
         location: "Warri, Delta",
-        seller: <p className="text-purple-500">Kareem Chibuzor</p>,
+        seller: (
+          <p
+            onClick={() => setSelectedSeller({ name: "New Meaning" })}
+            className="text-purple-500 cursor-pointer"
+          >
+            Kareem Chibuzor
+          </p>
+        ),
         date: (
           <div>
             <p className="">
@@ -295,12 +348,24 @@ const TableBody = ({ active, setActive }) => {
         ),
         desc: (
           <div>
-            <p className="text-purple-600 text-sm">Xaomi Pocophone F1</p>
+            <p
+              onClick={() => setSelectedProduct({ name: "New Meaning" })}
+              className="text-purple-600 cursor-pointer text-sm"
+            >
+              Xaomi Pocophone F1
+            </p>
             <p className="text-sm text-gray-400">128GB RAM / 64GB ROM</p>
           </div>
         ),
         location: "Warri, Delta",
-        seller: <p className="text-purple-500">Kareem Chibuzor</p>,
+        seller: (
+          <p
+            onClick={() => setSelectedSeller({ name: "New Meaning" })}
+            className="text-purple-500 cursor-pointer"
+          >
+            Kareem Chibuzor
+          </p>
+        ),
         date: (
           <div>
             <p className="">
@@ -350,7 +415,7 @@ const TableBody = ({ active, setActive }) => {
         ),
       },
     ],
-    []
+    [setSelectedSeller, setSelectedProduct]
   );
 
   const columns = React.useMemo(
@@ -421,7 +486,7 @@ const TableBody = ({ active, setActive }) => {
                 {row.cells.map((cell) => {
                   return (
                     <td
-                      style={{ minWidth: "180px" }}
+                      style={{ minWidth: "150px" }}
                       className="border-b-2 pr-4 min-w-max border-gray-100 py-4"
                       {...cell.getCellProps()}
                     >

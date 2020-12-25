@@ -33,7 +33,7 @@ export default function ItemsPerPage({ selectRef, isVisible, setIsVisible }) {
       <div
         ref={selectRef}
         className={`transition ease-in duration-100 ${
-          isVisible ? "opacity-100" : "opacity-0"
+          isVisible ? "block" : "hidden"
         } absolute mt-1 w-full rounded-md bg-white shadow-lg`}
       >
         <ul className="max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
