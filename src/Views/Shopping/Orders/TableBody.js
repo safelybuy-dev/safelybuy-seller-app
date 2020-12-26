@@ -704,8 +704,8 @@ const TableBody = ({ setSelectedOrder }) => {
                 {row.cells.map((cell) => {
                   return (
                     <td
-                      style={{ minWidth: "150px" }}
-                      className="align-toppr-4 min-w-max border-gray-100 py-4"
+                      style={{ minWidth: "280px" }}
+                      className="align-top pr-4 min-w-max border-gray-100 py-4"
                       {...cell.getCellProps()}
                     >
                       {cell.render("Cell")}
