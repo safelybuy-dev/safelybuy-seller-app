@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useComponentVisible } from "../../../hooks";
 import { ArrowDown } from "../../../svg";
 
@@ -9,6 +9,7 @@ const NavItem = ({
   hasDropdown,
   children,
   last,
+  url,
   dropDownLinks,
 }) => {
   const {
@@ -16,10 +17,16 @@ const NavItem = ({
     isComponentVisible,
     setIsComponentVisible,
   } = useComponentVisible(false);
+  const history = useHistory();
+
   return (
     <div className="relative">
       <button
         onClick={(e) => {
+          if (url) {
+            history.push(url);
+            return;
+          }
           if (isComponentVisible) setIsComponentVisible(false);
           else setIsComponentVisible(true);
           e.stopPropagation();

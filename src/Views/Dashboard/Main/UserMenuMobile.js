@@ -53,11 +53,11 @@ const NavItem = ({
         {hasDropdown && isComponentVisible && (
           <ul className={`header-dropdown text-gray-400 ml-4`}>
             {dropDownLinks.map((e) => (
-              <a key={Date.now() + Math.random()} href={e.url}>
+              <Link key={Date.now() + Math.random()} to={e.url}>
                 <li className={`py-3 px-4 rounded-xl hover:bg-${color}-100`}>
                   {e.text}
                 </li>
-              </a>
+              </Link>
             ))}
           </ul>
         )}

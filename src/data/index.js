@@ -16,6 +16,7 @@ export const navMenuItems = [
     hasDropdown: false,
     SVG: DeliveryIcon,
     text: "Delivery",
+    url: "/delivery",
   },
   {
     color: "purple",

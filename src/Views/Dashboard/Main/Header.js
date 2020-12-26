@@ -86,6 +86,7 @@ const Header = ({ setIsMenuOpen, isMenuOpen }) => {
               color={item.color}
               hasDropdown={item.hasDropdown}
               svg={<item.SVG scale={0.255319148936} color="white" />}
+              url={item.url}
               dropDownLinks={item.dropdownLinks}
             >
               {item.text}

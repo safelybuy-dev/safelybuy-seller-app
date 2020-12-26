@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from "react-router-dom";
 import { AngleRight, Bell, ArrowRight, Invoice, Archive } from "../../../svg";
 
 const Notifications = ({ notIsVisible, setNotIsVisible, notRef, openNav }) => (
@@ -45,7 +46,7 @@ const Notifications = ({ notIsVisible, setNotIsVisible, notRef, openNav }) => (
                 color: "blue",
               },
             ].map((e) => (
-              <a key={Date.now() + Math.random()} href={e.url}>
+              <Link key={Date.now() + Math.random()} to={e.url}>
                 <li
                   className={`py-2 px-6 hover:bg-purple-100 flex items-center justify-between`}
                 >
@@ -70,7 +71,7 @@ const Notifications = ({ notIsVisible, setNotIsVisible, notRef, openNav }) => (
                     <AngleRight scale={1.7} />
                   </div>
                 </li>
-              </a>
+              </Link>
             ))}
           </ul>
           <button

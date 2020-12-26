@@ -3,6 +3,7 @@ import React from "react";
 import { CloseIcon } from "../../../svg";
 import moment from "moment";
 import { Invoice, Settings } from "../../../svg";
+import {Link} from "react-router-dom";
 
 export const isToday = (someDate) => {
   const today = new Date();
@@ -107,7 +108,7 @@ const dataByDay = (data) => {
 };
 
 const NotificationItem = ({ color, text, svg, time, url }) => (
-  <a key={Date.now() + Math.random()} href={url}>
+  <Link key={Date.now() + Math.random()} to={url}>
     <div
       className={`py-3 mr-10 md:mr-5 hover:bg-${color}-50`}
     >
@@ -119,7 +120,7 @@ const NotificationItem = ({ color, text, svg, time, url }) => (
         </div>
       </div>
     </div>
-  </a>
+  </Link>
 );
 
 const NotificationDetails = ({ closeNav }) => {

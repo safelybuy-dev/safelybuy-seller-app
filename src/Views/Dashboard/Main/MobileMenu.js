@@ -3,15 +3,16 @@ import React from "react";
 import { AngleRight } from "../../../svg";
 import Logo from "../../../components/Logo";
 import { mainMenuItems } from "../../../data";
+import { Link } from "react-router-dom";
 
 const MenuItem = ({ text, url }) => {
   return (
-    <a href={url}>
+    <Link to={url}>
       <button className="flex py-4 justify-between w-full items-center">
         <span className="font-normal text-xl tracking-wide">{text}</span>{" "}
         <AngleRight scale={1.6} />
       </button>
-    </a>
+    </Link>
   );
 };
 export const MobileMenu = ({ isMenuOpen }) => {
