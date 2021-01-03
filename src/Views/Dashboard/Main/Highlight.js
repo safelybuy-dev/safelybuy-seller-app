@@ -37,7 +37,7 @@ export default function Highlight() {
           <span className="block text-7xl tracking-widest font-extrabold">
             300
           </span>
-          <span className="text opacity-60">Items sold this month</span>
+          <span className="text opacity-60">Tickets sold this month</span>
         </div>
         <div className="py-5">
           <span className="block text-2xl tracking-widest font-semibold">
