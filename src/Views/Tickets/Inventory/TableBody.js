@@ -1,7 +1,13 @@
 import React from "react";
 import { useTable } from "react-table";
-import image4 from "../../../assets/images/image4.png";
 import Button from "../../../components/Button";
+
+const KeyValue = ({ title, value }) => (
+  <div className="flex my-3 flex-col">
+    <small className="text-gray-400 uppercase text-xs">{title}</small>
+    <h5 className="text-sm w-28">{value}</h5>
+  </div>
+);
 
 const TableBody = ({
   active,
@@ -13,31 +19,34 @@ const TableBody = ({
     () => [
       {
         status: "Active",
-        image: (
-          <img
-            className="w-12 h-12 object-cover rounded-lg"
-            src={image4}
-            alt="..."
-          />
-        ),
-        sku: (
-          <>
-            <div>SB-#2123434343</div>
-            <div className="text-sm text-gray-400">New</div>
-          </>
-        ),
+        sku: "#2123434343",
+        tickets_available: "1,000",
         desc: (
           <div>
             <p
               onClick={() => setSelectedProduct({ name: "New Meaning" })}
               className="text-purple-600 cursor-pointer text-sm"
             >
-              Xaomi Pocophone F1
+              Joeboy’s Bad Baby Live-in Concert
             </p>
-            <p className="text-sm text-gray-400">128GB RAM / 64GB ROM</p>
+            <div className="flex justify-between">
+              <KeyValue
+                title="Location"
+                value={
+                  <p>
+                    The Muson Center,
+                    <br /> Lekki Phase 1
+                  </p>
+                }
+              />
+              <KeyValue
+                title="Seat Categories"
+                value="VIP, Regular, VVIP, Table for 6, Table for 2"
+              />
+            </div>
           </div>
         ),
-        location: "Warri, Delta",
+        category: "Concert",
         seller: (
           <p
             onClick={() => setSelectedSeller({ name: "New Meaning" })}
@@ -49,16 +58,6 @@ const TableBody = ({
         date: (
           <div>
             <p className="">
-              {new Intl.DateTimeFormat("en-GB", {
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-                hour: "numeric",
-                hour12: true,
-                minute: "numeric",
-              }).format(Date.now())}
-            </p>
-            <p className="text-sm text-gray-400">
               {new Intl.DateTimeFormat("en-GB", {
                 year: "numeric",
                 month: "short",
@@ -84,31 +83,34 @@ const TableBody = ({
       },
       {
         status: "Active",
-        image: (
-          <img
-            className="w-12 h-12 object-cover rounded-lg"
-            src={image4}
-            alt="..."
-          />
-        ),
-        sku: (
-          <>
-            <div>SB-#2123434343</div>
-            <div className="text-sm text-gray-400">New</div>
-          </>
-        ),
+        sku: "#2123434343",
+        tickets_available: "1,000",
         desc: (
           <div>
             <p
               onClick={() => setSelectedProduct({ name: "New Meaning" })}
               className="text-purple-600 cursor-pointer text-sm"
             >
-              Xaomi Pocophone F1
+              The Adekunle’s Family Reunion
             </p>
-            <p className="text-sm text-gray-400">128GB RAM / 64GB ROM</p>
+            <div className="flex justify-between">
+              <KeyValue
+                title="Location"
+                value={
+                  <p>
+                    The Muson Center,
+                    <br /> Lekki Phase 1
+                  </p>
+                }
+              />
+              <KeyValue
+                title="Seat Categories"
+                value="VIP, Regular, VVIP, Table for 6, Table for 2"
+              />
+            </div>
           </div>
         ),
-        location: "Warri, Delta",
+        category: "Parties",
         seller: (
           <p
             onClick={() => setSelectedSeller({ name: "New Meaning" })}
@@ -120,16 +122,6 @@ const TableBody = ({
         date: (
           <div>
             <p className="">
-              {new Intl.DateTimeFormat("en-GB", {
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-                hour: "numeric",
-                hour12: true,
-                minute: "numeric",
-              }).format(Date.now())}
-            </p>
-            <p className="text-sm text-gray-400">
               {new Intl.DateTimeFormat("en-GB", {
                 year: "numeric",
                 month: "short",
@@ -167,31 +159,34 @@ const TableBody = ({
       },
       {
         status: "Active",
-        image: (
-          <img
-            className="w-12 h-12 object-cover rounded-lg"
-            src={image4}
-            alt="..."
-          />
-        ),
-        sku: (
-          <>
-            <div>SB-#2123434343</div>
-            <div className="text-sm text-gray-400">New</div>
-          </>
-        ),
+        sku: "#2123434343",
+        tickets_available: "1,000",
         desc: (
           <div>
             <p
               onClick={() => setSelectedProduct({ name: "New Meaning" })}
               className="text-purple-600 cursor-pointer text-sm"
             >
-              Xaomi Pocophone F1
+              The KKB Friends and Family Show
             </p>
-            <p className="text-sm text-gray-400">128GB RAM / 64GB ROM</p>
+            <div className="flex justify-between">
+              <KeyValue
+                title="Location"
+                value={
+                  <p>
+                    The Muson Center,
+                    <br /> Lekki Phase 1
+                  </p>
+                }
+              />
+              <KeyValue
+                title="Seat Categories"
+                value="VIP, Regular, VVIP, Table for 6, Table for 2"
+              />
+            </div>
           </div>
         ),
-        location: "Warri, Delta",
+        category: "Talk Show",
         seller: (
           <p
             onClick={() => setSelectedSeller({ name: "New Meaning" })}
@@ -203,16 +198,6 @@ const TableBody = ({
         date: (
           <div>
             <p className="">
-              {new Intl.DateTimeFormat("en-GB", {
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-                hour: "numeric",
-                hour12: true,
-                minute: "numeric",
-              }).format(Date.now())}
-            </p>
-            <p className="text-sm text-gray-400">
               {new Intl.DateTimeFormat("en-GB", {
                 year: "numeric",
                 month: "short",
@@ -250,31 +235,34 @@ const TableBody = ({
       },
       {
         status: "Active",
-        image: (
-          <img
-            className="w-12 h-12 object-cover rounded-lg"
-            src={image4}
-            alt="..."
-          />
-        ),
-        sku: (
-          <>
-            <div>SB-#2123434343</div>
-            <div className="text-sm text-gray-400">New</div>
-          </>
-        ),
+        sku: "#2123434343",
+        tickets_available: "1,000",
         desc: (
           <div>
             <p
               onClick={() => setSelectedProduct({ name: "New Meaning" })}
               className="text-purple-600 cursor-pointer text-sm"
             >
-              Xaomi Pocophone F1
+              Joeboy’s Bad Baby Live-in Concert
             </p>
-            <p className="text-sm text-gray-400">128GB RAM / 64GB ROM</p>
+            <div className="flex justify-between">
+              <KeyValue
+                title="Location"
+                value={
+                  <p>
+                    The Muson Center,
+                    <br /> Lekki Phase 1
+                  </p>
+                }
+              />
+              <KeyValue
+                title="Seat Categories"
+                value="VIP, Regular, VVIP, Table for 6, Table for 2"
+              />
+            </div>
           </div>
         ),
-        location: "Warri, Delta",
+        category: "Concert",
         seller: (
           <p
             onClick={() => setSelectedSeller({ name: "New Meaning" })}
@@ -286,16 +274,6 @@ const TableBody = ({
         date: (
           <div>
             <p className="">
-              {new Intl.DateTimeFormat("en-GB", {
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-                hour: "numeric",
-                hour12: true,
-                minute: "numeric",
-              }).format(Date.now())}
-            </p>
-            <p className="text-sm text-gray-400">
               {new Intl.DateTimeFormat("en-GB", {
                 year: "numeric",
                 month: "short",
@@ -333,31 +311,34 @@ const TableBody = ({
       },
       {
         status: "Active",
-        image: (
-          <img
-            className="w-12 h-12 object-cover rounded-lg"
-            src={image4}
-            alt="..."
-          />
-        ),
-        sku: (
-          <>
-            <div>SB-#2123434343</div>
-            <div className="text-sm text-gray-400">New</div>
-          </>
-        ),
+        sku: "#2123434343",
+        tickets_available: "1,000",
         desc: (
           <div>
             <p
               onClick={() => setSelectedProduct({ name: "New Meaning" })}
               className="text-purple-600 cursor-pointer text-sm"
             >
-              Xaomi Pocophone F1
+              Joeboy’s Bad Baby Live-in Concert
             </p>
-            <p className="text-sm text-gray-400">128GB RAM / 64GB ROM</p>
+            <div className="flex justify-between">
+              <KeyValue
+                title="Location"
+                value={
+                  <p>
+                    The Muson Center,
+                    <br /> Lekki Phase 1
+                  </p>
+                }
+              />
+              <KeyValue
+                title="Seat Categories"
+                value="VIP, Regular, VVIP, Table for 6, Table for 2"
+              />
+            </div>
           </div>
         ),
-        location: "Warri, Delta",
+        category: "Concert",
         seller: (
           <p
             onClick={() => setSelectedSeller({ name: "New Meaning" })}
@@ -369,16 +350,6 @@ const TableBody = ({
         date: (
           <div>
             <p className="">
-              {new Intl.DateTimeFormat("en-GB", {
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-                hour: "numeric",
-                hour12: true,
-                minute: "numeric",
-              }).format(Date.now())}
-            </p>
-            <p className="text-sm text-gray-400">
               {new Intl.DateTimeFormat("en-GB", {
                 year: "numeric",
                 month: "short",
@@ -421,36 +392,21 @@ const TableBody = ({
   const columns = React.useMemo(
     () => [
       { Header: "Status", accessor: "status" },
-      { Header: "Image", accessor: "image" },
       {
-        Header: (
-          <div className="flex flex-col">
-            <div>SKU</div>
-            <div className="text-sm text-gray-400">Condition</div>
-          </div>
-        ),
+        Header: "Listing Number",
         accessor: "sku",
       },
-      {
-        Header: (
-          <div className="flex flex-col">
-            <div>Product Name</div>
-            <div className="text-sm text-gray-400">Description</div>
-          </div>
-        ),
-        accessor: "desc",
-      },
-      { Header: "Product Location", accessor: "location" },
       { Header: "Seller", accessor: "seller" },
       {
-        Header: (
-          <div className="flex flex-col">
-            <div>Date created</div>
-            <div className="text-sm text-gray-400">Last updated</div>
-          </div>
-        ),
+        Header: "Event Date",
         accessor: "date",
       },
+      { Header: "Event Category", accessor: "category" },
+      {
+        Header: "Event Details",
+        accessor: "desc",
+      },
+      { Header: "Available Tickets", accessor: "tickets_available" },
       { Header: "Actions", accessor: "actions" },
     ],
     []
@@ -486,7 +442,7 @@ const TableBody = ({
                 {row.cells.map((cell) => {
                   return (
                     <td
-                      style={{ minWidth: "150px" }}
+                      style={{ minWidth: "120px" }}
                       className="border-b-2 pr-4 min-w-max border-gray-100 py-4"
                       {...cell.getCellProps()}
                     >

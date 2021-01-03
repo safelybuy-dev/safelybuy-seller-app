@@ -12,15 +12,10 @@ const KeyValue = ({ title, value }) => (
   </div>
 );
 
-const Shopping = () => {
+const Tickets = () => {
   return (
     <div className="flex flex-col w-full items-start">
-      <Breadcrumb
-        parentText="Tickets"
-        parentLink="/tickets"
-        // childLink="/shopping"
-        // childText="Shopping"
-      />
+      <Breadcrumb parentText="Tickets" parentLink="/tickets" />
       <div className="flex w-full justify-between md:justify-around md:flex-wrap">
         <TopStat
           title="Inventory"
@@ -68,7 +63,9 @@ const Shopping = () => {
                 alt="..."
               />
               <div className="absolute bottom-0 p-16 pb-12 pt-24 md:p-6 md:pb-6 md:pt-6 text-overlay w-full text-white bg-gradient-to-t from-black rounded-3xl">
-                <h2 className="text-4xl md:text-2xl">Rema’s Beamer live-in concert</h2>
+                <h2 className="text-4xl md:text-2xl">
+                  Rema’s Beamer live-in concert
+                </h2>
                 <small className="text-lg md:text-sm">
                   23 Dec 2020, The Muson Center Lagos
                 </small>
@@ -101,4 +98,4 @@ const Shopping = () => {
   );
 };
 
-export default Shopping;
+export default Tickets;

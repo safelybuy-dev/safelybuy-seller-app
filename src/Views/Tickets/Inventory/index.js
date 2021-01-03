@@ -7,10 +7,10 @@ const Inventory = () => {
   return (
     <div className="flex flex-col w-full items-start">
       <Breadcrumb
-        parentText="Shopping"
-        parentLink="/shopping"
+        parentText="Tickets"
+        parentLink="/tickets"
         childText="Manage Inventory"
-        childLink="/shopping/inventory"
+        childLink="/tickets/inventory"
       />
       <div className="flex justify-between w-full">
         <h2 className="text-xl">Manage Inventory</h2>
