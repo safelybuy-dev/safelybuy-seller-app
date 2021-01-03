@@ -9,6 +9,7 @@ import Shopping from "../Shopping";
 import Inventory from "../Shopping/Inventory";
 import Orders from "../Shopping/Orders";
 import Delivery from "../Delivery";
+import DeliveryOrders from "../Delivery/Orders";
 import Tickets from "../Tickets";
 import Bitcoin from "../Bitcoin";
 import GiftCard from "../GitCard";
@@ -45,7 +46,7 @@ export default function Dashboard() {
             <Delivery />
           </Route>
           <Route exact path="/delivery/orders">
-            <Delivery />
+            <DeliveryOrders />
           </Route>
           <Route exact path="/tickets">
             <Tickets />
