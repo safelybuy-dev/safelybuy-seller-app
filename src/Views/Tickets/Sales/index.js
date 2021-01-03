@@ -6,13 +6,13 @@ const Orders = () => {
   return (
     <div className="flex flex-col w-full items-start">
       <Breadcrumb
-        parentText="Shopping"
-        parentLink="/shopping"
-        childText="Order Management"
-        childLink="/shopping/orders"
+        parentText="Tickets"
+        parentLink="/tickets"
+        childText="Manage Tickets Sales"
+        childLink="/tickets/sales"
       />
       <div className="flex justify-between w-full">
-        <h2 className="text-xl">Order Management</h2>
+        <h2 className="text-xl">Manage Tickets Sales</h2>
       </div>
       <OrdersTableView />
     </div>

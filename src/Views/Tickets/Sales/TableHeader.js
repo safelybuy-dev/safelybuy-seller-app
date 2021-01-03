@@ -23,7 +23,7 @@ export default function TableHeader({ active, setActive }) {
           <input
             className="border-2 border-purple-100 w-full focus:outline-none mb-4 px-12 py-2 rounded-full"
             type="search"
-            placeholder="Search by SKU, Product Name..."
+            placeholder="Search by Ticket Number, Event Name..."
           />
           <span className="absolute top-3 left-4">
             <SearchIcon color="#8661FF" />

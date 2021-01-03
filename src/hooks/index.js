@@ -13,7 +13,7 @@ export const useComponentVisible = (initialIsVisible) => {
   };
 
   const handleClickOutside = (event) => {
-    if (ref.current && !ref.current.contains(event.target)) {
+    if (ref.current) {
       setIsComponentVisible(false);
     }
   };
@@ -28,4 +28,4 @@ export const useComponentVisible = (initialIsVisible) => {
   });
 
   return { ref, isComponentVisible, setIsComponentVisible };
-}
+};

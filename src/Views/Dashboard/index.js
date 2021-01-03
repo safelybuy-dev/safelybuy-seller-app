@@ -12,6 +12,7 @@ import Delivery from "../Delivery";
 import DeliveryOrders from "../Delivery/Orders";
 import Tickets from "../Tickets";
 import TicketsInventory from "../Tickets/Inventory";
+import TicketSales from "../Tickets/Sales";
 import Bitcoin from "../Bitcoin";
 import GiftCard from "../GitCard";
 import Customers from "../Customers";
@@ -56,7 +57,7 @@ export default function Dashboard() {
             <TicketsInventory />
           </Route>
           <Route exact path="/tickets/sales">
-            <Tickets />
+            <TicketSales />
           </Route>
           <Route exact path="/bitcoin">
             <Bitcoin />
