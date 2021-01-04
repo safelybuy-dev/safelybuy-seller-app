@@ -9,16 +9,12 @@ const OrdersTableView = () => {
     <div className="w-full mt-8">
       <div className="bg-white overflow-x relative rounded-2xl shadow-lg p-10 z-40 md:p-4 md:-mx-6">
         <TableHeader />
-        <TableBody
-          setSelectedOrder={setSelectedOrder}
-
-        />
+        <TableBody setSelectedOrder={setSelectedOrder} />
       </div>
       <OrderDetails
         selectedOrder={selectedOrder}
         setSelectedOrder={setSelectedOrder}
       />
- 
     </div>
   );
 };

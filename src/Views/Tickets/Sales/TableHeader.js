@@ -1,15 +1,9 @@
 import React from "react";
 import { AngleRight, SearchIcon } from "../../../svg";
-import SortBy from "./SortBy";
 import ItemsPerPage from "./ItemsPerPage";
 import { useComponentVisible } from "../../../hooks";
 
 export default function TableHeader({ active, setActive }) {
-  const {
-    ref: sortRef,
-    isComponentVisible: isSortVisible,
-    setIsComponentVisible: setIsSortVisible,
-  } = useComponentVisible(false);
   const {
     ref: itemsRef,
     isComponentVisible: isItemsVisible,
@@ -29,12 +23,6 @@ export default function TableHeader({ active, setActive }) {
             <SearchIcon color="#8661FF" />
           </span>
         </div>
-        {/* Filter Items per page page */}
-        <SortBy
-          selectRef={sortRef}
-          isVisible={isSortVisible}
-          setIsVisible={setIsSortVisible}
-        />
       </div>
       <div className="flex items-center md:w-full md:border-t md:border-b md:mt-4 md:py-4 md:justify-between">
         <ItemsPerPage

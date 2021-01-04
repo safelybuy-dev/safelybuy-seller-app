@@ -7,7 +7,7 @@ const Orders = () => {
     <div className="flex flex-col w-full items-start">
       <Breadcrumb
         parentText="Delivery"
-        parentLink="/shopping"
+        parentLink="/delivery"
         childText="Manage Delivery Orders"
         childLink="/delivery/orders"
       />
