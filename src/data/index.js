@@ -34,7 +34,7 @@ export const navMenuItems = [
     SVG: BitcoinIcon,
     dropdownLinks: [
       { text: "Bitcoin History", url: "/bitcoin/history" },
-      { text: "Set Bitcoin Prices", url: "/bitcoin/prices" },
+      { text: "Set Bitcoin Prices", url: "/bitcoin/price" },
     ],
     text: "Bitcoin",
   },

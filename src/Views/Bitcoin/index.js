@@ -67,7 +67,7 @@ const Tickets = () => {
           caption="The buying and selling price of Bitcoin"
           svg={<AreaChart />}
           color="purple"
-          link="/bitcoin/prices"
+          link="/bitcoin/price"
           linkText="View"
         />
         <TopStat
