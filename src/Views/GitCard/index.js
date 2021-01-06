@@ -26,7 +26,7 @@ const Giftcard = () => {
           caption="The buying and selling price of giftcards"
           svg={<AreaChart />}
           color="purple"
-          link="/bitcoin/price"
+          link="/giftcard/price"
           linkText="Set Price"
         />
         <TopStat

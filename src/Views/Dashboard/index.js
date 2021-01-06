@@ -17,6 +17,7 @@ import Bitcoin from "../Bitcoin";
 import BitcoinHistory from "../Bitcoin/History";
 import BitcoinPrices from "../Bitcoin/Prices";
 import GiftCard from "../GitCard";
+import GiftCardHistory from "../GitCard/History";
 import Customers from "../Customers";
 import Sellers from "../Sellers";
 import Mails from "../Mails";
@@ -74,7 +75,7 @@ export default function Dashboard() {
             <GiftCard />
           </Route>
           <Route exact path="/giftcard/history">
-            <GiftCard />
+            <GiftCardHistory />
           </Route>
           <Route exact path="/giftcard/prices">
             <GiftCard />
