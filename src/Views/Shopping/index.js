@@ -8,12 +8,7 @@ import RecentSalesTable from "./RecentSales";
 const Shopping = () => {
   return (
     <div className="flex flex-col w-full items-start">
-      <Breadcrumb
-        parentText="Shopping"
-        parentLink="/shopping"
-        // childLink="/shopping"
-        // childText="Shopping"
-      />
+      <Breadcrumb parentText="Shopping" parentLink="/shopping" />
       <div className="flex w-full justify-between md:justify-around md:flex-wrap">
         <TopStat
           title="Inventory"
@@ -46,7 +41,10 @@ const Shopping = () => {
         <div className="tracking-wide md:w-6/12 sm:w-10/12">
           <Highlight />
         </div>
-        <div className="mx-4 md:-mx-6 md:mt-6 md:bg-white md:py-8 md:px-4" style={{ width: 'calc(100% + 3rem)'}}>
+        <div
+          className="mx-4 md:-mx-6 md:mt-6 md:bg-white md:py-8 md:px-4"
+          style={{ width: "calc(100% + 3rem)" }}
+        >
           <h3 className="text-2xl md:pb-6 md:bg-white tracking-wider">
             Recent Sales
           </h3>
