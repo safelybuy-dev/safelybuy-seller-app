@@ -68,7 +68,7 @@ const Tickets = () => {
           svg={<AreaChart />}
           color="purple"
           link="/bitcoin/price"
-          linkText="View"
+          linkText="Set Price"
         />
         <TopStat
           title="Sales"
