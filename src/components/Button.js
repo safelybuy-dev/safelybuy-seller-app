@@ -45,13 +45,13 @@ const Button = ({
         secondary ? `bg-purple-600 text-white px-8 py-2` : ""
       }  ${danger ? `bg-red-500 text-white px-8 py-2` : ""} ${
         preTagText ? `pl-16` : ""
-      } `}
+      } ${icon ? `pr-16` : ""}`}
       disabled={disabled}
       style={{ [xSmall && "fontSize"]: "7px" }}
     >
       {text || children}
     </button>
-    <div className="absolute right-3">{icon}</div>
+    <div className="absolute right-6 bottom-3 pb-px">{icon}</div>
   </div>
 );
 
