@@ -4,7 +4,7 @@ import Button from "../../components/Button";
 const index = () => {
   return (
     <div className="w-full">
-      <Breadcrumb parentText="Email Marketing" parentLink="/giftcard" />
+      <Breadcrumb parentText="Email Marketing" parentLink="/mails" />
       <h2 className="text-xl">Email Marketing</h2>
       <div className="bg-white p-16 md:p-6 w-full flex flex-col rounded-3xl mt-6">
         <div className="w-full flex md:flex-col">
