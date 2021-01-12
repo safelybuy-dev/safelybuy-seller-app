@@ -51,7 +51,7 @@ export const navMenuItems = [
 ];
 
 export const mainMenuItems = [
-  { url: "#", text: "Administrator Management" },
+  { url: "/users", text: "Administrator Management" },
   { url: "/customers", text: "Customer Management" },
   { url: "/contents", text: "Content Management" },
   { url: "/discounts", text: "Discount Promotion Management" },

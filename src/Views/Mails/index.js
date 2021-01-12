@@ -61,7 +61,7 @@ const index = () => {
             </div>
           </div>
         </div>
-        <div className="flex space-between md:flex-col w-full">
+        <div className="flex space-between md:flex-col w-6/12 md:w-full">
           <Button secondary roundedFull full>
             Save as template
           </Button>

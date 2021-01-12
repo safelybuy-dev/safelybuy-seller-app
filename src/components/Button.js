@@ -8,6 +8,7 @@ const Button = ({
   alternate,
   primaryOutline,
   secondaryOutline,
+  dangerOutline,
   danger,
   underlined,
   disabled,
@@ -45,7 +46,7 @@ const Button = ({
         secondary ? `bg-purple-600 text-white px-8 py-2` : ""
       }  ${danger ? `bg-red-500 text-white px-8 py-2` : ""} ${
         preTagText ? `pl-16` : ""
-      } ${icon ? `pr-16` : ""}`}
+      } ${icon ? `pr-16` : ""} ${dangerOutline ? `border-2 border-red-500 text-red-500 bg-white  px-8 py-2` : ""}`}
       disabled={disabled}
       style={{ [xSmall && "fontSize"]: "7px" }}
     >
