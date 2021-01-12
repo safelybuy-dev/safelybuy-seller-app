@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Breadcrumb from "../../components/Breadcrumb";
 import Button from "../../components/Button";
-import { ArrowRight, WalletAlt, Clock, Discount, Receipt } from "../../svg";
+import { ArrowRight, Discount, Receipt } from "../../svg";
 
 export const TopStat = ({
   title,

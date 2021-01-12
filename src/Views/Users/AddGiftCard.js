@@ -2,15 +2,6 @@ import React from "react";
 import Button from "../../components/Button";
 import { CloseIcon } from "../../svg";
 
-const CheckMark = ({ id, name }) => (
-  <div className="relative inline-flex my-4 items-center">
-    <input type="checkbox" id={id} className="h-4 w-4 mr-2" />
-    <label htmlFor={id} className="leading-none">
-      {name}
-    </label>
-  </div>
-);
-
 const SellerDetails = ({ selectedSeller, setSelectedSeller }) => {
   if (!selectedSeller) return null;
   const togglePassword = () => {

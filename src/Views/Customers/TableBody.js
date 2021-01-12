@@ -211,7 +211,7 @@ const TableBody = ({
         ),
       },
     ],
-    [setSelectedSeller, setSelectedProduct]
+    [setSelectedSeller]
   );
 
   const columns = React.useMemo(
