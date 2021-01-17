@@ -11,7 +11,30 @@ const TopStat = ({
   color,
   link,
   linkText,
+  loading,
 }) => {
+  if (loading)
+    return (
+      <div
+        className={`flex ${
+          !last ? "mr-10" : ""
+        } p-8 flex-col bg-white w-1/3 md:w-full md:mr-0 md:mb-10 rounded-2xl relative animate-pulse`}
+      >
+        <div className="flex justify-between">
+          <div className="flex flex-col">
+            <div className="h-6 my-2 bg-gray-200 rounded w-32"></div>
+            <div className="h-4 my-2 bg-gray-100 rounded w-48"></div>
+          </div>
+          <div
+            className={`bg-${color}-100 p-6 rounded-full top-0 right-0 h-10 w-10`}
+          ></div>
+        </div>
+        <div className="flex my-2 justify-between items-center">
+          <div className="rounded-full bg-gray-300 h-8 w-8"></div>
+          <div className="h-6 bg-purple-200 rounded w-1/4"></div>
+        </div>
+      </div>
+    );
   return (
     <div
       className={`flex ${
