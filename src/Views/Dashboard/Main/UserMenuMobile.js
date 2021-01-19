@@ -8,7 +8,7 @@ import {
 } from "../../../svg";
 import { navMenuItems } from "../../../data";
 import { useComponentVisible } from "../../../hooks";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const NavItem = ({
   color,
@@ -53,7 +53,11 @@ const NavItem = ({
         {hasDropdown && isComponentVisible && (
           <ul className={`header-dropdown text-gray-400 ml-4`}>
             {dropDownLinks.map((e) => (
-              <Link key={Date.now() + Math.random()} to={e.url}>
+              <Link
+                key={Date.now() + Math.random()}
+                onClick={e.onClick}
+                to={e.url}
+              >
                 <li className={`py-3 px-4 rounded-xl hover:bg-${color}-100`}>
                   {e.text}
                 </li>
@@ -67,6 +71,7 @@ const NavItem = ({
 };
 
 export const UserMenuMobile = ({ isMenuOpen, setIsMenuOpen }) => {
+  const history = useHistory();
   if (!isMenuOpen) {
     return null;
   }
@@ -118,7 +123,13 @@ export const UserMenuMobile = ({ isMenuOpen, setIsMenuOpen }) => {
             </NavItem>
           ))}
         </div>
-        <Link to={"/messages"}>
+        <Link
+          onClick={(e) => {
+            localStorage.removeItem("safely_buy_token");
+            history.push("/login");
+          }}
+          to={"/login"}
+        >
           <button className="flex pt-8 w-full items-center">
             <LogOut />
             <div className="pl-3">

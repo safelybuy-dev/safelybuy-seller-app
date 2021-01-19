@@ -33,8 +33,6 @@ const Shopping = () => {
 
   console.log(
     orders,
-    dashboard,
-    isLoadingDashboard,
     dashboardError,
     isLoadingOrders,
     ordersError
