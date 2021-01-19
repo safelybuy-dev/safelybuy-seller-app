@@ -7,11 +7,11 @@ import {
   DevicesIconMobile,
   SellSwapPhone,
   Tickets,
-} from "./svg";
-import Button from "./components/Button";
-import Logo from "./components/Logo";
-import Footer from "./components/Footer";
-import SpotlightCard from "./components/SpotlightCard";
+} from "../svg";
+import Button from "../components/Button";
+import Logo from "../components/Logo";
+import Footer from "../components/Footer";
+import SpotlightCard from "../components/SpotlightCard";
 
 const SamplePage = () => (
   <div className="relative justify-between flex flex-col min-h-screen text-center">
