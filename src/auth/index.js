@@ -5,13 +5,19 @@ export const Auth = {
   isAuthenticated() {
     const token = localStorage.safely_buy_token;
     if (!token) return false;
-    const decoded = jwtDecode(token);
+    let decoded;
+    try {
+      decoded = jwtDecode(token);
+    } catch (error) {
+      decoded = false;
+    }
     if (
       !decoded ||
-      !decoded.userId ||
-      !decoded.userRole ||
+      !decoded.aud ||
+      !decoded.jti ||
       !decoded.iat ||
-      !decoded.exp
+      !decoded.exp ||
+      !decoded.sub
     )
       return false;
     return decoded.exp > Date.now() / 1000 ? true : false;
@@ -31,6 +37,5 @@ export const axiosWithAuth = () => {
     },
   });
 };
-
 
 export default Auth;

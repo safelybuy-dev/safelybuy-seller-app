@@ -6,6 +6,7 @@ import { Hamburger, CloseIcon } from "../../../svg";
 import { navMenuItems } from "../../../data";
 import Notifications from "./Notifications";
 import NotificationDetails from "./NotificationDetails";
+import { Link } from "react-router-dom";
 import User from "./User";
 import MenuBar from "./MenuBar";
 
@@ -46,9 +47,9 @@ const Header = ({ setIsMenuOpen, isMenuOpen }) => {
         closeNav={closeNav}
       />
       <div className="flex tracking-wide justify-between">
-        <div className="flex md:hidden">
+        <Link to="/" className="flex md:hidden">
           <Logo color="purple" text="Administrator" />
-        </div>
+        </Link>
         <div className="hidden md:flex items-center">
           <div className="mr-2 mb-1">
             <button
@@ -62,7 +63,9 @@ const Header = ({ setIsMenuOpen, isMenuOpen }) => {
               )}
             </button>
           </div>
-          <Logo color="purple" text="Admin" allowSub />
+          <Link to="/">
+            <Logo color="purple" text="Admin" allowSub />
+          </Link>
         </div>
         <div className="flex items-center">
           <Notifications

@@ -1,11 +1,17 @@
-import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import { ArrowDown, ArrowUp, AngleRight, UserAvatar } from "../../../svg";
 import { buttonStyles } from "./Header";
 import { UserMenuMobile } from "./UserMenuMobile";
+import { ContextUser } from "../../../context";
+// import { fetchUser } from "../../../actions/auth";
 
 const User = ({ userIsVisible, setUserIsVisible, userRef }) => {
-  const history = useHistory();
+  // const history = useHistory();
+  const [state] = useContext(ContextUser);
+  // useEffect(() => {
+  //   fetchUser(dispatch, localStorage.getItem('safely_buy_id'))
+  // }, [dispatch]);
   return (
     <div className="relative">
       <div className="relative">
@@ -21,8 +27,10 @@ const User = ({ userIsVisible, setUserIsVisible, userRef }) => {
         >
           {<UserAvatar scale={1.5} />}
           <div className="ml-3 flex flex-col md:hidden">
-            <span className="font-normal text-xs">Kareem Chibuzor</span>
-            <span className="uppercase text-gray-400 text-xs">Super Admin</span>
+            <span className="font-normal capitalize text-xs">{`${state.user.firstname} ${state.user.lastname}`}</span>
+            <span className="uppercase text-gray-400 text-xs">
+              {state.user.role}
+            </span>
           </div>
           <div className="ml-4 flex flex-col justify-between md:hidden">
             <div className="mb-px">
@@ -55,7 +63,7 @@ const User = ({ userIsVisible, setUserIsVisible, userRef }) => {
                   text: "Logout",
                   onClick: (e) => {
                     localStorage.removeItem("safely_buy_token");
-                    console.log("object =>.>>>>>>>")
+                    console.log("object =>.>>>>>>>");
                   },
                   color: "red",
                 },

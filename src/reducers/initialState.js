@@ -16,4 +16,11 @@ export const shopping = {
 
   itemActionLoading: false,
   itemActionError: "",
-}
+};
+
+export const auth = {
+  user: {},
+  token: "",
+  loadingUser: false,
+  error: "",
+};

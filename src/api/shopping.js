@@ -1,6 +1,5 @@
 import { axiosWithAuth } from "../auth";
-
-const baseUrl = "https://safelybuy-api.herokuapp.com";
+import { baseUrl } from "./";
 
 export const getShoppingDashboard = (success, failure) => {
   axiosWithAuth()
