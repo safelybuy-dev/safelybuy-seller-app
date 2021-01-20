@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useReducer } from "react";
 import Highlight from "./Highlight";
 import TopStat from "./TopStat";
 import RecentSalesTable from "./RecentSales";
@@ -9,9 +9,19 @@ import {
   DeliveryIcon,
   ArrowRight,
 } from "../../../svg";
-const index = () => {
+import { fetchMainDashboard } from "../../../actions/shopping";
+import shoppingReducer from "../../../reducers/shopping";
+import { shopping } from "../../../reducers/initialState";
+import { ContextShopping } from "../../../context";
+
+const Main = () => {
+  const [state, dispatch] = useReducer(shoppingReducer, shopping);
+  const { admin, loading } = state;
+  useEffect(() => {
+    fetchMainDashboard(dispatch);
+  }, [dispatch]);
   return (
-    <>
+    <ContextShopping.Provider value={[state, dispatch]}>
       <div className="flex flex-col tracking-wide md:w-6/12 sm:w-10/12">
         <Highlight />
       </div>
@@ -19,32 +29,36 @@ const index = () => {
         <div className="flex w-full justify-between md:justify-around md:flex-wrap">
           <TopStat
             title="Shopping"
-            value={509}
+            value={admin.shopping}
             caption="New orders in the last 24 hours"
             svg={<Bag color="white" scale={0.5} />}
             color="lime"
+            loading={loading}
           />
           <TopStat
             title="Delivery"
-            value={25}
+            value={admin.delivery}
             caption="Delivery orders in the last 24 hours"
             svg={<DeliveryIcon color="white" scale={0.5} />}
+            loading={loading}
             color="green"
           />
           <TopStat
             title="Tickets"
-            value={340}
+            value={admin.tickets}
             caption="Tickets sold in the last 24 hours"
             svg={<TicketsSVG color="white" scale={0.5} />}
             color="purple"
+            loading={loading}
           />
           <TopStat
             title="Trading"
-            value={3}
+            value={admin.trading}
             // last
             caption="Items traded in the last 24 hours"
             svg={<BitcoinIcon color="white" scale={0.5} />}
             color="yellow"
+            loading={loading}
           />
         </div>
         <div className="mt-8 mb-4 md:-mx-6 md:bg-white md:py-8 md:px-10 md:px-4">
@@ -62,8 +76,8 @@ const index = () => {
           </div>
         </div>
       </div>
-    </>
+    </ContextShopping.Provider>
   );
 };
 
-export default index;
+export default Main;

@@ -2,6 +2,27 @@ import * as type from "../actions/shopping";
 
 export default function shoppingReducer(state, action) {
   switch (action.type) {
+
+    case type.GET_MAIN_DASHBOARD:
+      return {
+        ...state,
+        loading: true,
+        error: "",
+      };
+    case type.GET_MAIN_DASHBOARD_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: "",
+        admin: action.payload,
+      };
+    case type.GET_MAIN_DASHBOARD_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+
     case type.GET_SHOPPING_DASHBOARD:
       return {
         ...state,

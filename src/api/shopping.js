@@ -1,6 +1,13 @@
 import { axiosWithAuth } from "../auth";
 import { baseUrl } from "./";
 
+export const getMainDashboard = (success, failure) => {
+  axiosWithAuth()
+    .get(`${baseUrl}/api/v1/admin/`)
+    .then((response) => success(response))
+    .catch((error) => failure(error));
+};
+
 export const getShoppingDashboard = (success, failure) => {
   axiosWithAuth()
     .get(`${baseUrl}/api/v1/admin/shopping`)

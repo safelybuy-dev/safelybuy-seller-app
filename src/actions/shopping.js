@@ -1,4 +1,5 @@
 import {
+  getMainDashboard,
   getShoppingDashboard,
   getShoppingOrders,
   getShoppingItems,
@@ -12,6 +13,10 @@ import {
   deleteItem,
   selloutItem,
 } from "../api/shopping";
+
+export const GET_MAIN_DASHBOARD = "GET_MAIN_DASHBOARD";
+export const GET_MAIN_DASHBOARD_SUCCESS = "GET_MAIN_DASHBOARD_SUCCESS";
+export const GET_MAIN_DASHBOARD_FAILURE = "GET_MAIN_DASHBOARD_FAILURE";
 
 export const GET_SHOPPING_DASHBOARD = "GET_SHOPPING_DASHBOARD";
 export const GET_SHOPPING_DASHBOARD_SUCCESS = "GET_SHOPPING_DASHBOARD_SUCCESS";
@@ -74,6 +79,18 @@ export const fetchShoppingDashboard = (dispatch) => {
     },
     (err) => {
       dispatch(action(GET_SHOPPING_DASHBOARD_FAILURE, err.response));
+    }
+  );
+};
+
+export const fetchMainDashboard = (dispatch) => {
+  dispatch(action(GET_MAIN_DASHBOARD));
+  getMainDashboard(
+    (res) => {
+      dispatch(action(GET_MAIN_DASHBOARD_SUCCESS, res.data));
+    },
+    (err) => {
+      dispatch(action(GET_MAIN_DASHBOARD_FAILURE, err.response));
     }
   );
 };

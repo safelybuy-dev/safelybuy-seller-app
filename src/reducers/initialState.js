@@ -11,6 +11,10 @@ export const shopping = {
   isLoadingDashboard: false,
   dashboardError: "",
 
+  admin: {},
+  loading: false,
+  error: "",
+
   orderActionLoading: false,
   orderActionError: "",
 
