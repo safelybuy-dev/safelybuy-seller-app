@@ -10,6 +10,7 @@ export const action = (type, payload) => ({
   payload,
 });
 
+
 export const login = (dispatch, data, history, toast) => {
   dispatch(action(LOADING));
   signIn(

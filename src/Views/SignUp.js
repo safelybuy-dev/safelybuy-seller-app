@@ -1,27 +1,88 @@
-import React, { useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { ArrowRight } from "../svg";
 import Logo from "../components/Logo";
 import Footer from "../components/Footer";
 import Button from "../components/Button";
-import { ContextUser } from "../context";
 import { useHistory } from "react-router-dom";
-import { login } from "../actions/auth";
+import utilities from "../utilities";
+import { requests } from "../requests";
 import { useToasts } from "react-toast-notifications";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
-const isValidEmail = (email) =>
+const isValidEmail = email =>
   // eslint-disable-next-line no-useless-escape
   /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
     email
   );
 
-const LoginPage = () => {
+const signUpSchema = yup.object().shape({
+  firstname: yup
+    .string()
+    .required("Please enter name")
+    .matches(/^[a-zA-Z][a-zA-Z '-]*$/, "Invalid character supplied"),
+  lastname: yup
+    .string()
+    .required("Please enter name")
+    .matches(/^[a-zA-Z][a-zA-Z '-]*$/, "Invalid character supplied"),
+  email: yup.string().email().required(),
+  phone: yup
+    .string()
+    .required("Please enter  phone number")
+    .matches(/^[0-9]+$/, "Phone number must be only digits")
+    .min(11, "Phone number must be exactly 11 digits")
+    .max(11, "Phone number must be exactly 11 digits"),
+  password: yup
+    .string()
+    .required("Please enter at least 6 characters")
+    .matches(
+      /^.*(?=.{6,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
+      "Please include at least a capital letter, a special character and a number"
+    )
+});
+const SignUpPage = () => {
   const history = useHistory();
   const { addToast } = useToasts();
-  const [state, dispatch] = useContext(ContextUser);
-  const { register, errors, handleSubmit } = useForm();
-  const onSubmit = (data) => login(dispatch, data, history, addToast);
-  const handleEmailValidation = (email) => {
+  const [loadingUser, setLoadingUser] = useState(false);
+
+  const { register, handleSubmit, errors } = useForm({
+    resolver: yupResolver(signUpSchema)
+  });
+
+
+  useEffect(() => {
+    sessionStorage.removeItem('safely_buy_pre_otp');
+    return () => {
+     
+    }
+  }, [])
+
+  const onSubmit = async data => {
+    setLoadingUser(true)
+    try {
+      const {user, message } =  await requests.post("/register", {...data, role:"seller" });
+      sessionStorage.setItem('safely_buy_pre_otp', JSON.stringify([data.phone, user]));
+      setLoadingUser(false);
+      return  history.push('/verifyOTP')
+
+    } catch (err) {
+
+      setLoadingUser(false);
+
+      if (err.response?.data?.error) {
+        return addToast(
+          utilities.formatErrorResponse(
+            Object.values(err.response?.data?.error).flat()
+          ),
+          { appearance: "error" }
+        );
+      }
+      return addToast(err.message || "Failed to sign up try again", { appearance: "error" });
+    }
+  };
+
+  const handleEmailValidation = email => {
     const isValid = isValidEmail(email);
     return isValid;
   };
@@ -40,14 +101,14 @@ const LoginPage = () => {
           <Logo color="black" text="transact with no regret" />
         </header>
         <h1 className="tracking-wide pt-8 pb-2 font-bold px-12 text-4xl z-10 md:px-8 md:text-3xl">
-          Login to Safelybuy
+          Sign up on Safelybuy
         </h1>
         <div className="flex justify-center">
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="flex my-12 flex-col w-96 md:max-w-7xl md:px-8"
           >
-            {state.loadingUser && (
+            {loadingUser && (
               <div className={`animate-pulse`}>
                 <div className="flex flex-col">
                   <div className="h-6 my-2 bg-gray-200 rounded w-1/4"></div>
@@ -59,21 +120,75 @@ const LoginPage = () => {
                 </div>
               </div>
             )}
-            {!state.loadingUser && (
+            {!loadingUser && (
               <>
                 {" "}
-                <div className="text-left">
+                <div className="flex justify-between">
+                  <div className="text-left mr-2">
+                    <label className="text-sm my-2" htmlFor="email">
+                      First Name
+                    </label>
+                    <div className="relative md:w-full mb-6 mt-2">
+                      <input
+                        type="text"
+                        placeholder="First Name"
+                        name="firstname"
+                        ref={register({
+                          required: true
+                        })}
+                        id="firstname"
+                        required
+                        className={`border ${
+                          errors.firstname ? "border-red" : "border-black"
+                        } w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                      />
+
+                      <span className="text-red-500">
+                        {errors.firstname && (
+                          <span>{errors.firstname.message}</span>
+                        )}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="text-left ml-2">
+                    <label className="text-sm my-2" htmlFor="email">
+                      Last Name
+                    </label>
+                    <div className="relative md:w-full mb-6 mt-2">
+                      <input
+                        type="lastname"
+                        placeholder="Last Name"
+                        name="lastname"
+                        ref={register({
+                          required: true
+                        })}
+                        id="lastname"
+                        required
+                        className={`border ${
+                          errors.lastname ? "border-red" : "border-black"
+                        } w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                      />
+                      <span className="text-red-500">
+                        {errors.lastname && (
+                          <span>{errors.lastname.message}</span>
+                        )}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div className="text-left ">
                   <label className="text-sm my-2" htmlFor="email">
                     Email
                   </label>
                   <div className="relative md:w-full mb-6 mt-2">
                     <input
                       type="email"
-                      placeholder="email@example.com"
+                      placeholder="user@safelybuy.com"
                       name="email"
                       ref={register({
                         required: true,
-                        validate: handleEmailValidation,
+                        validate: handleEmailValidation
                       })}
                       id="email"
                       required
@@ -83,6 +198,30 @@ const LoginPage = () => {
                     />
                     <span className="text-red-500">
                       {errors.email && "Email is not valid"}
+                    </span>
+                  </div>
+                </div>
+                
+                <div className="text-left ">
+                  <label className="text-sm my-2" htmlFor="email">
+                    Phone Number
+                  </label>
+                  <div className="relative md:w-full mb-6 mt-2">
+                    <input
+                      type="phone"
+                      placeholder="0701090673*"
+                      name="phone"
+                      ref={register({
+                        required: true
+                      })}
+                      id="phone"
+                      required
+                      className={`border ${
+                        errors.phone ? "border-red" : "border-black"
+                      } w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                    />
+                    <span className="text-red-500">
+                      {errors.phone && <span>{errors.phone.message}</span>}
                     </span>
                   </div>
                 </div>
@@ -96,11 +235,7 @@ const LoginPage = () => {
                       placeholder="*********"
                       name="password"
                       ref={register({
-                        required: true,
-                        minLength: {
-                          value: 6,
-                          message: "Password must have at least 6 characters",
-                        },
+                        required: true
                       })}
                       id="password"
                       className="border w-full border-black rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
@@ -131,7 +266,7 @@ const LoginPage = () => {
                           width: ".15rem",
                           height: "1.4rem",
                           top: "-.03rem",
-                          left: ".6rem",
+                          left: ".6rem"
                         }}
                         id="passwordHide"
                         className="bg-black absolute transform rotate-45"
@@ -164,4 +299,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default SignUpPage;

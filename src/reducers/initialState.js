@@ -1,3 +1,4 @@
+import { isTokenValid  } from "../requests";
 export const shopping = {
   orders: [],
   isLoadingOrders: false,
@@ -24,7 +25,7 @@ export const shopping = {
 
 export const auth = {
   user: {},
-  token: "",
-  loadingUser: false,
+  loadingUser: true,
   error: "",
+  isAuthenticated: isTokenValid(),
 };

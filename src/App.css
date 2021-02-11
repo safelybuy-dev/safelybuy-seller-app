@@ -7,17 +7,158 @@
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.otp input{
+  width: 50px !important;
+  height: 50px !important;
+  left: 449px;
+  top: 418px;
+  border: 2px solid #000000;
+  box-sizing: border-box;
+  border-radius: 15px;
+  margin-left: 20px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+.box {
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(max(195px, 45vw), 2fr));
+  margin: 10px;
+  grid-gap: 40px;
 }
+
+.box>* {
+  height: 80vh;
+}
+
+
+.timeline-container{
+width: 70%;
+margin: 0 auto;
+height: 450px;
+background: white;
+border-radius: 20px; 
+box-shadow :   11px 10px 12px 41px #F7F8FB;
+} 
+
+
+.history-tl-container{
+margin:auto;
+display:block;
+position:relative;
+}
+.history-tl-container ul.tl{
+  margin:20px 0;
+  padding:0;
+  display:inline-block;
+
+}
+.history-tl-container ul.tl li{
+  list-style: none;
+  margin:auto;
+  margin-left:20px;
+  min-height:50px;
+  padding:0 0 80px 5px;
+  position:relative;
+  cursor: pointer
+}
+
+
+
+.history-tl-container ul.tl li:last-child{ border-left:0;}
+
+.complete-seller-info-1::before{
+  position: absolute;
+  left: -12px;
+  top: -5px;
+  content: "02";
+  color: rgba(134, 97, 255, 1);
+  border: 2px solid rgba(134, 97, 255, 1);
+  padding: 5px;
+  border-radius: 50%;
+  background:rgb(237,231,255);
+  height: 35px;
+  width: 35px;
+  transition: all 500ms ease-in-out;
+  margin-left: -5px;
+  padding: 3px;
+}
+
+.complete-bank-info::before{
+  position: absolute;
+  left: -12px;
+  top: -5px;
+  content: "04";
+  color: rgba(134, 97, 255, 1);
+  border: 2px solid rgba(134, 97, 255, 1);
+  padding: 5px;
+  border-radius: 50%;
+  background:rgb(237,231,255);
+  height: 35px;
+  width: 35px;
+  transition: all 500ms ease-in-out;
+  margin-left: -5px;
+  padding: 3px;
+}
+
+.complete-seller-business-info::before{
+  position: absolute;
+  left: -12px;
+  top: -5px;
+  content: "03";
+  color: rgba(134, 97, 255, 1);
+  border: 2px solid rgba(134, 97, 255, 1);
+  padding: 5px;
+  border-radius: 50%;
+  background:rgb(237,231,255);
+  height: 35px;
+  width: 35px;
+  transition: all 500ms ease-in-out;
+  margin-left: -5px;
+  padding: 3px;
+}
+
+.verify-phone-num::before, .complete-seller-info-1-done::before{
+  position: absolute;
+  left: -12px;
+  top: -5px;
+  content: "✓";
+  color: white;
+  border: 8px solid rgba(134, 97, 255, 1);
+  border-radius: 500%;
+  background: rgba(134, 97, 255, 1);
+  height: 35px;
+  width: 35px;
+  transition: all 500ms ease-in-out;
+  margin-left: -5px;
+  padding: 3px;
+}
+
+.item-title{
+  margin-left: 35px;
+}
+
+
+
+.history-tl-container ul.tl li .item-detail{
+  color:rgba(0,0,0,0.5);
+  font-size:12px;
+}
+
+.history-tl-container ul.tl li .timestamp{
+  color: #8D8D8D;
+  position: absolute;
+  width:100px;
+  left: -50%;
+  text-align: right;
+  font-size: 12px;
+}
+
+.border-red{
+  border: 1px solid red
+}
+
+.error-span{
+  font-size: 12px;
+  color: red;
+}
+
