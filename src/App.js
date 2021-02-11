@@ -37,9 +37,10 @@ function App() {
 
   return (
     <ToastProvider>
-      <ContextUser.Provider value={[state, dispatch]}>
+    
         <Router>
         <Suspense fallback={<p>Loading....</p>}>
+        <ContextUser.Provider value={[state, dispatch]}>
           <Switch>
             <Route path="/about"></Route>
 
@@ -48,7 +49,7 @@ function App() {
             </PrivateOTPRoute>
 
             
-            <Route path="/seller-kyc">
+            <Route  path="/seller-kyc">
               <SellerKyc />
             </Route>
 
@@ -66,9 +67,10 @@ function App() {
             </PrivateRoute>
 
           </Switch>
+          </ContextUser.Provider>
           </Suspense>
         </Router>
-      </ContextUser.Provider>
+     
     </ToastProvider>
   );
 }
