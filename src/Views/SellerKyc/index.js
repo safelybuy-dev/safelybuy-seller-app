@@ -1,9 +1,10 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { ArrowRight } from "../../svg";
 import Logo from "../../components/Logo";
+import BankForm from './bankForm';
 import Footer from "../../components/Footer";
 import Button from "../../components/Button";
-import { Redirect, useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import utilities from "../../utilities";
 import { requests, action } from "../../requests";
 import { useToasts } from "react-toast-notifications";
@@ -14,13 +15,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import states from "../../state";
 
 const SellerKyc = () => {
-  const history = useHistory();
+ 
   const { addToast } = useToasts();
 
   const { user, isAuthenticated } = useContext(ContextUser)[0];
   const dispatch = useContext(ContextUser)[1];
 
-  console.log(user);
+  // console.log(user);
 
   const schema = yup.object().shape({
     business_name: yup.string().required("business name is  required "),
@@ -29,14 +30,17 @@ const SellerKyc = () => {
 
   // const [loadingUser, setLoadingUser] = useState(false);
   // const [loadingVerification, setLoadingVerification] = useState(false);
-  const [userRegSteps, setUserRegSteps] = useState("seller-info");
   const [isLoading, setIsLoading] = useState(false);
+  const [isSkipped, setIskipped] = useState(true);
+
 
   const { register, handleSubmit, errors } = useForm({
     resolver: yupResolver(schema)
   });
 
+
   const onSubmit = async data => {
+
     setIsLoading(true);
 
     try {
@@ -91,6 +95,9 @@ const SellerKyc = () => {
     </>
   );
 
+  const skipToBankDetails = () => setIskipped(true);
+
+
   const SubmitButton = () => (
     <Button
       primaryOutline
@@ -106,8 +113,6 @@ const SellerKyc = () => {
   );
 
   const Form = () => {
-
-
     if (!user.business_name) {
       return (
         <>
@@ -123,9 +128,8 @@ const SellerKyc = () => {
           </small>
           <div className="flex justify-center mt-5">
             <form
-              className="scrollable-form"
               onSubmit={handleSubmit(onSubmit)}
-              className="flex flex-col w-96 md:max-w-7xl md:px-8"
+              className="flex flex-col w-96 md:max-w-7xl md:px-8 scrollable-form"
             >
               <div className="text-left">
                 <div className="text-left mr-2">
@@ -237,7 +241,7 @@ const SellerKyc = () => {
       );
     }
 
-    if (!user.isBusinessDetails) {
+    if (!user.isBusinessDetails && !isSkipped) {
       return (
         <>
           <h1 className="tracking-wide pt-2 pb-2 font-bold px-12 text-4xl z-10 md:px-8 md:text-3xl">
@@ -252,9 +256,8 @@ const SellerKyc = () => {
           </small>
           <div className="flex justify-center mt-5">
             <form
-              className="scrollable-form"
               onSubmit={handleSubmit(onSubmit)}
-              className="flex flex-col w-96 md:max-w-7xl md:px-8"
+              className="flex flex-col w-96 md:max-w-7xl md:px-8 scrollable-form"
             >
               <div className="text-left">
                 <div className="text-left mr-2">
@@ -298,10 +301,14 @@ const SellerKyc = () => {
 
               <div className="text-left mr-2">
                 <label className="text-sm my-2" htmlFor="email">
-                  Date of Birth
+                  State
                 </label>
                 <div className="relative md:w-full mb-2 mt-2">
-                  <select name="state" ref={register}>
+                  <select
+                    className="border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
+                    name="state"
+                    ref={register}
+                  >
                     {states.map((e, i) => (
                       <option key={i} value={e}>
                         {e}
@@ -313,6 +320,21 @@ const SellerKyc = () => {
                   )}
                 </div>
               </div>
+
+              <div className="text-left mr-2">
+                <label className="text-sm my-2" htmlFor="email">
+                  Tax Identification Number
+                </label>
+                <div className="relative md:w-full mb-2 mt-2">
+                  <input
+                    type="text"
+                    name="city"
+                    placeholder="Enter your Tax Identification Number (TIN)"
+                    className={`border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                  />
+                </div>
+              </div>
+
               <div className="text-left mr-2">
                 <label className="text-sm my-2" htmlFor="email">
                   Business Name
@@ -340,9 +362,14 @@ const SellerKyc = () => {
               </div>
               <div className="text-left">
                 <div className="my-4 flex justify-center">
-                  <small className="mt-3">
-                    Proceed to complete creating your profile.
-                    &nbsp;&nbsp;&nbsp;&nbsp;{" "}
+                  <small
+                    onClick={skipToBankDetails}
+                    style={{
+                      cursor: "pointer"
+                    }}
+                    className="mt-3 pr-10 mr-20"
+                  >
+                    Skip for later &nbsp;&nbsp;&nbsp;&nbsp;{" "}
                   </small>
 
                   <SubmitButton />
@@ -354,12 +381,17 @@ const SellerKyc = () => {
       );
     }
 
-    // if (!user.isBankDetailsVerified) {
-    //   return <></>;
-    // }
+    if (!user.isBankDetailsVerified && isSkipped) {
+      return (
+        <>
+        <BankForm  
+        setIsLoading={setIsLoading}
+        dispatch={dispatch}
+        />
+      </>
+      );
+    }
   };
-
-
 
   return isAuthenticated ? (
     <div className="relative justify-between flex flex-col min-h-screen text-center">
@@ -425,9 +457,7 @@ const SellerKyc = () => {
 
         <div>{isLoading ? <Loading /> : <Form />}</div>
       </div>
-      <div className="relative z-10">
-        <Footer />
-      </div>
+      <div className="relative z-10"><Footer /></div>
     </div>
   ) : (
     <Redirect to="/login" />

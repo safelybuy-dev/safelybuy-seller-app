@@ -21,8 +21,12 @@ const Button = ({
   xSmall,
   preTagText,
   submit,
+  canClick,
+  clickHandler
 }) => (
-  <div className={`relative inline-block ${full ? `w-full` : ""}`}>
+  <div 
+  onClick={() => canClick ? clickHandler() : () => false }
+   className={`relative inline-block ${full ? `w-full` : ""}`}>
     {preTagText && (
       <div
         className={`absolute top-2 rounded-full left-4 px-2 text-white text-xs py-1 ${
@@ -32,7 +36,9 @@ const Button = ({
         {preTagText}
       </div>
     )}
+  
     <button
+      
       type={submit ? "submit" : ""}
       className={`${
         primary ? `bg-green-500 text-white px-10 py-2 border-green-500` : ""
@@ -61,7 +67,7 @@ const Button = ({
       {text || children}
     </button>
     <div style={{ top: 9, right: 24 }} className="absolute ">
-      {icon}
+      {icon} 
     </div>
   </div>
 );

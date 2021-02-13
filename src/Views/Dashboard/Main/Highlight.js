@@ -18,18 +18,18 @@ export default function Highlight() {
   const date = new Date();
 
   return (
-    <div className="rounded-2xl bg-purple-500 md:text-center py-4 px-6 pb-8 text-white mr-8 md:mr-0">
+    <div className="rounded-2xl bg-white md:text-center py-4 px-6 pb-8 text-white mr-8 md:mr-0">
       <p className="text-xs opacity-70">
         {new Intl.DateTimeFormat("en-GB", options).format(date)}
       </p>
-      <h3 className="text-2xl pb-4">Seller of the month</h3>
+      <h3 className="text-2xl text-black pb-4">Your Wallet</h3>
       <div className="flex flex-col bg-purple-700 rounded-2xl p-3 divide-y divide-purple-500">
         <div className="flex pb-4 items-center md:justify-center">
           <span className="inline-block p-1">{<UserAvatar scale={1.7} />}</span>
           <div className="flex flex-col">
             <p className="mb-1 text">Kareem Chibuzor</p>
             <div className="text-xs bg-purple-800 py-px px-2 rounded-full inline-block">
-              kareeemchi@gmail.com
+            kareeemchi@gmail.com
             </div>
           </div>
         </div>

@@ -8,7 +8,7 @@ import Notifications from "./Notifications";
 import NotificationDetails from "./NotificationDetails";
 import { Link } from "react-router-dom";
 import User from "./User";
-import MenuBar from "./MenuBar";
+
 
 export const buttonStyles = (color) =>
   `hover:bg-${color}-100 transform active:shadow-sm active:bg-${color}-200 hover:scale-105 active:scale-100 hover:shadow-xl focus:outline-none`;
@@ -41,14 +41,15 @@ const Header = ({ setIsMenuOpen, isMenuOpen }) => {
   } = useComponentVisible(false);
 
   return (
-    <header className="flex bg-white flex-col px-12 py-6 md:p-6 md:py-3 fixed top-0 z-50 w-full shadow-md">
+    <>
+    <header className="flex bg-white flex-col  pt-6 md:p-6 md:py-3 fixed top-0 z-50 w-full shadow-md">
       <NotificationDetails
         setNotIsVisible={setNotIsVisible}
         closeNav={closeNav}
       />
-      <div className="flex tracking-wide justify-between">
+      <div className="flex px-20 tracking-wide justify-between">
         <Link to="/" className="flex md:hidden">
-          <Logo color="purple" text="Administrator" />
+          <Logo color="purple" text="SELLER CENTER" />
         </Link>
         <div className="hidden md:flex items-center">
           <div className="mr-2 mb-1">
@@ -67,7 +68,7 @@ const Header = ({ setIsMenuOpen, isMenuOpen }) => {
             <Logo color="purple" text="Admin" allowSub />
           </Link>
         </div>
-        <div className="flex items-center">
+        <div className="flex items-center px-12">
           <Notifications
             notRef={notRef}
             setNotIsVisible={setNotIsVisible}
@@ -81,7 +82,12 @@ const Header = ({ setIsMenuOpen, isMenuOpen }) => {
           />
         </div>
       </div>
-      <nav className="flex items-center ml-4 tracking-wide justify-between mt-6 md:hidden">
+      <nav
+      style={{
+        color: "white",
+        backgroundColor: "rgba(134, 97, 255, 1)"
+      }}
+       className="flex items-center px-50   tracking-wide justify-center mt-6 md:hidden">
         <ul className="flex">
           {navMenuItems.map((item) => (
             <NavItem
@@ -96,13 +102,10 @@ const Header = ({ setIsMenuOpen, isMenuOpen }) => {
             </NavItem>
           ))}
         </ul>
-        <MenuBar
-          barRef={barRef}
-          setBarIsVisible={setBarIsVisible}
-          barIsVisible={barIsVisible}
-        />
       </nav>
     </header>
+  
+    </>
   );
 };
 

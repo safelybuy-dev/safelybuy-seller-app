@@ -1,9 +1,13 @@
-import React from "react";
+import React, {useState} from "react";
 import Breadcrumb from "../../../components/Breadcrumb";
 import Button from "../../../components/Button";
 import InventoryTableView from "./InventoryTableView";
+import { pluSVG } from '../../../svg';
 
 const Inventory = () => {
+  const [purchaseModal, setPurchaseModal] = useState(false);
+
+  
   return (
     <div className="flex flex-col w-full items-start">
       <Breadcrumb
@@ -15,11 +19,15 @@ const Inventory = () => {
       <div className="flex justify-between w-full">
         <h2 className="text-xl">Manage Inventory</h2>
         <span className="inline-block md:hidden">
+
           <Button
-            text="View recently added"
-            secondary
+            canClick={true}
+            clickHandler={()=>setPurchaseModal(true)}
+            event="onClick"
+            text="Add a New Product"
+            primary
             roundedFull
-            preTagText="50"
+            icon='+'
           />
         </span>
         <span className="hidden md:inline-block">

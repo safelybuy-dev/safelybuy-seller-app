@@ -33,7 +33,7 @@ const NavItem = ({
         }}
         className={`flex ${
           !last ? "mr-14" : "mr-0"
-        } items-center focus:outline-none cursor-pointer hover:bg-${color}-100 transform active:shadow-sm active:bg-${color}-200 hover:scale-105 active:scale-100 hover:shadow-xl rounded-full pr-4 text-sm`}
+        } items-center focus:outline-none cursor-pointer  active:bg-${color}-200  rounded-full pr-4 text-sm`}
       >
         <div className={`bg-${color}-400 mr-2 rounded-full inline-block p-2`}>
           {svg}
@@ -56,7 +56,7 @@ const NavItem = ({
           >
             {dropDownLinks.map((e) => (
               <Link key={Date.now() + Math.random()} to={e.url}>
-                <li className={`py-2 px-4 rounded-xl hover:bg-${color}-100`}>
+                <li className={`py-2 px-4 text-black rounded-xl`}>
                   {e.text}
                 </li>
               </Link>
