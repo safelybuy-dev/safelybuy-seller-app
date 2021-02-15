@@ -364,10 +364,7 @@ const SellerKyc = () => {
                 <div className="my-4 flex justify-center">
                   <small
                     onClick={skipToBankDetails}
-                    style={{
-                      cursor: "pointer"
-                    }}
-                    className="mt-3 pr-10 mr-20"
+                    className="mt-3 pr-10 mr-20 cursor-pointer "
                   >
                     Skip for later &nbsp;&nbsp;&nbsp;&nbsp;{" "}
                   </small>

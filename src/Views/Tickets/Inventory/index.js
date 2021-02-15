@@ -1,15 +1,16 @@
 import React, {useState} from "react";
 import Breadcrumb from "../../../components/Breadcrumb";
+import Modal from '../../../components/Modals/productModal';
 import Button from "../../../components/Button";
-import InventoryTableView from "./InventoryTableView";
 import { pluSVG } from '../../../svg';
 
-const Inventory = () => {
-  const [purchaseModal, setPurchaseModal] = useState(false);
 
-  
+const Inventory = () => {
+  const [selectedProduct, setSelectedProduct] = useState(false);
+
   return (
     <div className="flex flex-col w-full items-start">
+
       <Breadcrumb
         parentText="Tickets"
         parentLink="/tickets"
@@ -22,7 +23,7 @@ const Inventory = () => {
 
           <Button
             canClick={true}
-            clickHandler={()=>setPurchaseModal(true)}
+            clickHandler={()=> setSelectedProduct(true)}
             event="onClick"
             text="Add a New Product"
             primary
@@ -39,7 +40,11 @@ const Inventory = () => {
           />
         </span>
       </div>
-      <InventoryTableView />
+ 
+  <Modal
+   selectedProduct={selectedProduct}
+   setSelectedProduct={setSelectedProduct} 
+   />
     </div>
   );
 };
