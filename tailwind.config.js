@@ -21,7 +21,7 @@ module.exports = {
     colors: {
       transparent: "transparent",
       current: "currentColor",
-
+      safebuyColor: 'rgba(134, 97, 255, 1)',
       black: colors.black,
       white: colors.white,
       gray: colors.coolGray,

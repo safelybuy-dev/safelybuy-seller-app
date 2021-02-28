@@ -6,7 +6,7 @@ import { pluSVG } from '../../../svg';
 
 
 const Inventory = () => {
-  const [selectedProduct, setSelectedProduct] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(true);
 
   return (
     <div className="flex flex-col w-full items-start">
