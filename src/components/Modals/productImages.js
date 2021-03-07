@@ -1,33 +1,36 @@
-import React, { useState } from 'react';
-// import { useForm } from "react-hook-form";
+import React from 'react';
 import { BackArrowSVG, FowardArrowSVG, CameraSVG } from './productModal';
-const BorderImageUpload = ({ title, containerID,  dispatch }) => {
-  const [imgSrc, setImageSrc] = useState('');
+const BorderImageUpload = ({
+  title,
+  containerID,
+  dispatch,
+  imgSrc,
+  useReducerKey,
+  setThirdContinueBtn
+}) => {
   const loadFile = e => {
-    setImageSrc(URL.createObjectURL(e.target.files[0]));
-    dispatch({
-      type: "updateProductForm",
-      payload: URL.createObjectURL(e.target.files[0]),
-      field: "main_image"
-    });
-    const output = document.getElementById(containerID);
-    output.onload = function () {
-      URL.revokeObjectURL(output.src);
-    };
+     if(!e.target.files.length) return;
+
+     const reader = new FileReader();
+
+     reader.onloadend = function() {
+      dispatch({
+        type: 'updateProductForm',
+        payload: reader.result,
+        field: useReducerKey
+      });
+    }
+    reader.readAsDataURL(e.target.files[0]);
+
+    if(useReducerKey === "main_image") return setThirdContinueBtn(true);
   };
 
   return (
     <label
-      className="border-2
-                      p-4
-                      border-gray-200 
-                      border-dashed 
-                      w-32 
-                      cursor-pointer
-                      rounded-lg block
-                      text-center 
-                      mr-3
-                      "
+      className="border-2 p-4 border-gray-200 
+      border-dashed  w-32 cursor-pointer
+      rounded-lg block  text-center 
+       mr-3  "
     >
       <input
         type="file"
@@ -36,13 +39,12 @@ const BorderImageUpload = ({ title, containerID,  dispatch }) => {
         onChange={loadFile}
       />
 
-      <div 
-      style={{
-        height : imgSrc ? "100px" : '0px'
-      }}
-        className="w-full h-1/4 m-0 rounded-full">
+      <div
+        style={{ height: imgSrc ? '100px' : '0px'}}
+        className={` "w-full h-1/4 m-0 rounded-full ${imgSrc ? 'visible' : 'invisible'} `}
+      >   
         <img
-           className="object-cover w-full h-full"
+          className={`object-cover w-full h-full`}
           id={containerID}
           src={imgSrc ? imgSrc : ''}
           alt={imgSrc ? 'product' : ''}
@@ -50,7 +52,7 @@ const BorderImageUpload = ({ title, containerID,  dispatch }) => {
       </div>
       {!imgSrc && <CameraSVG />}
 
-      {title}
+      {!imgSrc && title}
     </label>
   );
 };
@@ -60,40 +62,10 @@ const ProductImages = ({
   setSteps,
   ProductsFormAndUpdater
 }) => {
-
-
   const dispatch = ProductsFormAndUpdater[1];
+  const { main_image } = ProductsFormAndUpdater[0];
 
 
-  const fieldValues = [
-    {
-      title: 'Seller SKU',
-      name: 'seller_sku',
-      placeholder: 'Ex. SBD-123',
-      isNumOnly: false
-    },
-    {
-      title: 'Quantity',
-      name: 'quantity',
-      placeholder: 'Ex. 4',
-      isNumOnly: true
-    }
-  ];
-
-  // const watchFields = watch([...fieldValues.map(e => e.name), "price"]);
-
-  // useEffect(() => {
-  //   if (
-  //     Object.values(watchFields)
-  //       .filter(Boolean)
-  //       .filter(e => e.trim().length).length === 3
-  //   ) {
-  //     setThirdContinueBtn(true);
-  //   } else {
-  //     setThirdContinueBtn(false);
-  //   }
-  //   return () => {};
-  // }, [setThirdContinueBtn, watchFields]);
   return (
     <>
       <div className="flex ">
@@ -102,21 +74,10 @@ const ProductImages = ({
             <div className="text-xs pb-2">
               <BackArrowSVG setSteps={setSteps} value={2} />
               &nbsp;&nbsp;&nbsp;
-              <svg
-                className="inline-flex cursor-pointer"
-                width="8"
-                height="12"
-                viewBox="0 0 8 12"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M5.72326 5.99999L0.861328 1.13806L1.80414 0.195251L7.60888 5.99999L1.80414 11.8047L0.861328 10.8619L5.72326 5.99999Z"
-                  fill="#A7A7A7"
-                />
-              </svg>
+              <FowardArrowSVG
+                setSteps={setSteps}
+                value={ main_image.length ? 4 : ""}
+              />
               &nbsp;&nbsp;&nbsp; 3 <span className="text-gray-400">/ 4</span>
             </div>
 
@@ -153,7 +114,10 @@ const ProductImages = ({
             <BorderImageUpload
               title="Main Image"
               containerID="main-product-img"
-               dispatch={ dispatch}
+              dispatch={dispatch}
+              imgSrc={main_image}
+              useReducerKey="main_image"
+              setThirdContinueBtn={setThirdContinueBtn}
             />
 
             <div className="grid grid-cols-1 divide-y divide-grey-500">
@@ -161,15 +125,38 @@ const ProductImages = ({
               <div className="mb-8"></div>
             </div>
             <div className="flex mt-5">
-              <BorderImageUpload title="Other Image" />
-              <BorderImageUpload title="Other Image" />
-              <BorderImageUpload title="Other Image" />
+              {[
+                'other_product_img_1',
+                'other_product_img_2',
+                'other_product_img_3'
+              ].map((each, index) => (
+                <BorderImageUpload
+                  key={index}
+                  title="Other Image"
+                  dispatch={dispatch}
+                  containerID={each}
+                  imgSrc={ProductsFormAndUpdater[0][each]}
+                  useReducerKey={each}
+                />
+              ))}
             </div>
 
             <div className="flex mt-5">
-              <BorderImageUpload title="Other Image" />
-              <BorderImageUpload title="Other Image" />
-              <BorderImageUpload title="Other Image" />
+              {[
+                'other_product_img_4',
+                'other_product_img_5',
+                'other_product_img_6'
+              ].map((each, index) => (
+                <BorderImageUpload
+                  key={index}
+                  title="Other Image"
+                  dispatch={dispatch}
+                  containerID={each}
+                  imgSrc={ProductsFormAndUpdater[0][each]}
+                  useReducerKey={each}
+                  setThirdContinueBtn={setThirdContinueBtn}
+                />
+              ))}
             </div>
           </div>
         </div>

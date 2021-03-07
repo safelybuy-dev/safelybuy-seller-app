@@ -1,37 +1,31 @@
-import React, { useState, useReducer } from "react";
-import { CloseIcon, FowardSymbolSVG } from "../../svg";
-import Button from "../../components/Button";
-import TitleAndSpec from "./titleSpecForm";
-import InventorySales from "./InventorySales";
-import ProductImages from "./productImages";
-import ProductLocation from "./ProductLocation";
-// const KeyValue = ({ title, value }) => (
-//   <div className='flex my-3 flex-col'>
-//     <small className='text-gray-500'>{title}</small>
-//     <h5 className='text-lg'>{value}</h5>
-//   </div>
-// );
+import React, {useState, useReducer} from 'react';
+import {CloseIcon, FowardSymbolSVG} from '../../svg';
+import Button from '../../components/Button';
+import TitleAndSpec from './titleSpecForm';
+import InventorySales from './InventorySales';
+import ProductImages from './productImages';
+import ProductLocation from './productLocation';
+import ReviewProducts from './reviewProduct';
 
-
-export const CameraSVG  = () => (
+export const CameraSVG = () => (
   <svg
-  width="60"
-  height="60"
-  viewBox="0 0 50 50"
-  fill="none"
-  xmlns="http://www.w3.org/2000/svg"
-  className="inline"
->
-  <circle opacity="0.1" cx="25" cy="25" r="25" fill="#18DCFF" />
-  <path
-    fillRule="evenodd"
-    clipRule="evenodd"
-    d="M21.6188 20.7919C21.6725 20.7173 21.7321 20.6259 21.8081 20.5027C21.8359 20.4578 21.9116 20.3329 21.968 20.2399L21.9681 20.2397L22.0315 20.1351C22.6596 19.1078 23.1161 18.6363 23.9393 18.6363H27.7272V20.1514H23.9393C23.8736 20.1514 23.6669 20.3649 23.3243 20.9254L23.2692 21.0161L23.2692 21.0162C23.2123 21.11 23.1294 21.2468 23.0975 21.2985C23.0044 21.4494 22.927 21.568 22.8488 21.6766C22.5093 22.1487 22.1698 22.4242 21.6665 22.4242H19.3938C18.9754 22.4242 18.6362 22.7633 18.6362 23.1817V29.9999C18.6362 30.4183 18.9754 30.7575 19.3938 30.7575H31.515C31.9334 30.7575 32.2726 30.4183 32.2726 29.9999V25.4545H33.7878V29.9999C33.7878 31.2551 32.7702 32.2727 31.515 32.2727H19.3938C18.1386 32.2727 17.1211 31.2551 17.1211 29.9999V23.1817C17.1211 21.9266 18.1386 20.909 19.3938 20.909H21.5273C21.5525 20.8802 21.5834 20.8411 21.6188 20.7919ZM29.2427 22.4241V20.9089H30.7571V19.3938H32.2723V20.9089H33.7881V22.4241H32.2723V23.9392H30.7571V22.4241H29.2427Z"
-    fill="#DADADA"
-  />
-</svg>
-)
-export const BackArrowSVG = ({ setSteps, value }) => {
+    width="60"
+    height="60"
+    viewBox="0 0 50 50"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className="inline"
+  >
+    <circle opacity="0.1" cx="25" cy="25" r="25" fill="#18DCFF" />
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M21.6188 20.7919C21.6725 20.7173 21.7321 20.6259 21.8081 20.5027C21.8359 20.4578 21.9116 20.3329 21.968 20.2399L21.9681 20.2397L22.0315 20.1351C22.6596 19.1078 23.1161 18.6363 23.9393 18.6363H27.7272V20.1514H23.9393C23.8736 20.1514 23.6669 20.3649 23.3243 20.9254L23.2692 21.0161L23.2692 21.0162C23.2123 21.11 23.1294 21.2468 23.0975 21.2985C23.0044 21.4494 22.927 21.568 22.8488 21.6766C22.5093 22.1487 22.1698 22.4242 21.6665 22.4242H19.3938C18.9754 22.4242 18.6362 22.7633 18.6362 23.1817V29.9999C18.6362 30.4183 18.9754 30.7575 19.3938 30.7575H31.515C31.9334 30.7575 32.2726 30.4183 32.2726 29.9999V25.4545H33.7878V29.9999C33.7878 31.2551 32.7702 32.2727 31.515 32.2727H19.3938C18.1386 32.2727 17.1211 31.2551 17.1211 29.9999V23.1817C17.1211 21.9266 18.1386 20.909 19.3938 20.909H21.5273C21.5525 20.8802 21.5834 20.8411 21.6188 20.7919ZM29.2427 22.4241V20.9089H30.7571V19.3938H32.2723V20.9089H33.7881V22.4241H32.2723V23.9392H30.7571V22.4241H29.2427Z"
+      fill="#DADADA"
+    />
+  </svg>
+);
+export const BackArrowSVG = ({setSteps, value}) => {
   return (
     <svg
       onClick={() => {
@@ -39,206 +33,228 @@ export const BackArrowSVG = ({ setSteps, value }) => {
         if (!value && value === 0) return setSteps(0);
         if (!value) return;
       }}
-      className='inline-flex cursor-pointer'
-      width='8'
-      height='12'
-      viewBox='0 0 8 12'
-      fill='none'
-      xmlns='http://www.w3.org/2000/svg'
+      className="inline-flex cursor-pointer"
+      width="8"
+      height="12"
+      viewBox="0 0 8 12"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        fillRule='evenodd'
-        clipRule='evenodd'
-        d='M2.27624 5.99999L7.13817 10.8619L6.19536 11.8047L0.390625 5.99999L6.19536 0.195251L7.13817 1.13806L2.27624 5.99999Z'
-        fill='#A7A7A7'
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M2.27624 5.99999L7.13817 10.8619L6.19536 11.8047L0.390625 5.99999L6.19536 0.195251L7.13817 1.13806L2.27624 5.99999Z"
+        fill="#A7A7A7"
       />
     </svg>
   );
 };
 
-export const FowardArrowSVG = ({ setSteps, value }) => (
+export const FowardArrowSVG = ({setSteps, value}) => (
   <svg
     onClick={() => {
       if (value) return setSteps(value);
       if (!value && value === 0) return setSteps(0);
       if (!value) return;
     }}
-    className='inline-flex cursor-pointer'
-    width='8'
-    height='12'
-    viewBox='0 0 8 12'
-    fill='none'
-    xmlns='http://www.w3.org/2000/svg'
+    className="inline-flex cursor-pointer"
+    width="8"
+    height="12"
+    viewBox="0 0 8 12"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
   >
     <path
-      fillRule='evenodd'
-      clipRule='evenodd'
-      d='M5.72326 5.99999L0.861328 1.13806L1.80414 0.195251L7.60888 5.99999L1.80414 11.8047L0.861328 10.8619L5.72326 5.99999Z'
-      fill='#A7A7A7'
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M5.72326 5.99999L0.861328 1.13806L1.80414 0.195251L7.60888 5.99999L1.80414 11.8047L0.861328 10.8619L5.72326 5.99999Z"
+      fill="#A7A7A7"
     />
   </svg>
 );
 
 const initialState = {
-  categoryOptions: "phone_access",
-  subCategory: "",
-  condition: "",
-  brand: ""
+  subcategory_id: '',
+  condition: '',
+  brand: '',
+  category_id: 1
 };
 
-
 const initialProductState = {
-  Product_title: "",
-  ram: "",
-  RearCamera: "",
-  FrontCamera: "",
-  Battery: "",
-  Display: "",
-  InternalMemory: "",
-  CPUSpeed: "",
-  NetworkConnectivity: "",
-  OperatingSystem: "",
-  Colour: "",
-  Weight: "",
-  Processor: "",
-  Specification: "",
-  seller_sku: "",
-  quantity: "",
-  price: "",
-  main_image: "",
+  title: '',
+  ram_size: '',
+  rear_camera: '',
+  front_camera: '',
+  battery: '',
+  display: '',
+  internal_memory: '',
+  cpu_speed: '',
+  network: '',
+  operating_system: '',
+  colour: '',
+  weight: '',
+  processor: '',
+  specifications: '',
+  seller_sku: '',
+  available: '',
+  price: '',
+  main_image: '',
+  other_product_img_1: '',
+  other_product_img_2: '',
+  other_product_img_3: '',
+  other_product_img_4: '',
+  other_product_img_5: '',
+  other_product_img_6: '',
+  shipping_state: '',
+  shipping_city: '',
+  shipping_weight: ''
 };
 
 function productReducer(state, action) {
-  const { type, payload, field } = action;
+  const {type, payload, field} = action;
   switch (type) {
-    case "updateProductForm":
+    case 'updateProductForm':
       return {
         ...state,
         [field]: payload
       };
+    case 'updateProductFormShippingState':
+      return {
+        ...state,
+        shipping_city: '',
+        [field]: payload
+      };
     default:
-      return { ...state };
+      return {...state};
   }
 }
 
 function reducer(state, action) {
-  const { type, payload } = action;
+  const {type, payload} = action;
   switch (type) {
-    case "change-category":
+    case 'change-category':
       return {
         ...state,
-        categoryOptions: payload,
-        subCategory: "",
-        condition: "",
-        brand: ""
+        category_id: payload,
+        subcategory_id: '',
+        condition: '',
+        brand: ''
       };
-    case "change-subCategory":
-      return { ...state, subCategory: payload, condition: "", brand: "" };
-    case "change-condition":
-      return { ...state, condition: payload, brand: "" };
-    case "change-brand":
-      return { ...state, brand: payload };
+    case 'change-subCategory':
+      return {...state, subcategory_id: payload, condition: '', brand: ''};
+    case 'change-condition':
+      return {...state, condition: payload, brand: ''};
+    case 'change-brand':
+      return {...state, brand: payload};
     default:
-      return { ...state };
+      return {...state};
   }
 }
 
-const Modal = ({ selectedProduct, setSelectedProduct }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const ProductsFormAndUpdater = useReducer(
-    productReducer,
-    initialProductState
-  );
+const submitSellerProduct = async () => {
+  // format price
 
-  const { categoryOptions, subCategory, condition, brand } = state;
-  const [step, setSteps] = useState(3);
+  try {
+  // submit and direct to succes page
+  } catch (err) {
+  // failed and direct to failure page
+  }
+};
+
+const Modal = ({selectedProduct, setSelectedProduct}) => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const ProductsFormAndUpdater = useReducer(productReducer, initialProductState);
+
+  const {category_id, subcategory_id, condition, brand} = state;
+  const [step, setSteps] = useState(0);
   const [enableFirstContinueBtn, setFirstContinueBtn] = useState(false);
   const [enableSecondContinueBtn, setSecondContinueBtn] = useState(false);
   const [enableThirdContinueBtn, setThirdContinueBtn] = useState(false);
   const [enableFourthContinueBtn, setFourthContinueBtn] = useState(false);
+  const [enableFifthContinueBtn, setFifthContinueBtn] = useState(true);
 
   const subCategoryObj = {
-    phone_access: [
+    1: [
       {
-        value: "Phone",
-        name: "Phone_and_access_subcat",
-        label: "Phone"
+        value: 1,
+        name: 'Phone_and_access_subcat',
+        label: 'Phone'
       },
       {
-        value: "Accessories",
-        name: "Phone_and_access_subcat",
-        label: "Accessories"
+        value: 2,
+        name: 'Phone_and_access_subcat',
+        label: 'Accessories'
       }
     ],
-    ipad_tablet_access: [
+    2: [
       {
-        value: "Ipad",
-        name: "Ipad_tablet_access_subcat",
-        label: "Ipad"
+        value: 3,
+        name: 'Ipad_tablet_access_subcat',
+        label: 'Ipad'
       },
       {
-        value: "Tablets",
-        name: "Ipad_tablet_access_subcat",
-        label: "Tablets"
+        value: 4,
+        name: 'Ipad_tablet_access_subcat',
+        label: 'Tablets'
       },
       {
-        value: "Accessories",
-        name: "Ipad_tablet_access_subcat",
-        label: "Accessories"
+        value: 5,
+        name: 'Ipad_tablet_access_subcat',
+        label: 'Accessories'
       }
     ],
-    other: [
+    4: [
       {
-        value: "Power Bank",
-        name: "other_subcat",
-        label: "Power Bank"
+        value: 8,
+        name: 'other_subcat',
+        label: 'Power Bank'
       },
       {
-        value: "Apple Watch",
-        name: "other_subcat",
-        label: "Apple Watch"
+        value: 9,
+        name: 'other_subcat',
+        label: 'Apple Watch'
       },
       {
-        value: "Speaker",
-        name: "other_subcat",
-        label: "Speaker"
+        value: 10,
+        name: 'other_subcat',
+        label: 'Speaker'
       },
       {
-        value: "Headphone",
-        name: "other_subcat",
-        label: "Headphone"
+        value: 11,
+        name: 'other_subcat',
+        label: 'Headphone'
       }
     ],
-    laptop_access: [
+    3: [
       {
-        value: "Laptop",
-        name: "Laptop_access_subcat",
-        label: "Laptop"
+        value: 6,
+        name: 'Laptop_access_subcat',
+        label: 'Laptop'
       },
       {
-        value: "Accessories",
-        name: "Laptop_access_subcat",
-        label: "Accessories"
+        value: 7,
+        name: 'Laptop_access_subcat',
+        label: 'Accessories'
       }
     ]
   };
 
-  const ModalButton = ({ able, handler }) =>
+  const ModalButton = ({able, handler}) =>
     able ? (
       <Button
-        className='left-0.5 ml-auto focus:outline-none'
+        className="left-0.5 ml-auto focus:outline-none"
         canClick={true}
         clickHandler={handler}
-        event='onClick'
-        text={`${step === 0 ? "Proceed" : "Continue"}`}
+        event="onClick"
+        text={`${step === 0 ? 'Proceed' : step === 5 ? ' Submit' : 'Continue'}`}
         primary
         roundedFull
         icon={<FowardSymbolSVG />}
       />
     ) : (
       <Button
-        className='left-0.5 ml-auto focus:outline-none'
-        text={`${step === 0 ? "Proceed" : "Continue"}`}
+        className="left-0.5 ml-auto focus:outline-none"
+        text={`${step === 0 ? 'Proceed' : 'Continue'}`}
         disabled
         roundedFull
         icon={<FowardSymbolSVG />}
@@ -247,31 +263,33 @@ const Modal = ({ selectedProduct, setSelectedProduct }) => {
 
   if (!selectedProduct) return null;
 
-
-  console.log(ProductsFormAndUpdater[0])
+  console.log(state, '......', ProductsFormAndUpdater[0]);
 
   return (
     <div
       onClick={() => setSelectedProduct(null)}
-      className='fixed overflow-scroll top-0 left-0 z-50 w-screen py-40 px-40 md:py-0 md:px-0 h-screen bg-purple-600 bg-opacity-30'
+      className="fixed overflow-scroll top-0 left-0 z-50 w-screen py-40 px-40 md:py-0 md:px-0 h-screen bg-purple-600 bg-opacity-30"
     >
       <div
-        onClick={e => e.stopPropagation()}
-        className='flex flex-col relative rounded-3xl md:rounded-none px-10 py-10 md:px-4 md:py-4 left-0 bg-white opacity-100 min-h-1/2'
+        onClick={(e) => e.stopPropagation()}
+        className="flex flex-col relative rounded-3xl md:rounded-none px-10 py-10 md:px-4 md:py-4 left-0 bg-white opacity-100 min-h-1/2"
       >
-        <div className='flex justify-between w-full pb-10 items-start'>
-          <h3 className='text-2xl'>Add a new product</h3>
+        <div className="flex justify-between w-full pb-10 items-start">
+          <h3 className="text-2xl">
+            {' '}
+            {step === 5 ? 'Product Details' : 'Add a new product'}
+          </h3>
 
           {step === 0 && (
             <ModalButton
-              able={subCategory && condition && brand}
+              able={subcategory_id && condition && brand}
               handler={() => setSteps(1)}
             />
           )}
 
           {step === 1 && (
             <ModalButton
-              able={enableFirstContinueBtn} //  when all form inputs all have value
+              able={enableFirstContinueBtn}
               handler={() => setSteps(2)}
             />
           )}
@@ -297,24 +315,43 @@ const Modal = ({ selectedProduct, setSelectedProduct }) => {
             />
           )}
 
+          {step === 5 && (
+            <ModalButton
+              able={enableFifthContinueBtn}
+              handler={submitSellerProduct}
+            />
+          )}
+
           <span
             onClick={() => setSelectedProduct(null)}
-            className='inline-block cursor-pointer rounded-full bg-red-500 p-3  absolute -right-8 -top-7'
+            className="inline-block cursor-pointer rounded-full bg-red-500 p-3  absolute -right-8 -top-7"
           >
-            <CloseIcon color='white' />
+            <CloseIcon color="white" />
           </span>
         </div>
+
+        {step === 5 && (
+          <ReviewProducts
+            data={state}
+            setSteps={setSteps}
+            setFifthContinueBtn={setFifthContinueBtn}
+            ProductsFormAndUpdater={ProductsFormAndUpdater}
+          />
+        )}
 
         {step === 4 && (
           <ProductLocation
             setSteps={setSteps}
             setFourthContinueBtn={setFourthContinueBtn}
+            ProductsFormAndUpdater={ProductsFormAndUpdater}
           />
         )}
+
         {step === 3 && (
           <ProductImages
             setSteps={setSteps}
             setThirdContinueBtn={setThirdContinueBtn}
+            ProductsFormAndUpdater={ProductsFormAndUpdater}
           />
         )}
         {step === 2 && (
@@ -326,7 +363,7 @@ const Modal = ({ selectedProduct, setSelectedProduct }) => {
         )}
         {step === 1 && (
           <TitleAndSpec
-            categoryOptions={categoryOptions}
+            category_id={category_id}
             ProductsFormAndUpdater={ProductsFormAndUpdater}
             setFirstContinueBtn={setFirstContinueBtn}
             setSteps={setSteps}
@@ -334,59 +371,59 @@ const Modal = ({ selectedProduct, setSelectedProduct }) => {
         )}
         {step === 0 && (
           <>
-            <div className='flex mr-4 md:mr-0 md:flex-col'>
-              <div className='flex flex-col  ml-4 md:w-full'>
-                <div className='flex flex-col  w-full md:ml-0 md:mt-4'>
-                  <h4 className='text-xl text-purple-500'>Select category</h4>
+            <div className="flex mr-4 md:mr-0 md:flex-col">
+              <div className="flex flex-col  ml-4 md:w-full">
+                <div className="flex flex-col  w-full md:ml-0 md:mt-4">
+                  <h4 className="text-xl text-purple-500">Select category</h4>
                   <p>
                     Pick a category listed below, after completing this process
                     your product will be reviewed.
                   </p>
-                  <div className='mt-6 flex col'></div>
+                  <div className="mt-6 flex col"></div>
                 </div>
               </div>
             </div>
-            <div className='flex'>
-              <div className='flex-1 ...'>
+            <div className="flex">
+              <div className="flex-1 ...">
                 <p>Category</p>
                 <ul>
                   {[
                     {
-                      value: "phone_access",
-                      name: "gadgetType",
-                      label: "Phone and Accessories"
+                      value: 1,
+                      name: 'gadgetType',
+                      label: 'Phone and Accessories'
                     },
                     {
-                      value: "ipad_tablet_access",
-                      name: "gadgetType",
-                      label: "IPad, Tablet and Accessories"
+                      value: 2,
+                      name: 'gadgetType',
+                      label: 'IPad, Tablet and Accessories'
                     },
                     {
-                      value: "laptop_access",
-                      name: "gadgetType",
-                      label: "Laptop and Accessories"
+                      value: 3,
+                      name: 'gadgetType',
+                      label: 'Laptop and Accessories'
                     },
                     {
-                      value: "other",
-                      name: "gadgetType",
-                      label: "Other Gadgets"
+                      value: 4,
+                      name: 'gadgetType',
+                      label: 'Other Gadgets'
                     }
                   ].map((each, index) => (
                     <li
                       key={index}
-                      className='cursor-pointer'
+                      className="cursor-pointer"
                       onClick={() => {
                         dispatch({
-                          type: "change-category",
+                          type: 'change-category',
                           payload: each.value
                         });
                       }}
                     >
                       <input
-                        onChange={e => {}}
-                        checked={each.value === categoryOptions}
-                        className='m-2 cursor-pointer'
-                        type='radio'
+                        onChange={(e) => {}}
+                        checked={each.value === category_id}
+                        className="m-2 cursor-pointer"
+                        type="radio"
                         value={each.value}
                         name={each.name}
                       />
@@ -395,25 +432,25 @@ const Modal = ({ selectedProduct, setSelectedProduct }) => {
                   ))}
                 </ul>
               </div>
-              <div className='flex-1 border-l-2 p-3'>
+              <div className="flex-1 border-l-2 p-3">
                 <p>Sub-category</p>
                 <ul>
-                  {subCategoryObj[categoryOptions].map((each, index) => (
+                  {subCategoryObj[category_id].map((each, index) => (
                     <li
                       key={index}
                       onClick={() => {
                         dispatch({
-                          type: "change-subCategory",
+                          type: 'change-subCategory',
                           payload: each.value
                         });
                       }}
-                      className='cursor-pointer'
+                      className="cursor-pointer"
                     >
                       <input
-                        onChange={e => {}}
-                        checked={each.value === subCategory}
-                        className='m-2'
-                        type='radio'
+                        onChange={(e) => {}}
+                        checked={each.value === subcategory_id}
+                        className="m-2"
+                        type="radio"
                         value={each.value}
                         name={each.name}
                       />
@@ -422,36 +459,36 @@ const Modal = ({ selectedProduct, setSelectedProduct }) => {
                   ))}
                 </ul>
               </div>
-              <div className='flex-1 border-l-2 p-3'>
+              <div className="flex-1 border-l-2 p-3">
                 <p>Condition</p>
                 <ul>
                   {[
                     {
-                      value: "New",
-                      name: "condition",
-                      label: "New"
+                      value: 'New',
+                      name: 'condition',
+                      label: 'New'
                     },
                     {
-                      value: "Used",
-                      name: "condition",
-                      label: "Used"
+                      value: 'Used',
+                      name: 'condition',
+                      label: 'Used'
                     }
                   ].map((each, index) => (
                     <li
                       key={index}
                       onClick={() => {
                         dispatch({
-                          type: "change-condition",
+                          type: 'change-condition',
                           payload: each.value
                         });
                       }}
-                      className='cursor-pointer'
+                      className="cursor-pointer"
                     >
                       <input
-                        onChange={e => {}}
+                        onChange={(e) => {}}
                         checked={each.value === condition}
-                        className='m-2'
-                        type='radio'
+                        className="m-2"
+                        type="radio"
                         value={each.value}
                         name={each.name}
                       />
@@ -460,40 +497,40 @@ const Modal = ({ selectedProduct, setSelectedProduct }) => {
                   ))}
                 </ul>
               </div>
-              <div className='flex-1 ... border-l-2 p-3'>
+              <div className="flex-1 ... border-l-2 p-3">
                 <p>Brand</p>
                 <ul>
                   {[
                     {
-                      value: "Apple",
-                      name: "brand",
-                      label: "Apple"
+                      value: 'Apple',
+                      name: 'brand',
+                      label: 'Apple'
                     },
                     {
-                      value: "Samsung",
-                      name: "brand",
-                      label: "Samsung"
+                      value: 'Samsung',
+                      name: 'brand',
+                      label: 'Samsung'
                     },
-                    ...(categoryOptions === "laptop_access"
+                    ...(category_id === 3
                       ? [
                           {
-                            value: "Hp",
-                            name: "laptop_access_brand",
-                            label: "Hp"
+                            value: 'Hp',
+                            name: 'laptop_access_brand',
+                            label: 'Hp'
                           },
                           {
-                            value: "Lenovo",
-                            name: "laptop_access_brand",
-                            label: "Lenovo"
+                            value: 'Lenovo',
+                            name: 'laptop_access_brand',
+                            label: 'Lenovo'
                           }
                         ]
                       : []),
-                    ...(categoryOptions === "other"
+                    ...(category_id === 4
                       ? [
                           {
-                            value: "JBL",
-                            name: "other_brand",
-                            label: "JBL"
+                            value: 'JBL',
+                            name: 'other_brand',
+                            label: 'JBL'
                           }
                         ]
                       : [])
@@ -501,15 +538,15 @@ const Modal = ({ selectedProduct, setSelectedProduct }) => {
                     <li
                       key={index}
                       onClick={() => {
-                        dispatch({ type: "change-brand", payload: each.value });
+                        dispatch({type: 'change-brand', payload: each.value});
                       }}
-                      className='cursor-pointer'
+                      className="cursor-pointer"
                     >
                       <input
-                        onChange={e => {}}
+                        onChange={(e) => {}}
                         checked={each.value === brand}
-                        className='m-2'
-                        type='radio'
+                        className="m-2"
+                        type="radio"
                         value={each.value}
                         name={each.name}
                       />

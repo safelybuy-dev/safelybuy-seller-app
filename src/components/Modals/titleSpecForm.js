@@ -6,7 +6,7 @@ const TitleAndSpec = ({
   setFirstContinueBtn,
   setSteps,
   ProductsFormAndUpdater,
-  categoryOptions
+  category_id
 }) => {
   const { register, handleSubmit, errors, watch } = useForm({
     defaultValues: ProductsFormAndUpdater[0]
@@ -19,117 +19,118 @@ const TitleAndSpec = ({
   const fieldValues = [
     {
       title: "Product Title",
-      name: "Product_title",
+      name: "title",
       placeholder: "Ex. iPhone Xmax",
-      types: "phone_access, ipad_tablet_access, laptop_access, other"
+      types: [1, 2, 3, 4]
     },
 
     {
       title: "RAM",
-      name: "ram",
+      name: "ram_size",
       placeholder: "Ex. 12GB",
-      types: "phone_access, ipad_tablet_access, laptop_access"
+      types: [1, 2, 3]
     },
 
     {
       title: "Processor",
-      name: "Processor",
+      name: "processor",
       placeholder: "Ex. Octa-core MediaTek MT6873",
-      types: "phone_access, ipad_tablet_access, laptop_access"
+      types: [1, 2, 3]
     },
 
     {
       title: "Rear Camera",
-      name: "RearCamera",
+      name: "rear_camera",
       placeholder: "Ex. 64 Megapixels",
-      types: "phone_access, ipad_tablet_access"
+      types: [1, 2]
     },
 
     {
       title: "Front Camera",
-      name: "FrontCamera",
+      name: "front_camera",
       placeholder: "Ex. 12GB",
-      types: "phone_access, ipad_tablet_access"
+      types: [1, 2]
     },
 
     {
       title: "Battery",
-      name: "Battery",
+      name: "battery",
       placeholder: "Ex. 4300mAh",
-      types: "phone_access, ipad_tablet_access, laptop_access"
+      types: [1, 2, 3]
     },
 
     {
       title: "Display",
-      name: "Display",
+      name: "display",
       placeholder: "Ex. 6.1 inches IPS LCD Display",
-      types: "phone_access, ipad_tablet_access, laptop_access"
+      types: [1, 2, 3]
     },
 
     {
       title:
-        categoryOptions === "laptop_access"
+        category_id === 3
           ? "Internal Memory (Hard drisk size)"
           : "Internal Memory",
-      name: "InternalMemory",
+      name: "internal_memory",
       placeholder: "Ex. 64GB",
-      types: "phone_access, ipad_tablet_access, laptop_access"
+      types: [1, 2, 3]
     },
 
     {
       title: "CPU Speed",
-      name: "CPUSpeed",
+      name: "cpu_speed",
       placeholder: "Ex. 2.4GHz",
-      types: "phone_access, ipad_tablet_access, laptop_access"
+      types: [1, 2, 3]
     },
 
     {
       title: "Network Connectivity",
-      name: "NetworkConnectivity",
+      name: "network",
       placeholder: "Ex. 4G LTE Network",
-      types: "phone_access, ipad_tablet_access, laptop_access"
+      types: [1, 2, 3]
     },
 
     {
       title: "Operating System",
-      name: "OperatingSystem",
+      name: "operating_system",
       placeholder: "Ex. Android 10",
-      types: "phone_access, ipad_tablet_access, laptop_access"
+      types: [1, 2, 3]
     },
 
     {
       title: "Colour",
-      name: "Colour",
+      name: "colour",
       placeholder: "Ex. Gold",
-      types: "phone_access, ipad_tablet_access, laptop_access"
+      types: [1, 2, 3]
     },
     {
       title: "Specifications",
-      name: "Specification",
+      name: "specifications",
       placeholder: "Enter a clear and coincise information about the product",
-      types: "other"
+      types: [4]
     },
     {
       title: "Weight (kg)",
-      name: "Weight",
+      name: "weight",
       placeholder: "Ex. 50kg",
-      types: "phone_access, ipad_tablet_access, laptop_access, other"
+      types: [1, 2, 3, 4],
+      isNumOnly: true
     }
   ];
 
   let formLength;
-  if (categoryOptions === "laptop_access") {
+  if (category_id === 3) {
     formLength = 11;
   }
-  if (categoryOptions === "phone_access") {
+  if (category_id === 1) {
     formLength = 13;
   }
 
-  if (categoryOptions === "ipad_tablet_access") {
+  if (category_id === 2) {
     formLength = 13;
   }
 
-  if (categoryOptions === "other") {
+  if (category_id ===  4) {
     formLength = 3;
   }
 
@@ -190,14 +191,14 @@ const TitleAndSpec = ({
                 className='flex flex-col w-96 md:max-w-7xl md:px-8'
               >
                 {fieldValues
-                  .filter(e => e.types.includes(categoryOptions))
-                  .map(({ name, placeholder, title }, index) => (
+                  .filter(e => e.types.includes(category_id))
+                  .map(({ name, placeholder, title, isNumOnly }, index) => (
                     <div key={index} className='text-left mr-2'>
                       <label className='text-sm my-2' htmlFor='Product_title'>
                         {title}
                       </label>
                       <div className='relative md:w-full mb-2 mt-2'>
-                        {name === "Specification" ? (
+                        {name === "specifications" ? (
                           <textarea
                             className={`border ${
                               errors.name ? "border-red" : "border-black"
@@ -222,11 +223,20 @@ const TitleAndSpec = ({
                             type='text'
                             name={name}
                             onChange={e => {
+                              const { value } = e.target;
+
                               dispatch({
                                 type: "updateProductForm",
-                                payload: e.target.value,
+                                payload: isNumOnly
+                                  ? value.replace(/[^0-9]/g, "")
+                                  : e.target.value,
                                 field: name
                               });
+  
+                              return isNumOnly
+                                ? (e.target.value = value.replace(/[^0-9]/g, ""))
+                                : null;
+
                             }}
                             ref={register({
                               required: "Required"

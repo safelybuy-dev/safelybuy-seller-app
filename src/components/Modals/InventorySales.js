@@ -27,9 +27,9 @@ const InventorySales = ({
     },
     {
       title: "Quantity",
-      name: "quantity",
+      name: "available",
       placeholder: "Ex. 4",
-      isNumOnly: true
+      isNumOnly: true 
     }
   ];
 
