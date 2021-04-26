@@ -29,3 +29,5 @@ export const useComponentVisible = (initialIsVisible) => {
 
   return { ref, isComponentVisible, setIsComponentVisible };
 };
+
+

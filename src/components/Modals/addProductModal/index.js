@@ -1,11 +1,14 @@
 import React, {useState, useReducer} from 'react';
-import {CloseIcon, FowardSymbolSVG} from '../../svg';
-import Button from '../../components/Button';
+import {useHistory} from 'react-router-dom';
+import {CloseIcon, FowardSymbolSVG} from 'svg';
+import Button from 'components/Button';
 import TitleAndSpec from './titleSpecForm';
 import InventorySales from './InventorySales';
 import ProductImages from './productImages';
 import ProductLocation from './productLocation';
 import ReviewProducts from './reviewProduct';
+import axios from 'axios';
+import {baseURL} from '../../../helpers';
 
 export const CameraSVG = () => (
   <svg
@@ -16,7 +19,13 @@ export const CameraSVG = () => (
     xmlns="http://www.w3.org/2000/svg"
     className="inline"
   >
-    <circle opacity="0.1" cx="25" cy="25" r="25" fill="#18DCFF" />
+    <circle
+      opacity="0.1"
+      cx="25"
+      cy="25"
+      r="25"
+      fill="#18DCFF"
+    />
     <path
       fillRule="evenodd"
       clipRule="evenodd"
@@ -91,6 +100,7 @@ const initialProductState = {
   cpu_speed: '',
   network: '',
   operating_system: '',
+  description: "nnnn",
   colour: '',
   weight: '',
   processor: '',
@@ -109,6 +119,34 @@ const initialProductState = {
   shipping_city: '',
   shipping_weight: ''
 };
+
+const initialProductImg = {
+  main_image: {},
+  other_product_img_1: "",
+  other_product_img_2: "",
+  other_product_img_3: "",
+  other_product_img_4: "",
+  other_product_img_5: "",
+  other_product_img_6: "",
+
+}
+
+
+
+function productImageReducer(state, action) {
+  const {type, payload, field} = action;
+  switch (type) {
+    case 'updateProductImage':
+      return {
+        ...state,
+        [field]: payload
+      };
+      default:
+      return {...state};
+  }
+}
+
+
 
 function productReducer(state, action) {
   const {type, payload, field} = action;
@@ -141,37 +179,156 @@ function reducer(state, action) {
         brand: ''
       };
     case 'change-subCategory':
-      return {...state, subcategory_id: payload, condition: '', brand: ''};
+      return {
+        ...state,
+        subcategory_id: payload,
+        condition: '',
+        brand: ''
+      };
     case 'change-condition':
-      return {...state, condition: payload, brand: ''};
+      return {
+        ...state,
+        condition: payload,
+        brand: ''
+      };
     case 'change-brand':
-      return {...state, brand: payload};
+      return {
+        ...state,
+        brand: payload
+      };
     default:
       return {...state};
   }
 }
 
-const submitSellerProduct = async () => {
-  // format price
-
-  try {
-  // submit and direct to succes page
-  } catch (err) {
-  // failed and direct to failure page
-  }
-};
-
 const Modal = ({selectedProduct, setSelectedProduct}) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const ProductsFormAndUpdater = useReducer(productReducer, initialProductState);
+  const history = useHistory();
 
-  const {category_id, subcategory_id, condition, brand} = state;
+  const [state, dispatch] = useReducer(
+    reducer,
+    initialState
+  );
+  const ProductsFormAndUpdater = useReducer(
+    productReducer,
+    initialProductState
+  );
+
+
+  const [product_images, dispatchProductImage] = useReducer(
+    productImageReducer,
+    initialProductImg
+  );
+
   const [step, setSteps] = useState(0);
-  const [enableFirstContinueBtn, setFirstContinueBtn] = useState(false);
-  const [enableSecondContinueBtn, setSecondContinueBtn] = useState(false);
-  const [enableThirdContinueBtn, setThirdContinueBtn] = useState(false);
-  const [enableFourthContinueBtn, setFourthContinueBtn] = useState(false);
-  const [enableFifthContinueBtn, setFifthContinueBtn] = useState(true);
+  const [
+    enableFirstContinueBtn,
+    setFirstContinueBtn
+  ] = useState(false);
+  const [
+    enableSecondContinueBtn,
+    setSecondContinueBtn
+  ] = useState(false);
+  const [
+    enableThirdContinueBtn,
+    setThirdContinueBtn
+  ] = useState(false);
+  const [
+    enableFourthContinueBtn,
+    setFourthContinueBtn
+  ] = useState(false);
+  const [
+    enableFifthContinueBtn,
+    setFifthContinueBtn
+  ] = useState(true);
+
+
+
+  const submitSellerProduct = async () => {
+
+    const {
+      main_image,
+      other_product_img_1,
+      other_product_img_2,
+      other_product_img_3,
+      other_product_img_4,
+      other_product_img_5,
+      other_product_img_6,
+    } = product_images;
+
+
+    const other_images =  [
+      other_product_img_1,
+      other_product_img_2,
+      other_product_img_3,
+      other_product_img_4,
+      other_product_img_5,
+      other_product_img_6
+    ].filter(e => typeof e !== "string");
+
+
+    const productData = {
+      ...ProductsFormAndUpdater[0],
+      price: ProductsFormAndUpdater[0].price.replace(
+        /\D/g,
+        ''
+      ),
+      main_image,
+      category:  state.category_id,
+      subcategory: state.subcategory_id,
+    };
+
+
+    [
+      "other_product_img_1",
+      "other_product_img_2",
+      "other_product_img_3",
+      "other_product_img_4",
+      "other_product_img_5",
+      "other_product_img_6"
+    ].forEach(e => delete productData[e]);
+
+    let body = new FormData();
+    for (const [key, value] of Object.entries(productData)) {
+      body.append(key, value);
+    }
+
+
+    for ( var i  = 0; i < other_images.length;  i++) {
+        body.append('other_images[]', other_images[i]);
+    }
+
+    try {
+      const response = await axios({
+        method: 'post',
+        url: `${baseURL}/item/add`,
+        data: body,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiOGEzMzYxMjcxZTNiNGY0YzMzNDhjZmNmY2FmYzQ3ZGU4N2I5YmJjODBkNThjY2IyZjJiNmM3YmRlYzI2ZjEyMzIyMGQwNzZkMTliZDI0YzAiLCJpYXQiOjE2MTUyOTU0OTAsIm5iZiI6MTYxNTI5NTQ5MCwiZXhwIjoxNjQ2ODMxNDg5LCJzdWIiOiI5NiIsInNjb3BlcyI6W119.L8yM-2fSouW3dcB9dxdwYvWJGWVietd-UFNI08yqi9_CVPyMGlpVxGE5-X13c5JjCveAfsUzs5r4g1WnOF6Be4ts3kEQye3Y6gnklGZy0I6pkgVP4qQTNENTgmsHXAzBUnzrWFg7K3aC6RPNY-tm31pWenH0ZRbk4JJlq0M6xsmfmcw6b_k5UhfaqZ84TPc7FeJR3thD0r7UW5DWGUlO5qaDR2yH9ala54yPFJ9JWMvD2Gj3HXGDRRn96Ph4J9t3P2HX0DqVlQPRXFvLj5-kQvjtuI2PQpmZ4SNbYuVbpqfrQ3EcQQUhNWfePJxI1lG67o88_dDqCxio7R5wCPw74AeA4LNpKuOH7oCxmWV7CNqKQCw5OA2QmRTX_xFP72KPLVKJODAYPi4T1pwddlBVzYBOsmzAAHTkF_V03TKR5aQ41NVvjIKOcHkM5OXYuB1evenSsew8MRS5cq3fceNPJRE5Ao8YV_XvPzNkvuAbZxxI8ClSoyBOx33KKsCBY4-9kGacU5P3Anxx2NaKSk1DlVTBV_-wpztuYZDeQ6XLgM72GhNp9vGlZZLefwrMCSOSdhfxN6FARqLx6NiOHgtDbVNtM7ipz9Qv89i4WMESaqnmSAE03eqE64ls4A-zy-jdkbHQXNxzd2SKHnVV5d-JN--_1NAIjKO9CQUvsBCL64o`
+        }
+      });
+      history.push({
+        pathname: '/success-error',
+        state: {
+          data: true
+        }
+      });
+    } catch (err) {
+      history.push({
+        pathname: '/success-error',
+        state: {
+          data: false
+        }
+      });
+    }
+  };
+
+  const {
+    category_id,
+    subcategory_id,
+    condition,
+    brand
+  } = state;
 
   const subCategoryObj = {
     1: [
@@ -246,7 +403,13 @@ const Modal = ({selectedProduct, setSelectedProduct}) => {
         canClick={true}
         clickHandler={handler}
         event="onClick"
-        text={`${step === 0 ? 'Proceed' : step === 5 ? ' Submit' : 'Continue'}`}
+        text={`${
+          step === 0
+            ? 'Proceed'
+            : step === 5
+            ? ' Submit'
+            : 'Continue'
+        }`}
         primary
         roundedFull
         icon={<FowardSymbolSVG />}
@@ -263,8 +426,6 @@ const Modal = ({selectedProduct, setSelectedProduct}) => {
 
   if (!selectedProduct) return null;
 
-  console.log(state, '......', ProductsFormAndUpdater[0]);
-
   return (
     <div
       onClick={() => setSelectedProduct(null)}
@@ -277,7 +438,9 @@ const Modal = ({selectedProduct, setSelectedProduct}) => {
         <div className="flex justify-between w-full pb-10 items-start">
           <h3 className="text-2xl">
             {' '}
-            {step === 5 ? 'Product Details' : 'Add a new product'}
+            {step === 5
+              ? 'Product Details'
+              : 'Add a new product'}
           </h3>
 
           {step === 0 && (
@@ -350,6 +513,8 @@ const Modal = ({selectedProduct, setSelectedProduct}) => {
         {step === 3 && (
           <ProductImages
             setSteps={setSteps}
+            product_images={product_images}
+            dispatchProductImage={dispatchProductImage}
             setThirdContinueBtn={setThirdContinueBtn}
             ProductsFormAndUpdater={ProductsFormAndUpdater}
           />
@@ -364,6 +529,7 @@ const Modal = ({selectedProduct, setSelectedProduct}) => {
         {step === 1 && (
           <TitleAndSpec
             category_id={category_id}
+            subcategory_id={subcategory_id}
             ProductsFormAndUpdater={ProductsFormAndUpdater}
             setFirstContinueBtn={setFirstContinueBtn}
             setSteps={setSteps}
@@ -374,10 +540,13 @@ const Modal = ({selectedProduct, setSelectedProduct}) => {
             <div className="flex mr-4 md:mr-0 md:flex-col">
               <div className="flex flex-col  ml-4 md:w-full">
                 <div className="flex flex-col  w-full md:ml-0 md:mt-4">
-                  <h4 className="text-xl text-purple-500">Select category</h4>
+                  <h4 className="text-xl text-purple-500">
+                    Select category
+                  </h4>
                   <p>
-                    Pick a category listed below, after completing this process
-                    your product will be reviewed.
+                    Pick a category listed below, after
+                    completing this process your product will
+                    be reviewed.
                   </p>
                   <div className="mt-6 flex col"></div>
                 </div>
@@ -435,28 +604,32 @@ const Modal = ({selectedProduct, setSelectedProduct}) => {
               <div className="flex-1 border-l-2 p-3">
                 <p>Sub-category</p>
                 <ul>
-                  {subCategoryObj[category_id].map((each, index) => (
-                    <li
-                      key={index}
-                      onClick={() => {
-                        dispatch({
-                          type: 'change-subCategory',
-                          payload: each.value
-                        });
-                      }}
-                      className="cursor-pointer"
-                    >
-                      <input
-                        onChange={(e) => {}}
-                        checked={each.value === subcategory_id}
-                        className="m-2"
-                        type="radio"
-                        value={each.value}
-                        name={each.name}
-                      />
-                      <small>{each.label}</small>
-                    </li>
-                  ))}
+                  {subCategoryObj[category_id].map(
+                    (each, index) => (
+                      <li
+                        key={index}
+                        onClick={() => {
+                          dispatch({
+                            type: 'change-subCategory',
+                            payload: each.value
+                          });
+                        }}
+                        className="cursor-pointer"
+                      >
+                        <input
+                          onChange={(e) => {}}
+                          checked={
+                            each.value === subcategory_id
+                          }
+                          className="m-2"
+                          type="radio"
+                          value={each.value}
+                          name={each.name}
+                        />
+                        <small>{each.label}</small>
+                      </li>
+                    )
+                  )}
                 </ul>
               </div>
               <div className="flex-1 border-l-2 p-3">
@@ -538,7 +711,10 @@ const Modal = ({selectedProduct, setSelectedProduct}) => {
                     <li
                       key={index}
                       onClick={() => {
-                        dispatch({type: 'change-brand', payload: each.value});
+                        dispatch({
+                          type: 'change-brand',
+                          payload: each.value
+                        });
                       }}
                       className="cursor-pointer"
                     >

@@ -7,14 +7,15 @@ export const navMenuItems = [
     SVG: HomeSVG,
     text: "Home",
     url: "/",
+    type: ['Shopping', 'Tickets']
   },
   {
     color: "black",
     hasDropdown: true,
     SVG: InventorySVG,
     dropdownLinks: [
-      { text: "Manage Inventory", url: "/tickets/inventory" },
-      { text: "Add a product", url: "/tickets/sales" },
+      { text: "Manage Inventory", url: "/inventory" },
+      { text: "Add a product", url: "/inventory/add" },
     ],
     text: "Inventory",
   },

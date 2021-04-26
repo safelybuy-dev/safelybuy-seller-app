@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import Breadcrumb from "../../../components/Breadcrumb";
-import Modal from '../../../components/Modals/productModal';
+import Modal from '../../../components/Modals/addProductModal';
 import Button from "../../../components/Button";
 import { pluSVG } from '../../../svg';
 

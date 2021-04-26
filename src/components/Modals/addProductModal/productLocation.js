@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {useForm} from 'react-hook-form';
-import states from '../../state';
-import {BackArrowSVG, FowardArrowSVG} from './productModal';
+import states from 'states';
+import {BackArrowSVG, FowardArrowSVG} from '.';
 const ProductLocation = ({
   setFourthContinueBtn,
   setSteps,

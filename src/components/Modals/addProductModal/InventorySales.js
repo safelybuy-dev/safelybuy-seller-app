@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import NumberFormat from "react-number-format";
-import { BackArrowSVG, FowardArrowSVG } from "./productModal";
+import { BackArrowSVG, FowardArrowSVG } from ".";
 
 const InventorySales = ({
   setSecondContinueBtn,
@@ -166,6 +166,7 @@ const InventorySales = ({
                   render={props => (
                     <NumberFormat
                       ref={register}
+                      defaultValue={ProductsFormAndUpdater[0].price}
                       onChange={e => {
                         dispatch({
                           type: "updateProductForm",

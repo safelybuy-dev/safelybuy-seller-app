@@ -1,12 +1,13 @@
 import React from 'react';
-import { BackArrowSVG, FowardArrowSVG, CameraSVG } from './productModal';
+import { BackArrowSVG, FowardArrowSVG, CameraSVG } from '.';
 const BorderImageUpload = ({
   title,
   containerID,
   dispatch,
   imgSrc,
   useReducerKey,
-  setThirdContinueBtn
+  setThirdContinueBtn,
+  dispatchProductImage
 }) => {
   const loadFile = e => {
      if(!e.target.files.length) return;
@@ -19,6 +20,12 @@ const BorderImageUpload = ({
         payload: reader.result,
         field: useReducerKey
       });
+
+      dispatchProductImage({
+        type: 'updateProductImage',
+        payload: e.target.files[0],
+        field: useReducerKey
+      })
     }
     reader.readAsDataURL(e.target.files[0]);
 
@@ -60,7 +67,9 @@ const BorderImageUpload = ({
 const ProductImages = ({
   setThirdContinueBtn,
   setSteps,
-  ProductsFormAndUpdater
+  ProductsFormAndUpdater,
+  product_images,
+  dispatchProductImage
 }) => {
   const dispatch = ProductsFormAndUpdater[1];
   const { main_image } = ProductsFormAndUpdater[0];
@@ -118,6 +127,7 @@ const ProductImages = ({
               imgSrc={main_image}
               useReducerKey="main_image"
               setThirdContinueBtn={setThirdContinueBtn}
+              dispatchProductImage={dispatchProductImage}
             />
 
             <div className="grid grid-cols-1 divide-y divide-grey-500">
@@ -137,6 +147,7 @@ const ProductImages = ({
                   containerID={each}
                   imgSrc={ProductsFormAndUpdater[0][each]}
                   useReducerKey={each}
+                  dispatchProductImage={dispatchProductImage}
                 />
               ))}
             </div>
@@ -155,6 +166,7 @@ const ProductImages = ({
                   imgSrc={ProductsFormAndUpdater[0][each]}
                   useReducerKey={each}
                   setThirdContinueBtn={setThirdContinueBtn}
+                  dispatchProductImage={dispatchProductImage}
                 />
               ))}
             </div>

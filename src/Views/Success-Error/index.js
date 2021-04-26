@@ -1,4 +1,5 @@
 import React from 'react';
+import {useHistory} from 'react-router-dom';
 import Logo from '../../components/Logo';
 import Footer from '../../components/Footer';
 import Button from '../../components/Button';
@@ -6,6 +7,9 @@ import SuccessSVG from './successSVG';
 import FailureSVG from './failureSVG';
 
 const SuccessError = () => {
+
+  const history = useHistory();
+
   return (
     <div className="relative justify-between flex flex-col min-h-screen text-center">
       <div>
@@ -13,7 +17,7 @@ const SuccessError = () => {
           <Logo color="black" text="transact with no regret" />
         </header>
         <div className="flex justify-center">
-          {false ? (
+          {history.location.state?.data ? (
             <>
               <SuccessSVG />
              

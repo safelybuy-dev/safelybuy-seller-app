@@ -21,7 +21,7 @@ function closeNav() {
   document.getElementById("myNav").style.width = "0%";
 }
 
-const Header = ({ setIsMenuOpen, isMenuOpen }) => {
+const Header = ({ setIsMenuOpen, isMenuOpen, prefrence, setPrefrence }) => {
   const {
     ref: notRef,
     isComponentVisible: notIsVisible,
@@ -69,6 +69,13 @@ const Header = ({ setIsMenuOpen, isMenuOpen }) => {
           </Link>
         </div>
         <div className="flex items-center px-12">
+          <p 
+          onClick={() => {
+            prefrence === 'Shopping' ? setPrefrence('Tickets') : setPrefrence('Shopping')
+          }}
+          className="mr-4 text-purple-500 cursor-pointer"
+          >Switch to {prefrence === 'Shopping' ? 'Tickets' : 'Shopping' }</p>
+
           <Notifications
             notRef={notRef}
             setNotIsVisible={setNotIsVisible}

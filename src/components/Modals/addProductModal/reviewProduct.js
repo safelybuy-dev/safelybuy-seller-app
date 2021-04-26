@@ -1,5 +1,5 @@
 import React from 'react';
-import { BackArrowSVG } from './productModal';
+import { BackArrowSVG } from '.';
 
 const KeyValue = ({title, value}) => (
   <div className="my-3 ">
