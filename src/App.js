@@ -1,14 +1,14 @@
-import React, {useReducer, Suspense, lazy, useEffect} from 'react';
-import {ToastProvider} from 'react-toast-notifications';
+import React, { useReducer, Suspense, lazy, useEffect } from 'react';
+import { ToastProvider } from 'react-toast-notifications';
 import './App.css';
 import './tailwind.generated.css';
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
-import {ContextUser} from './context';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { ContextUser } from './context';
 import PrivateRoute from './auth/PrivateRoute';
 import PrivateOTPRoute from './auth/Otp';
-import {auth} from './reducers/initialState';
+import { auth } from './reducers/initialState';
 import userReducer from './reducers/auth';
-import {loadUser} from './requests';
+import { loadUser } from './requests';
 
 const SuccessError = lazy(() => import('./Views/Success-Error/index'));
 const Dashboard = lazy(() => import('./Views/Dashboard'));
@@ -36,30 +36,25 @@ function App() {
         <Suspense fallback={<p>Loading....</p>}>
           <ContextUser.Provider value={[state, dispatch]}>
             <Switch>
-              <Route path="/about"></Route>
-
-              <PrivateOTPRoute path="/verifyOTP">
+              <PrivateOTPRoute path='/verifyOTP'>
                 <Otp />
               </PrivateOTPRoute>
-
-              <Route path="/seller-kyc">
+              <Route path='/seller-kyc'>
                 <SellerKyc />
               </Route>
-
-              <Route path="/success-error">
+              <Route path='/success-error'>
                 <SuccessError />
               </Route>
-
-              <Route path="/sample">
+              <Route path='/sample'>
                 <SamplePage />
               </Route>
-              <Route path="/login">
+              <Route path='/login'>
                 <LoginPage />
               </Route>
-              <Route path="/signup">
+              <Route path='/signup'>
                 <SignUpPage />
               </Route>
-              <PrivateRoute path="/">
+              <PrivateRoute path='/'>
                 <Dashboard />
               </PrivateRoute>
             </Switch>
