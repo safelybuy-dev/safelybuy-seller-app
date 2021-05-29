@@ -9678,7 +9678,7 @@
     "strip-ansi" "6.0.0"
     "text-table" "0.2.0"
 
-"react-dom@^17.0.1":
+"react-dom@^16.8.0 || ^17.0.0", "react-dom@^17.0.1":
   "integrity" "sha512-6eV150oJZ9U2t9svnsspTMrWNyHc6chX0KzDeAOXftRa8bNeOKTTfCJ7KorIwenkHd2xqVTBTCZd79yk/lx/Ug=="
   "resolved" "https://registry.npmjs.org/react-dom/-/react-dom-17.0.1.tgz"
   "version" "17.0.1"
@@ -9833,15 +9833,15 @@
   "resolved" "https://registry.npmjs.org/react-table/-/react-table-7.6.2.tgz"
   "version" "7.6.2"
 
-"react-toast-notifications@^2.4.0":
-  "integrity" "sha512-8tkrbNh7LxkiFmtqAL/AiI55efIeI+fBk3c6ImsiZ0VObb4yvOq0cqYuJHyUiv9fuD2aBxvXGVH+n4Snt8qoWA=="
-  "resolved" "https://registry.npmjs.org/react-toast-notifications/-/react-toast-notifications-2.4.0.tgz"
-  "version" "2.4.0"
+"react-toast-notifications@^2.4.4":
+  "integrity" "sha512-FNekr4IIeZZ+9B7LO4Wdqfp16jX6yH6A3HMajbPHpfPwhmcqIX///wPhdbcef9bQaa+NZwdyCHKeCSC6eFnduw=="
+  "resolved" "https://registry.npmjs.org/react-toast-notifications/-/react-toast-notifications-2.4.4.tgz"
+  "version" "2.4.4"
   dependencies:
     "@emotion/core" "^10.0.14"
-    "react-transition-group" "^4.3.0"
+    "react-transition-group" "^4.4.1"
 
-"react-transition-group@^4.3.0":
+"react-transition-group@^4.4.1":
   "integrity" "sha512-Djqr7OQ2aPUiYurhPalTrVy9ddmFCCzwhqQmtN+J3+3DzLO209Fdr70QrN8Z3DsglWql6iY1lDWAfpFiBtuKGw=="
   "resolved" "https://registry.npmjs.org/react-transition-group/-/react-transition-group-4.4.1.tgz"
   "version" "4.4.1"
@@ -9876,7 +9876,7 @@
     "ts-easing" "^0.2.0"
     "tslib" "^2.1.0"
 
-"react@^17.0.1":
+"react@^16.8.0 || ^17.0.0", "react@^17.0.1":
   "integrity" "sha512-lG9c9UuMHdcAexXtigOZLX8exLWkW0Ku29qPRU8uhF2R9BN96dLCt0psvzPLlHc5OWkgymP3qwTRgbnw5BKx3w=="
   "resolved" "https://registry.npmjs.org/react/-/react-17.0.1.tgz"
   "version" "17.0.1"

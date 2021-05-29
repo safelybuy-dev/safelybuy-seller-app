@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { ArrowRight } from "../svg";
 import Logo from "../components/Logo";
@@ -33,7 +33,10 @@ const LoginPage = () => {
     passwordHide.hidden = password.type === "password" ? true : false;
   };
 
-  console.log(state);
+  useEffect(() => {
+    localStorage.removeItem("safely_buy_token");
+    localStorage.removeItem("safely_buy_id");
+  }, [])
 
   return (
     <div className="relative justify-between flex flex-col min-h-screen text-center">
