@@ -12,10 +12,6 @@ export const shopping = {
   isLoadingDashboard: false,
   dashboardError: "",
 
-  admin: {},
-  loading: false,
-  error: "",
-
   orderActionLoading: false,
   orderActionError: "",
 
@@ -25,7 +21,7 @@ export const shopping = {
 
 export const auth = {
   user: {},
-  loadingUser: true,
+  loadingUser: false,
   error: "",
   isAuthenticated: isTokenValid(),
 };

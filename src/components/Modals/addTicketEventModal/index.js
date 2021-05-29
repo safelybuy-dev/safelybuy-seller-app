@@ -655,7 +655,7 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
 
                     <div
                       style={{ background: "rgba(134, 97, 255, 0.15)" }}
-                      class="p-5 border-dashed border-4 border-purple-500 rounded-3xl mt-5 text-center cursor-pointer"
+                      className="p-5 border-dashed border-4 border-purple-500 rounded-3xl mt-5 text-center cursor-pointer"
                     >
                       Add a new seat category
                     </div>

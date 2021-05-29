@@ -37,7 +37,4 @@ export const axiosWithAuth = () => {
   });
 };
 
-
-
-
 export default Auth;

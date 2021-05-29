@@ -33,6 +33,8 @@ const LoginPage = () => {
     passwordHide.hidden = password.type === "password" ? true : false;
   };
 
+  console.log(state);
+
   return (
     <div className="relative justify-between flex flex-col min-h-screen text-center">
       <div>
