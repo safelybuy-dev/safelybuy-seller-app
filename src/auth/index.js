@@ -23,7 +23,7 @@ export const Auth = {
     return decoded.exp > Date.now() / 1000 ? true : false;
   },
   signout(cb) {
-    localStorage.removeItem("safely_buy_token");
+    // localStorage.removeItem("safely_buy_token");
     cb();
   },
 };

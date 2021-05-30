@@ -1,4 +1,4 @@
-import { signIn, getUser } from "../api/auth";
+import { signIn } from "../api/auth";
 
 export const LOGIN = "LOGIN";
 export const LOADING = "LOADING";
@@ -37,22 +37,5 @@ export const login = (dispatch, data, history, toast) => {
       }
     },
     data
-  );
-};
-
-export const fetchUser = (dispatch, id) => {
-  dispatch(action(LOADING));
-  getUser(
-    (res) => {
-      dispatch(action(GET_USER, res.data));
-    },
-    (err) => {
-      if (err.response) {
-        dispatch(action(ERROR, err.response.data.message));
-      } else {
-        dispatch(action(ERROR, err.message));
-      }
-    },
-    id
   );
 };

@@ -7,7 +7,7 @@
   pointer-events: none;
 }
 
-.otp input{
+.otp input {
   width: 50px !important;
   height: 50px !important;
   left: 449px;
@@ -18,64 +18,57 @@
   margin-left: 20px;
 }
 
-
 .box {
-  display:grid;
+  display: grid;
   grid-template-columns: repeat(auto-fit, minmax(max(195px, 45vw), 2fr));
   margin: 10px;
   grid-gap: 40px;
 }
 
-.box>* {
+.box > * {
   height: 80vh;
 }
 
-
-.timeline-container{
-width: 70%;
-margin: 0 auto;
-height: 450px;
-background: white;
-border-radius: 20px; 
-box-shadow :   11px 10px 12px 41px #F7F8FB;
-} 
-
-
-.history-tl-container{
-margin:auto;
-display:block;
-position:relative;
+.timeline-container {
+  width: 70%;
+  margin: 0 auto;
+  background: white;
 }
-.history-tl-container ul.tl{
-  margin:20px 0;
-  padding:0;
-  display:inline-block;
 
+.history-tl-container {
+  margin: auto;
+  display: block;
+  position: relative;
 }
-.history-tl-container ul.tl li{
+.history-tl-container ul.tl {
+  margin: 60px 0 20px 0;
+  padding: 0;
+  display: inline-block;
+}
+.history-tl-container ul.tl li {
   list-style: none;
-  margin:auto;
-  margin-left:20px;
-  min-height:50px;
-  padding:0 0 80px 5px;
-  position:relative;
-  cursor: pointer
+  margin: auto;
+  margin-left: 20px;
+  min-height: 50px;
+  padding: 0 0 60px 5px;
+  position: relative;
+  cursor: pointer;
 }
 
+.history-tl-container ul.tl li:last-child {
+  border-left: 0;
+}
 
-
-.history-tl-container ul.tl li:last-child{ border-left:0;}
-
-.complete-seller-info-1::before{
+.complete-seller-info-1::before {
   position: absolute;
   left: -12px;
   top: -5px;
-  content: "02";
+  content: '02';
   color: rgba(134, 97, 255, 1);
   border: 2px solid rgba(134, 97, 255, 1);
   padding: 5px;
   border-radius: 50%;
-  background:rgb(237,231,255);
+  background: rgb(237, 231, 255);
   height: 35px;
   width: 35px;
   transition: all 500ms ease-in-out;
@@ -83,16 +76,16 @@ position:relative;
   padding: 3px;
 }
 
-.complete-bank-info::before{
+.complete-bank-info::before {
   position: absolute;
   left: -12px;
   top: -5px;
-  content: "04";
+  content: '04';
   color: rgba(134, 97, 255, 1);
   border: 2px solid rgba(134, 97, 255, 1);
   padding: 5px;
   border-radius: 50%;
-  background:rgb(237,231,255);
+  background: rgb(237, 231, 255);
   height: 35px;
   width: 35px;
   transition: all 500ms ease-in-out;
@@ -100,16 +93,16 @@ position:relative;
   padding: 3px;
 }
 
-.complete-seller-business-info::before{
+.complete-seller-business-info::before {
   position: absolute;
   left: -12px;
   top: -5px;
-  content: "03";
+  content: '03';
   color: rgba(134, 97, 255, 1);
   border: 2px solid rgba(134, 97, 255, 1);
   padding: 5px;
   border-radius: 50%;
-  background:rgb(237,231,255);
+  background: rgb(237, 231, 255);
   height: 35px;
   width: 35px;
   transition: all 500ms ease-in-out;
@@ -117,67 +110,64 @@ position:relative;
   padding: 3px;
 }
 
-.verify-phone-num::before, .complete-seller-info-1-done::before{
+.verify-phone-num::before,
+.complete-seller-info-1-done::before {
   position: absolute;
   left: -12px;
   top: -5px;
-  content: "✓";
+  content: '✓';
   color: white;
-  border: 8px solid rgba(134, 97, 255, 1);
+  border: 7px solid rgba(134, 97, 255, 1);
   border-radius: 500%;
   background: rgba(134, 97, 255, 1);
   height: 35px;
   width: 35px;
   transition: all 500ms ease-in-out;
   margin-left: -5px;
-  padding: 3px;
 }
 
-.item-title{
+.item-title, .item-detail {
+  text-align: left;
   margin-left: 35px;
 }
 
-
-
-.history-tl-container ul.tl li .item-detail{
-  color:rgba(0,0,0,0.5);
-  font-size:12px;
+.history-tl-container ul.tl li .item-detail {
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 12px;
 }
 
-.history-tl-container ul.tl li .timestamp{
-  color: #8D8D8D;
+.history-tl-container ul.tl li .timestamp {
+  color: #8d8d8d;
   position: absolute;
-  width:100px;
+  width: 100px;
   left: -50%;
   text-align: right;
   font-size: 12px;
 }
 
-.border-red{
-  border: 1px solid red
+.border-red {
+  border: 1px solid red;
 }
 
-.error-span{
+.error-span {
   font-size: 12px;
   color: red;
 }
 
-
-
 .file_upload {
-  opacity: 0.0;
+  opacity: 0;
 
   /* IE 8 */
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';
 
   /* IE 5-7 */
   filter: alpha(opacity=0);
 
   /* Netscape or and older firefox browsers */
-  -moz-opacity: 0.0;
+  -moz-opacity: 0;
 
   /* older Safari browsers */
-  -khtml-opacity: 0.0;
+  -khtml-opacity: 0;
 
   position: absolute;
   top: 0;
@@ -185,7 +175,7 @@ position:relative;
   bottom: 0;
   right: 0;
   width: 100%;
-  height:100%;
+  height: 100%;
 }
 
 #getFile {

@@ -3,70 +3,70 @@ import Highlight from './Highlight';
 import RecentSalesTable from './RecentSales';
 import { ArrowRight } from '../../../svg';
 import { useTable } from 'react-table';
+import { PieChart } from 'react-minimal-pie-chart';
 
 const RecentSales = () => {
   const data = React.useMemo(
     () => [
       {
-        transactionType: (
-          <>
+        status: (
+          <div className='text-gray-900 flex items-center'>
             <div className='relative w-8 h-4 inline-block'>
-              <div className='absolute animate-ping w-5 bg-lime-100 mr-2 h-5 inline-block rounded-full'></div>
-              <div className='absolute top-1 left-1 w-3 bg-lime-400 h-3 inline-block rounded-full'></div>
+              <div className='absolute w-4 bg-gray-100 mr-2 h-4 inline-block '></div>
+              <div className='absolute top-1 left-1 w-2 bg-gray-800 h-2 inline-block '></div>
             </div>
-            Shopping
-          </>
+            To be confirmed
+          </div>
         ),
-        orderId: '12230223938489',
-        amount: (
-          <p className='text-right'>
-            {Number(120000).toLocaleString('en-NG', {
-              style: 'currency',
-              currency: 'NGN',
-            })}
-          </p>
-        ),
+        quantity: <p className='text-right'>3</p>,
       },
       {
-        transactionType: (
-          <>
+        status: (
+          <div className='text-yellow-500 flex items-center'>
             <div className='relative w-8 h-4 inline-block'>
-              <div className='absolute animate-ping w-5 bg-green-100 mr-2 h-5 inline-block rounded-full'></div>
-              <div className='absolute top-1 left-1 w-3 bg-green-400 h-3 inline-block rounded-full'></div>
+              <div className='absolute w-4 bg-yellow-100 mr-2 h-4 inline-block '></div>
+              <div className='absolute top-1 left-1 w-2 bg-yellow-400 h-2 inline-block '></div>
             </div>
-            Delivery
-          </>
+            Shipped
+          </div>
         ),
-        orderId: '12230223938489',
-        amount: (
-          <p className='text-right'>
-            {Number(4450).toLocaleString('en-NG', {
-              style: 'currency',
-              currency: 'NGN',
-            })}
-          </p>
-        ),
+        quantity: <p className='text-right'>12</p>,
       },
       {
-        transactionType: (
-          <>
+        status: (
+          <div className='text-purple-500 flex items-center'>
             <div className='relative w-8 h-4 inline-block'>
-              <div className='absolute animate-ping w-5 bg-purple-100 mr-2 h-5 inline-block '></div>
-              <div className='absolute top-1 left-1 w-3 bg-purple-400 h-3 inline-block '></div>
+              <div className='absolute w-4 bg-purple-100 mr-2 h-4 inline-block '></div>
+              <div className='absolute top-1 left-1 w-2 bg-purple-400 h-2 inline-block '></div>
             </div>
-            Tickets
-          </>
+            Delivered
+          </div>
         ),
-
-        orderId: '12230223938489',
-        amount: (
-          <p className='text-right'>
-            {Number(12000).toLocaleString('en-NG', {
-              style: 'currency',
-              currency: 'NGN',
-            })}
-          </p>
+        quantity: <p className='text-right'>30</p>,
+      },
+      {
+        status: (
+          <div className='text-red-500 flex items-center'>
+            <div className='relative w-8 h-4 inline-block'>
+              <div className='absolute w-4 bg-red-100 mr-2 h-4 inline-block '></div>
+              <div className='absolute top-1 left-1 w-2 bg-red-400 h-2 inline-block '></div>
+            </div>
+            Returned
+          </div>
         ),
+        quantity: <p className='text-right'>2</p>,
+      },
+      {
+        status: (
+          <div className='text-green-500 flex items-center'>
+            <div className='relative w-8 h-4 inline-block'>
+              <div className='absolute w-4 bg-green-100 mr-2 h-4 inline-block '></div>
+              <div className='absolute top-1 left-1 w-2 bg-green-400 h-2 inline-block '></div>
+            </div>
+            Completed
+          </div>
+        ),
+        quantity: <p className='text-right'>200</p>,
       },
     ],
     []
@@ -74,8 +74,8 @@ const RecentSales = () => {
 
   const columns = React.useMemo(
     () => [
-      { Header: ' ', accessor: 'transactionType' },
-      { Header: ' ', accessor: 'amount' },
+      { Header: ' ', accessor: 'status' },
+      { Header: ' ', accessor: 'quantity' },
     ],
     []
   );
@@ -134,15 +134,40 @@ const Main = () => {
   // const { admin, loading } = state;
 
   return (
-    <>
-      <div className='flex flex-col flex-1 w-7/12 md:w-full md:mt-8'>
+    <div className='flex md:flex-wrap md:justify-center'>
+      <div className='flex flex-col flex-1 w-6/12 md:w-full md:mt-8'>
         <div className='mt-5 p-10  md:py-0 md:px-0 md:mt-0 rounded-3xl md:rounded-none bg-white'>
           <h3 className='text-2xl md:pb-6 md:bg-white tracking-wider'>
             Your Orders
           </h3>
-          <div className='flex space-x-4 ...'>
-            <div className='flex-1 ...'>Pie chart</div>
-            <div className='flex-1 ...'>
+          <div className='flex space-x-4'>
+            <div className='flex flex-1 items-center'>
+              <div className='w-60 relative'>
+                <PieChart
+                  data={[
+                    { title: 'Three', value: 200, color: '#10b981' },
+                    { title: 'One', value: 3, color: '#1f2937' },
+                    { title: 'Two', value: 12, color: '#fbbf24' },
+                    { title: 'Two', value: 30, color: '#a78bfa' },
+                    { title: 'Two', value: 2, color: '#F87171' },
+                  ]}
+                  lineWidth={15}
+                  paddingAngle={5}
+                />
+                <div
+                  style={{
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                  }}
+                  className='absolute w-36 flex flex-col px-6 bg-green-50 text-center items-center justify-center rounded-full h-36 border-2 border-green-100'
+                >
+                  <div className='text-green-600'>Amazing!!!</div>
+                  <div className='text-gray-900'>You're doing well 🎉</div>
+                </div>
+              </div>
+            </div>
+            <div className='flex-1'>
               <RecentSales />
             </div>
           </div>
@@ -162,10 +187,10 @@ const Main = () => {
           </div>
         </div>
       </div>
-      <div className='flex ml-5 flex-col tracking-wide md:w-6/12 sm:w-10/12'>
+      <div className='flex ml-2 flex-col w-3/12 tracking-wide md:w-6/12 sm:w-10/12'>
         <Highlight />
       </div>
-    </>
+    </div>
   );
 };
 

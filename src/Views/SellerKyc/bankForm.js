@@ -1,14 +1,14 @@
-import React, { useState, useContext, useEffect } from "react";
-import { requests, action } from "../../requests";
-import { ToastConsumer, useToasts } from "react-toast-notifications";
-import { useForm } from "react-hook-form";
-import { ArrowRight } from "../../svg";
-import { useHistory } from "react-router-dom";
-import * as yup from "yup";
-import { ContextUser } from "../../context";
-import utilities from "../../utilities";
-import { yupResolver } from "@hookform/resolvers/yup";
-import Button from "../../components/Button";
+import React, { useState, useContext, useEffect } from 'react';
+import { requests, action } from '../../requests';
+import { ToastConsumer, useToasts } from 'react-toast-notifications';
+import { useForm } from 'react-hook-form';
+import { ArrowRight } from '../../svg';
+import { useHistory } from 'react-router-dom';
+import * as yup from 'yup';
+import { ContextUser } from '../../context';
+import utilities from '../../utilities';
+import { yupResolver } from '@hookform/resolvers/yup';
+import Button from '../../components/Button';
 
 const BankForm = ({ setIsLoading, dispatch }) => {
   const history = useHistory();
@@ -18,98 +18,97 @@ const BankForm = ({ setIsLoading, dispatch }) => {
   const [account_name, setAccountName] = useState('');
 
   const schema = yup.object().shape({
-    bank_code: yup.string().required("Business name is  required "),
-    account_number: yup.string().required("Account Number is  required "),
+    bank_code: yup.string().required('Business name is  required '),
+    account_number: yup.string().required('Account Number is  required '),
   });
 
   const { register, handleSubmit, errors } = useForm({
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema),
   });
-
 
   const getAccountName = async (data) => {
     setAccountNameLoading(true);
     try {
-      const {data : da_ta } = await requests.
-      post("/bank/confirm", data);
+      const { data: da_ta } = await requests.post('/bank/confirm', data);
 
-      const {status, message}  = da_ta;     
+      const { status, message } = da_ta;
       setAccountNameLoading(false);
 
-      if(!status){
-        addToast(message,{ appearance: "error" });
+      if (!status) {
+        addToast(message, { appearance: 'error' });
         return;
       }
 
-            
-      if(status){
-        const { data }  = da_ta;
-        setAccountName(data.account_name)
+      if (status) {
+        const { data } = da_ta;
+        setAccountName(data.account_name);
         return;
       }
-
     } catch (err) {
-        addToast(err.message || 'Failed to get account Name',{ appearance: "error" });
-        setAccountNameLoading(false);
-        return;
+      addToast(err.message || 'Failed to get account Name', {
+        appearance: 'error',
+      });
+      setAccountNameLoading(false);
+      return;
     }
-
   };
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     if (!account_name.length) return;
-    try{
-     const {status} = await requests.
-     post("/seller/bank", {...data, bank_id: data.bank_code, account_name});
+    data.bank_id = data.bank_code;
+    delete data.bank_code;
+    try {
+      const { status } = await requests.post('/seller/bank', {
+        ...data,
+        account_name,
+      });
 
-     if(status === "success"){
-        addToast("Successfully added bank details",{ appearance: "success" });
+      if (status === 'success') {
+        addToast('Successfully added bank details', { appearance: 'success' });
         return history.push('/');
-     }
-  
-
-  
-    }catch(err){
-        addToast(err.message || 'Failed to save bank details',{ appearance: "error" });
+      }
+    } catch (err) {
+      addToast(err.message || 'Failed to save bank details', {
+        appearance: 'error',
+      });
     }
-  }
+  };
 
-  const onSubmitAccountNum = async data => await getAccountName(data);
+  const onSubmitAccountNum = async (data) => await getAccountName(data);
 
   useEffect(() => {
     const fetchData = async () => {
       if (banks.length) return;
-      const res = await requests.get("/getbanks");
+      const res = await requests.get('/getbanks');
       setBanks(res.data);
     };
 
     fetchData();
   }, [banks.length]);
 
-
   return (
     <>
-      <h1 className="tracking-wide pt-2 pb-2 font-bold px-12 text-4xl z-10 md:px-8 md:text-3xl">
+      <h1 className='tracking-wide pt-2 pb-2 font-bold px-12 text-4xl z-10 md:px-8 md:text-3xl'>
         Add bank details
       </h1>
-      <small style={{ color: "rgba(130, 130, 130, 1)" }} className="font-thin">
-        {" "}
+      <small style={{ color: 'rgba(130, 130, 130, 1)' }} className='font-thin'>
+        {' '}
         Enter your bank details for payments.
       </small>
-      <div className="flex justify-center mt-5">
+      <div className='flex justify-center mt-5'>
         <form
-          className="scrollable-form"
+          className='scrollable-form'
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col w-96 md:max-w-7xl md:px-8"
+          className='flex flex-col w-96 md:max-w-7xl md:px-8'
         >
-          <div className="text-left mr-2">
-            <label className="text-sm my-2" htmlFor="email">
+          <div className='text-left mr-2'>
+            <label className='text-sm my-2' htmlFor='email'>
               Bank
             </label>
-            <div className="relative md:w-full mb-2 mt-2">
+            <div className='relative md:w-full mb-2 mt-2'>
               <select
-                className="border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
-                name="bank_code"
+                className='border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl'
+                name='bank_code'
                 ref={register}
               >
                 {banks.map((e, i) => (
@@ -119,76 +118,73 @@ const BankForm = ({ setIsLoading, dispatch }) => {
                 ))}
               </select>
               {errors.bank_id && (
-                <span className="error-span">{errors.bank_id?.message}</span>
+                <span className='error-span'>{errors.bank_id?.message}</span>
               )}
             </div>
           </div>
 
-          <div className="text-left mr-2">
-            <label className="text-sm my-2" htmlFor="email">
+          <div className='text-left mr-2'>
+            <label className='text-sm my-2' htmlFor='email'>
               Account Number
             </label>
-            <div className="relative md:w-full mb-2 mt-2">
+            <div className='relative md:w-full mb-2 mt-2'>
               <input
-                type="text"
-                name="account_number"
+                type='text'
+                name='account_number'
                 ref={register}
-                onBlur={e => {
-                   const { value } = e.target;
-                  if (value.length == 10){
+                onBlur={(e) => {
+                  const { value } = e.target;
+                  if (value.length == 10) {
                     return handleSubmit(onSubmitAccountNum)();
                   }
                 }}
-                onChange={e => {
+                onChange={(e) => {
                   const { value } = e.target;
-                  e.target.value = value.replace(/[^0-9]/g, "");
+                  e.target.value = value.replace(/[^0-9]/g, '');
                   if (value.length > 10) e.target.value = value.slice(0, 10);
                 }}
-                placeholder="Enter your account number"
+                placeholder='Enter your account number'
                 className={`border ${
-                  errors.account_name ? "border-red" : "border-black"
+                  errors.account_name ? 'border-red' : 'border-black'
                 } w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
               />
 
               {errors.account_number && (
-                <span className="error-span">
+                <span className='error-span'>
                   {errors.account_number?.message}
                 </span>
               )}
             </div>
           </div>
 
-          <div className="text-left mr-2">
-            <label className="text-sm my-2" htmlFor="email">
+          <div className='text-left mr-2'>
+            <label className='text-sm my-2' htmlFor='email'>
               Account Name
             </label>
-            <div className="relative md:w-full mb-3 mt-2">
+            <div className='relative md:w-full mb-3 mt-2'>
               <input
-                type="text"
+                type='text'
                 disabled
-                placeholder="Account Name"
+                placeholder='Account Name'
                 value={account_name}
                 className={`border 
                 border-black 
-                ${
-                    accountNameLoading ? "bg-gray-200 animate-pulse" : ""
-                  }
+                ${accountNameLoading ? 'bg-gray-200 animate-pulse' : ''}
                  w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
               />
-
             </div>
           </div>
 
-          <div className="text-left">
-            <div className="my-4 flex justify-center">
+          <div className='text-left'>
+            <div className='my-4 flex justify-center'>
               <small
-                onClick={() => history.push("/")}
+                onClick={() => history.push('/')}
                 style={{
-                  cursor: "pointer"
+                  cursor: 'pointer',
                 }}
-                className="mt-3 mr-20"
+                className='mt-3 mr-20'
               >
-                Skip for later &nbsp;&nbsp;&nbsp;&nbsp;{" "}
+                Skip for later &nbsp;&nbsp;&nbsp;&nbsp;{' '}
               </small>
 
               <Button
@@ -196,11 +192,11 @@ const BankForm = ({ setIsLoading, dispatch }) => {
                 disabled={!account_name.length}
                 roundedMd
                 icon={
-                  <div className="animate-bounceSide">
-                    <ArrowRight color="black" />
+                  <div className='animate-bounceSide'>
+                    <ArrowRight color='black' />
                   </div>
                 }
-                text="Continue"
+                text='Continue'
                 Continue
               />
             </div>

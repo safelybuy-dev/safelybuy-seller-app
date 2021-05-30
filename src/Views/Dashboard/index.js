@@ -1,9 +1,16 @@
-import React, { useState, Suspense, lazy } from 'react';
+import React, { useReducer, useState, Suspense, lazy, useEffect } from 'react';
 import Footer from 'components/Footer';
 import Header from './Main/Header';
 import { MobileMenu } from './Main/MobileMenu';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import { useLocalStorage } from 'react-use';
+import Auth from 'auth';
+import { useToasts } from 'react-toast-notifications';
+import userReducer from 'reducers/auth';
+import { loadUser } from 'requests';
+import { auth } from 'reducers/initialState';
+import Container from 'components/Container';
+
 const Main = lazy(() => import('./Main'));
 const Messaging = lazy(() => import('./Main/Messaging'));
 const Shopping = lazy(() => import('../Shopping'));
@@ -15,11 +22,30 @@ const Inventory = lazy(() => import('../Inventory'));
 const TicketSales = lazy(() => import('../Tickets/Sales'));
 
 export default function Dashboard() {
-  const [value, setValue, remove] = useLocalStorage(
+  const [state, dispatch] = useReducer(userReducer, auth);
+  const [value, setValue] = useLocalStorage(
     'dashboard_view_preference',
     'Shopping'
   );
+  const { addToast } = useToasts();
+  const history = useHistory();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  useEffect(() => {
+    loadUser(dispatch);
+    // log user out from all tabs if they log out in one tab
+    // window.addEventListener('storage', () => {
+    //   if (!localStorage.token) store.dispatch({ type: LOGOUT });
+    // });
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (!state.isAuthenticated && state.error) {
+      addToast(state.error, { appearance: 'error', autoDismiss: true });
+      Auth.signout(() => history.push('login'));
+    }
+  }, [addToast, history, state]);
+
   return (
     <div className='relative bg-purple-50 min-h-screen'>
       <Header
@@ -29,38 +55,40 @@ export default function Dashboard() {
         isMenuOpen={isMenuOpen}
       />
       <MobileMenu isMenuOpen={isMenuOpen} />
-      <div className='flex py-56 px-16 pb-60 md:pb-96 md:flex-wrap md:justify-center md:py-24 md:px-6'>
-        <Suspense fallback={<div>Loading...</div>}>
-          <Switch>
-            <Route exact path='/messages'>
-              <Messaging />
-            </Route>
-            <Route exact path='/shopping'>
-              <Shopping />
-            </Route>
-            <Route exact path='/shopping/orders'>
-              <Orders />
-            </Route>
-            <Route exact path='/shopping/inventory'>
-              <ShoppingInventory />
-            </Route>
-            <Route exact path={['/inventory', '/inventory/add']}>
-              <Inventory value={value} />
-            </Route>
-            <Route exact path='/tickets/inventory'>
-              <TicketsInventory />
-            </Route>
-            <Route exact path='/tickets'>
-              <Tickets />
-            </Route>
-            <Route exact path='/tickets/sales'>
-              <TicketSales />
-            </Route>
-            <Route path='/'>
-              <Main />
-            </Route>
-          </Switch>{' '}
-        </Suspense>
+      <div className='flex py-56 pb-60 md:pb-96 md:flex-wrap md:justify-center md:py-24 md:px-6'>
+        <Container>
+          <Suspense fallback={<div>Loading...</div>}>
+            <Switch>
+              <Route exact path='/messages'>
+                <Messaging />
+              </Route>
+              <Route exact path='/shopping'>
+                <Shopping />
+              </Route>
+              <Route exact path='/shopping/orders'>
+                <Orders />
+              </Route>
+              <Route exact path='/shopping/inventory'>
+                <ShoppingInventory />
+              </Route>
+              <Route exact path={['/inventory', '/inventory/add']}>
+                <Inventory value={value} />
+              </Route>
+              <Route exact path='/tickets/inventory'>
+                <TicketsInventory />
+              </Route>
+              <Route exact path='/tickets'>
+                <Tickets />
+              </Route>
+              <Route exact path='/tickets/sales'>
+                <TicketSales />
+              </Route>
+              <Route path='/'>
+                <Main />
+              </Route>
+            </Switch>{' '}
+          </Suspense>
+        </Container>
       </div>
       <Footer admin />
     </div>
