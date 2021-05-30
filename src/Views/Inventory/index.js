@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
-import Modal from "components/Modals/addProductModal";
+import React, { useState, useEffect } from 'react';
+import Modal from 'components/Modals/addProductModal';
 import TicketModal from 'components/Modals/addTicketEventModal';
-import Button from "components/Button";
-import { useRouteMatch } from "react-router-dom";
+import Button from 'components/Button';
+import { useRouteMatch } from 'react-router-dom';
+import { PlusIcon } from 'svg';
+import InventoryTableView from "./InventoryTableView";
 
 const Inventory = ({ value }) => {
   let { url } = useRouteMatch();
@@ -10,54 +12,50 @@ const Inventory = ({ value }) => {
   const [openTicketModal, setTicketModal] = useState(false);
 
   useEffect(() => {
-    if (url.includes("add")) return setSelectedProduct(true);
+    if (url.includes('add')) return setSelectedProduct(true);
   }, [url]);
 
   return (
-    <div className="flex flex-col w-full items-start">
-      <div className="flex justify-between w-full">
-        <h2 className="text-xl">Manage Inventory</h2>
-        <span className="inline-block md:hidden">
-          {value === "Shopping" && (
+    <div className='flex flex-col w-full items-start'>
+      <div className='flex justify-between w-full'>
+        <h2 className='text-xl'>Manage Inventory</h2>
+        <span className='inline-block'>
+          {value === 'Shopping' && (
             <Button
               canClick={true}
               clickHandler={() => setSelectedProduct(true)}
-              event="onClick"
-              text="Add  a New Product"
+              event='onClick'
+              text='Add a New Product'
               primary
               roundedFull
-              icon="+"
+              icon={<PlusIcon />}
             />
           )}
 
-          {value === "Tickets" && (
+          {value === 'Tickets' && (
             <Button
               canClick={true}
               clickHandler={() => setTicketModal(true)}
-              event="onClick"
-              text="Create a ticket or an event"
+              event='onClick'
+              text='Create a ticket or an event'
               primary
               roundedFull
-              icon="+"
+              icon='+'
             />
           )}
-
-        </span>
-        <span className="hidden md:inline-block">
-          <Button text="Recent" secondary roundedFull preTagText="50" />
         </span>
       </div>
+      <InventoryTableView />
 
       <Modal
         selectedProduct={selectedProduct}
         setSelectedProduct={setSelectedProduct}
       />
 
-
-     <TicketModal 
-     openTicketModal={openTicketModal}
-     setTicketModal={setTicketModal}
-     />
+      <TicketModal
+        openTicketModal={openTicketModal}
+        setTicketModal={setTicketModal}
+      />
     </div>
   );
 };
