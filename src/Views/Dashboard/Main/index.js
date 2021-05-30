@@ -1,7 +1,7 @@
 import React from 'react';
 import Highlight from './Highlight';
 import RecentSalesTable from './RecentSales';
-import { ArrowRight } from '../../../svg';
+import { ArrowRight } from 'svg';
 import { useTable } from 'react-table';
 import { PieChart } from 'react-minimal-pie-chart';
 

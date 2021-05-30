@@ -1,6 +1,6 @@
 import React from 'react';
-import Breadcrumb from '../../components/Breadcrumb';
-import { ArrowRight } from '../../svg';
+import Breadcrumb from 'components/Breadcrumb';
+import { ArrowRight } from 'svg';
 import Highlight from '../Dashboard/Main/Highlight';
 import RecentSalesTable from './RecentSales';
 

@@ -55,8 +55,8 @@ export default function Dashboard() {
         isMenuOpen={isMenuOpen}
       />
       <MobileMenu isMenuOpen={isMenuOpen} />
-      <div className='flex py-56 pb-60 md:pb-96 md:flex-wrap md:justify-center md:py-24 md:px-6'>
-        <Container>
+      <div className='flex pb-60 md:pb-96 md:flex-wrap md:justify-center md:py-24 md:px-6'>
+        <Container topPadding>
           <Suspense fallback={<div>Loading...</div>}>
             <Switch>
               <Route exact path='/messages'>
@@ -83,7 +83,7 @@ export default function Dashboard() {
               <Route exact path='/tickets/sales'>
                 <TicketSales />
               </Route>
-              <Route path='/'>
+              <Route path={['/']}>
                 <Main />
               </Route>
             </Switch>{' '}

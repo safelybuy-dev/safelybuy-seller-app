@@ -1,5 +1,5 @@
-import { axiosWithAuth } from "../auth";
-import { baseUrl } from "./";
+import { axiosWithAuth } from 'auth';
+import { baseUrl } from './';
 
 export const getMainDashboard = (success, failure) => {
   axiosWithAuth()

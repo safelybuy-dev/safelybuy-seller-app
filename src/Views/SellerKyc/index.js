@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { ArrowRight } from '../../svg';
+import { ArrowRight } from 'svg';
 import Logo from 'components/Logo';
 import BankForm from './bankForm';
 import Footer from 'components/Footer';
@@ -10,7 +10,7 @@ import { requests, action } from 'requests';
 import { useToasts } from 'react-toast-notifications';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
-import { ContextUser } from '../../context';
+import { ContextUser } from 'context';
 import { yupResolver } from '@hookform/resolvers/yup';
 import states from 'states';
 

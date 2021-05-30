@@ -1,14 +1,14 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { requests, action } from '../../requests';
+import { requests, action } from 'requests';
 import { ToastConsumer, useToasts } from 'react-toast-notifications';
 import { useForm } from 'react-hook-form';
-import { ArrowRight } from '../../svg';
+import { ArrowRight } from 'svg';
 import { useHistory } from 'react-router-dom';
 import * as yup from 'yup';
-import { ContextUser } from '../../context';
-import utilities from '../../utilities';
+import { ContextUser } from 'context';
+import utilities from 'utilities';
 import { yupResolver } from '@hookform/resolvers/yup';
-import Button from '../../components/Button';
+import Button from 'components/Button';
 
 const BankForm = ({ setIsLoading, dispatch }) => {
   const history = useHistory();

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { ArrowRight } from '../svg';
-import Logo from '../components/Logo';
-import Footer from '../components/Footer';
-import Button from '../components/Button';
+import { ArrowRight } from 'svg';
+import Logo from 'components/Logo';
+import Footer from 'components/Footer';
+import Button from 'components/Button';
 import { Link, useHistory } from 'react-router-dom';
-import utilities from '../utilities';
-import { requests } from '../requests';
+import utilities from 'utilities';
+import { requests } from 'requests';
 import { useToasts } from 'react-toast-notifications';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';

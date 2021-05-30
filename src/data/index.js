@@ -1,46 +1,46 @@
-import { Bag, reportSVG, orders, HomeSVG, InventorySVG } from "../svg";
+import { Bag, reportSVG, orders, HomeSVG, InventorySVG } from 'svg';
 
 export const navMenuItems = [
   {
-    color: "white",
+    color: 'white',
     hasDropdown: false,
     SVG: HomeSVG,
-    text: "Home",
-    url: "/",
-    type: ['Shopping', 'Tickets']
+    text: 'Home',
+    url: '/',
+    type: ['Shopping', 'Tickets'],
   },
   {
-    color: "black",
+    color: 'black',
     hasDropdown: true,
     SVG: InventorySVG,
     dropdownLinks: [
-      { text: "Manage Inventory", url: "/inventory" },
-      { text: "Add a product", url: "/inventory/add" },
+      { text: 'Manage Inventory', url: '/inventory' },
+      { text: 'Add a product', url: '/inventory/add' },
     ],
-    text: "Inventory",
+    text: 'Inventory',
   },
   {
-    color: "white",
+    color: 'white',
     hasDropdown: false,
     SVG: orders,
-    text: "Orders",
-    url: "/orders",
+    text: 'Orders',
+    url: '/orders',
   },
   {
-    color: "white",
+    color: 'white',
     hasDropdown: false,
     SVG: reportSVG,
-    text: "Reports",
+    text: 'Reports',
   },
 ];
 
 export const mainMenuItems = [
-  { url: "/users", text: "Administrator Management" },
-  { url: "/customers", text: "Customer Management" },
-  { url: "/contents", text: "Content Management" },
-  { url: "/discounts", text: "Discount Promotion Management" },
-  { url: "/sellers", text: "Sellers Management" },
-  { url: "/mails", text: "Email Marketing" },
-  { url: "/referrals", text: "Referral Management" },
-  { url: "/payments", text: "Payment Request" },
+  { url: '/users', text: 'Administrator Management' },
+  { url: '/customers', text: 'Customer Management' },
+  { url: '/contents', text: 'Content Management' },
+  { url: '/discounts', text: 'Discount Promotion Management' },
+  { url: '/sellers', text: 'Sellers Management' },
+  { url: '/mails', text: 'Email Marketing' },
+  { url: '/referrals', text: 'Referral Management' },
+  { url: '/payments', text: 'Payment Request' },
 ];

@@ -1,9 +1,9 @@
 import React from 'react';
-import Logo from '../../../components/Logo';
-import { useComponentVisible } from '../../../hooks';
+import Logo from 'components/Logo';
+import { useComponentVisible } from 'hooks';
 import NavItem from './NavItem';
-import { Hamburger, CloseIcon } from '../../../svg';
-import { navMenuItems } from '../../../data';
+import { Hamburger, CloseIcon } from 'svg';
+import { navMenuItems } from 'data';
 import Notifications from './Notifications';
 import NotificationDetails from './NotificationDetails';
 import { Link } from 'react-router-dom';

@@ -1,27 +1,27 @@
-import { isTokenValid  } from "../requests";
+import { isTokenValid } from 'requests';
 export const shopping = {
   orders: [],
   isLoadingOrders: false,
-  ordersError: "",
+  ordersError: '',
 
   items: [],
   isLoadingItems: false,
-  itemsError: "",
+  itemsError: '',
 
   dashboard: {},
   isLoadingDashboard: false,
-  dashboardError: "",
+  dashboardError: '',
 
   orderActionLoading: false,
-  orderActionError: "",
+  orderActionError: '',
 
   itemActionLoading: false,
-  itemActionError: "",
+  itemActionError: '',
 };
 
 export const auth = {
   user: {},
   loadingUser: false,
-  error: "",
+  error: '',
   isAuthenticated: isTokenValid(),
 };

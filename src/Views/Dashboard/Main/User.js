@@ -1,10 +1,10 @@
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
-import { ArrowDown, ArrowUp, AngleRight, UserAvatar } from "../../../svg";
-import { buttonStyles } from "./Header";
-import { UserMenuMobile } from "./UserMenuMobile";
-import { ContextUser } from "../../../context";
-// import { fetchUser } from "../../../actions/auth";
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowDown, ArrowUp, AngleRight, UserAvatar } from 'svg';
+import { buttonStyles } from './Header';
+import { UserMenuMobile } from './UserMenuMobile';
+import { ContextUser } from 'context';
+// import { fetchUser } from "actions/auth";
 
 const User = ({ userIsVisible, setUserIsVisible, userRef }) => {
   // const history = useHistory();
@@ -13,8 +13,8 @@ const User = ({ userIsVisible, setUserIsVisible, userRef }) => {
   //   fetchUser(dispatch, localStorage.getItem('safely_buy_id'))
   // }, [dispatch]);
   return (
-    <div className="relative">
-      <div className="relative">
+    <div className='relative'>
+      <div className='relative'>
         <button
           onClick={(e) => {
             if (userIsVisible) setUserIsVisible(false);
@@ -22,21 +22,21 @@ const User = ({ userIsVisible, setUserIsVisible, userRef }) => {
             e.stopPropagation();
           }}
           className={`flex p-1 pr-4 md:pr-1 rounded-full shadow-xl ml-2 items-center ${buttonStyles(
-            "purple"
+            'purple'
           )}`}
         >
           {<UserAvatar scale={1.5} />}
-          <div className="ml-3 flex flex-col md:hidden">
-            <span className="font-normal capitalize text-xs">{`${state.user.firstname} ${state.user.lastname}`}</span>
-            <span className="uppercase text-gray-400 text-xs">
+          <div className='ml-3 flex flex-col md:hidden'>
+            <span className='font-normal capitalize text-xs'>{`${state.user.firstname} ${state.user.lastname}`}</span>
+            <span className='uppercase text-gray-400 text-xs'>
               {state.user.role}
             </span>
           </div>
-          <div className="ml-4 flex flex-col justify-between md:hidden">
-            <div className="mb-px">
+          <div className='ml-4 flex flex-col justify-between md:hidden'>
+            <div className='mb-px'>
               <ArrowUp />
             </div>
-            <div className="mt-px">{<ArrowDown />}</div>
+            <div className='mt-px'>{<ArrowDown />}</div>
           </div>
         </button>
         <div ref={userRef}>
@@ -52,19 +52,19 @@ const User = ({ userIsVisible, setUserIsVisible, userRef }) => {
             >
               {[
                 {
-                  url: "/messages",
-                  text: "Messages",
+                  url: '/messages',
+                  text: 'Messages',
                   unread: true,
                   svg: <AngleRight />,
                 },
-                { url: "#", text: "Settings" },
+                { url: '#', text: 'Settings' },
                 {
-                  url: "/login",
-                  text: "Logout",
+                  url: '/login',
+                  text: 'Logout',
                   onClick: (e) => {
-                    localStorage.removeItem("safely_buy_token");
+                    localStorage.removeItem('safely_buy_token');
                   },
-                  color: "red",
+                  color: 'red',
                 },
               ].map((e) => (
                 <Link key={Date.now() + Math.random()} to={e.url}>
@@ -76,7 +76,7 @@ const User = ({ userIsVisible, setUserIsVisible, userRef }) => {
                         {e.text}
                       </span>
                       {e.unread && (
-                        <div className="relative h-2 w-2 ml-1 -top-2 inline-block bg-red-500 rounded-full"></div>
+                        <div className='relative h-2 w-2 ml-1 -top-2 inline-block bg-red-500 rounded-full'></div>
                       )}
                     </div>
                     {e.svg && e.svg}
