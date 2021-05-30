@@ -486,7 +486,7 @@ const TableBody = ({
                 {row.cells.map((cell) => {
                   return (
                     <td
-                      style={{ minWidth: '150px' }}
+                      style={{ minWidth: '50px' }}
                       className='border-b-2 pr-4 min-w-max border-gray-100 py-4'
                       {...cell.getCellProps()}
                     >

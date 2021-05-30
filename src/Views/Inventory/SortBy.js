@@ -21,7 +21,7 @@ export default function SortBy({ selectRef, isVisible, setIsVisible }) {
             else setIsVisible(true);
             e.stopPropagation();
           }}
-          className='relative w-full bg-purple-100 border border-gray-300 rounded-full shadow-sm pl-3 pr-10 py-3 text-left cursor-pointer focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
+          className='relative w-full bg-purple-100 border border-gray-300 rounded-full shadow-sm pl-3 pr-10 py-2 text-left cursor-pointer focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
         >
           <span className='flex items-center'>
             <span className='ml-3 block text-purple-500 truncate'>

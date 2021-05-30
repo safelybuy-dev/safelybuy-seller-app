@@ -31,7 +31,6 @@ const Inventory = ({ value }) => {
               icon={<PlusIcon />}
             />
           )}
-
           {value === 'Tickets' && (
             <Button
               canClick={true}
@@ -46,12 +45,10 @@ const Inventory = ({ value }) => {
         </span>
       </div>
       <InventoryTableView />
-
       <Modal
         selectedProduct={selectedProduct}
         setSelectedProduct={setSelectedProduct}
       />
-
       <TicketModal
         openTicketModal={openTicketModal}
         setTicketModal={setTicketModal}

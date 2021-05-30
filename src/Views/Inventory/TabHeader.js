@@ -16,7 +16,7 @@ const TabbedButton = ({ text, position = 1, active, svg, tag }) => {
           !active
             ? 'bg-gradient-to-b text-purple-300 from-white to-gray-100'
             : 'bg-white text-purple-500'
-        } cursor-pointer px-8 pr-20 flex items-center rounded-tl-3xl rounded-tr-lg py-3 md:px-3 md:pr-6`}
+        } cursor-pointer px-6 pr-20 flex items-center rounded-tl-3xl rounded-tr-lg py-2 md:px-3 md:pr-6`}
         style={{ clipPath: 'polygon(0 0, 80% 0, 100% 100%, 0% 100%)' }}
       >
         <span className='inline-block mr-4 md:mr-2'>{svg}</span>
