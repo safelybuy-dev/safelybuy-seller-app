@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { ArrowRight } from 'svg';
 import Logo from 'components/Logo';
 import BankForm from './bankForm';
@@ -22,6 +22,10 @@ const SellerKyc = () => {
 
   // console.log(user);
 
+  useEffect(() => {
+    console.log('Hello');
+  }, [])
+
   const schema = yup.object().shape({
     business_name: yup.string().required('business name is  required '),
     dob: yup.string().required('date of birth  is  required '),
@@ -30,7 +34,7 @@ const SellerKyc = () => {
   // const [loadingUser, setLoadingUser] = useState(false);
   // const [loadingVerification, setLoadingVerification] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isSkipped, setIskipped] = useState(true);
+  const [isSkipped, setIskipped] = useState(false);
 
   const { register, handleSubmit, errors } = useForm({
     resolver: yupResolver(schema),
@@ -50,12 +54,13 @@ const SellerKyc = () => {
           utilities.formatErrorResponse(
             Object.values(err.response?.data?.error).flat()
           ),
-          { appearance: 'error' }
+          { appearance: 'error', autoDismiss: true }
         );
       }
 
       return addToast('Failed to complete seller information. Try again', {
         appearance: 'error',
+        autoDismiss: true,
       });
     }
   };
@@ -65,28 +70,19 @@ const SellerKyc = () => {
       <div className={`animate-pulse`}>
         <div className='flex flex-col'>
           <div className='h-6 my-2 bg-gray-200 rounded w-1/4'></div>
-          <div className='h-12 my-2 bg-gray-300 rounded-full w-full'></div>
+          <div className='h-12 my-2 bg-gray-300 rounded-full w-10/12'></div>
         </div>
 
         <div className='flex mt-6 flex-col'>
           <div className='h-6 my-2 bg-gray-200 rounded w-1/4'></div>
-          <div className='h-12 my-2 bg-gray-300 rounded-full w-full'></div>
+          <div className='h-12 my-2 bg-gray-300 rounded-full w-10/12'></div>
         </div>
 
         <div className='flex mt-6 flex-col'>
           <div className='h-6 my-2 bg-gray-200 rounded w-1/4'></div>
-          <div className='h-12 my-2 bg-gray-300 rounded-full w-full'></div>
+          <div className='h-12 my-2 bg-gray-300 rounded-full w-10/12'></div>
         </div>
 
-        <div className='flex mt-6 flex-col'>
-          <div className='h-6 my-2 bg-gray-200 rounded w-1/4'></div>
-          <div className='h-12 my-2 bg-gray-300 rounded-full w-full'></div>
-        </div>
-
-        <div className='flex mt-6 flex-col'>
-          <div className='h-6 my-2 bg-gray-200 rounded w-1/4'></div>
-          <div className='h-12 my-2 bg-gray-300 rounded-full w-full'></div>
-        </div>
       </div>
     </>
   );
@@ -311,7 +307,7 @@ const SellerKyc = () => {
                     ))}
                   </select>
                   {errors.dob && (
-                    <span className='error-span'>{errors.dob?.message}</span>
+                    <span className='error-span'>{errors.state?.message}</span>
                   )}
                 </div>
               </div>
@@ -329,7 +325,7 @@ const SellerKyc = () => {
                   />
                 </div>
               </div>
-
+{/* 
               <div className='text-left mr-2'>
                 <label className='text-sm my-2' htmlFor='email'>
                   Business Name
@@ -355,6 +351,7 @@ const SellerKyc = () => {
                   )}
                 </div>
               </div>
+              */}
               <div className='text-left'>
                 <div className='my-4 flex justify-center'>
                   <small
@@ -445,9 +442,6 @@ const SellerKyc = () => {
         </div>
 
         <div>{isLoading ? <Loading /> : <Form />}</div>
-      </div>
-      <div className='relative z-10'>
-        <Footer />
       </div>
     </div>
   ) : (

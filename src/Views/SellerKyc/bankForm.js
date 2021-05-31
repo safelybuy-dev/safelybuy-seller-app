@@ -35,7 +35,7 @@ const BankForm = ({ setIsLoading, dispatch }) => {
       setAccountNameLoading(false);
 
       if (!status) {
-        addToast(message, { appearance: 'error' });
+        addToast(message, { appearance: 'error', autoDismiss: true});
         return;
       }
 
@@ -46,7 +46,7 @@ const BankForm = ({ setIsLoading, dispatch }) => {
       }
     } catch (err) {
       addToast(err.message || 'Failed to get account Name', {
-        appearance: 'error',
+        appearance: 'error', autoDismiss: true
       });
       setAccountNameLoading(false);
       return;
@@ -64,12 +64,13 @@ const BankForm = ({ setIsLoading, dispatch }) => {
       });
 
       if (status === 'success') {
-        addToast('Successfully added bank details', { appearance: 'success' });
+        addToast('Successfully added bank details', { appearance: 'success', autoDismiss: true});
         return history.push('/');
       }
     } catch (err) {
       addToast(err.message || 'Failed to save bank details', {
         appearance: 'error',
+        autoDismiss: true
       });
     }
   };

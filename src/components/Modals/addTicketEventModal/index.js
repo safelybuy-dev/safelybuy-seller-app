@@ -130,7 +130,7 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
     other_event_ticket_image_3,
   } = eventData;
 
-  console.log(category, title, details, event_date, event_time, location);
+  // console.log(category, title, details, event_date, event_time, location);
 
   const { register, handleSubmit, errors, watch, control } = useForm({
     defaultValues: {

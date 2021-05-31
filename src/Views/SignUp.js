@@ -76,11 +76,12 @@ const SignUpPage = () => {
           utilities.formatErrorResponse(
             Object.values(err.response?.data?.error).flat()
           ),
-          { appearance: 'error' }
+          { appearance: 'error', autoDismiss: true}
         );
       }
       return addToast(err.message || 'Failed to sign up try again', {
         appearance: 'error',
+        autoDismiss: true
       });
     }
   };

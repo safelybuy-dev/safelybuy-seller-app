@@ -1,421 +1,164 @@
 import React from 'react';
 import { useTable } from 'react-table';
-import image4 from 'assets/images/image4.png';
 import Button from 'components/Button';
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
 const TableBody = ({
   active,
   setActive,
+  items = [],
   setSelectedProduct,
-  setSelectedSeller,
+  deleteItem,
+  selloutItem,
 }) => {
+  const handleDelete = React.useCallback(
+    (id) => {
+      confirmAlert({
+        title: 'Delete Item',
+        message: 'Are you sure you want to delete the item?',
+        buttons: [
+          {
+            label: 'Yes',
+            onClick: () => deleteItem(id),
+          },
+          {
+            label: 'No',
+            onClick: () => {},
+          },
+        ],
+      });
+    },
+    [deleteItem]
+  );
+
+  const handleSellout = React.useCallback(
+    (id) => {
+      confirmAlert({
+        title: 'Sellout Item',
+        message: 'Are you sure you want to mark this item as sold out??',
+        buttons: [
+          {
+            label: 'Yes',
+            onClick: () => selloutItem(id),
+          },
+          {
+            label: 'No',
+            onClick: () => {},
+          },
+        ],
+      });
+    },
+    [selloutItem]
+  );
+
   const data = React.useMemo(
-    () => [
-      {
-        status: 'Active',
-        image: (
-          <img
-            className='w-12 h-12 object-cover rounded-lg'
-            src={image4}
-            alt='...'
-          />
-        ),
-        sku: (
-          <>
-            <div>SB-#2123434343</div>
-            <div className='text-sm text-gray-400'>New</div>
-          </>
-        ),
-        desc: (
-          <div>
-            <p
-              onClick={() => setSelectedProduct({ name: 'New Meaning' })}
-              className='text-purple-600 cursor-pointer text-sm'
-            >
-              Xaomi Pocophone F1
-            </p>
-            <p className='text-sm text-gray-400'>128GB RAM / 64GB ROM</p>
-          </div>
-        ),
-        location: 'Warri, Delta',
-        seller: (
-          <p
-            onClick={() => setSelectedSeller({ name: 'New Meaning' })}
-            className='text-purple-500 cursor-pointer'
-          >
-            Kareem Chibuzor
-          </p>
-        ),
-        date: (
-          <div>
-            <p className=''>
-              {new Intl.DateTimeFormat('en-GB', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric',
-                hour: 'numeric',
-                hour12: true,
-                minute: 'numeric',
-              }).format(Date.now())}
-            </p>
-            <p className='text-sm text-gray-400'>
-              {new Intl.DateTimeFormat('en-GB', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric',
-                hour: 'numeric',
-                hour12: true,
-                minute: 'numeric',
-              }).format(Date.now())}
-            </p>
-          </div>
-        ),
-        actions: (
-          <div>
-            <Button roundedFull primary>
-              Approve
-            </Button>
-            <span className='inline-block p-1'></span>
-            <Button roundedFull danger>
-              Deny
-            </Button>
-          </div>
-        ),
-      },
-      {
-        status: 'Active',
-        image: (
-          <img
-            className='w-12 h-12 object-cover rounded-lg'
-            src={image4}
-            alt='...'
-          />
-        ),
-        sku: (
-          <>
-            <div>SB-#2123434343</div>
-            <div className='text-sm text-gray-400'>New</div>
-          </>
-        ),
-        desc: (
-          <div>
-            <p
-              onClick={() => setSelectedProduct({ name: 'New Meaning' })}
-              className='text-purple-600 cursor-pointer text-sm'
-            >
-              Xaomi Pocophone F1
-            </p>
-            <p className='text-sm text-gray-400'>128GB RAM / 64GB ROM</p>
-          </div>
-        ),
-        location: 'Warri, Delta',
-        seller: (
-          <p
-            onClick={() => setSelectedSeller({ name: 'New Meaning' })}
-            className='text-purple-500 cursor-pointer'
-          >
-            Kareem Chibuzor
-          </p>
-        ),
-        date: (
-          <div>
-            <p className=''>
-              {new Intl.DateTimeFormat('en-GB', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric',
-                hour: 'numeric',
-                hour12: true,
-                minute: 'numeric',
-              }).format(Date.now())}
-            </p>
-            <p className='text-sm text-gray-400'>
-              {new Intl.DateTimeFormat('en-GB', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric',
-                hour: 'numeric',
-                hour12: true,
-                minute: 'numeric',
-              }).format(Date.now())}
-            </p>
-          </div>
-        ),
-        actions: (
-          <div className='min-w-max'>
-            <div className='justify-around'>
-              <Button rounded secondary>
-                Edit
-              </Button>
-              <span className='inline-block p-2'></span>
-              <Button rounded primary>
-                Print Details
-              </Button>
+    () =>
+      items
+        .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+        .filter((item) => item.status === active || active === 'all')
+        .map((item) => ({
+          id: item.id,
+          status: <div className='min-w-max capitalize'>{item.status}</div>,
+          image: (
+            <div className='min-w-max'>
+              <img
+                className='w-12 h-12 object-cover rounded-lg'
+                src={item.main_image}
+                alt={item.title}
+              />
             </div>
-            <span className='inline-block p-px'></span>
-            <div className='justify-around'>
-              <Button rounded alternate>
-                Sold Out
-              </Button>
-              <span className='inline-block p-2'></span>
-              <Button rounded danger>
-                Delete
-              </Button>
+          ),
+          sku: (
+            <div className='min-w-max'>
+              <div>{item.seller_sku}</div>
+              <div className='text-sm text-gray-400'>{item.condition}</div>
             </div>
-          </div>
-        ),
-      },
-      {
-        status: 'Active',
-        image: (
-          <img
-            className='w-12 h-12 object-cover rounded-lg'
-            src={image4}
-            alt='...'
-          />
-        ),
-        sku: (
-          <>
-            <div>SB-#2123434343</div>
-            <div className='text-sm text-gray-400'>New</div>
-          </>
-        ),
-        desc: (
-          <div>
-            <p
-              onClick={() => setSelectedProduct({ name: 'New Meaning' })}
-              className='text-purple-600 cursor-pointer text-sm'
-            >
-              Xaomi Pocophone F1
-            </p>
-            <p className='text-sm text-gray-400'>128GB RAM / 64GB ROM</p>
-          </div>
-        ),
-        location: 'Warri, Delta',
-        seller: (
-          <p
-            onClick={() => setSelectedSeller({ name: 'New Meaning' })}
-            className='text-purple-500 cursor-pointer'
-          >
-            Kareem Chibuzor
-          </p>
-        ),
-        date: (
-          <div>
-            <p className=''>
-              {new Intl.DateTimeFormat('en-GB', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric',
-                hour: 'numeric',
-                hour12: true,
-                minute: 'numeric',
-              }).format(Date.now())}
-            </p>
-            <p className='text-sm text-gray-400'>
-              {new Intl.DateTimeFormat('en-GB', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric',
-                hour: 'numeric',
-                hour12: true,
-                minute: 'numeric',
-              }).format(Date.now())}
-            </p>
-          </div>
-        ),
-        actions: (
-          <>
-            <div className='justify-around'>
-              <Button rounded secondary>
-                Edit
-              </Button>
-              <span className='inline-block p-2'></span>
-              <Button rounded primary>
-                Print Details
-              </Button>
+          ),
+          desc: (
+            <div className='min-w-max'>
+              <p
+                // onClick={() => setSelectedProduct(item)}
+                className='text-purple-600 cursor-pointer text-sm'
+              >
+                {item.title}
+              </p>
+              <p className='text-sm text-gray-400'>{item.description}</p>
             </div>
-            <span className='inline-block p-px'></span>
-            <div className='justify-around'>
-              <Button rounded alternate>
-                Sold Out
-              </Button>
-              <span className='inline-block p-2'></span>
-              <Button rounded danger>
-                Delete
-              </Button>
+          ),
+          location: (
+            <div className='min-w-max'>{`${item.shipping_city}, ${item.shipping_state}`}</div>
+          ),
+          date: (
+            <div className='min-w-max'>
+              <p className=''>
+                {new Intl.DateTimeFormat('en-GB', {
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric',
+                  hour: 'numeric',
+                  hour12: true,
+                  minute: 'numeric',
+                }).format(Date.parse(item.created_at))}
+              </p>
+              <p className='text-sm text-gray-400'>
+                {new Intl.DateTimeFormat('en-GB', {
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric',
+                  hour: 'numeric',
+                  hour12: true,
+                  minute: 'numeric',
+                }).format(Date.parse(item.updated_at))}
+              </p>
             </div>
-          </>
-        ),
-      },
-      {
-        status: 'Active',
-        image: (
-          <img
-            className='w-12 h-12 object-cover rounded-lg'
-            src={image4}
-            alt='...'
-          />
-        ),
-        sku: (
-          <>
-            <div>SB-#2123434343</div>
-            <div className='text-sm text-gray-400'>New</div>
-          </>
-        ),
-        desc: (
-          <div>
-            <p
-              onClick={() => setSelectedProduct({ name: 'New Meaning' })}
-              className='text-purple-600 cursor-pointer text-sm'
-            >
-              Xaomi Pocophone F1
-            </p>
-            <p className='text-sm text-gray-400'>128GB RAM / 64GB ROM</p>
-          </div>
-        ),
-        location: 'Warri, Delta',
-        seller: (
-          <p
-            onClick={() => setSelectedSeller({ name: 'New Meaning' })}
-            className='text-purple-500 cursor-pointer'
-          >
-            Kareem Chibuzor
-          </p>
-        ),
-        date: (
-          <div>
-            <p className=''>
-              {new Intl.DateTimeFormat('en-GB', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric',
-                hour: 'numeric',
-                hour12: true,
-                minute: 'numeric',
-              }).format(Date.now())}
-            </p>
-            <p className='text-sm text-gray-400'>
-              {new Intl.DateTimeFormat('en-GB', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric',
-                hour: 'numeric',
-                hour12: true,
-                minute: 'numeric',
-              }).format(Date.now())}
-            </p>
-          </div>
-        ),
-        actions: (
-          <>
-            <div className='justify-around'>
-              <Button rounded secondary>
-                Edit
-              </Button>
-              <span className='inline-block p-2'></span>
-              <Button rounded primary>
-                Print Details
-              </Button>
+          ),
+          available: (
+            <div className='inline-block py-1 w-8 text-center mx-1 border rounded-md'>
+              {item.available}
             </div>
-            <span className='inline-block p-px'></span>
-            <div className='justify-around'>
-              <Button rounded alternate>
-                Sold Out
-              </Button>
-              <span className='inline-block p-2'></span>
-              <Button rounded danger>
-                Delete
-              </Button>
+          ),
+          actions: (
+            <div className='min-w-max'>
+              {item.approval_status === 'pending' ? (
+                <span onClick={() => handleDelete(item.id)}>
+                  <Button rounded danger>
+                    Delete
+                  </Button>
+                </span>
+              ) : item.approval_status === 'approved' ? (
+                <>
+                  {/* <div className='justify-around'>
+                  <Button rounded secondary>
+                    Edit
+                  </Button>
+                  <span className='inline-block p-2'></span>
+                  <Button rounded primary>
+                    Print Details
+                  </Button>
+                </div> */}
+                  {/* <span className='inline-block p-px'></span> */}
+                  <div className='justify-around'>
+                    <span onClick={() => handleSellout(item.id)}>
+                      <Button rounded alternate>
+                        Sold Out
+                      </Button>
+                    </span>
+                    <span className='inline-block p-2'></span>
+                    <span onClick={() => handleDelete(item.id)}>
+                      <Button rounded danger>
+                        Delete
+                      </Button>
+                    </span>
+                  </div>
+                </>
+              ) : (
+                <p className='text-gray-300'>Item denied</p>
+              )}
             </div>
-          </>
-        ),
-      },
-      {
-        status: 'Active',
-        image: (
-          <img
-            className='w-12 h-12 object-cover rounded-lg'
-            src={image4}
-            alt='...'
-          />
-        ),
-        sku: (
-          <>
-            <div>SB-#2123434343</div>
-            <div className='text-sm text-gray-400'>New</div>
-          </>
-        ),
-        desc: (
-          <div>
-            <p
-              onClick={() => setSelectedProduct({ name: 'New Meaning' })}
-              className='text-purple-600 cursor-pointer text-sm'
-            >
-              Xaomi Pocophone F1
-            </p>
-            <p className='text-sm text-gray-400'>128GB RAM / 64GB ROM</p>
-          </div>
-        ),
-        location: 'Warri, Delta',
-        seller: (
-          <p
-            onClick={() => setSelectedSeller({ name: 'New Meaning' })}
-            className='text-purple-500 cursor-pointer'
-          >
-            Kareem Chibuzor
-          </p>
-        ),
-        date: (
-          <div>
-            <p className=''>
-              {new Intl.DateTimeFormat('en-GB', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric',
-                hour: 'numeric',
-                hour12: true,
-                minute: 'numeric',
-              }).format(Date.now())}
-            </p>
-            <p className='text-sm text-gray-400'>
-              {new Intl.DateTimeFormat('en-GB', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric',
-                hour: 'numeric',
-                hour12: true,
-                minute: 'numeric',
-              }).format(Date.now())}
-            </p>
-          </div>
-        ),
-        actions: (
-          <>
-            <div className='justify-around'>
-              <Button rounded secondary>
-                Edit
-              </Button>
-              <span className='inline-block p-2'></span>
-              <Button rounded primary>
-                Print Details
-              </Button>
-            </div>
-            <span className='inline-block p-px'></span>
-            <div className='justify-around'>
-              <Button rounded alternate>
-                Sold Out
-              </Button>
-              <span className='inline-block p-2'></span>
-              <Button rounded danger>
-                Delete
-              </Button>
-            </div>
-          </>
-        ),
-      },
-    ],
-    [setSelectedSeller, setSelectedProduct]
+          ),
+        })),
+    [active, items, setSelectedProduct, handleDelete, handleSellout]
   );
 
   const columns = React.useMemo(
@@ -441,7 +184,6 @@ const TableBody = ({
         accessor: 'desc',
       },
       { Header: 'Product Location', accessor: 'location' },
-      { Header: 'Seller', accessor: 'seller' },
       {
         Header: (
           <div className='flex flex-col'>
@@ -451,6 +193,7 @@ const TableBody = ({
         ),
         accessor: 'date',
       },
+      { Header: 'Available', accessor: 'available' },
       { Header: 'Actions', accessor: 'actions' },
     ],
     []
@@ -463,6 +206,14 @@ const TableBody = ({
     rows,
     prepareRow,
   } = useTable({ columns, data });
+
+  if (data.length < 1) {
+    return (
+      <div className='mt-20 mb-20 flex justify-center'>
+        <span className='text-purple-600'>No items Available</span>
+      </div>
+    );
+  }
 
   return (
     <div className='overflow-x-scroll mt-8'>

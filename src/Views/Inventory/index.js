@@ -4,12 +4,63 @@ import TicketModal from 'components/Modals/addTicketEventModal';
 import Button from 'components/Button';
 import { useRouteMatch } from 'react-router-dom';
 import { PlusIcon } from 'svg';
-import InventoryTableView from "./InventoryTableView";
+import InventoryTableView from './InventoryTableView';
+import { axiosWithAuth } from 'auth';
+import { baseUrl } from 'api';
+import { useToasts } from 'react-toast-notifications';
 
 const Inventory = ({ value }) => {
   let { url } = useRouteMatch();
+  const { addToast } = useToasts();
   const [selectedProduct, setSelectedProduct] = useState(false);
   const [openTicketModal, setTicketModal] = useState(false);
+  const [shoppingInventory, setShoppingInventory] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const fetchInventory = async () => {
+    setLoading(true);
+    const response = await axiosWithAuth().get(
+      `${baseUrl}/api/v1/report/shop-inventory`
+    );
+    setShoppingInventory(response?.data?.inventory);
+    setLoading(false);
+  };
+
+  const deleteItem = async (id) => {
+    try {
+      setLoading(true);
+      await axiosWithAuth().post(`${baseUrl}/api/v1/seller/item/d/${id}`);
+      setLoading(false);
+      addToast('Item deleted from inventory', {
+        appearance: 'success',
+        autoDismiss: true,
+      });
+      fetchInventory();
+    } catch (error) {
+      console.log(error.message, error.response);
+      addToast(error.message, { appearance: 'error', autoDismiss: true });
+    }
+  };
+
+  const selloutItem = async (id) => {
+    try {
+      setLoading(true);
+      await axiosWithAuth().post(`${baseUrl}/api/v1/seller/item/sellout/${id}`);
+      setLoading(false);
+      addToast('Item sold out', {
+        appearance: 'success',
+        autoDismiss: true,
+      });
+      fetchInventory();
+    } catch (error) {
+      console.log(error.message, error.response);
+      addToast(error.message, { appearance: 'error', autoDismiss: true });
+    }
+  };
+
+  useEffect(() => {
+    fetchInventory();
+  }, []);
 
   useEffect(() => {
     if (url.includes('add')) return setSelectedProduct(true);
@@ -28,7 +79,7 @@ const Inventory = ({ value }) => {
               text='Add a New Product'
               primary
               roundedFull
-              icon={<PlusIcon />}
+              icon={<PlusIcon scale={1.2} />}
             />
           )}
           {value === 'Tickets' && (
@@ -44,7 +95,12 @@ const Inventory = ({ value }) => {
           )}
         </span>
       </div>
-      <InventoryTableView />
+      <InventoryTableView
+        loading={loading}
+        items={shoppingInventory}
+        deleteItem={deleteItem}
+        selloutItem={selloutItem}
+      />
       <Modal
         selectedProduct={selectedProduct}
         setSelectedProduct={setSelectedProduct}

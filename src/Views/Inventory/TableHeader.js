@@ -30,7 +30,7 @@ export default function TableHeader({ active, setActive }) {
           setIsVisible={setIsSortVisible}
         /> */}
       </div>
-      <div className='flex items-center md:w-full md:border-t md:border-b md:mt-4 md:py-4 md:justify-between'>
+      {/* <div className='flex items-center md:w-full md:border-t md:border-b md:mt-4 md:py-4 md:justify-between'>
         <ItemsPerPage
           selectRef={itemsRef}
           isVisible={isItemsVisible}
@@ -52,7 +52,7 @@ export default function TableHeader({ active, setActive }) {
             </span>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

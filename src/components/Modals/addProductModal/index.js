@@ -9,6 +9,7 @@ import ProductLocation from './productLocation';
 import ReviewProducts from './reviewProduct';
 import axios from 'axios';
 import { baseURL } from 'helpers';
+import Container from 'components/Container';
 
 export const CameraSVG = () => (
   <svg
@@ -258,13 +259,13 @@ const Modal = ({ selectedProduct, setSelectedProduct }) => {
     }
 
     try {
-      const response = await axios({
+      await axios({
         method: 'post',
         url: `${baseURL}/item/add`,
         data: body,
         headers: {
           'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiOGEzMzYxMjcxZTNiNGY0YzMzNDhjZmNmY2FmYzQ3ZGU4N2I5YmJjODBkNThjY2IyZjJiNmM3YmRlYzI2ZjEyMzIyMGQwNzZkMTliZDI0YzAiLCJpYXQiOjE2MTUyOTU0OTAsIm5iZiI6MTYxNTI5NTQ5MCwiZXhwIjoxNjQ2ODMxNDg5LCJzdWIiOiI5NiIsInNjb3BlcyI6W119.L8yM-2fSouW3dcB9dxdwYvWJGWVietd-UFNI08yqi9_CVPyMGlpVxGE5-X13c5JjCveAfsUzs5r4g1WnOF6Be4ts3kEQye3Y6gnklGZy0I6pkgVP4qQTNENTgmsHXAzBUnzrWFg7K3aC6RPNY-tm31pWenH0ZRbk4JJlq0M6xsmfmcw6b_k5UhfaqZ84TPc7FeJR3thD0r7UW5DWGUlO5qaDR2yH9ala54yPFJ9JWMvD2Gj3HXGDRRn96Ph4J9t3P2HX0DqVlQPRXFvLj5-kQvjtuI2PQpmZ4SNbYuVbpqfrQ3EcQQUhNWfePJxI1lG67o88_dDqCxio7R5wCPw74AeA4LNpKuOH7oCxmWV7CNqKQCw5OA2QmRTX_xFP72KPLVKJODAYPi4T1pwddlBVzYBOsmzAAHTkF_V03TKR5aQ41NVvjIKOcHkM5OXYuB1evenSsew8MRS5cq3fceNPJRE5Ao8YV_XvPzNkvuAbZxxI8ClSoyBOx33KKsCBY4-9kGacU5P3Anxx2NaKSk1DlVTBV_-wpztuYZDeQ6XLgM72GhNp9vGlZZLefwrMCSOSdhfxN6FARqLx6NiOHgtDbVNtM7ipz9Qv89i4WMESaqnmSAE03eqE64ls4A-zy-jdkbHQXNxzd2SKHnVV5d-JN--_1NAIjKO9CQUvsBCL64o`,
+          Authorization: `Bearer ${localStorage.getItem('safely_buy_token')}`,
         },
       });
       history.push({
@@ -380,301 +381,303 @@ const Modal = ({ selectedProduct, setSelectedProduct }) => {
       onClick={() => setSelectedProduct(null)}
       className='fixed overflow-scroll top-0 left-0 z-50 w-screen py-40 px-40 md:py-0 md:px-0 h-screen bg-purple-600 bg-opacity-30'
     >
-      <div
-        onClick={(e) => e.stopPropagation()}
-        className='flex flex-col relative rounded-3xl md:rounded-none px-10 py-10 md:px-4 md:py-4 left-0 bg-white opacity-100 min-h-1/2'
-      >
-        <div className='flex justify-between w-full pb-10 items-start'>
-          <h3 className='text-2xl'>
-            {' '}
-            {step === 5 ? 'Product Details' : 'Add a new product'}
-          </h3>
+      <Container>
+        <div
+          onClick={(e) => e.stopPropagation()}
+          className='flex flex-col relative rounded-3xl md:rounded-none px-10 py-10 md:px-4 md:py-4 left-0 bg-white opacity-100 min-h-1/2'
+        >
+          <div className='flex justify-between w-full pb-10 items-start'>
+            <h3 className='text-2xl'>
+              {' '}
+              {step === 5 ? 'Product Details' : 'Add a new product'}
+            </h3>
 
-          {step === 0 && (
-            <ModalButton
-              able={subcategory_id && condition && brand}
-              handler={() => setSteps(1)}
-            />
-          )}
+            {step === 0 && (
+              <ModalButton
+                able={subcategory_id && condition && brand}
+                handler={() => setSteps(1)}
+              />
+            )}
 
-          {step === 1 && (
-            <ModalButton
-              able={enableFirstContinueBtn}
-              handler={() => setSteps(2)}
-            />
-          )}
+            {step === 1 && (
+              <ModalButton
+                able={enableFirstContinueBtn}
+                handler={() => setSteps(2)}
+              />
+            )}
 
-          {step === 2 && (
-            <ModalButton
-              able={enableSecondContinueBtn}
-              handler={() => setSteps(3)}
-            />
-          )}
+            {step === 2 && (
+              <ModalButton
+                able={enableSecondContinueBtn}
+                handler={() => setSteps(3)}
+              />
+            )}
 
-          {step === 3 && (
-            <ModalButton
-              able={enableThirdContinueBtn}
-              handler={() => setSteps(4)}
+            {step === 3 && (
+              <ModalButton
+                able={enableThirdContinueBtn}
+                handler={() => setSteps(4)}
+              />
+            )}
+
+            {step === 4 && (
+              <ModalButton
+                able={enableFourthContinueBtn}
+                handler={() => setSteps(5)}
+              />
+            )}
+
+            {step === 5 && (
+              <ModalButton
+                able={enableFifthContinueBtn}
+                handler={submitSellerProduct}
+              />
+            )}
+
+            <span
+              onClick={() => setSelectedProduct(null)}
+              className='inline-block cursor-pointer rounded-full bg-red-500 p-3  absolute -right-8 -top-7'
+            >
+              <CloseIcon color='white' />
+            </span>
+          </div>
+
+          {step === 5 && (
+            <ReviewProducts
+              data={state}
+              setSteps={setSteps}
+              setFifthContinueBtn={setFifthContinueBtn}
+              ProductsFormAndUpdater={ProductsFormAndUpdater}
             />
           )}
 
           {step === 4 && (
-            <ModalButton
-              able={enableFourthContinueBtn}
-              handler={() => setSteps(5)}
+            <ProductLocation
+              setSteps={setSteps}
+              setFourthContinueBtn={setFourthContinueBtn}
+              ProductsFormAndUpdater={ProductsFormAndUpdater}
             />
           )}
 
-          {step === 5 && (
-            <ModalButton
-              able={enableFifthContinueBtn}
-              handler={submitSellerProduct}
+          {step === 3 && (
+            <ProductImages
+              setSteps={setSteps}
+              product_images={product_images}
+              dispatchProductImage={dispatchProductImage}
+              setThirdContinueBtn={setThirdContinueBtn}
+              ProductsFormAndUpdater={ProductsFormAndUpdater}
             />
           )}
-
-          <span
-            onClick={() => setSelectedProduct(null)}
-            className='inline-block cursor-pointer rounded-full bg-red-500 p-3  absolute -right-8 -top-7'
-          >
-            <CloseIcon color='white' />
-          </span>
-        </div>
-
-        {step === 5 && (
-          <ReviewProducts
-            data={state}
-            setSteps={setSteps}
-            setFifthContinueBtn={setFifthContinueBtn}
-            ProductsFormAndUpdater={ProductsFormAndUpdater}
-          />
-        )}
-
-        {step === 4 && (
-          <ProductLocation
-            setSteps={setSteps}
-            setFourthContinueBtn={setFourthContinueBtn}
-            ProductsFormAndUpdater={ProductsFormAndUpdater}
-          />
-        )}
-
-        {step === 3 && (
-          <ProductImages
-            setSteps={setSteps}
-            product_images={product_images}
-            dispatchProductImage={dispatchProductImage}
-            setThirdContinueBtn={setThirdContinueBtn}
-            ProductsFormAndUpdater={ProductsFormAndUpdater}
-          />
-        )}
-        {step === 2 && (
-          <InventorySales
-            ProductsFormAndUpdater={ProductsFormAndUpdater}
-            setSteps={setSteps}
-            setSecondContinueBtn={setSecondContinueBtn}
-          />
-        )}
-        {step === 1 && (
-          <TitleAndSpec
-            category_id={category_id}
-            subcategory_id={subcategory_id}
-            ProductsFormAndUpdater={ProductsFormAndUpdater}
-            setFirstContinueBtn={setFirstContinueBtn}
-            setSteps={setSteps}
-          />
-        )}
-        {step === 0 && (
-          <>
-            <div className='flex mr-4 md:mr-0 md:flex-col'>
-              <div className='flex flex-col  ml-4 md:w-full'>
-                <div className='flex flex-col  w-full md:ml-0 md:mt-4'>
-                  <h4 className='text-xl text-purple-500'>Select category</h4>
-                  <p>
-                    Pick a category listed below, after completing this process
-                    your product will be reviewed.
-                  </p>
-                  <div className='mt-6 flex col'></div>
+          {step === 2 && (
+            <InventorySales
+              ProductsFormAndUpdater={ProductsFormAndUpdater}
+              setSteps={setSteps}
+              setSecondContinueBtn={setSecondContinueBtn}
+            />
+          )}
+          {step === 1 && (
+            <TitleAndSpec
+              category_id={category_id}
+              subcategory_id={subcategory_id}
+              ProductsFormAndUpdater={ProductsFormAndUpdater}
+              setFirstContinueBtn={setFirstContinueBtn}
+              setSteps={setSteps}
+            />
+          )}
+          {step === 0 && (
+            <>
+              <div className='flex mr-4 md:mr-0 md:flex-col'>
+                <div className='flex flex-col  ml-4 md:w-full'>
+                  <div className='flex flex-col  w-full md:ml-0 md:mt-4'>
+                    <h4 className='text-xl text-purple-500'>Select category</h4>
+                    <p>
+                      Pick a category listed below, after completing this
+                      process your product will be reviewed.
+                    </p>
+                    <div className='mt-6 flex col'></div>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className='flex'>
-              <div className='flex-1 ...'>
-                <p>Category</p>
-                <ul>
-                  {[
-                    {
-                      value: 1,
-                      name: 'gadgetType',
-                      label: 'Phone and Accessories',
-                    },
-                    {
-                      value: 2,
-                      name: 'gadgetType',
-                      label: 'IPad, Tablet and Accessories',
-                    },
-                    {
-                      value: 3,
-                      name: 'gadgetType',
-                      label: 'Laptop and Accessories',
-                    },
-                    {
-                      value: 4,
-                      name: 'gadgetType',
-                      label: 'Other Gadgets',
-                    },
-                  ].map((each, index) => (
-                    <li
-                      key={index}
-                      className='cursor-pointer'
-                      onClick={() => {
-                        dispatch({
-                          type: 'change-category',
-                          payload: each.value,
-                        });
-                      }}
-                    >
-                      <input
-                        onChange={(e) => {}}
-                        checked={each.value === category_id}
-                        className='m-2 cursor-pointer'
-                        type='radio'
-                        value={each.value}
-                        name={each.name}
-                      />
-                      <small>{each.label}</small>
-                    </li>
-                  ))}
-                </ul>
+              <div className='flex'>
+                <div className='flex-1 ...'>
+                  <p>Category</p>
+                  <ul>
+                    {[
+                      {
+                        value: 1,
+                        name: 'gadgetType',
+                        label: 'Phone and Accessories',
+                      },
+                      {
+                        value: 2,
+                        name: 'gadgetType',
+                        label: 'IPad, Tablet and Accessories',
+                      },
+                      {
+                        value: 3,
+                        name: 'gadgetType',
+                        label: 'Laptop and Accessories',
+                      },
+                      {
+                        value: 4,
+                        name: 'gadgetType',
+                        label: 'Other Gadgets',
+                      },
+                    ].map((each, index) => (
+                      <li
+                        key={index}
+                        className='cursor-pointer'
+                        onClick={() => {
+                          dispatch({
+                            type: 'change-category',
+                            payload: each.value,
+                          });
+                        }}
+                      >
+                        <input
+                          onChange={(e) => {}}
+                          checked={each.value === category_id}
+                          className='m-2 cursor-pointer'
+                          type='radio'
+                          value={each.value}
+                          name={each.name}
+                        />
+                        <small>{each.label}</small>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className='flex-1 border-l-2 p-3'>
+                  <p>Sub-category</p>
+                  <ul>
+                    {subCategoryObj[category_id].map((each, index) => (
+                      <li
+                        key={index}
+                        onClick={() => {
+                          dispatch({
+                            type: 'change-subCategory',
+                            payload: each.value,
+                          });
+                        }}
+                        className='cursor-pointer'
+                      >
+                        <input
+                          onChange={(e) => {}}
+                          checked={each.value === subcategory_id}
+                          className='m-2'
+                          type='radio'
+                          value={each.value}
+                          name={each.name}
+                        />
+                        <small>{each.label}</small>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className='flex-1 border-l-2 p-3'>
+                  <p>Condition</p>
+                  <ul>
+                    {[
+                      {
+                        value: 'New',
+                        name: 'condition',
+                        label: 'New',
+                      },
+                      {
+                        value: 'Used',
+                        name: 'condition',
+                        label: 'Used',
+                      },
+                    ].map((each, index) => (
+                      <li
+                        key={index}
+                        onClick={() => {
+                          dispatch({
+                            type: 'change-condition',
+                            payload: each.value,
+                          });
+                        }}
+                        className='cursor-pointer'
+                      >
+                        <input
+                          onChange={(e) => {}}
+                          checked={each.value === condition}
+                          className='m-2'
+                          type='radio'
+                          value={each.value}
+                          name={each.name}
+                        />
+                        <small>{each.label}</small>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className='flex-1 ... border-l-2 p-3'>
+                  <p>Brand</p>
+                  <ul>
+                    {[
+                      {
+                        value: 'Apple',
+                        name: 'brand',
+                        label: 'Apple',
+                      },
+                      {
+                        value: 'Samsung',
+                        name: 'brand',
+                        label: 'Samsung',
+                      },
+                      ...(category_id === 3
+                        ? [
+                            {
+                              value: 'Hp',
+                              name: 'laptop_access_brand',
+                              label: 'Hp',
+                            },
+                            {
+                              value: 'Lenovo',
+                              name: 'laptop_access_brand',
+                              label: 'Lenovo',
+                            },
+                          ]
+                        : []),
+                      ...(category_id === 4
+                        ? [
+                            {
+                              value: 'JBL',
+                              name: 'other_brand',
+                              label: 'JBL',
+                            },
+                          ]
+                        : []),
+                    ].map((each, index) => (
+                      <li
+                        key={index}
+                        onClick={() => {
+                          dispatch({
+                            type: 'change-brand',
+                            payload: each.value,
+                          });
+                        }}
+                        className='cursor-pointer'
+                      >
+                        <input
+                          onChange={(e) => {}}
+                          checked={each.value === brand}
+                          className='m-2'
+                          type='radio'
+                          value={each.value}
+                          name={each.name}
+                        />
+                        <small>{each.label}</small>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-              <div className='flex-1 border-l-2 p-3'>
-                <p>Sub-category</p>
-                <ul>
-                  {subCategoryObj[category_id].map((each, index) => (
-                    <li
-                      key={index}
-                      onClick={() => {
-                        dispatch({
-                          type: 'change-subCategory',
-                          payload: each.value,
-                        });
-                      }}
-                      className='cursor-pointer'
-                    >
-                      <input
-                        onChange={(e) => {}}
-                        checked={each.value === subcategory_id}
-                        className='m-2'
-                        type='radio'
-                        value={each.value}
-                        name={each.name}
-                      />
-                      <small>{each.label}</small>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className='flex-1 border-l-2 p-3'>
-                <p>Condition</p>
-                <ul>
-                  {[
-                    {
-                      value: 'New',
-                      name: 'condition',
-                      label: 'New',
-                    },
-                    {
-                      value: 'Used',
-                      name: 'condition',
-                      label: 'Used',
-                    },
-                  ].map((each, index) => (
-                    <li
-                      key={index}
-                      onClick={() => {
-                        dispatch({
-                          type: 'change-condition',
-                          payload: each.value,
-                        });
-                      }}
-                      className='cursor-pointer'
-                    >
-                      <input
-                        onChange={(e) => {}}
-                        checked={each.value === condition}
-                        className='m-2'
-                        type='radio'
-                        value={each.value}
-                        name={each.name}
-                      />
-                      <small>{each.label}</small>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className='flex-1 ... border-l-2 p-3'>
-                <p>Brand</p>
-                <ul>
-                  {[
-                    {
-                      value: 'Apple',
-                      name: 'brand',
-                      label: 'Apple',
-                    },
-                    {
-                      value: 'Samsung',
-                      name: 'brand',
-                      label: 'Samsung',
-                    },
-                    ...(category_id === 3
-                      ? [
-                          {
-                            value: 'Hp',
-                            name: 'laptop_access_brand',
-                            label: 'Hp',
-                          },
-                          {
-                            value: 'Lenovo',
-                            name: 'laptop_access_brand',
-                            label: 'Lenovo',
-                          },
-                        ]
-                      : []),
-                    ...(category_id === 4
-                      ? [
-                          {
-                            value: 'JBL',
-                            name: 'other_brand',
-                            label: 'JBL',
-                          },
-                        ]
-                      : []),
-                  ].map((each, index) => (
-                    <li
-                      key={index}
-                      onClick={() => {
-                        dispatch({
-                          type: 'change-brand',
-                          payload: each.value,
-                        });
-                      }}
-                      className='cursor-pointer'
-                    >
-                      <input
-                        onChange={(e) => {}}
-                        checked={each.value === brand}
-                        className='m-2'
-                        type='radio'
-                        value={each.value}
-                        name={each.name}
-                      />
-                      <small>{each.label}</small>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </>
-        )}
-      </div>
+            </>
+          )}
+        </div>
+      </Container>
     </div>
   );
 };

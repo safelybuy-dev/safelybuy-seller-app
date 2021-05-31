@@ -1,10 +1,11 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Logo from 'components/Logo';
 import Footer from 'components/Footer';
 import Button from 'components/Button';
 import SuccessSVG from './successSVG';
 import FailureSVG from './failureSVG';
+import { ArrowRight } from 'svg'
 
 const SuccessError = () => {
   const history = useHistory();
@@ -26,10 +27,14 @@ const SuccessError = () => {
             </>
           )}
         </div>
+        <div className='mt-10'></div>
+        <Link to='inventory'>
+          <Button secondary roundedLg icon={<ArrowRight color='white' />}>
+            {history.location.state?.data ? 'Continue' : 'Retry'}
+          </Button>
+        </Link>
       </div>
-      <div className='relative z-10'>
-        <Footer />
-      </div>
+      <Footer />
     </div>
   );
 };

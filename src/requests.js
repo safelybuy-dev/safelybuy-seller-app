@@ -38,7 +38,7 @@ export const axiosInstance = axios.create({
     'Access-Control-Allow-Headers':
       'Access-Control-Allow-Origin, Access-Control-Allow-Headers, Content-Type, x-xsrf-token',
     'Access-Control-Allow-Origin': '*',
-    Authorization: `Bearer ${token}`,
+    Authorization: `Bearer ${localStorage.getItem('safely_buy_token')}`,
   },
 });
 

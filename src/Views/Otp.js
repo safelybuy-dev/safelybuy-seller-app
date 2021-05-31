@@ -42,11 +42,13 @@ const Otp = () => {
 
         return addToast('Number successfully verified', {
           appearance: 'success',
+          autoDismiss: true
         });
       } catch (err) {
         setLoadingVerification(false);
         addToast(err?.response?.data?.message || 'Failed to verify OTP', {
           appearance: 'error',
+          autoDismiss: true
         });
       }
     };
