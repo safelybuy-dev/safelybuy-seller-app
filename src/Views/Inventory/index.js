@@ -71,18 +71,16 @@ const Inventory = ({ value }) => {
       <div className='flex justify-between w-full'>
         <h2 className='text-xl'>Manage Inventory</h2>
         <span className='inline-block'>
-          {value === 'Shopping' && (
-            <Button
-              canClick={true}
-              clickHandler={() => setSelectedProduct(true)}
-              event='onClick'
-              text='Add a New Product'
-              primary
-              roundedFull
-              icon={<PlusIcon scale={1.2} />}
-            />
-          )}
-          {value === 'Tickets' && (
+          <Button
+            canClick={true}
+            clickHandler={() => setSelectedProduct(true)}
+            event='onClick'
+            text='Add a New Product'
+            primary
+            roundedFull
+            icon={<PlusIcon scale={1.2} />}
+          />
+          {/* {value === 'Tickets' && (
             <Button
               canClick={true}
               clickHandler={() => setTicketModal(true)}
@@ -92,7 +90,7 @@ const Inventory = ({ value }) => {
               roundedFull
               icon='+'
             />
-          )}
+          )} */}
         </span>
       </div>
       <InventoryTableView

@@ -1,6 +1,6 @@
 import React from 'react';
 import Breadcrumb from 'components/Breadcrumb';
-import { ArrowRight } from 'svg';
+// import { ArrowRight } from 'svg';
 import Highlight from '../Dashboard/Main/Highlight';
 import RecentSalesTable from './RecentSales';
 
@@ -21,12 +21,12 @@ const Shopping = () => {
           </h3>
           <div className='mt-5 py-8 px-10 md:py-0 md:px-0 md:mt-0 rounded-3xl md:rounded-none bg-white'>
             <RecentSalesTable />
-            <div className='flex justify-between mt-8 pb-8 w-full'>
+            {/* <div className='flex justify-between mt-8 pb-8 w-full'>
               <span className='text-gray-500'>Showing 8 of 100</span>
               <div className='flex items-center text-purple-500'>
                 See all &nbsp; <ArrowRight />
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

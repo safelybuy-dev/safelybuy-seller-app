@@ -64,7 +64,7 @@ const Header = ({ setIsMenuOpen, isMenuOpen, prefrence, setPrefrence }) => {
               </Link>
             </div>
             <div className='flex items-center pl-12'>
-              <p
+              {/* <p
                 onClick={() => {
                   prefrence === 'Shopping'
                     ? setPrefrence('Tickets')
@@ -73,7 +73,7 @@ const Header = ({ setIsMenuOpen, isMenuOpen, prefrence, setPrefrence }) => {
                 className='mr-4 text-purple-500 cursor-pointer'
               >
                 Switch to {prefrence === 'Shopping' ? 'Tickets' : 'Shopping'}
-              </p>
+              </p> */}
 
               <Notifications
                 notRef={notRef}

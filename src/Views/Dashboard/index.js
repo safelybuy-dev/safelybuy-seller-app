@@ -13,13 +13,12 @@ import Container from 'components/Container';
 
 const Main = lazy(() => import('./Main'));
 const Messaging = lazy(() => import('./Main/Messaging'));
-const Shopping = lazy(() => import('../Shopping'));
-const ShoppingInventory = lazy(() => import('../Shopping/Inventory'));
+// const Shopping = lazy(() => import('../Shopping'));
 const Orders = lazy(() => import('../Shopping/Orders'));
-const Tickets = lazy(() => import('../Tickets'));
-const TicketsInventory = lazy(() => import('../Tickets/Inventory'));
+// const Tickets = lazy(() => import('../Tickets'));
+// const TicketsInventory = lazy(() => import('../Tickets/Inventory'));
 const Inventory = lazy(() => import('../Inventory'));
-const TicketSales = lazy(() => import('../Tickets/Sales'));
+// const TicketSales = lazy(() => import('../Tickets/Sales'));
 
 export default function Dashboard() {
   const [state, dispatch] = useReducer(userReducer, auth);
@@ -62,28 +61,25 @@ export default function Dashboard() {
               <Route exact path='/messages'>
                 <Messaging />
               </Route>
-              <Route exact path='/shopping'>
-                <Shopping />
+              {/* <Route exact path='/shopping/inventory'>
+                <ShoppingInventory />
+              </Route> */}
+              <Route exact path={['/shopping/inventory', '/shopping/inventory/add']}>
+                <Inventory />
               </Route>
-              <Route exact path='/shopping/orders'>
+              <Route exact path='/orders'>
                 <Orders />
               </Route>
-              <Route exact path='/shopping/inventory'>
-                <ShoppingInventory />
-              </Route>
-              <Route exact path={['/inventory', '/inventory/add']}>
-                <Inventory value={value} />
-              </Route>
-              <Route exact path='/tickets/inventory'>
+              {/* <Route exact path='/tickets/inventory'>
                 <TicketsInventory />
-              </Route>
-              <Route exact path='/tickets'>
+              </Route> */}
+              {/* <Route exact path='/tickets'>
                 <Tickets />
               </Route>
               <Route exact path='/tickets/sales'>
                 <TicketSales />
-              </Route>
-              <Route path={['/']}>
+              </Route> */}
+              <Route path='/'>
                 <Main />
               </Route>
             </Switch>{' '}

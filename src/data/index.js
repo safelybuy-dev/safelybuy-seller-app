@@ -1,4 +1,4 @@
-import { Bag, reportSVG, orders, HomeSVG, InventorySVG } from 'svg';
+import { reportSVG, orders, HomeSVG, InventorySVG } from 'svg';
 
 export const navMenuItems = [
   {
@@ -6,7 +6,7 @@ export const navMenuItems = [
     hasDropdown: false,
     SVG: HomeSVG,
     text: 'Home',
-    url: '/',
+    url: '/shopping',
     type: ['Shopping', 'Tickets'],
   },
   {
@@ -14,8 +14,8 @@ export const navMenuItems = [
     hasDropdown: true,
     SVG: InventorySVG,
     dropdownLinks: [
-      { text: 'Manage Inventory', url: '/inventory' },
-      { text: 'Add a product', url: '/inventory/add' },
+      { text: 'Manage Inventory', url: '/shopping/inventory' },
+      { text: 'Add a product', url: '/shopping/inventory/add' },
     ],
     text: 'Inventory',
   },
