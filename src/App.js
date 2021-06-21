@@ -36,17 +36,19 @@ function App() {
         <Suspense fallback={<p>Loading....</p>}>
           <ContextUser.Provider value={[state, dispatch]}>
             <Switch>
-              <PrivateOTPRoute path='/verifyOTP'>
-                <Otp />
-              </PrivateOTPRoute>
-              <Route path='/seller-kyc'>
-                <SellerKyc />
-              </Route>
+              <PrivateRoute path='/shopping'>
+                <Dashboard />
+              </PrivateRoute>
               <Route path='/success-error'>
                 <SuccessError />
               </Route>
-              <Route path='/sample'>
-                <SamplePage />
+              
+              <PrivateOTPRoute path='/verifyOTP'>
+                <Otp />
+              </PrivateOTPRoute>
+              
+              <Route path='/seller-kyc'>
+                <SellerKyc />
               </Route>
               <Route path='/login'>
                 <LoginPage />
@@ -54,9 +56,9 @@ function App() {
               <Route path='/signup'>
                 <SignUpPage />
               </Route>
-              <PrivateRoute path='/'>
-                <Dashboard />
-              </PrivateRoute>
+              <Route path='/'>
+                <SamplePage />
+              </Route>
             </Switch>
           </ContextUser.Provider>
         </Suspense>

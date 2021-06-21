@@ -76,12 +76,12 @@ const SignUpPage = () => {
           utilities.formatErrorResponse(
             Object.values(err.response?.data?.error).flat()
           ),
-          { appearance: 'error', autoDismiss: true}
+          { appearance: 'error', autoDismiss: true }
         );
       }
       return addToast(err.message || 'Failed to sign up try again', {
         appearance: 'error',
-        autoDismiss: true
+        autoDismiss: true,
       });
     }
   };
@@ -99,7 +99,7 @@ const SignUpPage = () => {
   };
 
   return (
-    <div className='relative justify-between flex flex-col min-h-screen text-center'>
+    <div className='relative pb-56 md:pb-80 justify-between flex flex-col min-h-screen text-center'>
       <div>
         <header className='flex tracking-wide justify-center mx-12 my-8 md:mx-6 md:my-3'>
           <Logo color='black' text='transact with no regret' />
@@ -301,9 +301,7 @@ const SignUpPage = () => {
           </form>
         </div>
       </div>
-      <div className='relative z-10'>
-        <Footer />
-      </div>
+      <Footer />
     </div>
   );
 };

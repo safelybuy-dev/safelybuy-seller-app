@@ -8,6 +8,8 @@ export const LOADING = 'LOADING';
 export const ERROR = 'ERROR';
 export const GET_USER = 'GET_USER';
 
+const token = localStorage.safely_buy_token;
+
 export const isTokenValid = () => {
   const token = localStorage.safely_buy_token;
   if (!token) return false;
@@ -29,27 +31,25 @@ export const isTokenValid = () => {
   return decoded.exp > Date.now() / 1000 ? true : false;
 };
 
-const token = localStorage.getItem('safely_buy_token') || null;
-
-export const axiosInstance = axios.create({
+export const axiosInstance = () => axios.create({
   baseURL,
   withCredentials: false,
   headers: {
     'Access-Control-Allow-Headers':
       'Access-Control-Allow-Origin, Access-Control-Allow-Headers, Content-Type, x-xsrf-token',
     'Access-Control-Allow-Origin': '*',
-    Authorization: `Bearer ${localStorage.getItem('safely_buy_token')}`,
+    Authorization: `Bearer ${localStorage.safely_buy_token}`,
   },
 });
 
 if (isTokenValid()) {
-  axiosInstance.defaults.headers.common = { Authorization: `Bearer ${token}` };
+  axiosInstance().defaults.headers.common = { Authorization: `Bearer ${token}` };
 }
 
 export const requests = {
   get: async (url) => {
     try {
-      const response = await axiosInstance.get(`${url}`);
+      const response = await axiosInstance().get(`${url}`);
       return response.data;
     } catch (e) {
       throw e;
@@ -58,7 +58,7 @@ export const requests = {
 
   post: async (url, body, cancel) => {
     try {
-      const response = await axiosInstance.post(`${url}`, body, cancel);
+      const response = await axiosInstance().post(`${url}`, body, cancel);
       return response.data;
     } catch (e) {
       throw e;
@@ -67,7 +67,7 @@ export const requests = {
 
   put: async (url, body, cancel) => {
     try {
-      const response = await axiosInstance.put(`${url}`, body, cancel);
+      const response = await axiosInstance().put(`${url}`, body, cancel);
       return response.data;
     } catch (e) {
       throw e;
@@ -120,7 +120,7 @@ export const loadUser = async (dispatch) => {
         );
       }
     } catch (err) {
-      dispatch(action(ERROR, err.response.statusText || err.message));
+      dispatch(action(ERROR, err?.response?.statusText || err.message));
     }
   }
 };

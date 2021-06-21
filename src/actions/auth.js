@@ -15,6 +15,10 @@ export const login = (dispatch, data, history, toast) => {
   signIn(
     (res) => {
       dispatch(action(LOGIN, res.data));
+      if (res?.data?.user?.role !== 'seller') {
+        toast('Access not granted', { appearance: 'error', autoDismiss: true });
+        return;
+      }
       toast('Welcome back, ' + res.data.user.firstname, {
         appearance: 'success',
         autoDismiss: true,

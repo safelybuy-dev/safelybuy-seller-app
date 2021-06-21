@@ -29,11 +29,11 @@ const patterns = {
   company: /[^\n]{2,}/,
 };
 
-
-
 export const getMonthFromString = (mon) => {
-  return new Date(Date.parse(mon +` 1, ${new Date().getFullYear()}`)).getMonth()+1
-}
+  return (
+    new Date(Date.parse(mon + ` 1, ${new Date().getFullYear()}`)).getMonth() + 1
+  );
+};
 export const validate = (field, Regex) => {
   if (patterns[Regex].test(field)) return true;
   return false;
@@ -44,13 +44,12 @@ export const validateInput = (event) =>
 
 export const randomInt = (length) => Math.floor(Math.random() * (length - 1));
 
-export const baseURL = "https://safelybuy-api.herokuapp.com/api/v1/seller"
+export const baseURL = 'https://safelybuy-api.herokuapp.com/api/v1/seller';
 
 export const axiosInstance = axios.create({
   baseURL,
   timeout: 0,
 });
-
 
 export const requests = {
   get: async (url) => {
@@ -71,7 +70,6 @@ export const requests = {
     }
   },
 
-
   formDataPost: async (url, body) => {
     try {
       const response = await axiosInstance.post({
@@ -79,10 +77,9 @@ export const requests = {
         data: body,
         config: {
           headers: {
-            'Content-Type':
-              'multipart/form-data'
-          }
-        }
+            'Content-Type': 'multipart/form-data',
+          },
+        },
       });
       return response.data;
     } catch (e) {
@@ -91,11 +88,8 @@ export const requests = {
   },
 };
 
-
-
 export const NULL_IMAGE =
-  "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSbMtMaRx27Qw_9XY1mmNhZmA9sPy6SiKwzkA&usqp=CAU";
-
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSbMtMaRx27Qw_9XY1mmNhZmA9sPy6SiKwzkA&usqp=CAU';
 
 export const stringSearch = (val, string) => {
   return string && string.toLowerCase().search(val.toLowerCase()) !== -1;
@@ -108,6 +102,3 @@ export const toBase64 = (file) =>
     reader.onload = () => resolve(reader.result);
     reader.onerror = (error) => reject(error);
   });
-
-
-

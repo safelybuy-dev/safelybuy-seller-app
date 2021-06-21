@@ -1,12 +1,10 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { requests, action } from 'requests';
-import { ToastConsumer, useToasts } from 'react-toast-notifications';
+import React, { useState, useEffect } from 'react';
+import { requests } from 'requests';
+import { useToasts } from 'react-toast-notifications';
 import { useForm } from 'react-hook-form';
 import { ArrowRight } from 'svg';
 import { useHistory } from 'react-router-dom';
 import * as yup from 'yup';
-import { ContextUser } from 'context';
-import utilities from 'utilities';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Button from 'components/Button';
 
@@ -35,7 +33,7 @@ const BankForm = ({ setIsLoading, dispatch }) => {
       setAccountNameLoading(false);
 
       if (!status) {
-        addToast(message, { appearance: 'error', autoDismiss: true});
+        addToast(message, { appearance: 'error', autoDismiss: true });
         return;
       }
 
@@ -46,7 +44,8 @@ const BankForm = ({ setIsLoading, dispatch }) => {
       }
     } catch (err) {
       addToast(err.message || 'Failed to get account Name', {
-        appearance: 'error', autoDismiss: true
+        appearance: 'error',
+        autoDismiss: true,
       });
       setAccountNameLoading(false);
       return;
@@ -64,13 +63,16 @@ const BankForm = ({ setIsLoading, dispatch }) => {
       });
 
       if (status === 'success') {
-        addToast('Successfully added bank details', { appearance: 'success', autoDismiss: true});
-        return history.push('/');
+        addToast('Successfully added bank details', {
+          appearance: 'success',
+          autoDismiss: true,
+        });
+        return history.push('/shopping');
       }
     } catch (err) {
       addToast(err.message || 'Failed to save bank details', {
         appearance: 'error',
-        autoDismiss: true
+        autoDismiss: true,
       });
     }
   };
@@ -98,9 +100,8 @@ const BankForm = ({ setIsLoading, dispatch }) => {
       </small>
       <div className='flex justify-center mt-5'>
         <form
-          className='scrollable-form'
+          className='scrollable-form flex flex-col w-96 md:max-w-7xl md:px-8'
           onSubmit={handleSubmit(onSubmit)}
-          className='flex flex-col w-96 md:max-w-7xl md:px-8'
         >
           <div className='text-left mr-2'>
             <label className='text-sm my-2' htmlFor='email'>
@@ -179,7 +180,7 @@ const BankForm = ({ setIsLoading, dispatch }) => {
           <div className='text-left'>
             <div className='my-4 flex justify-center'>
               <small
-                onClick={() => history.push('/')}
+                onClick={() => history.push('/shopping')}
                 style={{
                   cursor: 'pointer',
                 }}

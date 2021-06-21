@@ -39,7 +39,7 @@ const LoginPage = () => {
   }, []);
 
   return (
-    <div className='relative justify-between flex flex-col min-h-screen text-center'>
+    <div className='relative justify-between pb-56 md:pb-80 flex flex-col min-h-screen text-center'>
       <div>
         <header className='flex tracking-wide justify-center mx-12 my-8 md:mx-6 md:my-3'>
           <Logo color='black' text='transact with no regret' />
@@ -51,16 +51,17 @@ const LoginPage = () => {
           <form
             onSubmit={handleSubmit(onSubmit)}
             className='flex my-12 flex-col w-96 md:max-w-7xl md:px-8'
+            autoComplete='off'
           >
             {state.loadingUser && (
               <div className={`animate-pulse`}>
                 <div className='flex flex-col'>
-                  <div className='h-6 my-2 bg-gray-200 rounded w-1/4'></div>
-                  <div className='h-12 my-2 bg-gray-300 rounded-full w-full'></div>
+                  <div className='h-4 my-2 bg-gray-200 rounded w-1/4'></div>
+                  <div className='h-10 my-2 bg-gray-300 rounded-full w-full'></div>
                 </div>
-                <div className='flex mt-6 flex-col'>
-                  <div className='h-6 my-2 bg-gray-200 rounded w-1/4'></div>
-                  <div className='h-12 my-2 bg-gray-300 rounded-full w-full'></div>
+                <div className='flex mt-4 flex-col'>
+                  <div className='h-4 my-2 bg-gray-200 rounded w-1/4'></div>
+                  <div className='h-10 my-2 bg-gray-300 rounded-full w-full'></div>
                 </div>
               </div>
             )}
@@ -102,10 +103,6 @@ const LoginPage = () => {
                       name='password'
                       ref={register({
                         required: true,
-                        minLength: {
-                          value: 6,
-                          message: 'Password must have at least 6 characters',
-                        },
                       })}
                       id='password'
                       className='border w-full border-black rounded-full px-6 py-2 focus:outline-none focus:shadow-xl'
@@ -143,7 +140,7 @@ const LoginPage = () => {
                       ></div>
                     </span>
                   </div>
-                  <div className='my-12 flex justify-center'>
+                  <div className='my-8 flex justify-center'>
                     <Button
                       primaryOutline
                       roundedMd
@@ -156,7 +153,7 @@ const LoginPage = () => {
                       submit
                     />
                   </div>
-                  <p className='text-center pt-4'>
+                  <p className='text-center'>
                     Don't have an account?{' '}
                     <span className='text-purple-500'>
                       <Link to='/signup'>Sign up</Link>
@@ -168,9 +165,7 @@ const LoginPage = () => {
           </form>
         </div>
       </div>
-      <div className='relative z-10'>
-        <Footer />
-      </div>
+      <Footer />
     </div>
   );
 };
