@@ -12,20 +12,28 @@ const BankForm = ({ setIsLoading, dispatch }) => {
   const history = useHistory();
   const { addToast } = useToasts();
   const [banks, setBanks] = useState([]);
+  const [userBank, setUserBank] = useState({});
   const [accountNameLoading, setAccountNameLoading] = useState(false);
   const [account_name, setAccountName] = useState('');
 
   const schema = yup.object().shape({
-    bank_code: yup.string().required('Business name is  required '),
+    bank_code: yup.string(),
     account_number: yup.string().required('Account Number is  required '),
   });
 
-  const { register, handleSubmit, errors } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    getValues,
+  } = useForm({
     resolver: yupResolver(schema),
   });
 
   const getAccountName = async (data) => {
     setAccountNameLoading(true);
+    setAccountName('');
     try {
       const { data: da_ta } = await requests.post('/bank/confirm', data);
 
@@ -57,7 +65,7 @@ const BankForm = ({ setIsLoading, dispatch }) => {
     data.bank_id = data.bank_code;
     delete data.bank_code;
     try {
-      const { status } = await requests.post('/seller/bank', {
+      const { status } = await requests.post('/seller/bank/update', {
         ...data,
         account_name,
       });
@@ -89,6 +97,31 @@ const BankForm = ({ setIsLoading, dispatch }) => {
     fetchData();
   }, [banks.length]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await requests.get('/seller/bank');
+      console.log(res.data, 'DATA');
+      res.data.length &&
+        setUserBank({
+          account_name: res.data[0].account_name,
+          bank_code: res.data[0].bank_id,
+          account_number: res.data[0].account_number,
+        });
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (userBank.bank_code) {
+      console.log(userBank);
+      const fields = ['bank_code', 'account_number'];
+      fields.forEach((field) => setValue(field, userBank[field]));
+      setAccountName(userBank.account_name);
+    }
+    return () => {};
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userBank]);
+
   return (
     <div className='py-4'>
       <div className='flex justify-start'>
@@ -103,8 +136,7 @@ const BankForm = ({ setIsLoading, dispatch }) => {
             <div className='relative md:w-full mb-6 mt-2'>
               <select
                 className='border border-black w-96 rounded-full px-6 py-2 focus:outline-none focus:shadow-xl'
-                name='bank_code'
-                ref={register}
+                {...register('bank_code', { required: true })}
               >
                 {banks.map((e, i) => (
                   <option key={i} value={e.bank_code}>
@@ -112,8 +144,8 @@ const BankForm = ({ setIsLoading, dispatch }) => {
                   </option>
                 ))}
               </select>
-              {errors.bank_id && (
-                <span className='error-span'>{errors.bank_id?.message}</span>
+              {errors.bank_code && (
+                <span className='error-span'>{errors.bank_code?.message}</span>
               )}
             </div>
           </div>
@@ -125,12 +157,14 @@ const BankForm = ({ setIsLoading, dispatch }) => {
             <div className='relative md:w-full mb-6 mt-2'>
               <input
                 type='text'
-                name='account_number'
-                ref={register}
+                {...register('account_number')}
                 onBlur={(e) => {
                   const { value } = e.target;
                   if (value.length === 10) {
-                    return handleSubmit(onSubmitAccountNum)();
+                    onSubmitAccountNum({
+                      bank_code: getValues('bank_code'),
+                      account_number: value,
+                    });
                   }
                 }}
                 onChange={(e) => {

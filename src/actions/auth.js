@@ -49,7 +49,7 @@ export const fetchUser = (dispatch) => {
   dispatch(action(LOADING));
   getUser(
     (res) => {
-      dispatch(action(GET_USER, res.data));
+      dispatch(action(GET_USER, res.data.data));
     },
     (err) => {
       if (err.response) {
@@ -66,7 +66,7 @@ export const updateUser = (dispatch, data, toast) => {
   updateProfile(
     (res) => {
       dispatch(action(UPDATE_USER, res.data));
-      fetchUser(dispatch)
+      fetchUser(dispatch);
       toast('User profile updated', {
         appearance: 'success',
         autoDismiss: true,
@@ -97,7 +97,7 @@ export const updatePassword = (dispatch, data, toast, reset) => {
         appearance: 'success',
         autoDismiss: true,
       });
-      reset()
+      reset();
     },
     (err) => {
       if (err.response) {

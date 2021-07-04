@@ -7,6 +7,7 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ContextUser } from 'context';
 import { updateUser } from 'actions/auth';
+import { cities } from 'data';
 
 const isValidEmail = (email) =>
   // eslint-disable-next-line no-useless-escape
@@ -74,6 +75,24 @@ export default function Account() {
     return isValid;
   };
 
+  const [selectedState, setSelectedState] = useState('');
+  // const [selectedTown, setSelectedTown] = useState('');
+  const [states] = useState(Object.keys(cities).sort());
+  const [towns, setTowns] = useState([]);
+
+  // useEffect(() => {
+  //   if (existing && modalOpen[1] === 'edit') {
+  //     setValue('street', existing.street);
+  //     setValue('state', existing.state);
+  //     setSelectedState(existing.state);
+  //     setTowns(cities[existing.state].sort());
+  //   }
+  // }, []);
+
+  useEffect(() => {
+    if (selectedState) setTowns(cities[selectedState].sort());
+  }, [selectedState]);
+
   return (
     <div className='py-4'>
       <div className='flex justify-start'>
@@ -86,117 +105,150 @@ export default function Account() {
             {' '}
             <div className='text-left mr-2'>
               <label className='text-sm my-2' htmlFor='firstname'>
-                First Name
+                Business Name
               </label>
               <div className='relative md:w-full mb-6 mt-2'>
                 <input
                   // defaultValue={user.firstname}
                   type='text'
-                  placeholder='Chibuzor'
-                  {...register('firstname', {
+                  placeholder='Enter your business name'
+                  {...register('business_name', {
                     required: true,
                   })}
                   id='firstname'
                   required
                   className={`border ${
-                    errors.firstname ? 'border-red' : 'border-black'
+                    errors.business_name ? 'border-red' : 'border-black'
                   } w-96 rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
                 />
                 <div className='text-red-500'>
-                  {errors.firstname && <span>{errors.firstname.message}</span>}
+                  {errors.business_name && (
+                    <span>{errors.business_name.message}</span>
+                  )}
                 </div>
               </div>
             </div>
-            <div className='text-left'>
-              <label className='text-sm my-2' htmlFor='lastname'>
-                Last Name
+            <div className='text-left  md:mr-0 w-full'>
+              <label className='text-sm my-2' htmlFor='street'>
+                Street Address
               </label>
               <div className='relative md:w-full mb-6 mt-2'>
                 <input
-                  // defaultValue={user.lastname}
                   type='text'
-                  placeholder='Oluwabukola'
-                  {...register('lastname', {
+                  placeholder='Enter your street address'
+                  {...register('street', {
                     required: true,
                   })}
-                  id='lastname'
+                  id='street'
                   required
                   className={`border ${
-                    errors.lastname ? 'border-red' : 'border-black'
-                  } w-96 rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                    errors.street ? 'border-red' : 'border-black'
+                  } w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
                 />
-                <div className='text-red-500'>
-                  {errors.lastname && <span>{errors.lastname.message}</span>}
-                </div>
+                <span className='text-red-500'>
+                  {errors.street && 'Please enter your street address'}
+                </span>
+              </div>
+            </div>
+            <div className='text-left  md:mr-0 w-full'>
+              <label className='text-sm my-2' htmlFor='email'>
+                State
+              </label>
+              <div className='relative md:w-full mb-6 mt-2'>
+                <select
+                  {...register('state', {
+                    required: true,
+                  })}
+                  className='border w-full border-black rounded-full px-6 py-2 focus:outline-none focus:shadow-xl'
+                  name='state'
+                  id='state'
+                  onChange={(e) => setSelectedState(e.target.value)}
+                >
+                  <option value=''>Select State</option>
+                  {states.map((e) => (
+                    <option key={e} value={e}>
+                      {e}
+                    </option>
+                  ))}
+                </select>
+                <span className='text-red-500'>
+                  {errors.state && <span>{errors.state.message}</span>}
+                </span>
+              </div>
+            </div>
+            <div className='text-left  md:mr-0 w-full'>
+              <label className='text-sm my-2' htmlFor='town'>
+                Town/City
+              </label>
+              <div className='relative md:w-full mb-6 mt-2'>
+                <select
+                  className='border w-full border-black rounded-full px-6 py-2 focus:outline-none focus:shadow-xl'
+                  name='city'
+                  id='city'
+                  {...register('city', {
+                    required: true,
+                  })}
+                  // defaultValue={
+                  //   existing && modalOpen[1] === 'edit' ? existing.city : ''
+                  // }
+                >
+                  <option value=''>Select City</option>
+                  {towns.map((e) => (
+                    <option key={e} value={e}>
+                      {e}
+                    </option>
+                  ))}
+                </select>
+                <span className='text-red-500'>
+                  {errors.city && <span>{errors.city.message}</span>}
+                </span>
               </div>
             </div>
             <div className='text-left'>
-              <label className='text-sm my-2' htmlFor='lastname'>
-                Business Name
+              <label className='text-sm my-2' htmlFor='tin'>
+                Tax Identification Number{' '}
               </label>
               <div className='relative md:w-full mb-6 mt-2'>
                 <input
-                  // defaultValue={user.lastname}
+                  // defaultValue={user.tin}
                   type='text'
-                  placeholder='Chibuzor & Sons. Ltd.'
-                  {...register('lastname', {
+                  placeholder='Enter your Tax Identification Number (TIN)'
+                  {...register('tin', {
                     required: true,
                   })}
-                  id='lastname'
+                  id='tin'
                   required
                   className={`border ${
-                    errors.lastname ? 'border-red' : 'border-black'
+                    errors.tin ? 'border-red' : 'border-black'
                   } w-96 rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
                 />
                 <div className='text-red-500'>
-                  {errors.lastname && <span>{errors.lastname.message}</span>}
+                  {errors.tin && <span>{errors.tin.message}</span>}
                 </div>
               </div>
             </div>
             <div className='text-left '>
-              <label className='text-sm my-2' htmlFor='phone'>
-                Phone Number
+              <label className='text-sm my-2' htmlFor='business_num'>
+                Business Registration Number
               </label>
               <div className='relative md:w-full mb-6 mt-2'>
                 <input
-                  // defaultValue={user.phone}
-                  type='phone'
-                  placeholder='070109067**'
-                  {...register('phone', {
+                  // defaultValue={user.business_num}
+                  type='text'
+                  placeholder='Enter your business registration number'
+                  {...register('business_num', {
                     required: true,
                   })}
-                  id='phone'
+                  id='business_num'
                   required
                   className={`border ${
-                    errors.phone ? 'border-red' : 'border-black'
+                    errors.business_num ? 'border-red' : 'border-black'
                   } w-96 rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
                 />
                 <div className='text-red-500'>
-                  {errors.phone && <span>{errors.phone.message}</span>}
-                </div>
-              </div>
-            </div>
-            <div className='text-left mr-2'>
-              <label className='text-sm my-2' htmlFor='email'>
-                Email address
-              </label>
-              <div className='relative md:w-full mb-6 mt-2'>
-                <input
-                  // defaultValue={user.email}
-                  type='email'
-                  placeholder='user@safelybuy.com'
-                  {...register('email', {
-                    required: true,
-                    validate: handleEmailValidation,
-                  })}
-                  id='email'
-                  required
-                  className={`border ${
-                    errors.email ? 'border-red' : 'border-black'
-                  } w-96 rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
-                />
-                <div className='text-red-500'>
-                  {errors.email && 'Email is not valid'}
+                  {errors.business_num && (
+                    <span>{errors.business_num.message}</span>
+                  )}
                 </div>
               </div>
             </div>

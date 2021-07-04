@@ -37,7 +37,6 @@ const signUpSchema = yup.object().shape({
 export default function Account() {
   const [{ user, loadingUser }, dispatch] = useContext(ContextUser);
   const { addToast } = useToasts();
-  // const [loadingUser, setLoadingUser] = useState(false);
   const [dob, setDob] = useState(!user.dob ? '' : new Date(user.dob));
   const {
     register,
@@ -49,7 +48,6 @@ export default function Account() {
   });
 
   useEffect(() => {
-    // console.log(loadingUser);
     if (user.firstname) {
       const fields = [
         'firstname',
@@ -63,7 +61,7 @@ export default function Account() {
       setDob(new Date(user.dob));
     }
     return () => {};
-  }, [setValue, user]);
+  }, [loadingUser, setValue, user]);
 
   const onSubmit = async (data) => {
     data.dob = dob;
@@ -82,9 +80,7 @@ export default function Account() {
           onSubmit={handleSubmit(onSubmit)}
           className='flex mt-6 flex-col md:px-8 w-full'
         >
-          {/* {!loadingUser && ( */}
           <>
-            {' '}
             <div className='text-left mr-2'>
               <label className='text-sm my-2' htmlFor='firstname'>
                 First Name
@@ -215,7 +211,6 @@ export default function Account() {
               )}
             </div>
           </>
-          {/* )} */}
         </form>
       </div>
     </div>

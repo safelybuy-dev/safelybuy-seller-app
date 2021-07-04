@@ -25,6 +25,18 @@ export default function userReducer(state, action) {
         user: action.payload,
         isAuthenticated: true,
       };
+    case type.UPDATE_USER:
+      return {
+        ...state,
+        loadingUser: false,
+        error: '',
+      };
+    case type.UPDATE_PASSWORD:
+      return {
+        ...state,
+        loadingUser: false,
+        error: '',
+      };
     case type.ERROR:
       return {
         ...state,
