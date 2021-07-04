@@ -67,7 +67,7 @@ export default function Dashboard() {
               <Route exact path={['/shopping/inventory', '/shopping/inventory/add']}>
                 <Inventory />
               </Route>
-              <Route exact path='/orders'>
+              <Route exact path='/shopping/orders'>
                 <Orders />
               </Route>
               {/* <Route exact path='/tickets/inventory'>

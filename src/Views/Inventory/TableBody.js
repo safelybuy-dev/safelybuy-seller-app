@@ -158,7 +158,7 @@ const TableBody = ({
             </div>
           ),
         })),
-    [active, items, setSelectedProduct, handleDelete, handleSellout]
+    [active, items, handleDelete, handleSellout]
   );
 
   const columns = React.useMemo(

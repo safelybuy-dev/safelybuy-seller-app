@@ -24,7 +24,7 @@ export const navMenuItems = [
     hasDropdown: false,
     SVG: orders,
     text: 'Orders',
-    url: '/orders',
+    url: '/shopping/orders',
   },
   {
     color: 'white',

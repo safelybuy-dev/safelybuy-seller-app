@@ -57,7 +57,7 @@ const User = ({ userIsVisible, setUserIsVisible, userRef }) => {
                   unread: true,
                   svg: <AngleRight />,
                 },
-                { url: '#', text: 'Settings' },
+                { url: '/settings', text: 'Settings' },
                 {
                   url: '/login',
                   text: 'Logout',

@@ -127,7 +127,7 @@ const NotificationDetails = ({ closeNav }) => {
       id='myNav'
       className='h-full flex flex-row-reverse w-0 fixed bg-white z-40 top-0 right-0 overflow-x-hidden transition-all duration-300 ease-in-out'
     >
-      <div className='overlay-content pl-8 py-16 md:py-6 relative flex flex-col opacity-100 relative w-4/12 lg:w-7/12 md:w-full bg-white min-h-full'>
+      <div className='overlay-content pl-8 py-16 md:py-6 relative flex flex-col opacity-100 w-4/12 lg:w-7/12 md:w-full bg-white min-h-full'>
         <div className='flex justify-between items-center w-full pr-6 text-3xl tracking-wide'>
           <h3 className='text-purple-500'>Notifications</h3>
           <a

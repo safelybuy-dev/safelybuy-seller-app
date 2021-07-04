@@ -265,7 +265,11 @@ const Modal = ({ selectedProduct, setSelectedProduct }) => {
         method: 'post',
         url: `${baseURL}/item/add`,
         data: body,
+        withCredentials: false,
         headers: {
+          'Access-Control-Allow-Headers':
+            'Access-Control-Allow-Origin, Access-Control-Allow-Headers, Content-Type, x-xsrf-token',
+          'Access-Control-Allow-Origin': '*',
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${localStorage.getItem('safely_buy_token')}`,
         },

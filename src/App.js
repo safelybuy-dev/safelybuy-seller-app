@@ -12,6 +12,7 @@ import { loadUser } from './requests';
 
 const SuccessError = lazy(() => import('./Views/Success-Error/index'));
 const Dashboard = lazy(() => import('./Views/Dashboard'));
+const ProfileSettings = lazy(() => import('./Views/ProfileSettings'));
 const SamplePage = lazy(() => import('./Views/SamplePage'));
 const SellerKyc = lazy(() => import('./Views/SellerKyc'));
 const LoginPage = lazy(() => import('./Views/LoginPage'));
@@ -38,6 +39,9 @@ function App() {
             <Switch>
               <PrivateRoute path='/shopping'>
                 <Dashboard />
+              </PrivateRoute>
+              <PrivateRoute path='/settings'>
+                <ProfileSettings />
               </PrivateRoute>
               <Route path='/success-error'>
                 <SuccessError />

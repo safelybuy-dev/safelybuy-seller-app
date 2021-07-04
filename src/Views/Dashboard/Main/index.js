@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Highlight from './Highlight';
 import RecentSalesTable from './RecentSales';
-import { ArrowRight } from 'svg';
+// import { ArrowRight } from 'svg';
 import { useTable } from 'react-table';
 import { PieChart } from 'react-minimal-pie-chart';
+import { requests, baseURL } from 'requests';
 
-const RecentSales = () => {
+const RecentSales = ({ orders }) => {
   const data = React.useMemo(
     () => [
       {
@@ -18,7 +19,7 @@ const RecentSales = () => {
             To be confirmed
           </div>
         ),
-        quantity: <p className='text-right'>3</p>,
+        quantity: <p className='text-right'>{orders.processing}</p>,
       },
       {
         status: (
@@ -30,7 +31,7 @@ const RecentSales = () => {
             Shipped
           </div>
         ),
-        quantity: <p className='text-right'>12</p>,
+        quantity: <p className='text-right'>{orders.shipped}</p>,
       },
       {
         status: (
@@ -42,7 +43,7 @@ const RecentSales = () => {
             Delivered
           </div>
         ),
-        quantity: <p className='text-right'>30</p>,
+        quantity: <p className='text-right'>{orders.delivered}</p>,
       },
       {
         status: (
@@ -54,7 +55,7 @@ const RecentSales = () => {
             Returned
           </div>
         ),
-        quantity: <p className='text-right'>2</p>,
+        quantity: <p className='text-right'>{orders.returned}</p>,
       },
       {
         status: (
@@ -66,10 +67,16 @@ const RecentSales = () => {
             Completed
           </div>
         ),
-        quantity: <p className='text-right'>200</p>,
+        quantity: <p className='text-right'>{orders.completed}</p>,
       },
     ],
-    []
+    [
+      orders.completed,
+      orders.delivered,
+      orders.processing,
+      orders.returned,
+      orders.shipped,
+    ]
   );
 
   const columns = React.useMemo(
@@ -132,6 +139,20 @@ const RecentSales = () => {
 
 const Main = () => {
   // const { admin, loading } = state;
+  const [shoppingIndex, setShoppingIndex] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      setLoading(true);
+      const response = await requests.get(baseURL + '/seller/shopping');
+      setLoading(false);
+      console.log(response);
+      setShoppingIndex(response);
+    })();
+  }, []);
+
+  if (loading) return 'loading...';
 
   return (
     <div className='flex md:flex-wrap md:justify-center'>
@@ -145,11 +166,31 @@ const Main = () => {
               <div className='w-60 relative'>
                 <PieChart
                   data={[
-                    { title: 'Three', value: 200, color: '#10b981' },
-                    { title: 'One', value: 3, color: '#1f2937' },
-                    { title: 'Two', value: 12, color: '#fbbf24' },
-                    { title: 'Two', value: 30, color: '#a78bfa' },
-                    { title: 'Two', value: 2, color: '#F87171' },
+                    {
+                      title: 'Three',
+                      value: shoppingIndex?.completed || 1,
+                      color: '#10b981',
+                    },
+                    {
+                      title: 'One',
+                      value: shoppingIndex?.processing || 1,
+                      color: '#1f2937',
+                    },
+                    {
+                      title: 'Two',
+                      value: shoppingIndex?.shipped || 1,
+                      color: '#fbbf24',
+                    },
+                    {
+                      title: 'Four',
+                      value: shoppingIndex?.delivered || 1,
+                      color: '#a78bfa',
+                    },
+                    {
+                      title: 'Five',
+                      value: shoppingIndex?.returned || 1,
+                      color: '#F87171',
+                    },
                   ]}
                   lineWidth={15}
                   paddingAngle={5}
@@ -162,13 +203,21 @@ const Main = () => {
                   }}
                   className='absolute w-36 flex flex-col px-6 bg-green-50 text-center items-center justify-center rounded-full h-36 border-2 border-green-100'
                 >
-                  <div className='text-green-600'>Amazing!!!</div>
-                  <div className='text-gray-900'>You're doing well 🎉</div>
+                  <div className='text-green-600'>Keep Selling!!!</div>
+                  <div className='text-gray-900'>Nothing to show yet</div>
                 </div>
               </div>
             </div>
             <div className='flex-1'>
-              <RecentSales />
+              <RecentSales
+                orders={{
+                  completed: shoppingIndex?.completed,
+                  processing: shoppingIndex?.processing,
+                  returned: shoppingIndex?.returned,
+                  delivered: shoppingIndex?.delivered,
+                  shipped: shoppingIndex?.shipped,
+                }}
+              />
             </div>
           </div>
         </div>
@@ -178,17 +227,17 @@ const Main = () => {
           </h3>
           <div className='mt-5 py-8 px-10 md:py-0 md:px-0 md:mt-0 rounded-3xl md:rounded-none bg-white'>
             <RecentSalesTable />
-            <div className='flex justify-between mt-8 pb-8 w-full'>
+            {/* <div className='flex justify-between mt-8 pb-8 w-full'>
               <span className='text-gray-500'>Showing 8 of 100</span>
               <div className='flex items-center text-purple-500'>
                 See all &nbsp; <ArrowRight />
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
       <div className='flex ml-2 flex-col w-3/12 tracking-wide md:w-6/12 sm:w-10/12'>
-        <Highlight />
+        <Highlight balance={shoppingIndex?.wallet_balance} />
       </div>
     </div>
   );

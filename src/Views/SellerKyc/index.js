@@ -2,7 +2,6 @@ import React, { useState, useContext, useEffect } from 'react';
 import { ArrowRight } from 'svg';
 import Logo from 'components/Logo';
 import BankForm from './bankForm';
-import Footer from 'components/Footer';
 import Button from 'components/Button';
 import { Redirect } from 'react-router-dom';
 import utilities from 'utilities';

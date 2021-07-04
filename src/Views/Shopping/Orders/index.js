@@ -12,7 +12,7 @@ const Orders = () => {
         childLink='/shopping/orders'
       />
       <div className='flex justify-between w-full'>
-        <h2 className='text-xl'>Order Management</h2>
+        <h2 className='text-xl'>Manage Orders</h2>
       </div>
       <OrdersTableView />
     </div>

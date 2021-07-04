@@ -5,7 +5,7 @@ import Footer from 'components/Footer';
 import Button from 'components/Button';
 import { useHistory } from 'react-router-dom';
 import utilities from 'utilities';
-import { requests, axiosInstance, action } from 'requests';
+import { requests, action } from 'requests';
 import { useToasts } from 'react-toast-notifications';
 import { ContextUser } from 'context';
 import OtpInput from 'react-otp-input';
@@ -15,6 +15,7 @@ const Otp = () => {
   const history = useHistory();
   const pre_otp_details = sessionStorage.getItem('safely_buy_pre_otp');
 
+  // eslint-disable-next-line no-unused-vars
   const [_, dispatch] = useContext(ContextUser);
   const user_id = pre_otp_details ? JSON.parse(pre_otp_details)[1] : '';
   const user_phone = pre_otp_details ? JSON.parse(pre_otp_details)[0] : '';
@@ -42,13 +43,13 @@ const Otp = () => {
 
         return addToast('Number successfully verified', {
           appearance: 'success',
-          autoDismiss: true
+          autoDismiss: true,
         });
       } catch (err) {
         setLoadingVerification(false);
         addToast(err?.response?.data?.message || 'Failed to verify OTP', {
           appearance: 'error',
-          autoDismiss: true
+          autoDismiss: true,
         });
       }
     };
@@ -123,9 +124,7 @@ const Otp = () => {
           text='Proceed'
         />
       </div>
-      <div className='relative z-10'>
-        <Footer />
-      </div>
+      <Footer />
     </div>
   ) : (
     <Redirect to='/login' />

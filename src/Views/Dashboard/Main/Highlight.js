@@ -1,5 +1,4 @@
 import React from 'react';
-import { UserAvatar } from 'svg';
 
 export const options = {
   year: 'numeric',
@@ -14,7 +13,7 @@ export const optionsAlt = {
   day: 'numeric',
 };
 
-export default function Highlight() {
+export default function Highlight({ balance }) {
   const date = new Date();
 
   return (
@@ -44,7 +43,7 @@ export default function Highlight() {
           <span className='text-xs opacity-70'>AVAILABLE BALANCE</span>
           <span className='block text-4xl tracking-widest font-semibold'>
             <span className='text-lg'>₦</span>
-            {Number(500590).toLocaleString()}
+            {Number(balance).toLocaleString()}
           </span>
         </div>
         <div className='py-5'>
