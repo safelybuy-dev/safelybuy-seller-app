@@ -1,5 +1,7 @@
+import { useContext } from 'react';
 import { AngleRight, CloseIcon, UserAvatar } from 'svg';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { ContextUser } from 'context';
 
 const SidebarLink = ({
   title,
@@ -8,6 +10,7 @@ const SidebarLink = ({
   activeText,
   setActive,
   middle,
+  active,
 }) => (
   <div
     onClick={() => setActive(activeText)}
@@ -15,15 +18,19 @@ const SidebarLink = ({
   >
     {icon}
     <div className='ml-5'>
-      <h4 className='-mt-1'>{title}</h4>
-      <small className='text-sm tracking-wider text-gray-400'>
-        {subtitle}
-      </small>
+      <h4
+        className={`${active === activeText ? 'text-purple-600 ' : ''}'-mt-1'`}
+      >
+        {title}
+      </h4>
+      <small className='text-sm tracking-wider text-gray-400'>{subtitle}</small>
     </div>
   </div>
 );
 
-export default function Sidebar({ setActive }) {
+export default function Sidebar({ setActive, active }) {
+  const [{ user, loadingUser }] = useContext(ContextUser);
+  const history = useHistory();
   return (
     <div className='bg-white w-100 h-screen fixed shadow-inner overflow-y-scroll'>
       <div className='flex pt-8 px-12 justify-between items-center'>
@@ -43,7 +50,13 @@ export default function Sidebar({ setActive }) {
         </div>
         <div className='avatar flex justify-between items-center bg-white rounded-full shadow-2xl px-6 py-3 ml-4 leading-none flex-1'>
           <div>
-            <h4 className=''>Kareem Chibuzor</h4>
+            {loadingUser ? (
+              '•••'
+            ) : (
+              <h4 className={active === 'personal' ? 'text-purple-400' : ''}>
+                {user.firstname} {user.lastname}
+              </h4>
+            )}
             <small className='uppercase text-xs tracking-widest text-gray-400'>
               Seller
             </small>
@@ -83,6 +96,7 @@ export default function Sidebar({ setActive }) {
               />
             </svg>
           }
+          active={active}
           setActive={setActive}
           activeText='business'
         />
@@ -106,6 +120,7 @@ export default function Sidebar({ setActive }) {
           }
           setActive={setActive}
           middle
+          active={active}
           activeText='password'
         />
         <SidebarLink
@@ -129,6 +144,7 @@ export default function Sidebar({ setActive }) {
           setActive={setActive}
           middle
           activeText='bank'
+          active={active}
         />
       </div>
       <div className='flex-col px-12 py-8'>
@@ -172,7 +188,13 @@ export default function Sidebar({ setActive }) {
             />
           </svg>
 
-          <div className='ml-5'>
+          <div
+            onClick={(e) => {
+              localStorage.removeItem('safely_buy_token');
+              history.push('/login');
+            }}
+            className='ml-5 cursor-pointer'
+          >
             <h4 className='-mt-1'>Logout</h4>
           </div>
         </div>

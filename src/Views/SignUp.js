@@ -46,7 +46,11 @@ const SignUpPage = () => {
   const { addToast } = useToasts();
   const [loadingUser, setLoadingUser] = useState(false);
 
-  const { register, handleSubmit, errors } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     resolver: yupResolver(signUpSchema),
   });
 
@@ -58,7 +62,7 @@ const SignUpPage = () => {
   const onSubmit = async (data) => {
     setLoadingUser(true);
     try {
-      const { user, message } = await requests.post('/register', {
+      const { user } = await requests.post('/register', {
         ...data,
         role: 'seller',
       });
@@ -136,10 +140,7 @@ const SignUpPage = () => {
                       <input
                         type='text'
                         placeholder='First Name'
-                        name='firstname'
-                        ref={register({
-                          required: true,
-                        })}
+                        {...register('firstname', { required: true })}
                         id='firstname'
                         required
                         className={`border ${
@@ -163,10 +164,7 @@ const SignUpPage = () => {
                       <input
                         type='lastname'
                         placeholder='Last Name'
-                        name='lastname'
-                        ref={register({
-                          required: true,
-                        })}
+                        {...register('lastname', { required: true })}
                         id='lastname'
                         required
                         className={`border ${
@@ -189,8 +187,7 @@ const SignUpPage = () => {
                     <input
                       type='email'
                       placeholder='user@safelybuy.com'
-                      name='email'
-                      ref={register({
+                      {...register('email', {
                         required: true,
                         validate: handleEmailValidation,
                       })}
@@ -213,10 +210,7 @@ const SignUpPage = () => {
                     <input
                       type='phone'
                       placeholder='0701090673*'
-                      name='phone'
-                      ref={register({
-                        required: true,
-                      })}
+                      {...register('phone', { required: true })}
                       id='phone'
                       required
                       className={`border ${
@@ -236,10 +230,7 @@ const SignUpPage = () => {
                     <input
                       type='password'
                       placeholder='*********'
-                      name='password'
-                      ref={register({
-                        required: true,
-                      })}
+                      {...register('password', { required: true })}
                       id='password'
                       className='border w-full border-black rounded-full px-6 py-2 focus:outline-none focus:shadow-xl'
                     />

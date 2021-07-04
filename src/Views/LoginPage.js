@@ -19,7 +19,11 @@ const LoginPage = () => {
   const history = useHistory();
   const { addToast } = useToasts();
   const [state, dispatch] = useContext(ContextUser);
-  const { register, errors, handleSubmit } = useForm();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
   const onSubmit = (data) => login(dispatch, data, history, addToast);
   const handleEmailValidation = (email) => {
     const isValid = isValidEmail(email);
@@ -76,8 +80,7 @@ const LoginPage = () => {
                     <input
                       type='email'
                       placeholder='email@example.com'
-                      name='email'
-                      ref={register({
+                      {...register('email', {
                         required: true,
                         validate: handleEmailValidation,
                       })}
@@ -100,10 +103,7 @@ const LoginPage = () => {
                     <input
                       type='password'
                       placeholder='*********'
-                      name='password'
-                      ref={register({
-                        required: true,
-                      })}
+                      {...register('password', { required: true })}
                       id='password'
                       className='border w-full border-black rounded-full px-6 py-2 focus:outline-none focus:shadow-xl'
                     />

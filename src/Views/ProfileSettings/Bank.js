@@ -100,7 +100,6 @@ const BankForm = ({ setIsLoading, dispatch }) => {
   useEffect(() => {
     const fetchData = async () => {
       const res = await requests.get('/seller/bank');
-      console.log(res.data, 'DATA');
       res.data.length &&
         setUserBank({
           account_name: res.data[0].account_name,
@@ -113,7 +112,6 @@ const BankForm = ({ setIsLoading, dispatch }) => {
 
   useEffect(() => {
     if (userBank.bank_code) {
-      console.log(userBank);
       const fields = ['bank_code', 'account_number'];
       fields.forEach((field) => setValue(field, userBank[field]));
       setAccountName(userBank.account_name);

@@ -6,7 +6,7 @@ export default function ProfileSettings() {
   const [active, setActive] = useState('personal');
   return (
     <div className='profile-settings flex bg-purple-200 min-h-screen'>
-      <Sidebar setActive={setActive} />
+      <Sidebar setActive={setActive} active={active} />
       <MainContent active={active} />
     </div>
   );
