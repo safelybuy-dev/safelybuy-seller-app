@@ -93,7 +93,12 @@ export const updatePassword = (dispatch, data, toast, reset) => {
   changePassword(
     (res) => {
       dispatch(action(UPDATE_PASSWORD, res.data));
-      toast('User password changed', {
+      if (res.data.status === 'error')
+      toast(res.data.message, {
+        appearance: 'error',
+        autoDismiss: true,
+      });
+      else toast('User password changed', {
         appearance: 'success',
         autoDismiss: true,
       });
