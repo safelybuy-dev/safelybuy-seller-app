@@ -9,12 +9,6 @@ import { ContextUser } from 'context';
 import { updateUser } from 'actions/auth';
 import { cities } from 'data';
 
-const isValidEmail = (email) =>
-  // eslint-disable-next-line no-useless-escape
-  /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-    email
-  );
-
 const signUpSchema = yup.object().shape({
   firstname: yup
     .string()
@@ -24,13 +18,6 @@ const signUpSchema = yup.object().shape({
     .string()
     .required('Please enter name')
     .matches(/^[a-zA-Z][a-zA-Z '-]*$/, 'Invalid character supplied'),
-  email: yup.string().email().required(),
-  phone: yup
-    .string()
-    .required('Please enter  phone number')
-    .matches(/^[0-9]+$/, 'Phone number must be only digits')
-    .min(11, 'Phone number must be exactly 11 digits')
-    .max(11, 'Phone number must be exactly 11 digits'),
   gender: yup.string().required(),
 });
 
@@ -68,11 +55,6 @@ export default function Account() {
   const onSubmit = async (data) => {
     data.dob = dob;
     updateUser(dispatch, data, addToast);
-  };
-
-  const handleEmailValidation = (email) => {
-    const isValid = isValidEmail(email);
-    return isValid;
   };
 
   const [selectedState, setSelectedState] = useState('');

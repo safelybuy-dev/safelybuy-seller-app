@@ -40,17 +40,18 @@ function App() {
               <PrivateRoute path='/shopping'>
                 <Dashboard />
               </PrivateRoute>
+              <PrivateRoute path='/tickets'>
+                <Dashboard />
+              </PrivateRoute>
               <PrivateRoute path='/settings'>
                 <ProfileSettings />
               </PrivateRoute>
               <Route path='/success-error'>
                 <SuccessError />
               </Route>
-              
               <PrivateOTPRoute path='/verifyOTP'>
                 <Otp />
               </PrivateOTPRoute>
-              
               <Route path='/seller-kyc'>
                 <SellerKyc />
               </Route>

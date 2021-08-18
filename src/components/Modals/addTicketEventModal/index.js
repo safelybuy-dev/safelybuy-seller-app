@@ -132,7 +132,13 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
 
   // console.log(category, title, details, event_date, event_time, location);
 
-  const { register, handleSubmit, errors, watch, control } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+    control,
+  } = useForm({
     defaultValues: {
       category,
       title: '',
@@ -278,7 +284,7 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
 
         {step === 1 && (
           <>
-            <div className='flex '>
+            <div className='flex justify-between'>
               <div className='flex w-5/12 justify-center'>
                 <div className='divide-y divide-light-blue-400 w-full'>
                   <div className='text-xs pb-2'>
@@ -301,7 +307,7 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
                 </div>
               </div>
 
-              <div className='flex w-7/12 justify-center'>
+              <div className='flex w-6/12 justify-center'>
                 <>
                   <div className='flex'>
                     <form
@@ -322,8 +328,7 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
                               });
                             }}
                             className='border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl'
-                            name='category'
-                            ref={register}
+                            {...register('category')}
                           >
                             <option value='' disabled selected>
                               Select Category
@@ -343,7 +348,6 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
                         </label>
                         <input
                           type='text'
-                          name='title'
                           onChange={(e) => {
                             dispatch({
                               type: 'updateTicketEventState',
@@ -351,7 +355,9 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
                               field: 'title',
                             });
                           }}
-                          ref={register}
+                          {...register('title', {
+                            required: true,
+                          })}
                           placeholder='Live Concert'
                           className={`border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
                         />
@@ -368,8 +374,7 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
                           } w-full  px-6 py-2 rounded-md focus:outline-none focus:shadow-xl`}
                           rows='4'
                           cols='50'
-                          name='details'
-                          placeholder='Enter a clear and coincise information about the event'
+                          placeholder='Enter a clear and concise information about the event'
                           onChange={(e) => {
                             dispatch({
                               type: 'updateTicketEventState',
@@ -377,7 +382,7 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
                               field: 'details',
                             });
                           }}
-                          ref={register({
+                          {...register('details', {
                             required: 'Required',
                           })}
                         ></textarea>
@@ -389,7 +394,6 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
                         </label>
                         <input
                           type='date'
-                          name='event_date'
                           onChange={(e) => {
                             dispatch({
                               type: 'updateTicketEventState',
@@ -397,7 +401,7 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
                               field: 'event_date',
                             });
                           }}
-                          ref={register({
+                          {...register('event_date', {
                             required: 'Required',
                           })}
                           placeholder='Enter date'
@@ -412,7 +416,6 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
                         </label>
                         <input
                           type='time'
-                          name='event_time'
                           onChange={(e) => {
                             dispatch({
                               type: 'updateTicketEventState',
@@ -420,8 +423,8 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
                               field: 'event_time',
                             });
                           }}
-                          ref={register({
-                            required: 'Required',
+                          {...register('event_time', {
+                            required: true,
                           })}
                           placeholder='Enter event time'
                           className={`border 
@@ -436,7 +439,6 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
                         </label>
                         <input
                           type='text'
-                          name='location'
                           onChange={(e) => {
                             dispatch({
                               type: 'updateTicketEventState',
@@ -444,7 +446,7 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
                               field: 'location',
                             });
                           }}
-                          ref={register({
+                          {...register('location', {
                             required: 'Required',
                           })}
                           placeholder='Enter event location'
@@ -460,7 +462,7 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
         )}
 
         {step === 2 && (
-          <div className='flex '>
+          <div className='flex justify-between'>
             <div className='flex w-5/12 justify-center'>
               <div className='divide-y divide-light-blue-400 w-full'>
                 <div className='text-xs pb-2'>
@@ -509,7 +511,7 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
                 </div>
               </div>
             </div>
-            <div className='flex w-7/12 justify-center '>
+            <div className='flex w-6/12 justify-center '>
               <>
                 <div className='flex'>
                   <form className='flex flex-col md:max-w-7xl md:px-8'>
@@ -519,7 +521,6 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
                       </label>
                       <input
                         type='text'
-                        name='listing_number'
                         onChange={(e) => {
                           dispatch({
                             type: 'updateTicketEventState',
@@ -527,8 +528,8 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
                             field: 'listing_number',
                           });
                         }}
-                        ref={register({
-                          required: 'Required',
+                        {...register('listing_number', {
+                          required: true,
                         })}
                         placeholder='Ex. 2322-23332-322'
                         className={`border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
@@ -554,7 +555,7 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
                               }}
                               className='border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl'
                               name='event_seat_type'
-                              ref={register}
+                              {...register('event_seat_type')}
                             >
                               <option value='' disabled selected>
                                 Select Category
@@ -582,9 +583,9 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
                               control={control}
                               defaultValue={event_seat_price}
                               rules={{ required: true }}
-                              render={(props) => (
+                              render={({ field: { onChange }}) => (
                                 <NumberFormat
-                                  ref={register}
+                                  {...register('event_seat_price')}
                                   defaultValue={event_seat_price}
                                   onChange={(e) => {
                                     dispatch({
@@ -592,9 +593,8 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
                                       payload: e.target.value,
                                       field: 'event_seat_price',
                                     });
-                                    props.onChange(e.target.value);
+                                    onChange(e.target.value);
                                   }}
-                                  name='event_seat_price'
                                   placeholder='Ex. 10,000'
                                   thousandSeparator={true}
                                   prefix={' ₦ '}
@@ -618,7 +618,6 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
                                   e.preventDefault();
                                 }
                               }}
-                              name='event_available_seat'
                               onChange={(e) => {
                                 dispatch({
                                   type: 'updateTicketEventState',
@@ -626,7 +625,7 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
                                   field: 'event_available_seat',
                                 });
                               }}
-                              ref={register({
+                              {...register('event_available_seat', {
                                 required: 'Required',
                               })}
                               placeholder='Available Seats'
@@ -652,7 +651,7 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
 
         {step === 3 && (
           <>
-            <div className='flex '>
+            <div className='flex justify-between'>
               <div className='flex w-5/12 justify-center'>
                 <div className='divide-y divide-light-blue-400 w-full'>
                   <div className='text-xs pb-2'>
@@ -696,7 +695,7 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
                   </div>
                 </div>
               </div>
-              <div className='flex w-7/12 justify-center '>
+              <div className='flex w-6/12 justify-center '>
                 <div>
                   <BorderImageUpload
                     title='Cover Image'
@@ -750,6 +749,7 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
                   <img
                     src={main_event_ticket_image}
                     className={`object-cover w-full h-full`}
+                    alt='main event ticket'
                   />
                 </div>
               </div>
@@ -759,6 +759,7 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
                     <img
                       src={other_event_ticket_image_1}
                       className={`object-cover w-full h-full`}
+                      alt='main event ticket 2'
                     />
                   )}
                 </div>
@@ -767,6 +768,7 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
                     <img
                       src={other_event_ticket_image_2}
                       className={`object-cover w-full h-full`}
+                      alt='main event ticket 3'
                     />
                   )}
                 </div>
@@ -775,6 +777,7 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
                     <img
                       src={other_event_ticket_image_3}
                       className={`object-cover w-full h-full`}
+                      alt='main event ticket 4'
                     />
                   )}
                 </div>
