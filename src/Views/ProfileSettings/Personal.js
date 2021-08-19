@@ -78,10 +78,10 @@ export default function Account() {
       <div className='flex justify-start'>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className='flex mt-6 flex-col md:px-8 w-full'
+          className='flex mt-6 flex-col md:px-5 w-full'
         >
           <>
-            <div className='text-left mr-2'>
+            <div className='text-left'>
               <label className='text-sm my-2' htmlFor='firstname'>
                 First Name
               </label>
@@ -97,7 +97,7 @@ export default function Account() {
                   required
                   className={`border ${
                     errors.firstname ? 'border-red' : 'border-black'
-                  } w-96 rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                  } w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
                 />
                 <div className='text-red-500'>
                   {errors.firstname && <span>{errors.firstname.message}</span>}
@@ -120,7 +120,7 @@ export default function Account() {
                   required
                   className={`border ${
                     errors.lastname ? 'border-red' : 'border-black'
-                  } w-96 rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                  } w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
                 />
                 <div className='text-red-500'>
                   {errors.lastname && <span>{errors.lastname.message}</span>}
@@ -143,14 +143,14 @@ export default function Account() {
                   required
                   className={`border ${
                     errors.phone ? 'border-red' : 'border-black'
-                  } w-96 rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                  } w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
                 />
                 <div className='text-red-500'>
                   {errors.phone && <span>{errors.phone.message}</span>}
                 </div>
               </div>
             </div>
-            <div className='text-left mr-2'>
+            <div className='text-left'>
               <label className='text-sm my-2' htmlFor='email'>
                 Email address
               </label>
@@ -167,7 +167,7 @@ export default function Account() {
                   required
                   className={`border ${
                     errors.email ? 'border-red' : 'border-black'
-                  } w-96 rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                  } w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
                 />
                 <div className='text-red-500'>
                   {errors.email && 'Email is not valid'}
@@ -180,7 +180,7 @@ export default function Account() {
               </label>
               <div className='relative md:w-full mb-6 mt-2'>
                 <div
-                  className={`relative border border-black w-96 rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                  className={`relative border border-black w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
                 >
                   <DatePicker onChange={setDob} value={dob} />
                 </div>

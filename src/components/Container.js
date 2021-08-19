@@ -8,9 +8,9 @@ const Container = ({ children, topPadding, zIndex }) => {
       }}
       className={
         topPadding && !zIndex
-          ? 'pt-44 px-4 w-full mx-auto my-0'
+          ? 'pt-44 px-4 w-full mx-auto my-0 md:pt-0'
           : zIndex
-          ? 'pt-44 px-4 w-full mx-auto my-0 z-20'
+          ? 'pt-44 px-4 w-full mx-auto my-0 md:pt-0 z-20'
           : 'w-full px-4 mx-auto my-0'
       }
     >

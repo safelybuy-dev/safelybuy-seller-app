@@ -4,7 +4,7 @@ import Password from './Password';
 import BankForm from './Bank';
 import Business from './Business';
 
-export default function MainContent({ active }) {
+export default function MainContent({ active, setActive }) {
   const RenderSections = () => {
     switch (active) {
       case 'personal':
@@ -12,6 +12,7 @@ export default function MainContent({ active }) {
           <Container
             title='Personal Information'
             subtitle='Details about your personal information'
+            setActive={setActive}
           >
             <Personal />
           </Container>
@@ -21,6 +22,7 @@ export default function MainContent({ active }) {
           <Container
             title='Business Information'
             subtitle='Details about your company information'
+            setActive={setActive}
           >
             <Business />
           </Container>
@@ -30,6 +32,7 @@ export default function MainContent({ active }) {
           <Container
             title='Change Password'
             subtitle='Change your account password for safety'
+            setActive={setActive}
           >
             <Password />
           </Container>
@@ -39,19 +42,16 @@ export default function MainContent({ active }) {
           <Container
             title='Bank Details'
             subtitle='Details about the bank registered for withdrawals'
+            setActive={setActive}
           >
             <BankForm />
           </Container>
         );
 
       default:
-        break;
+        return null;
     }
   };
 
-  return (
-    <div className=''>
-      <RenderSections />
-    </div>
-  );
+  return <RenderSections />;
 }

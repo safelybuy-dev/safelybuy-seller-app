@@ -58,7 +58,7 @@ const SamplePage = () => {
                       required: true,
                     })}
                     id='old_password'
-                    className='border border-black w-96 rounded-full px-6 py-2 focus:outline-none focus:shadow-xl'
+                    className='border border-black w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl'
                   />
                   <div className='text-red-500'>
                     {errors.old_password && errors.old_password.message}

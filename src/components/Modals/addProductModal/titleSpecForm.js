@@ -13,7 +13,7 @@ const TitleAndSpec = ({
     defaultValues: ProductsFormAndUpdater[0]
   });
 
-  const [state, dispatch] = ProductsFormAndUpdater;
+  const [, dispatch] = ProductsFormAndUpdater;
   const onSubmit = async data => console.log(data);
 
   const fieldValues = [2, 5, 7].includes(subcategory_id)

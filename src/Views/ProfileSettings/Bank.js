@@ -133,7 +133,7 @@ const BankForm = ({ setIsLoading, dispatch }) => {
             </label>
             <div className='relative md:w-full mb-6 mt-2'>
               <select
-                className='border border-black w-96 rounded-full px-6 py-2 focus:outline-none focus:shadow-xl'
+                className='border border-black w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl'
                 {...register('bank_code', { required: true })}
               >
                 {banks.map((e, i) => (

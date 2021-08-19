@@ -120,7 +120,7 @@ const RecentSales = ({ orders }) => {
                 {row.cells.map((cell) => {
                   return (
                     <td
-                      style={{ minWidth: '120px' }}
+                      // style={{ minWidth: '120px' }}
                       className='border-b-2 pr-4 min-w-max last:pr-0 border-gray-100 py-4'
                       {...cell.getCellProps()}
                     >
@@ -157,13 +157,13 @@ const Main = () => {
   return (
     <div className='flex md:flex-wrap md:justify-center'>
       <div className='flex flex-col flex-1 w-6/12 md:w-full md:mt-8'>
-        <div className='mt-5 p-10  md:py-0 md:px-0 md:mt-0 rounded-3xl md:rounded-none bg-white'>
-          <h3 className='text-2xl md:pb-6 md:bg-white tracking-wider'>
+        <div className='mt-5 p-10 md:py-5 md:px-5 md:mt-0 rounded-3xl bg-white'>
+          <h3 className='text-2xl md:pb-6 md:bg-white md:mt-2 tracking-wider'>
             Your Orders
           </h3>
-          <div className='flex space-x-4'>
+          <div className='flex space-x-4 md:flex-col'>
             <div className='flex flex-1 items-center'>
-              <div className='w-60 relative'>
+              <div className='w-60 relative md:w-full'>
                 <PieChart
                   data={[
                     {

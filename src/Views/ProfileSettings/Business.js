@@ -101,7 +101,7 @@ export default function Account() {
                   required
                   className={`border ${
                     errors.business_name ? 'border-red' : 'border-black'
-                  } w-96 rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                  } w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
                 />
                 <div className='text-red-500'>
                   {errors.business_name && (
@@ -202,7 +202,7 @@ export default function Account() {
                   required
                   className={`border ${
                     errors.tin ? 'border-red' : 'border-black'
-                  } w-96 rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                  } w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
                 />
                 <div className='text-red-500'>
                   {errors.tin && <span>{errors.tin.message}</span>}
@@ -225,7 +225,7 @@ export default function Account() {
                   required
                   className={`border ${
                     errors.business_num ? 'border-red' : 'border-black'
-                  } w-96 rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                  } w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
                 />
                 <div className='text-red-500'>
                   {errors.business_num && (

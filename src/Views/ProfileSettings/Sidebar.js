@@ -14,10 +14,10 @@ const SidebarLink = ({
 }) => (
   <div
     onClick={() => setActive(activeText)}
-    className={`flex cursor-pointer ${middle ? 'my-6' : 'my-3'}`}
+    className={`flex cursor-pointer ${middle ? 'my-6 md:my-4' : 'my-3 md:my-2'}`}
   >
     {icon}
-    <div className='ml-5'>
+    <div className='ml-5 md:ml-3'>
       <h4
         className={`${active === activeText ? 'text-purple-600 ' : ''}'-mt-1'`}
       >
@@ -32,8 +32,8 @@ export default function Sidebar({ setActive, active }) {
   const [{ user, loadingUser }] = useContext(ContextUser);
   const history = useHistory();
   return (
-    <div className='bg-white w-100 h-screen fixed shadow-inner overflow-y-scroll'>
-      <div className='flex pt-8 px-12 justify-between items-center'>
+    <div className='bg-white w-100 h-screen fixed shadow-inner overflow-y-scroll md:w-full md:relative'>
+      <div className='flex pt-8 px-12 justify-between items-center md:pt-4 md:px-6'>
         <h3 className='text-2xl font-medium text-purple-600'>
           Profile Settings
         </h3>
@@ -43,12 +43,12 @@ export default function Sidebar({ setActive, active }) {
       </div>
       <div
         onClick={() => setActive('personal')}
-        className='flex w-full px-12 py-8 items-center cursor-pointer'
+        className='flex w-full px-12 py-8 items-center cursor-pointer md:pt-4 md:px-6'
       >
-        <div className='avatar p-2 bg-white rounded-full shadow-2xl'>
+        <div className='avatar p-2 bg-white rounded-full shadow-2xl md:py-1'>
           <UserAvatar scale={2.6} />
         </div>
-        <div className='avatar flex justify-between items-center bg-white rounded-full shadow-2xl px-6 py-3 ml-4 leading-none flex-1'>
+        <div className='avatar flex justify-between items-center bg-white rounded-full shadow-2xl px-6 py-3 ml-4 leading-none flex-1 md:px-3 md:py-2'>
           <div>
             {loadingUser ? (
               '•••'
@@ -77,7 +77,7 @@ export default function Sidebar({ setActive, active }) {
           </svg>
         </div>
       </div>
-      <div className='flex-col border-t-2 border-b-2 border-gray-200 pl-12 mr-12 py-8'>
+      <div className='flex-col border-t-2 border-b-2 border-gray-200 pl-12 mr-12 py-8 md:pl-6 md:mr-6 md:py-4'>
         {/* Profile information  */}
         <SidebarLink
           title='Edit Business Information'
