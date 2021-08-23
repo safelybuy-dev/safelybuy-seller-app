@@ -1,45 +1,49 @@
-import React, { useEffect } from "react";
-import { useForm, Controller } from "react-hook-form";
-import NumberFormat from "react-number-format";
-import { BackArrowSVG, FowardArrowSVG } from ".";
+import React, { useEffect } from 'react';
+import { useForm, Controller } from 'react-hook-form';
+import NumberFormat from 'react-number-format';
+import { BackArrowSVG, FowardArrowSVG } from '.';
 
 const InventorySales = ({
   setSecondContinueBtn,
   setSteps,
-  ProductsFormAndUpdater
+  ProductsFormAndUpdater,
 }) => {
-
-  const { register, handleSubmit, errors, watch, control } = useForm({
-    defaultValues: ProductsFormAndUpdater[0]
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+    control,
+  } = useForm({
+    defaultValues: ProductsFormAndUpdater[0],
   });
-
 
   const dispatch = ProductsFormAndUpdater[1];
 
-  const onSubmit = async data => console.log(data);
+  const onSubmit = async (data) => console.log(data);
 
   const fieldValues = [
     {
-      title: "Seller SKU",
-      name: "seller_sku",
-      placeholder: "Ex. SBD-123",
-      isNumOnly: false
+      title: 'Seller SKU',
+      name: 'seller_sku',
+      placeholder: 'Ex. SBD-123',
+      isNumOnly: false,
     },
     {
-      title: "Quantity",
-      name: "available",
-      placeholder: "Ex. 4",
-      isNumOnly: true 
-    }
+      title: 'Quantity',
+      name: 'available',
+      placeholder: 'Ex. 4',
+      isNumOnly: true,
+    },
   ];
 
-  const watchFields = watch([...fieldValues.map(e => e.name), "price"]);
+  const watchFields = watch([...fieldValues.map((e) => e.name), 'price']);
 
   useEffect(() => {
     if (
       Object.values(watchFields)
         .filter(Boolean)
-        .filter(e => e.trim().length).length === 3
+        .filter((e) => e.trim().length).length === 3
     ) {
       setSecondContinueBtn(true);
     } else {
@@ -60,9 +64,9 @@ const InventorySales = ({
                 value={
                   Object.values(watchFields)
                     .filter(Boolean)
-                    .filter(e => e.trim().length).length === 3
+                    .filter((e) => e.trim().length).length === 3
                     ? 3
-                    : ""
+                    : ''
                 }
               />
               &nbsp;&nbsp;&nbsp; 2 <span className='text-gray-400'>/ 4</span>
@@ -73,7 +77,7 @@ const InventorySales = ({
                 Inventory & Sales
               </span>
               <p>
-                {" "}
+                {' '}
                 <small>
                   Ensure you enter the proper information as these data are
                   critical to the inventory and sales area.
@@ -119,28 +123,25 @@ const InventorySales = ({
                       <div className='relative md:w-full mb-2 mt-2'>
                         <input
                           type='text'
-                          name={name}
-                          ref={register({
-                            required: "Required"
-                          })}
-                          onChange={e => {
+                          {...register(name, { required: true })}
+                          onChange={(e) => {
                             const { value } = e.target;
 
                             dispatch({
-                              type: "updateProductForm",
+                              type: 'updateProductForm',
                               payload: isNumOnly
-                                ? value.replace(/[^0-9]/g, "")
+                                ? value.replace(/[^0-9]/g, '')
                                 : e.target.value,
-                              field: name
+                              field: name,
                             });
 
                             return isNumOnly
-                              ? (e.target.value = value.replace(/[^0-9]/g, ""))
+                              ? (e.target.value = value.replace(/[^0-9]/g, ''))
                               : null;
                           }}
                           placeholder={placeholder}
                           className={`border ${
-                            errors.name ? "border-red" : "border-black"
+                            errors.name ? 'border-red' : 'border-black'
                           } w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
                         />
 
@@ -163,25 +164,23 @@ const InventorySales = ({
                   control={control}
                   defaultValue={ProductsFormAndUpdater[0].price}
                   rules={{ required: true }}
-                  render={props => (
+                  render={({ field }) => (
                     <NumberFormat
-                      ref={register}
                       defaultValue={ProductsFormAndUpdater[0].price}
-                      onChange={e => {
+                      {...field}
+                      onChange={(e) => {
                         dispatch({
-                          type: "updateProductForm",
+                          type: 'updateProductForm',
                           payload: e.target.value,
-                          field: "price"
+                          field: 'price',
                         });
-
-                        props.onChange(e.target.value);
+                        field.onChange(e.target.value);
                       }}
-                      name='price'
                       placeholder='Ex. 10,000'
                       thousandSeparator={true}
-                      prefix={" ₦ "}
+                      prefix={' ₦ '}
                       className={`border ${
-                        errors.name ? "border-red" : "border-black"
+                        errors.name ? 'border-red' : 'border-black'
                       } w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
                     />
                   )}

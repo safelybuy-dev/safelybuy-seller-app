@@ -28,7 +28,7 @@ const SuccessError = () => {
           )}
         </div>
         <div className='mt-10'></div>
-        <Link to='inventory'>
+        <Link to='shopping/inventory'>
           <Button secondary roundedLg icon={<ArrowRight color='white' />}>
             {history.location.state?.data ? 'Continue' : 'Retry'}
           </Button>
