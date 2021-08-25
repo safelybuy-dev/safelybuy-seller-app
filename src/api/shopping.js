@@ -17,7 +17,7 @@ export const getShoppingDashboard = (success, failure) => {
 
 export const getShoppingOrders = (success, failure) => {
   axiosWithAuth()
-    .get(`${baseUrl}/api/v1/admin/orders`)
+    .get(`${baseUrl}/api/v1/report/shop-orders`)
     .then((response) => success(response))
     .catch((error) => failure(error));
 };

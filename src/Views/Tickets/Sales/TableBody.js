@@ -465,7 +465,7 @@ const TableBody = ({ setSelectedOrder, setSelectedCustomer }) => {
                   return (
                     <td
                       style={{ minWidth: '280px' }}
-                      className='align-top pr-4 min-w-max border-gray-100 py-4'
+                      className='align-top pr-4   border-gray-100 py-4'
                       {...cell.getCellProps()}
                     >
                       {cell.render('Cell')}

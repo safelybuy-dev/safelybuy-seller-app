@@ -117,7 +117,7 @@ const Data = () => [
       </div>
     ),
     actions: (
-      <div className='min-w-max'>
+      <div className=' '>
         <div className='justify-around'>
           <Button rounded secondary>
             Edit

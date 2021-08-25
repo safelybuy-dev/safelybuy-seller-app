@@ -20,7 +20,11 @@ const BankForm = ({ setIsLoading, dispatch }) => {
     account_number: yup.string().required('Account Number is  required '),
   });
 
-  const { register, handleSubmit, errors } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     resolver: yupResolver(schema),
   });
 
@@ -110,8 +114,7 @@ const BankForm = ({ setIsLoading, dispatch }) => {
             <div className='relative md:w-full mb-2 mt-2'>
               <select
                 className='border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl'
-                name='bank_code'
-                ref={register}
+                {...register('bank_code')}
               >
                 {banks.map((e, i) => (
                   <option key={i} value={e.bank_code}>
@@ -133,10 +136,10 @@ const BankForm = ({ setIsLoading, dispatch }) => {
               <input
                 type='text'
                 name='account_number'
-                ref={register}
+                {...register('account_number')}
                 onBlur={(e) => {
                   const { value } = e.target;
-                  if (value.length == 10) {
+                  if (value.length === 10) {
                     return handleSubmit(onSubmitAccountNum)();
                   }
                 }}

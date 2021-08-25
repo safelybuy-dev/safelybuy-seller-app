@@ -134,7 +134,7 @@ const TableBody = ({
           </div>
         ),
         actions: (
-          <div className='min-w-max'>
+          <div className=' '>
             <div className='justify-around'>
               <Button rounded secondary>
                 Edit
@@ -443,7 +443,7 @@ const TableBody = ({
                   return (
                     <td
                       style={{ minWidth: '120px' }}
-                      className='border-b-2 pr-4 min-w-max border-gray-100 py-4'
+                      className='border-b-2 pr-4   border-gray-100 py-4'
                       {...cell.getCellProps()}
                     >
                       {cell.render('Cell')}

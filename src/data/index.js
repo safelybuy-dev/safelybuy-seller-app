@@ -31,6 +31,7 @@ export const navMenuItems = [
     hasDropdown: false,
     SVG: reportSVG,
     text: 'Reports',
+    url: '/shopping/reports',
   },
 ];
 

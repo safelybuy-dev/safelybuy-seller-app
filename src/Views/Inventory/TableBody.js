@@ -59,9 +59,9 @@ const TableBody = ({
         .filter((item) => item.status === active || active === 'all')
         .map((item) => ({
           id: item.id,
-          status: <div className='min-w-max capitalize'>{item.status}</div>,
+          status: <div className='  capitalize'>{item.status}</div>,
           image: (
-            <div className='min-w-max'>
+            <div className=' '>
               <img
                 className='w-12 h-12 object-cover rounded-lg'
                 src={item.main_image}
@@ -70,13 +70,13 @@ const TableBody = ({
             </div>
           ),
           sku: (
-            <div className='min-w-max'>
+            <div className=' '>
               <div>{item.seller_sku}</div>
               <div className='text-sm text-gray-400'>{item.condition}</div>
             </div>
           ),
           desc: (
-            <div className='min-w-max'>
+            <div className=' '>
               <p
                 // onClick={() => setSelectedProduct(item)}
                 className='text-purple-600 cursor-pointer text-sm'
@@ -87,10 +87,10 @@ const TableBody = ({
             </div>
           ),
           location: (
-            <div className='min-w-max'>{`${item.shipping_city}, ${item.shipping_state}`}</div>
+            <div className=' '>{`${item.shipping_city}, ${item.shipping_state}`}</div>
           ),
           date: (
-            <div className='min-w-max'>
+            <div className=' '>
               <p className=''>
                 {new Intl.DateTimeFormat('en-GB', {
                   year: 'numeric',
@@ -119,7 +119,7 @@ const TableBody = ({
             </div>
           ),
           actions: (
-            <div className='min-w-max'>
+            <div className=' '>
               {item.approval_status === 'pending' ? (
                 <span onClick={() => handleDelete(item.id)}>
                   <Button rounded danger>
@@ -237,8 +237,8 @@ const TableBody = ({
                 {row.cells.map((cell) => {
                   return (
                     <td
-                      style={{ minWidth: '50px' }}
-                      className='border-b-2 pr-4 min-w-max border-gray-100 py-4'
+                      style={{ minWidth: '50px', maxWidth: '250px' }}
+                      className='border-b-2 pr-4 border-gray-100 py-4'
                       {...cell.getCellProps()}
                     >
                       {cell.render('Cell')}

@@ -121,7 +121,7 @@ const RecentSales = ({ orders }) => {
                   return (
                     <td
                       // style={{ minWidth: '120px' }}
-                      className='border-b-2 pr-4 min-w-max last:pr-0 border-gray-100 py-4'
+                      className='border-b-2 pr-4 last:pr-0 border-gray-100 py-4'
                       {...cell.getCellProps()}
                     >
                       {cell.render('Cell')}
