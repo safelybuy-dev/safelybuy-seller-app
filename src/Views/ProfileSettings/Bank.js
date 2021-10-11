@@ -18,7 +18,7 @@ const BankForm = ({ setIsLoading, dispatch }) => {
 
   const schema = yup.object().shape({
     bank_code: yup.string(),
-    account_number: yup.string().required('Account Number is  required '),
+    account_number: yup.string(),
   });
 
   const {
@@ -63,6 +63,7 @@ const BankForm = ({ setIsLoading, dispatch }) => {
   const onSubmit = async (data) => {
     if (!account_name.length) return;
     data.bank_id = data.bank_code;
+    console.log(data);
     delete data.bank_code;
     try {
       const { status } = await requests.post('/seller/bank/update', {

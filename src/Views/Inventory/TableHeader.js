@@ -1,14 +1,16 @@
 import React from 'react';
-import { AngleRight, SearchIcon } from 'svg';
-import ItemsPerPage from './ItemsPerPage';
-import { useComponentVisible } from 'hooks';
+import { 
+  // AngleRight, 
+SearchIcon } from 'svg';
+// import ItemsPerPage from './ItemsPerPage';
+// import { useComponentVisible } from 'hooks';
 
 export default function TableHeader({ active, setActive }) {
-  const {
-    ref: itemsRef,
-    isComponentVisible: isItemsVisible,
-    setIsComponentVisible: setIsItemVisible,
-  } = useComponentVisible(false);
+  // const {
+  //   ref: itemsRef,
+  //   isComponentVisible: isItemsVisible,
+  //   setIsComponentVisible: setIsItemVisible,
+  // } = useComponentVisible(false);
   return (
     <div className='flex justify-between w-full md:flex-col md:flex-wrap'>
       {/* Search box */}

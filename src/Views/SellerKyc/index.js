@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { ArrowRight } from 'svg';
 import Logo from 'components/Logo';
 import BankForm from './bankForm';
@@ -8,9 +8,9 @@ import utilities from 'utilities';
 import { requests, action } from 'requests';
 import { useToasts } from 'react-toast-notifications';
 import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
+// import * as yup from 'yup';
 import { ContextUser } from 'context';
-import { yupResolver } from '@hookform/resolvers/yup';
+// import { yupResolver } from '@hookform/resolvers/yup';
 import states from 'states';
 
 const SellerKyc = () => {
@@ -20,32 +20,42 @@ const SellerKyc = () => {
   const dispatch = useContext(ContextUser)[1];
 
   // console.log(user);
-
-  useEffect(() => {
-    console.log('Hello');
-  }, [])
-
-  const schema = yup.object().shape({
-    business_name: yup.string().required('business name is  required '),
-    dob: yup.string().required('date of birth  is  required '),
-  });
+  // const schema = yup.object().shape({
+  //   business_name: yup.string().required('business name is  required '),
+  //   dob: yup.string().required('date of birth  is  required '),
+  // });
 
   // const [loadingUser, setLoadingUser] = useState(false);
   // const [loadingVerification, setLoadingVerification] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isSkipped, setIskipped] = useState(false);
 
-  const { register, handleSubmit, errors } = useForm({
-    resolver: yupResolver(schema),
-  });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  // console.log(errors);
+  // console.log(watch('business_name'));
 
   const onSubmit = async (data) => {
-    setIsLoading(true);
+    // setIsLoading(true);
+    if (!user.business_name && !data.business_name) return;
 
+    if (user.business_name) data.business_name = user.business_name;
+    console.log({
+      data,
+      isSkipped,
+      isBusinessDetails: user.isBusinessDetails,
+      isBankDetailsVerified: user.isBankDetailsVerified,
+    });
     try {
-      await requests.post('/seller/profile', data);
+      const res = await requests.post('/seller/profile', data);
+      console.log(res);
       dispatch(action('GET_USER', { ...user, ...data }));
       setIsLoading(false);
+      skipToBankDetails();
     } catch (err) {
       setIsLoading(false);
       if (err.response?.data?.error) {
@@ -81,7 +91,6 @@ const SellerKyc = () => {
           <div className='h-6 my-2 bg-gray-200 rounded w-1/4'></div>
           <div className='h-12 my-2 bg-gray-300 rounded-full w-10/12'></div>
         </div>
-
       </div>
     </>
   );
@@ -175,10 +184,7 @@ const SellerKyc = () => {
                   <input
                     type='date'
                     placeholder='Click to select a date'
-                    name='dob'
-                    ref={register({
-                      required: true,
-                    })}
+                    {...register('dob')}
                     // required
                     className={`border ${
                       errors.dob ? 'border-red' : 'border-black'
@@ -198,10 +204,8 @@ const SellerKyc = () => {
                   <input
                     type='text'
                     placeholder='Enter your business name'
-                    name='business_name'
-                    ref={register({
-                      required: true,
-                    })}
+                    // name='business_name'
+                    {...register('business_name')}
                     // required
                     className={`border ${
                       errors.business_name ? 'border-red' : 'border-black'
@@ -259,6 +263,7 @@ const SellerKyc = () => {
                       type='text'
                       disabled
                       id='fullname'
+                      {...register('business_name')}
                       value={`${user.business_name}`}
                       className={`border border-black  w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
                     />
@@ -296,8 +301,7 @@ const SellerKyc = () => {
                 <div className='relative md:w-full mb-2 mt-2'>
                   <select
                     className='border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl'
-                    name='state'
-                    ref={register}
+                    {...register('state')}
                   >
                     {states.map((e, i) => (
                       <option key={i} value={e}>
@@ -324,40 +328,14 @@ const SellerKyc = () => {
                   />
                 </div>
               </div>
-{/* 
-              <div className='text-left mr-2'>
-                <label className='text-sm my-2' htmlFor='email'>
-                  Business Name
-                </label>
-                <div className='relative md:w-full mb-3 mt-2'>
-                  <input
-                    type='text'
-                    placeholder='Enter your business name'
-                    name='business_name'
-                    ref={register({
-                      required: true,
-                    })}
-                    // required
-                    className={`border ${
-                      errors.business_name ? 'border-red' : 'border-black'
-                    } w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
-                  />
 
-                  {errors.business_name && (
-                    <span className='error-span'>
-                      {errors.business_name?.message}
-                    </span>
-                  )}
-                </div>
-              </div>
-              */}
               <div className='text-left'>
                 <div className='my-4 flex justify-center'>
                   <small
                     onClick={skipToBankDetails}
                     className='mt-3 pr-10 mr-20 cursor-pointer '
                   >
-                    Skip for later &nbsp;&nbsp;&nbsp;&nbsp;{' '}
+                    Skip for later
                   </small>
 
                   <SubmitButton />
@@ -421,7 +399,11 @@ const SellerKyc = () => {
                       ? { borderLeft: '3px solid  rgb(224,224,224)' }
                       : { borderLeft: '3px solid  rgba(134, 97, 255, 1)' }
                   }
-                  className='tl-item complete-seller-business-info'
+                  className={`tl-item ${
+                    isSkipped
+                      ? 'complete-seller-info-1-done'
+                      : 'complete-seller-info-1'
+                  }`}
                   ng-repeat='item in retailer_history'
                 >
                   <div className='item-detail'>Step 03</div>
@@ -433,7 +415,7 @@ const SellerKyc = () => {
                   ng-repeat='item in retailer_history'
                 >
                   <div className='item-detail'>Step 04</div>
-                  <div className='item-title'>Seller Business Information</div>
+                  <div className='item-title'>Seller Bank Details</div>
                 </li>
               </ul>
             </div>

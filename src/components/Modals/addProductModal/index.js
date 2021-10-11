@@ -98,14 +98,14 @@ const initialProductState = {
   description: 'Safelybuy product',
   colour: '',
   processor: '',
-  
+
   specifications: '',
   weight: '',
-  
+
   seller_sku: '',
   available: '',
   price: '',
-  
+
   main_image: '',
   other_product_img_1: '',
   other_product_img_2: '',
@@ -113,7 +113,7 @@ const initialProductState = {
   other_product_img_4: '',
   other_product_img_5: '',
   other_product_img_6: '',
-  
+
   shipping_state: '',
   shipping_city: '',
   shipping_weight: '',
@@ -244,6 +244,8 @@ const Modal = ({ selectedProduct, setSelectedProduct }) => {
       main_image,
       category: state.category_id,
       subcategory: state.subcategory_id,
+      brand: state.brand,
+      condition: state.condition,
     };
 
     [
@@ -369,13 +371,11 @@ const Modal = ({ selectedProduct, setSelectedProduct }) => {
         canClick={true}
         clickHandler={handler}
         event='onClick'
-            text={`${
-              step === 0 ? 'Proceed' : step === 5 ? ' Submit' : 'Continue'
-            }`}
-            primary
-            roundedFull
-            icon={<FowardSymbolSVG />}
-          />
+        text={`${step === 0 ? 'Proceed' : step === 5 ? ' Submit' : 'Continue'}`}
+        primary
+        roundedFull
+        icon={<FowardSymbolSVG />}
+      />
     ) : (
       <Button
         className='left-0.5 ml-auto focus:outline-none'

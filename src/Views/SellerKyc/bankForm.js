@@ -16,8 +16,8 @@ const BankForm = ({ setIsLoading, dispatch }) => {
   const [account_name, setAccountName] = useState('');
 
   const schema = yup.object().shape({
-    bank_code: yup.string().required('Business name is  required '),
-    account_number: yup.string().required('Account Number is  required '),
+    bank_code: yup.string().required('Bank name is required'),
+    // account_number: yup.string().required('Account Number is required'),
   });
 
   const {
@@ -135,18 +135,28 @@ const BankForm = ({ setIsLoading, dispatch }) => {
             <div className='relative md:w-full mb-2 mt-2'>
               <input
                 type='text'
-                name='account_number'
                 {...register('account_number')}
-                onBlur={(e) => {
-                  const { value } = e.target;
-                  if (value.length === 10) {
-                    return handleSubmit(onSubmitAccountNum)();
-                  }
-                }}
+                // onBlur={(e) => {
+                //   const { value } = e.target;
+                //   if (value.length === 10) {
+                //     console.log(e.target.value, 'check now');
+                //     // onSubmitAccountNum(e.target.value)
+                //     // return handleSubmit(onSubmitAccountNum)();
+                //   }
+                // }}
                 onChange={(e) => {
                   const { value } = e.target;
                   e.target.value = value.replace(/[^0-9]/g, '');
-                  if (value.length > 10) e.target.value = value.slice(0, 10);
+                  if (value.length > 10) {
+                    e.target.value = value.slice(0, 10);
+                    return;
+                  } 
+                    console.log(e.target.value, e.target?.value?.length);
+                    if (value.length === 10) {
+                    console.log(e.target.value, 'check now',);
+                    // onSubmitAccountNum(e.target.value)
+                    return handleSubmit(onSubmitAccountNum)();
+                  }
                 }}
                 placeholder='Enter your account number'
                 className={`border ${

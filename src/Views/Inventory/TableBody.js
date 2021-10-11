@@ -72,7 +72,7 @@ const TableBody = ({
           sku: (
             <div className=' '>
               <div>{item.seller_sku}</div>
-              <div className='text-sm text-gray-400'>{item.condition}</div>
+              <div className='text-sm text-gray-400'>{item.item_condition}</div>
             </div>
           ),
           desc: (

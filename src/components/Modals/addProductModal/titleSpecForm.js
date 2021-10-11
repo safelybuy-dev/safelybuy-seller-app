@@ -20,8 +20,6 @@ const TitleAndSpec = ({
   const [state, dispatch] = ProductsFormAndUpdater;
   const onSubmit = async (data) => console.log(data);
 
-  // console.log(state);
-
   const fieldValues = [2, 5, 7].includes(subcategory_id)
     ? [
         // {
@@ -153,7 +151,6 @@ const TitleAndSpec = ({
       ];
 
   let formLength;
-  console.log({ category_id, subcategory_id });
   // Phones and Tablets
   if (subcategory_id === 1 || subcategory_id === 3 || subcategory_id === 4) {
     formLength = 13;
@@ -169,23 +166,22 @@ const TitleAndSpec = ({
   // Accessories
   else {
     formLength = 3;
-    state.ram_size= '';
+    state.ram_size = '';
     state.rear_camera = '';
-    state.front_camera= '';
-    state.battery= '';
-    state.display= '';
-    state.internal_memory= '';
-    state.cpu_speed= '';
-    state.network= '';
-    state.operating_system= '';
-    state.description= 'Safelybuy product';
-    state.colour= '';
-    state.processor= '';
+    state.front_camera = '';
+    state.battery = '';
+    state.display = '';
+    state.internal_memory = '';
+    state.cpu_speed = '';
+    state.network = '';
+    state.operating_system = '';
+    state.description = 'Safelybuy product';
+    state.colour = '';
+    state.processor = '';
   }
 
   const watchMe = fieldValues.map((e) => state[e.name]);
   useEffect(() => {
-    console.log(watchMe);
     if (
       Object.values(watchMe)
         .filter(Boolean)
@@ -193,12 +189,6 @@ const TitleAndSpec = ({
     ) {
       setFirstContinueBtn(true);
     } else {
-      console.log(
-        Object.values(watchMe)
-          .filter(Boolean)
-          .filter((e) => e.trim().length).length,
-        formLength
-      );
       setFirstContinueBtn(false);
     }
     return () => {};
