@@ -48,6 +48,7 @@ export default function Account() {
   });
 
   useEffect(() => {
+    console.log(user);
     if (user.firstname) {
       const fields = [
         'firstname',

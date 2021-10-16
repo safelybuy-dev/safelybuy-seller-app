@@ -137,6 +137,9 @@ const BankForm = ({ setIsLoading, dispatch }) => {
                 className='border border-black w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl'
                 {...register('bank_code', { required: true })}
               >
+                <option key='null/bank' value='0'>
+                  Select Bank
+                </option>
                 {banks.map((e, i) => (
                   <option key={i} value={e.bank_code}>
                     {e.bank_name}

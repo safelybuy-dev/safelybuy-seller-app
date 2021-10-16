@@ -1,66 +1,96 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { ArrowRight } from 'svg';
 import Button from 'components/Button';
 import { useToasts } from 'react-toast-notifications';
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { ContextUser } from 'context';
-import { updateUser } from 'actions/auth';
+// import * as yup from 'yup';
+// import { yupResolver } from '@hookform/resolvers/yup';
+import utilities from 'utilities';
 import { cities } from 'data';
-
-const signUpSchema = yup.object().shape({
-  firstname: yup
-    .string()
-    .required('Please enter name')
-    .matches(/^[a-zA-Z][a-zA-Z '-]*$/, 'Invalid character supplied'),
-  lastname: yup
-    .string()
-    .required('Please enter name')
-    .matches(/^[a-zA-Z][a-zA-Z '-]*$/, 'Invalid character supplied'),
-  gender: yup.string().required(),
-});
+import { requests } from 'requests';
 
 export default function Account() {
-  const [{ user, loadingUser }, dispatch] = useContext(ContextUser);
   const { addToast } = useToasts();
-  // const [loadingUser, setLoadingUser] = useState(false);
-  const [dob, setDob] = useState(!user.dob ? '' : new Date(user.dob));
+  const [isLoading, setIsLoading] = useState(false);
+  const [bizInfo, setBizInfo] = useState({});
+  const [selectedState, setSelectedState] = useState('');
+  // const [selectedTown, setSelectedTown] = useState('');
+  const [states] = useState(Object.keys(cities).sort());
+  const [towns, setTowns] = useState([]);
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue,
-  } = useForm({
-    resolver: yupResolver(signUpSchema),
-  });
+  } = useForm();
+
+  const fetchData = async () => {
+    setIsLoading(true);
+    const res = await requests.get('/seller/business');
+    // console.log(res.data[res.data.length - 1]);
+    setBizInfo(res.data[res.data.length - 1]);
+    setIsLoading(false);
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   useEffect(() => {
-    // console.log(loadingUser);
-    if (user.firstname) {
+    if (bizInfo.business_name) {
+      if (bizInfo.state) setSelectedState(bizInfo.state);
+      if (bizInfo.city) {
+        let newTowns = [...towns, bizInfo.city];
+        newTowns = new Set(newTowns);
+        setTowns([...newTowns]);
+      }
       const fields = [
-        'firstname',
-        'lastname',
-        'email',
-        'phone',
-        'gender',
-        'dob',
+        'business_name',
+        'city',
+        'state',
+        'tin',
+        'vat_num',
+        'street',
+        'business_num',
       ];
-      fields.forEach((field) => setValue(field, user[field]));
-      setDob(new Date(user.dob));
+      fields.forEach((field) => setValue(field, bizInfo[field]));
+      setValue('city', bizInfo.city);
     }
     return () => {};
-  }, [setValue, user]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bizInfo, bizInfo.business_name, setValue]);
 
   const onSubmit = async (data) => {
-    data.dob = dob;
-    updateUser(dispatch, data, addToast);
-  };
+    setIsLoading(true);
+    try {
+      data.legal_form = 'N/A';
+      data.vat_registered = true;
+      const { status } = await requests.post('/seller/business', data);
+      if (status === 'success') {
+        addToast('Successfully updated seller business information', {
+          appearance: 'success',
+          autoDismiss: true,
+        });
+        fetchData();
+      }
+      setIsLoading(false);
+    } catch (err) {
+      setIsLoading(false);
+      console.log(err.response?.data);
+      if (err.response?.data?.error) {
+        return addToast(
+          utilities.formatErrorResponse(
+            Object.values(err.response?.data?.error).flat()
+          ),
+          { appearance: 'error', autoDismiss: true }
+        );
+      }
 
-  const [selectedState, setSelectedState] = useState('');
-  // const [selectedTown, setSelectedTown] = useState('');
-  const [states] = useState(Object.keys(cities).sort());
-  const [towns, setTowns] = useState([]);
+      return addToast('Failed to update seller business info. Try again', {
+        appearance: 'error',
+        autoDismiss: true,
+      });
+    }
+  };
 
   // useEffect(() => {
   //   if (existing && modalOpen[1] === 'edit') {
@@ -234,8 +264,8 @@ export default function Account() {
                 </div>
               </div>
             </div>
-            <div className='my-3'>
-              {loadingUser ? (
+            <div onClick={handleSubmit(onSubmit)} className='my-3'>
+              {isLoading ? (
                 <span
                   style={{
                     borderRightWidth: '2px',
