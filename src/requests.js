@@ -124,3 +124,14 @@ export const loadUser = async (dispatch) => {
     }
   }
 };
+
+
+// "business_name": "Yusuf Devices",
+//     "street": "Fate GRA",
+//     "city": "Ilorin",
+//     "state": "Kwara",
+//     "tin": "1111",
+//     "legal_form": "1111",
+//     "business_num": "1111",
+//     "vat_num": "1111",
+//     "vat_registered": true

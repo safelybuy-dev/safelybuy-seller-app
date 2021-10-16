@@ -23,6 +23,7 @@ const BankForm = ({ setIsLoading, dispatch }) => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -136,24 +137,15 @@ const BankForm = ({ setIsLoading, dispatch }) => {
               <input
                 type='text'
                 {...register('account_number')}
-                // onBlur={(e) => {
-                //   const { value } = e.target;
-                //   if (value.length === 10) {
-                //     console.log(e.target.value, 'check now');
-                //     // onSubmitAccountNum(e.target.value)
-                //     // return handleSubmit(onSubmitAccountNum)();
-                //   }
-                // }}
                 onChange={(e) => {
                   const { value } = e.target;
                   e.target.value = value.replace(/[^0-9]/g, '');
+                  setValue('account_number', e.target.value);
                   if (value.length > 10) {
                     e.target.value = value.slice(0, 10);
                     return;
                   } 
-                    console.log(e.target.value, e.target?.value?.length);
                     if (value.length === 10) {
-                    console.log(e.target.value, 'check now',);
                     // onSubmitAccountNum(e.target.value)
                     return handleSubmit(onSubmitAccountNum)();
                   }

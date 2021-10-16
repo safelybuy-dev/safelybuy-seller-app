@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { ArrowRight } from 'svg';
 import Logo from 'components/Logo';
 import BankForm from './bankForm';
@@ -33,44 +33,74 @@ const SellerKyc = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm();
 
   // console.log(errors);
   // console.log(watch('business_name'));
 
+  useEffect(() => {
+    if (user.business_name) setValue('business_name', user.business_name);
+  }, [user.business_name, setValue]);
+
   const onSubmit = async (data) => {
     // setIsLoading(true);
+    // console.log({
+    //   data,
+    //   isSkipped,
+    //   isBusinessDetails: !!user.business_name,
+    //   isBankDetailsVerified: user.isBankDetailsVerified,
+    // });
     if (!user.business_name && !data.business_name) return;
 
     if (user.business_name) data.business_name = user.business_name;
-    console.log({
-      data,
-      isSkipped,
-      isBusinessDetails: user.isBusinessDetails,
-      isBankDetailsVerified: user.isBankDetailsVerified,
-    });
-    try {
-      const res = await requests.post('/seller/profile', data);
-      console.log(res);
-      dispatch(action('GET_USER', { ...user, ...data }));
-      setIsLoading(false);
-      skipToBankDetails();
-    } catch (err) {
-      setIsLoading(false);
-      if (err.response?.data?.error) {
-        return addToast(
-          utilities.formatErrorResponse(
-            Object.values(err.response?.data?.error).flat()
-          ),
-          { appearance: 'error', autoDismiss: true }
-        );
-      }
 
-      return addToast('Failed to complete seller information. Try again', {
-        appearance: 'error',
-        autoDismiss: true,
-      });
+    if (!user.business_name) {
+      try {
+        await requests.post('/seller/profile', data);
+        dispatch(action('GET_USER', { ...user, ...data }));
+        setIsLoading(false);
+      } catch (err) {
+        setIsLoading(false);
+        if (err.response?.data?.error) {
+          return addToast(
+            utilities.formatErrorResponse(
+              Object.values(err.response?.data?.error).flat()
+            ),
+            { appearance: 'error', autoDismiss: true }
+          );
+        }
+
+        return addToast('Failed to complete seller information. Try again', {
+          appearance: 'error',
+          autoDismiss: true,
+        });
+      }
+    } else {
+      try {
+        data.legal_form = 'N/A';
+        data.vat_registered = true;
+        await requests.post('/seller/business', data);
+        setIsLoading(false);
+        skipToBankDetails();
+      } catch (err) {
+        setIsLoading(false);
+        console.log(err.response?.data);
+        if (err.response?.data?.error) {
+          return addToast(
+            utilities.formatErrorResponse(
+              Object.values(err.response?.data?.error).flat()
+            ),
+            { appearance: 'error', autoDismiss: true }
+          );
+        }
+
+        return addToast('Failed to complete seller business info. Try again', {
+          appearance: 'error',
+          autoDismiss: true,
+        });
+      }
     }
   };
 
@@ -264,19 +294,19 @@ const SellerKyc = () => {
                       disabled
                       id='fullname'
                       {...register('business_name')}
-                      value={`${user.business_name}`}
                       className={`border border-black  w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
                     />
                   </div>
                 </div>
 
                 <label className='text-sm my-2' htmlFor='email'>
-                  Address
+                  Street Address
                 </label>
                 <div className='relative md:w-full mb-2 mt-2'>
                   <input
                     type='name'
-                    name='street'
+                    {...register('street')}
+                    placeholder='Enter your Street Address'
                     className={`border border-black  w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
                   />
                 </div>
@@ -288,7 +318,8 @@ const SellerKyc = () => {
                 <div className='relative md:w-full mb-2 mt-2'>
                   <input
                     type='text'
-                    name='city'
+                    {...register('city')}
+                    placeholder='Enter your City/Town'
                     className={`border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
                   />
                 </div>
@@ -303,6 +334,9 @@ const SellerKyc = () => {
                     className='border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl'
                     {...register('state')}
                   >
+                    <option key='null' value=''>
+                      Select State
+                    </option>
                     {states.map((e, i) => (
                       <option key={i} value={e}>
                         {e}
@@ -322,8 +356,34 @@ const SellerKyc = () => {
                 <div className='relative md:w-full mb-2 mt-2'>
                   <input
                     type='text'
-                    name='city'
+                    {...register('tin')}
                     placeholder='Enter your Tax Identification Number (TIN)'
+                    className={`border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                  />
+                </div>
+              </div>
+              <div className='text-left mr-2'>
+                <label className='text-sm my-2' htmlFor='email'>
+                  Business Registration Number
+                </label>
+                <div className='relative md:w-full mb-2 mt-2'>
+                  <input
+                    type='text'
+                    {...register('business_num')}
+                    placeholder='Enter your Business Registration Number'
+                    className={`border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                  />
+                </div>
+              </div>
+              <div className='text-left mr-2'>
+                <label className='text-sm my-2' htmlFor='email'>
+                  VAT Number
+                </label>
+                <div className='relative md:w-full mb-2 mt-2'>
+                  <input
+                    type='text'
+                    {...register('vat_num')}
+                    placeholder='Enter your VAT Number'
                     className={`border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
                   />
                 </div>
