@@ -58,7 +58,13 @@ const SellerKyc = () => {
 
     if (!user.business_name) {
       try {
-        await requests.post('/seller/profile', data);
+        const {status} = await requests.post('/seller/profile', data);
+        if (status === 'success') {
+          addToast('Successfully updated seller business profile', {
+            appearance: 'success',
+            autoDismiss: true,
+          });
+        }
         dispatch(action('GET_USER', { ...user, ...data }));
         setIsLoading(false);
       } catch (err) {
@@ -81,7 +87,13 @@ const SellerKyc = () => {
       try {
         data.legal_form = 'N/A';
         data.vat_registered = true;
-        await requests.post('/seller/business', data);
+        const { status } = await requests.post('/seller/business', data);
+        if (status === 'success') {
+          addToast('Successfully added seller business information', {
+            appearance: 'success',
+            autoDismiss: true,
+          });
+        }
         setIsLoading(false);
         skipToBankDetails();
       } catch (err) {
