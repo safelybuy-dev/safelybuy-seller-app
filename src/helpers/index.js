@@ -44,7 +44,7 @@ export const validateInput = (event) =>
 
 export const randomInt = (length) => Math.floor(Math.random() * (length - 1));
 
-export const baseURL = 'https://safelybuy-api.herokuapp.com/api/v1/seller';
+export const baseURL = 'api.safelybuy.com/api/v1/seller';
 
 export const axiosInstance = axios.create({
   baseURL,
