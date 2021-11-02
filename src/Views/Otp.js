@@ -4,7 +4,7 @@ import Logo from 'components/Logo';
 import Footer from 'components/Footer';
 import Button from 'components/Button';
 import { useHistory } from 'react-router-dom';
-import utilities from 'utilities';
+// import utilities from 'utilities';
 import { requests, action } from 'requests';
 import { useToasts } from 'react-toast-notifications';
 import { ContextUser } from 'context';
@@ -21,7 +21,7 @@ const Otp = () => {
   const user_phone = pre_otp_details ? JSON.parse(pre_otp_details)[0] : '';
 
   const { addToast } = useToasts();
-  const [loadingUser, setLoadingUser] = useState(false);
+  // const [loadingUser, setLoadingUser] = useState(false);
   const [loadingVerification, setLoadingVerification] = useState(false);
   const [otp, setOtp] = useState();
 
@@ -58,26 +58,26 @@ const Otp = () => {
     return () => {};
   }, [otp, addToast, dispatch, history, user_id]);
 
-  const onSubmit = async (data) => {
-    setLoadingUser(true);
-    try {
-      const response = await requests.post('/register', data);
-      setLoadingUser(false);
-    } catch (err) {
-      setLoadingUser(false);
+  // const onSubmit = async (data) => {
+  //   setLoadingUser(true);
+  //   try {
+  //     const response = await requests.post('/register', data);
+  //     setLoadingUser(false);
+  //   } catch (err) {
+  //     setLoadingUser(false);
 
-      if (err.response?.data?.error) {
-        return addToast(
-          utilities.formatErrorResponse(
-            Object.values(err.response?.data?.error).flat()
-          ),
-          { appearance: 'error' }
-        );
-      }
+  //     if (err.response?.data?.error) {
+  //       return addToast(
+  //         utilities.formatErrorResponse(
+  //           Object.values(err.response?.data?.error).flat()
+  //         ),
+  //         { appearance: 'error' }
+  //       );
+  //     }
 
-      return addToast('Failed to sign up try again', { appearance: 'error' });
-    }
-  };
+  //     return addToast('Failed to sign up try again', { appearance: 'error' });
+  //   }
+  // };
 
   return sessionStorage.getItem('safely_buy_pre_otp') ? (
     <div className='relative justify-between flex flex-col min-h-screen text-center'>
