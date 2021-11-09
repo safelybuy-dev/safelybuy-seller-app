@@ -12,7 +12,7 @@ const SuccessError = () => {
 
   return (
     <div className='relative justify-between flex flex-col min-h-screen text-center'>
-      <div>
+      <div className='pb-60'>
         <header className='flex tracking-wide justify-center mx-12 my-8 md:mx-6 md:my-3'>
           <Logo color='black' text='transact with no regret' />
         </header>
