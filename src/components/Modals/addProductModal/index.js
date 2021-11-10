@@ -263,7 +263,7 @@ const Modal = ({ selectedProduct, setSelectedProduct }) => {
     }
 
     for (var i = 0; i < other_images.length; i++) {
-      body.append(`other_images${i}`, other_images[i]);
+      body.append(`other_images[${i}]`, other_images[i]);
     }
 
     try {
