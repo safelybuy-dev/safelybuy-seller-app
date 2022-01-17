@@ -16,10 +16,10 @@ const Messaging = lazy(() => import('./Main/Messaging'));
 // const Shopping = lazy(() => import('../Shopping'));
 const Orders = lazy(() => import('../Shopping/Orders'));
 const Reports = lazy(() => import('../Shopping/Reports'));
-// const Tickets = lazy(() => import('../Tickets'));
-// const TicketsInventory = lazy(() => import('../Tickets/Inventory'));
+const Tickets = lazy(() => import('../Tickets'));
+const TicketsInventory = lazy(() => import('../Tickets/Inventory'));
 const Inventory = lazy(() => import('../Inventory'));
-// const TicketSales = lazy(() => import('../Tickets/Sales'));
+const TicketSales = lazy(() => import('../Tickets/Sales'));
 
 export default function Dashboard() {
   const [state, dispatch] = useReducer(userReducer, auth);
@@ -71,15 +71,15 @@ export default function Dashboard() {
               <Route exact path='/shopping/reports'>
                 <Reports />
               </Route>
-              {/* <Route exact path='/tickets/inventory'>
+              <Route exact path='/tickets/inventory'>
                 <TicketsInventory />
-              </Route> */}
-              {/* <Route exact path='/tickets'>
+              </Route>
+              <Route exact path='/tickets'>
                 <Tickets />
               </Route>
               <Route exact path='/tickets/sales'>
                 <TicketSales />
-              </Route> */}
+              </Route>
               <Route path='/'>
                 <Main />
               </Route>

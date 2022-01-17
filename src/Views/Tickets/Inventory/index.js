@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import Breadcrumb from 'components/Breadcrumb';
-import Modal from 'components/Modals/addProductModal';
+import TicketModal from 'components/Modals/addTicketEventModal';
 import Button from 'components/Button';
-import { pluSVG } from 'svg';
 
 const Inventory = () => {
-  const [selectedProduct, setSelectedProduct] = useState(true);
+  const [openTicketModal, setTicketModal] = useState(false);
 
   return (
     <div className='flex flex-col w-full items-start'>
@@ -20,9 +19,9 @@ const Inventory = () => {
         <span className='inline-block md:hidden'>
           <Button
             canClick={true}
-            clickHandler={() => setSelectedProduct(true)}
+            clickHandler={() => setTicketModal(true)}
             event='onClick'
-            text='Add a New Product'
+            text='Create a ticket or an event'
             primary
             roundedFull
             icon='+'
@@ -33,9 +32,9 @@ const Inventory = () => {
         </span>
       </div>
 
-      <Modal
-        selectedProduct={selectedProduct}
-        setSelectedProduct={setSelectedProduct}
+      <TicketModal
+        openTicketModal={openTicketModal}
+        setTicketModal={setTicketModal}
       />
     </div>
   );
