@@ -4,18 +4,16 @@
   "private": true,
   "homepage": "/",
   "dependencies": {
+    "@craco/craco": "^6.4.3",
     "@fullhuman/postcss-purgecss": "^3.0.0",
     "@hookform/resolvers": "^2.6.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
-    "autoprefixer": "^9.8.6",
     "axios": "^0.21.1",
     "jwt-decode": "^3.1.2",
     "moment": "^2.29.1",
     "npm-run-all": "^4.1.5",
-    "postcss": "^7.0.35",
-    "postcss-cli": "^8.3.0",
     "react": "^17.0.1",
     "react-confirm-alert": "^2.7.0",
     "react-date-picker": "^8.2.0",
@@ -29,20 +27,14 @@
     "react-table": "^7.6.2",
     "react-toast-notifications": "^2.4.4",
     "react-use": "^17.2.1",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.1",
     "universal-cookie": "^4.0.4",
     "web-vitals": "^0.2.4",
     "yup": "^0.32.8"
   },
   "scripts": {
-    "build:tailwind": "postcss src/tailwind.css -o src/tailwind.generated.css",
-    "watch:tailwind": "postcss -w src/tailwind.css -o src/tailwind.generated.css",
-    "prestart": "npm run build:tailwind",
-    "start": "react-scripts start",
-    "dev": "run-p watch:tailwind start",
-    "prebuild": "npm run build:tailwind",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -64,6 +56,9 @@
     ]
   },
   "devDependencies": {
-    "@types/react-toast-notifications": "^2.4.0"
+    "@types/react-toast-notifications": "^2.4.0",
+    "autoprefixer": "^9.8.8",
+    "postcss": "^7.0.39",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17"
   }
 }

@@ -14,7 +14,9 @@ const TableBody = ({
   setActive,
   setSelectedProduct,
   setSelectedSeller,
+  items=[],
 }) => {
+      console.log(items);
   const data = React.useMemo(
     () => [
       {
@@ -70,14 +72,21 @@ const TableBody = ({
           </div>
         ),
         actions: (
-          <div>
-            <Button roundedFull primary>
+          <div className="flex justify-between">
+              <Button rounded alternate>
+                Sold Out
+              </Button>
+              {/* <span className='inline-block p-2'></span> */}
+              <Button rounded danger>
+                Delete
+              </Button>
+            {/* <Button roundedFull primary>
               Approve
             </Button>
             <span className='inline-block p-1'></span>
             <Button roundedFull danger>
               Deny
-            </Button>
+            </Button> */}
           </div>
         ),
       },
@@ -135,16 +144,17 @@ const TableBody = ({
         ),
         actions: (
           <div className=' '>
-            <div className='justify-around'>
-              <Button rounded secondary>
+            {/* <div className='justify-around'> */}
+              {/* <Button rounded secondary>
                 Edit
               </Button>
               <span className='inline-block p-2'></span>
               <Button rounded primary>
                 Print Details
-              </Button>
-            </div>
-            <span className='inline-block p-px'></span>
+              </Button> */}
+              
+            {/* </div> */}
+            {/* <span className='inline-block p-px'></span> */}
             <div className='justify-around'>
               <Button rounded alternate>
                 Sold Out
@@ -211,7 +221,7 @@ const TableBody = ({
         ),
         actions: (
           <>
-            <div className='justify-around'>
+            {/* <div className='justify-around'>
               <Button rounded secondary>
                 Edit
               </Button>
@@ -220,7 +230,7 @@ const TableBody = ({
                 Print Details
               </Button>
             </div>
-            <span className='inline-block p-px'></span>
+            <span className='inline-block p-px'></span> */}
             <div className='justify-around'>
               <Button rounded alternate>
                 Sold Out
@@ -287,7 +297,7 @@ const TableBody = ({
         ),
         actions: (
           <>
-            <div className='justify-around'>
+            {/* <div className='justify-around'>
               <Button rounded secondary>
                 Edit
               </Button>
@@ -296,7 +306,7 @@ const TableBody = ({
                 Print Details
               </Button>
             </div>
-            <span className='inline-block p-px'></span>
+            <span className='inline-block p-px'></span> */}
             <div className='justify-around'>
               <Button rounded alternate>
                 Sold Out
@@ -363,7 +373,7 @@ const TableBody = ({
         ),
         actions: (
           <>
-            <div className='justify-around'>
+            {/* <div className='justify-around'>
               <Button rounded secondary>
                 Edit
               </Button>
@@ -372,7 +382,7 @@ const TableBody = ({
                 Print Details
               </Button>
             </div>
-            <span className='inline-block p-px'></span>
+            <span className='inline-block p-px'></span> */}
             <div className='justify-around'>
               <Button rounded alternate>
                 Sold Out
@@ -421,7 +431,7 @@ const TableBody = ({
   } = useTable({ columns, data });
 
   return (
-    <div className='overflow-x-scroll mt-8'>
+    <div className='overflow-x-scroll md:overflow-x-hidden mt-8'>
       <table {...getTableProps()} className='w-full text-sm'>
         <thead className='text-left border-b-2 border-gray-100'>
           {headerGroups.map((headerGroup) => (

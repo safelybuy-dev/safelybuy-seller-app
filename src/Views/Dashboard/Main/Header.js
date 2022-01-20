@@ -3,10 +3,10 @@ import Logo from 'components/Logo';
 import { useComponentVisible } from 'hooks';
 import NavItem from './NavItem';
 import { Hamburger, CloseIcon } from 'svg';
-import { navMenuItems } from 'data';
+import { navMenuItems, ticketNavMenuItems } from 'data';
 import Notifications from './Notifications';
 import NotificationDetails from './NotificationDetails';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import User from './User';
 import Container from 'components/Container';
 
@@ -22,6 +22,7 @@ function closeNav() {
 }
 
 const Header = ({ setIsMenuOpen, isMenuOpen, prefrence, setPrefrence }) => {
+  const history = useHistory();
   const {
     ref: notRef,
     isComponentVisible: notIsVisible,
@@ -33,10 +34,10 @@ const Header = ({ setIsMenuOpen, isMenuOpen, prefrence, setPrefrence }) => {
     isComponentVisible: userIsVisible,
     setIsComponentVisible: setUserIsVisible,
   } = useComponentVisible(false);
-
+      console.log("Yo am here");
   return (
     <>
-      <header className='flex bg-white flex-col  pt-6 md:p-6 md:py-3 fixed top-0 z-50 w-full shadow-md'>
+      <header className='flex bg-white flex-col  pt-6  md:pt-3 fixed top-0 z-50 w-full shadow-md'>
         <Container>
           <NotificationDetails
             setNotIsVisible={setNotIsVisible}
@@ -64,16 +65,19 @@ const Header = ({ setIsMenuOpen, isMenuOpen, prefrence, setPrefrence }) => {
               </Link>
             </div>
             <div className='flex items-center pl-12'>
-              {/* <p
+              <p
                 onClick={() => {
                   prefrence === 'Shopping'
                     ? setPrefrence('Tickets')
                     : setPrefrence('Shopping');
+                  const current = prefrence === 'Shopping' ? 'Tickets' : 'Shopping'
+                  history.push("/"+current.toLowerCase());
+
                 }}
-                className='mr-4 text-purple-500 cursor-pointer'
+                className='mr-4 text-purple-500  font-semibold cursor-pointer'
               >
                 Switch to {prefrence === 'Shopping' ? 'Tickets' : 'Shopping'}
-              </p> */}
+              </p>
 
               <Notifications
                 notRef={notRef}
@@ -94,10 +98,12 @@ const Header = ({ setIsMenuOpen, isMenuOpen, prefrence, setPrefrence }) => {
             color: 'white',
             backgroundColor: 'rgba(134, 97, 255, 1)',
           }}
-          className='flex items-center px-50   tracking-wide justify-center mt-6 md:hidden'
+          className='hidden md:flex items-center px-50 md:py-2  tracking-wide justify-center mt-6 '
         >
           <ul className='flex'>
-            {navMenuItems.map((item) => (
+            {
+            
+            prefrence === "Shopping" ? (navMenuItems.map((item) => (
               <NavItem
                 key={`${Math.random()}+${Date.now()}`}
                 color={item.color}
@@ -108,7 +114,24 @@ const Header = ({ setIsMenuOpen, isMenuOpen, prefrence, setPrefrence }) => {
               >
                 {item.text}
               </NavItem>
-            ))}
+            )))
+            :
+            (
+              ticketNavMenuItems.map((item) => (
+                <NavItem
+                  key={`${Math.random()}+${Date.now()}`}
+                  color={item.color}
+                  hasDropdown={item.hasDropdown}
+                  svg={<item.SVG scale={0.255319148936} color='white' />}
+                  url={item.url}
+                  dropDownLinks={item.dropdownLinks}
+                >
+                  {item.text}
+                </NavItem>
+              ))
+            )
+            
+            }
           </ul>
         </nav>
       </header>

@@ -71,7 +71,7 @@ export default function Dashboard() {
               <Route exact path='/shopping/reports'>
                 <Reports />
               </Route>
-              <Route exact path='/tickets/inventory'>
+              <Route exact path={['/tickets/inventory', "/tickets/inventory/add"]}>
                 <TicketsInventory />
               </Route>
               <Route exact path='/tickets'>

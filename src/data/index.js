@@ -35,6 +35,43 @@ export const navMenuItems = [
   },
 ];
 
+export const ticketNavMenuItems = [
+  {
+    color: 'white',
+    hasDropdown: false,
+    SVG: HomeSVG,
+    text: 'Home',
+    url: '/tickets',
+    type: ['Shopping', 'Tickets'],
+  },
+  {
+    color: 'black',
+    hasDropdown: true,
+    SVG: InventorySVG,
+    dropdownLinks: [
+      { text: 'Manage Inventory', url: '/tickets/inventory' },
+      { text: 'Add a product', url: '/tickets/inventory/add' },
+    ],
+    text: 'Inventory',
+  },
+  {
+    color: 'white',
+    hasDropdown: false,
+    SVG: orders,
+    text: 'Orders',
+    url: '/tickets/orders',
+  },
+  {
+    color: 'white',
+    hasDropdown: false,
+    SVG: reportSVG,
+    text: 'Reports',
+    url: '/tickets/reports',
+  },
+];
+
+
+
 export const mainMenuItems = [
   { url: '/users', text: 'Administrator Management' },
   { url: '/customers', text: 'Customer Management' },

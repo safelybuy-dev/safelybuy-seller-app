@@ -34,11 +34,11 @@ const SamplePage = () => {
           </div>
         </header>
         <div className='flex justify-between w-full'>
-          <div className='z-20 text-left w-1/3 md:w-full md:px-8'>
-            <h1 className='pt-8 pb-2 leading-normal font-bold text-6xl z-10 md:text-4xl'>
+          <div className='z-20 text-left md:w-2/4 w-full md:px-8'>
+            <h1 className='pt-8 pb-2 leading-normal font-bold md:text-6xl z-10 text-4xl'>
               Sell your <br /> products and <br /> make money
             </h1>
-            <p className='font-medium leading-normal mb-20 md:mb-8'>
+            <p className='font-medium leading-normal md:mb-20 mb-8'>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </p>
@@ -90,7 +90,7 @@ const SamplePage = () => {
       </div>
       <div className='relative z-10'>
         <Container>
-          <div className='relative hidden justify-center mt-10 md:flex'>
+          <div className='relative md:hidden justify-center mt-10 flex'>
             {/* {<DevicesIconMobile />} */}
             <img
               src={phone}
@@ -99,7 +99,7 @@ const SamplePage = () => {
               style={{ height: '600px' }}
             />
           </div>
-          <div className='relative flex justify-center mt-10 md:hidden'>
+          <div className='relative hidden justify-center mt-10 md:flex'>
             {/* {<DevicesIcon />} */}
             <img
               src={phone}

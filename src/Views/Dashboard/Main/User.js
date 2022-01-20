@@ -26,13 +26,13 @@ const User = ({ userIsVisible, setUserIsVisible, userRef }) => {
           )}`}
         >
           {<UserAvatar scale={1.5} />}
-          <div className='ml-3 flex flex-col md:hidden'>
+          <div className='ml-3 md:flex flex-col hidden'>
             <span className='font-normal capitalize text-xs'>{`${state.user.firstname} ${state.user.lastname}`}</span>
             <span className='uppercase text-gray-400 text-xs'>
               {state.user.role}
             </span>
           </div>
-          <div className='ml-4 flex flex-col justify-between md:hidden'>
+          <div className='ml-4 md:flex flex-col justify-between hidden'>
             <div className='mb-px'>
               <ArrowUp />
             </div>
@@ -48,7 +48,7 @@ const User = ({ userIsVisible, setUserIsVisible, userRef }) => {
           )}
           {userIsVisible && (
             <ul
-              className={`absolute w-40 mt-2 bg-white z-10 rounded-xl border-gray-100 border-2 md:invisible`}
+              className={`absolute w-40 mt-2 bg-white z-10 rounded-xl border-gray-100 border-2 md:visible invisible`}
             >
               {[
                 {

@@ -96,7 +96,7 @@ const RecentSales = ({ orders }) => {
   } = useTable({ columns, data });
 
   return (
-    <div className='overflow-x-scroll'>
+    <div className=''>
       <table {...getTableProps()} className='w-full text-sm'>
         <thead className='text-left border-b-2 border-gray-100'>
           {headerGroups.map((headerGroup) => (
@@ -155,15 +155,15 @@ const Main = () => {
   if (loading) return 'loading...';
 
   return (
-    <div className='flex md:flex-wrap md:justify-center'>
-      <div className='flex flex-col flex-1 w-6/12 md:w-full md:mt-8'>
+    <div className='flex flex-wrap md:justify-between mt-12'>
+      <div className='flex flex-col flex-0.7 w-6/12 md:w-full'>
         <div className='mt-5 p-10 md:py-5 md:px-5 md:mt-0 rounded-3xl bg-white'>
-          <h3 className='text-2xl md:pb-6 md:bg-white md:mt-2 tracking-wider'>
+          <h3 className='text-2xl md:pb-6 text-gray-800 md:bg-white md:mt-2 tracking-wider'>
             Your Orders
           </h3>
-          <div className='flex space-x-4 md:flex-col'>
+          <div className='flex space-x-4 flex-col md:flex-row'>
             <div className='flex flex-1 items-center'>
-              <div className='w-60 relative md:w-full'>
+              <div className='w-60 relative'>
                 <PieChart
                   data={[
                     {
@@ -204,7 +204,7 @@ const Main = () => {
                   className='absolute w-36 flex flex-col px-6 bg-green-50 text-center items-center justify-center rounded-full h-36 border-2 border-green-100'
                 >
                   <div className='text-green-600'>Keep Selling!!!</div>
-                  <div className='text-gray-900'>Nothing to show yet</div>
+                  <div className='text-gray-900 text-xs mt-1'>Nothing to show yet</div>
                 </div>
               </div>
             </div>
@@ -221,11 +221,11 @@ const Main = () => {
             </div>
           </div>
         </div>
-        <div className='mt-8 mb-4 md:-mx-6 md:bg-white md:py-8 md:px-10'>
-          <h3 className='text-2xl md:pb-6 md:bg-white tracking-wider'>
+        <div className='mt-8 mb-4  md:bg-white md:py-8 md:px-10 rounded-3xl'>
+          <h3 className='text-2xl md:pb-6 text-gray-800  md:bg-white tracking-wider'>
             Recent Sales
           </h3>
-          <div className='mt-5 py-8 px-10 md:py-0 md:px-0 md:mt-0 rounded-3xl md:rounded-none bg-white'>
+          <div className='mt-5 py-8 px-10 md:py-0 md:px-0 md:mt-0  bg-white'>
             <RecentSalesTable />
             {/* <div className='flex justify-between mt-8 pb-8 w-full'>
               <span className='text-gray-500'>Showing 8 of 100</span>
@@ -236,7 +236,7 @@ const Main = () => {
           </div>
         </div>
       </div>
-      <div className='flex ml-2 flex-col w-3/12 tracking-wide md:w-6/12 sm:w-10/12'>
+      <div className='flex flex-0.3 ml-2 flex-col w-3/12 tracking-wide md:w-6/12 sm:w-10/12'>
         <Highlight balance={shoppingIndex?.wallet_balance} />
       </div>
     </div>

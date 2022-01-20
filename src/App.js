@@ -1,7 +1,6 @@
 import React, { useReducer, Suspense, lazy, useEffect } from 'react';
 import { ToastProvider } from 'react-toast-notifications';
 import './App.css';
-import './tailwind.generated.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { ContextUser } from './context';
 import PrivateRoute from './auth/PrivateRoute';

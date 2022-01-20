@@ -67,7 +67,7 @@ const Inventory = ({ value }) => {
   }, [url]);
 
   return (
-    <div className='flex flex-col w-full items-start'>
+    <div className='flex flex-col w-full items-start mt-12'>
       <div className='flex justify-between w-full'>
         <h2 className='text-xl'>Manage Inventory</h2>
         <span className='inline-block'>

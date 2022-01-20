@@ -41,8 +41,8 @@ const Button = ({
     <button
       type={submit ? 'submit' : ''}
       className={`${
-        primary ? `bg-green-500 text-white px-10 py-2 border-green-500` : ''
-      } ${alternate ? `text-white bg-black px-6 py-1 text-sm md:px-1` : ''} ${
+        primary ? `bg-green-500 text-white px-4 py-2 border-green-500` : ''
+      } ${alternate ? `text-white bg-black md:px-4 py-1 text-sm px-1` : ''} ${
         underlined ? `border-b-2 border-black pb-1 mr-3` : ''
       } ${rounded ? `rounded` : ''} ${roundedMd ? `rounded-md` : ''} ${
         roundedLg ? `rounded-lg` : ''
