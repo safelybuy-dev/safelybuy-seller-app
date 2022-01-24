@@ -1,6 +1,8 @@
 import React from 'react';
 import { useTable } from 'react-table';
 import Button from 'components/Button';
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
 const KeyValue = ({ title, value }) => (
   <div className='flex my-3 flex-col'>
@@ -12,32 +14,77 @@ const KeyValue = ({ title, value }) => (
 const TableBody = ({
   active,
   setActive,
+  deleteItem,
+  selloutItem,
   setSelectedProduct,
   setSelectedSeller,
   items=[],
 }) => {
-      console.log(items);
+
+  const handleDelete = React.useCallback(
+    (id) => {
+      confirmAlert({
+        title: 'Delete Item',
+        message: 'Are you sure you want to delete the item?',
+        buttons: [
+          {
+            label: 'Yes',
+            onClick: () => deleteItem(id),
+          },
+          {
+            label: 'No',
+            onClick: () => {},
+          },
+        ],
+      });
+    },
+    [deleteItem]
+  );
+
+  const handleSellout = React.useCallback(
+    (id) => {
+      confirmAlert({
+        title: 'Sellout Item',
+        message: 'Are you sure you want to mark this item as sold out??',
+        buttons: [
+          {
+            label: 'Yes',
+            onClick: () => selloutItem(id),
+          },
+          {
+            label: 'No',
+            onClick: () => {},
+          },
+        ],
+      });
+    },
+    [selloutItem]
+  );
+
+
+
   const data = React.useMemo(
-    () => [
-      {
-        status: 'Active',
-        sku: '#2123434343',
-        tickets_available: '1,000',
+    () => 
+      items
+      .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+      .map((item) => ({
+        status: item.status,
+        sku: `#${item.listing_number}`,
+        tickets_available: item.total_tickets,
         desc: (
           <div>
             <p
-              onClick={() => setSelectedProduct({ name: 'New Meaning' })}
+              onClick={() => setSelectedProduct(item)}
               className='text-purple-600 cursor-pointer text-sm'
             >
-              Joeboy’s Bad Baby Live-in Concert
+              {item.title}
             </p>
             <div className='flex justify-between'>
               <KeyValue
                 title='Location'
                 value={
                   <p>
-                    The Muson Center,
-                    <br /> Lekki Phase 1
+                    {item.location}
                   </p>
                 }
               />
@@ -48,81 +95,10 @@ const TableBody = ({
             </div>
           </div>
         ),
-        category: 'Concert',
+        category: item.category === 1 ? "Concerts" : "Tickets",
         seller: (
           <p
-            onClick={() => setSelectedSeller({ name: 'New Meaning' })}
-            className='text-purple-500 cursor-pointer'
-          >
-            Kareem Chibuzor
-          </p>
-        ),
-        date: (
-          <div>
-            <p className=''>
-              {new Intl.DateTimeFormat('en-GB', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric',
-                hour: 'numeric',
-                hour12: true,
-                minute: 'numeric',
-              }).format(Date.now())}
-            </p>
-          </div>
-        ),
-        actions: (
-          <div className="flex justify-between">
-              <Button rounded alternate>
-                Sold Out
-              </Button>
-              {/* <span className='inline-block p-2'></span> */}
-              <Button rounded danger>
-                Delete
-              </Button>
-            {/* <Button roundedFull primary>
-              Approve
-            </Button>
-            <span className='inline-block p-1'></span>
-            <Button roundedFull danger>
-              Deny
-            </Button> */}
-          </div>
-        ),
-      },
-      {
-        status: 'Active',
-        sku: '#2123434343',
-        tickets_available: '1,000',
-        desc: (
-          <div>
-            <p
-              onClick={() => setSelectedProduct({ name: 'New Meaning' })}
-              className='text-purple-600 cursor-pointer text-sm'
-            >
-              The Adekunle’s Family Reunion
-            </p>
-            <div className='flex justify-between'>
-              <KeyValue
-                title='Location'
-                value={
-                  <p>
-                    The Muson Center,
-                    <br /> Lekki Phase 1
-                  </p>
-                }
-              />
-              <KeyValue
-                title='Seat Categories'
-                value='VIP, Regular, VVIP, Table for 6, Table for 2'
-              />
-            </div>
-          </div>
-        ),
-        category: 'Parties',
-        seller: (
-          <p
-            onClick={() => setSelectedSeller({ name: 'New Meaning' })}
+            onClick={() => setSelectedSeller(item)}
             className='text-purple-500 cursor-pointer'
           >
             Kareem Chibuzor
@@ -144,259 +120,46 @@ const TableBody = ({
         ),
         actions: (
           <div className=' '>
-            {/* <div className='justify-around'> */}
-              {/* <Button rounded secondary>
-                Edit
-              </Button>
-              <span className='inline-block p-2'></span>
-              <Button rounded primary>
-                Print Details
-              </Button> */}
-              
-            {/* </div> */}
-            {/* <span className='inline-block p-px'></span> */}
-            <div className='justify-around'>
-              <Button rounded alternate>
-                Sold Out
-              </Button>
-              <span className='inline-block p-2'></span>
-              <Button rounded danger>
-                Delete
-              </Button>
-            </div>
+            {item.approval_status === 'pending' ? (
+              <span onClick={() => handleDelete(item.id)}>
+                <Button rounded danger>
+                  Delete
+                </Button>
+              </span>
+            ) : item.approval_status === 'approved' ? (
+              <>
+                {/* <div className='justify-around'>
+                <Button rounded secondary>
+                  Edit
+                </Button>
+                <span className='inline-block p-2'></span>
+                <Button rounded primary>
+                  Print Details
+                </Button>
+              </div> */}
+                {/* <span className='inline-block p-px'></span> */}
+                <div className='justify-around'>
+                  <span onClick={() => handleSellout(item.id)}>
+                    <Button rounded alternate>
+                      Sold Out
+                    </Button>
+                  </span>
+                  <span className='inline-block p-2'></span>
+                  <span onClick={() => handleDelete(item.id)}>
+                    <Button rounded danger>
+                      Delete
+                    </Button>
+                  </span>
+                </div>
+              </>
+            ) : (
+              <p className='text-gray-300'>Item denied</p>
+            )}
           </div>
         ),
-      },
-      {
-        status: 'Active',
-        sku: '#2123434343',
-        tickets_available: '1,000',
-        desc: (
-          <div>
-            <p
-              onClick={() => setSelectedProduct({ name: 'New Meaning' })}
-              className='text-purple-600 cursor-pointer text-sm'
-            >
-              The KKB Friends and Family Show
-            </p>
-            <div className='flex justify-between'>
-              <KeyValue
-                title='Location'
-                value={
-                  <p>
-                    The Muson Center,
-                    <br /> Lekki Phase 1
-                  </p>
-                }
-              />
-              <KeyValue
-                title='Seat Categories'
-                value='VIP, Regular, VVIP, Table for 6, Table for 2'
-              />
-            </div>
-          </div>
-        ),
-        category: 'Talk Show',
-        seller: (
-          <p
-            onClick={() => setSelectedSeller({ name: 'New Meaning' })}
-            className='text-purple-500 cursor-pointer'
-          >
-            Kareem Chibuzor
-          </p>
-        ),
-        date: (
-          <div>
-            <p className=''>
-              {new Intl.DateTimeFormat('en-GB', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric',
-                hour: 'numeric',
-                hour12: true,
-                minute: 'numeric',
-              }).format(Date.now())}
-            </p>
-          </div>
-        ),
-        actions: (
-          <>
-            {/* <div className='justify-around'>
-              <Button rounded secondary>
-                Edit
-              </Button>
-              <span className='inline-block p-2'></span>
-              <Button rounded primary>
-                Print Details
-              </Button>
-            </div>
-            <span className='inline-block p-px'></span> */}
-            <div className='justify-around'>
-              <Button rounded alternate>
-                Sold Out
-              </Button>
-              <span className='inline-block p-2'></span>
-              <Button rounded danger>
-                Delete
-              </Button>
-            </div>
-          </>
-        ),
-      },
-      {
-        status: 'Active',
-        sku: '#2123434343',
-        tickets_available: '1,000',
-        desc: (
-          <div>
-            <p
-              onClick={() => setSelectedProduct({ name: 'New Meaning' })}
-              className='text-purple-600 cursor-pointer text-sm'
-            >
-              Joeboy’s Bad Baby Live-in Concert
-            </p>
-            <div className='flex justify-between'>
-              <KeyValue
-                title='Location'
-                value={
-                  <p>
-                    The Muson Center,
-                    <br /> Lekki Phase 1
-                  </p>
-                }
-              />
-              <KeyValue
-                title='Seat Categories'
-                value='VIP, Regular, VVIP, Table for 6, Table for 2'
-              />
-            </div>
-          </div>
-        ),
-        category: 'Concert',
-        seller: (
-          <p
-            onClick={() => setSelectedSeller({ name: 'New Meaning' })}
-            className='text-purple-500 cursor-pointer'
-          >
-            Kareem Chibuzor
-          </p>
-        ),
-        date: (
-          <div>
-            <p className=''>
-              {new Intl.DateTimeFormat('en-GB', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric',
-                hour: 'numeric',
-                hour12: true,
-                minute: 'numeric',
-              }).format(Date.now())}
-            </p>
-          </div>
-        ),
-        actions: (
-          <>
-            {/* <div className='justify-around'>
-              <Button rounded secondary>
-                Edit
-              </Button>
-              <span className='inline-block p-2'></span>
-              <Button rounded primary>
-                Print Details
-              </Button>
-            </div>
-            <span className='inline-block p-px'></span> */}
-            <div className='justify-around'>
-              <Button rounded alternate>
-                Sold Out
-              </Button>
-              <span className='inline-block p-2'></span>
-              <Button rounded danger>
-                Delete
-              </Button>
-            </div>
-          </>
-        ),
-      },
-      {
-        status: 'Active',
-        sku: '#2123434343',
-        tickets_available: '1,000',
-        desc: (
-          <div>
-            <p
-              onClick={() => setSelectedProduct({ name: 'New Meaning' })}
-              className='text-purple-600 cursor-pointer text-sm'
-            >
-              Joeboy’s Bad Baby Live-in Concert
-            </p>
-            <div className='flex justify-between'>
-              <KeyValue
-                title='Location'
-                value={
-                  <p>
-                    The Muson Center,
-                    <br /> Lekki Phase 1
-                  </p>
-                }
-              />
-              <KeyValue
-                title='Seat Categories'
-                value='VIP, Regular, VVIP, Table for 6, Table for 2'
-              />
-            </div>
-          </div>
-        ),
-        category: 'Concert',
-        seller: (
-          <p
-            onClick={() => setSelectedSeller({ name: 'New Meaning' })}
-            className='text-purple-500 cursor-pointer'
-          >
-            Kareem Chibuzor
-          </p>
-        ),
-        date: (
-          <div>
-            <p className=''>
-              {new Intl.DateTimeFormat('en-GB', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric',
-                hour: 'numeric',
-                hour12: true,
-                minute: 'numeric',
-              }).format(Date.now())}
-            </p>
-          </div>
-        ),
-        actions: (
-          <>
-            {/* <div className='justify-around'>
-              <Button rounded secondary>
-                Edit
-              </Button>
-              <span className='inline-block p-2'></span>
-              <Button rounded primary>
-                Print Details
-              </Button>
-            </div>
-            <span className='inline-block p-px'></span> */}
-            <div className='justify-around'>
-              <Button rounded alternate>
-                Sold Out
-              </Button>
-              <span className='inline-block p-2'></span>
-              <Button rounded danger>
-                Delete
-              </Button>
-            </div>
-          </>
-        ),
-      },
-    ],
-    [setSelectedSeller, setSelectedProduct]
+      }))
+      ,
+    [setSelectedSeller, setSelectedProduct, handleDelete, handleSellout, items]
   );
 
   const columns = React.useMemo(

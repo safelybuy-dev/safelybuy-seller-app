@@ -1,6 +1,7 @@
 import React, { useState, useReducer } from "react";
 import { CloseIcon, FowardSymbolSVG } from "svg";
 import { useForm, Controller } from "react-hook-form";
+import {useHistory} from "react-router-dom";
 import Button from "components/Button";
 import { BackArrowSVG, FowardArrowSVG, CameraSVG } from "../addProductModal";
 import NumberFormat from "react-number-format";
@@ -138,6 +139,8 @@ const imageReducer = (state, action) => {
 
 const TicketModal = ({ openTicketModal, setTicketModal }) => {
   const [step, setStep] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const history = useHistory();
   const [mainImageUploaded, setMainImageUploaded] = useState(false);
   const [imageState, dispatchImage] = useReducer(
     imageReducer,
@@ -219,9 +222,10 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
   if (!openTicketModal) return null;
 
   const handleEventCreation = async () => {
+      setLoading(true);
     const splitDate = event_date.split("-");
     const modifiedDate = `${splitDate[2]}/${splitDate[1]}/${splitDate[0]} ${event_time}`;
-      
+    const modifiedPrice = event_seat_price.replace(/[₦,]/g,"");  
      const cloudinaryURl = "https://api.cloudinary.com/v1_1/hack-sc/image/upload";
       const body = new FormData();
         console.log(imageState.main_event_ticket_image);
@@ -238,13 +242,13 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
         event_seats: [
           {
             type: event_seat_type,
-            price: event_seat_price,
+            price: modifiedPrice,
             available: event_available_seat,
           },
         ],
       };
   
-
+        console.log(modifiedPrice);
       const mainImageUrl = await axios.post(cloudinaryURl, body);
       
         data.main_image =  mainImageUrl.data.secure_url;
@@ -263,16 +267,17 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
              
                const res = await axios.post(cloudinaryURl, formData);
                 event_images.push(res.data.secure_url);
-             }else{
-                 event_images.push("");
              }
         }
 
-
-         data.event_images = event_images;
+         if(event_images.length > 0){
+          data.event_images = event_images;
+         }
+         
          console.log(data);
     try {
-      const res = await axios({
+
+       await axios({
         method: "post",
         url: `${baseURL}/event/add`,
         data,
@@ -281,23 +286,20 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
         },
       });
 
-      console.log("res", res);
-      // setLoading(false);
-      // history.push({
-      //   pathname: '/success-error',
-      //   state: {
-      //     data: true,
-      //   },
-      // });
+      setLoading(false);
+      history.push({
+        pathname: '/success-error',
+        state: {
+          data: true,
+        },
+      });
     } catch (err) {
-      // history.push({
-      //   pathname: '/success-error',
-      //   state: {
-      //     data: false,
-      //   },
-      // });
-      console.log(err);
-      console.log(err.message);
+      history.push({
+        pathname: '/success-error',
+        state: {
+          data: false,
+        },
+      });
     }
   };
 
@@ -392,7 +394,7 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
               <Button
                 className='focus:outline-none'
                 text='Submit'
-                canClick={true}
+                canClick={loading ? false : true}
                 clickHandler={handleEventCreation}
                 primary
                 roundedFull
