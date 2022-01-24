@@ -258,7 +258,7 @@ const Modal = ({ selectedProduct, setSelectedProduct }) => {
     ].forEach((e) => delete productData[e]);
 
     let body = new FormData();
-    for (const [key, value] of Object.entries(productData)) {
+    for  (const [key, value] of Object.entries(productData)) {
       body.append(key, value);
     }
 
