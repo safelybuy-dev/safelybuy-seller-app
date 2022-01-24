@@ -1,15 +1,15 @@
-import React, { useState, useReducer } from 'react';
-import { useHistory } from 'react-router-dom';
-import { CloseIcon, FowardSymbolSVG } from 'svg';
-import Button from 'components/Button';
-import TitleAndSpec from './titleSpecForm';
-import InventorySales from './InventorySales';
-import ProductImages from './productImages';
-import ProductLocation from './productLocation';
-import ReviewProducts from './reviewProduct';
-import axios from 'axios';
-import { baseURL } from 'helpers';
-import Container from 'components/Container';
+import React, { useState, useReducer } from "react";
+import { useHistory } from "react-router-dom";
+import { CloseIcon, FowardSymbolSVG } from "svg";
+import Button from "components/Button";
+import TitleAndSpec from "./titleSpecForm";
+import InventorySales from "./InventorySales";
+import ProductImages from "./productImages";
+import ProductLocation from "./productLocation";
+import ReviewProducts from "./reviewProduct";
+import axios from "axios";
+import { baseURL } from "helpers";
+import Container from "components/Container";
 
 export const CameraSVG = () => (
   <svg
@@ -78,61 +78,61 @@ export const FowardArrowSVG = ({ setSteps, value }) => (
 );
 
 const initialState = {
-  subcategory_id: '',
-  condition: '',
-  brand: '',
+  subcategory_id: "",
+  condition: "",
+  brand: "",
   category_id: 1,
 };
 
 const initialProductState = {
-  title: '',
-  ram_size: '',
-  rear_camera: '',
-  front_camera: '',
-  battery: '',
-  display: '',
-  internal_memory: '',
-  cpu_speed: '',
-  network: '',
-  operating_system: '',
-  description: 'Safelybuy product',
-  colour: '',
-  processor: '',
+  title: "",
+  ram_size: "",
+  rear_camera: "",
+  front_camera: "",
+  battery: "",
+  display: "",
+  internal_memory: "",
+  cpu_speed: "",
+  network: "",
+  operating_system: "",
+  description: "Safelybuy product",
+  colour: "",
+  processor: "",
 
-  specifications: '',
-  weight: '',
+  specifications: "",
+  weight: "",
 
-  seller_sku: '',
-  available: '',
-  price: '',
+  seller_sku: "",
+  available: "",
+  price: "",
 
-  main_image: '',
-  other_product_img_1: '',
-  other_product_img_2: '',
-  other_product_img_3: '',
-  other_product_img_4: '',
-  other_product_img_5: '',
-  other_product_img_6: '',
+  main_image: "",
+  other_product_img_1: "",
+  other_product_img_2: "",
+  other_product_img_3: "",
+  other_product_img_4: "",
+  other_product_img_5: "",
+  other_product_img_6: "",
 
-  shipping_state: '',
-  shipping_city: '',
-  shipping_weight: '',
+  shipping_state: "",
+  shipping_city: "",
+  shipping_weight: "",
 };
 
 const initialProductImg = {
   main_image: {},
-  other_product_img_1: '',
-  other_product_img_2: '',
-  other_product_img_3: '',
-  other_product_img_4: '',
-  other_product_img_5: '',
-  other_product_img_6: '',
+  other_product_img_1: "",
+  other_product_img_2: "",
+  other_product_img_3: "",
+  other_product_img_4: "",
+  other_product_img_5: "",
+  other_product_img_6: "",
 };
 
 function productImageReducer(state, action) {
   const { type, payload, field } = action;
   switch (type) {
-    case 'updateProductImage':
+    case "updateProductImage":
       return {
         ...state,
         [field]: payload,
@@ -145,15 +145,15 @@ function productImageReducer(state, action) {
 function productReducer(state, action) {
   const { type, payload, field } = action;
   switch (type) {
-    case 'updateProductForm':
+    case "updateProductForm":
       return {
         ...state,
         [field]: payload,
       };
-    case 'updateProductFormShippingState':
+    case "updateProductFormShippingState":
       return {
         ...state,
-        shipping_city: '',
+        shipping_city: "",
         [field]: payload,
       };
     default:
@@ -164,28 +164,28 @@ function productReducer(state, action) {
 function reducer(state, action) {
   const { type, payload } = action;
   switch (type) {
-    case 'change-category':
+    case "change-category":
       return {
         ...state,
         category_id: payload,
-        subcategory_id: '',
-        condition: '',
-        brand: '',
+        subcategory_id: "",
+        condition: "",
+        brand: "",
       };
-    case 'change-subCategory':
+    case "change-subCategory":
       return {
         ...state,
         subcategory_id: payload,
-        condition: '',
-        brand: '',
+        condition: "",
+        brand: "",
       };
-    case 'change-condition':
+    case "change-condition":
       return {
         ...state,
         condition: payload,
-        brand: '',
+        brand: "",
       };
-    case 'change-brand':
+    case "change-brand":
       return {
         ...state,
         brand: payload,
@@ -228,7 +228,7 @@ const Modal = ({ selectedProduct, setSelectedProduct }) => {
       other_product_img_5,
       other_product_img_6,
     } = product_images;
-
+    console.log(main_image);
     const other_images = [
       other_product_img_1,
       other_product_img_2,
@@ -236,11 +236,11 @@ const Modal = ({ selectedProduct, setSelectedProduct }) => {
       other_product_img_4,
       other_product_img_5,
       other_product_img_6,
-    ].filter((e) => typeof e !== 'string');
+    ].filter((e) => typeof e !== "string");
 
     const productData = {
       ...ProductsFormAndUpdater[0],
-      price: ProductsFormAndUpdater[0].price.replace(/\D/g, ''),
+      price: ProductsFormAndUpdater[0].price.replace(/\D/g, ""),
       main_image,
       category: state.category_id,
       subcategory: state.subcategory_id,
@@ -249,12 +249,12 @@ const Modal = ({ selectedProduct, setSelectedProduct }) => {
     };
 
     [
-      'other_product_img_1',
-      'other_product_img_2',
-      'other_product_img_3',
-      'other_product_img_4',
-      'other_product_img_5',
-      'other_product_img_6',
+      "other_product_img_1",
+      "other_product_img_2",
+      "other_product_img_3",
+      "other_product_img_4",
+      "other_product_img_5",
+      "other_product_img_6",
     ].forEach((e) => delete productData[e]);
 
     let body = new FormData();
@@ -268,28 +268,28 @@ const Modal = ({ selectedProduct, setSelectedProduct }) => {
 
     try {
       await axios({
-        method: 'post',
+        method: "post",
         url: `${baseURL}/item/add`,
         data: body,
         withCredentials: false,
         headers: {
-          'Access-Control-Allow-Headers':
-            'Access-Control-Allow-Origin, Access-Control-Allow-Headers, Content-Type, x-xsrf-token',
-          'Access-Control-Allow-Origin': '*',
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${localStorage.getItem('safely_buy_token')}`,
+          "Access-Control-Allow-Headers":
+            "Access-Control-Allow-Origin, Access-Control-Allow-Headers, Content-Type, x-xsrf-token",
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("safely_buy_token")}`,
         },
       });
       setLoading(false);
       history.push({
-        pathname: '/success-error',
+        pathname: "/success-error",
         state: {
           data: true,
         },
       });
     } catch (err) {
       history.push({
-        pathname: '/success-error',
+        pathname: "/success-error",
         state: {
           data: false,
         },
@@ -302,64 +302,64 @@ const Modal = ({ selectedProduct, setSelectedProduct }) => {
     1: [
       {
         value: 1,
-        name: 'Phone_and_access_subcat',
-        label: 'Phone',
+        name: "Phone_and_access_subcat",
+        label: "Phone",
       },
       {
         value: 2,
-        name: 'Phone_and_access_subcat',
-        label: 'Accessories',
+        name: "Phone_and_access_subcat",
+        label: "Accessories",
       },
     ],
     2: [
       {
         value: 3,
-        name: 'Ipad_tablet_access_subcat',
-        label: 'Ipad',
+        name: "Ipad_tablet_access_subcat",
+        label: "Ipad",
       },
       {
         value: 4,
-        name: 'Ipad_tablet_access_subcat',
-        label: 'Tablets',
+        name: "Ipad_tablet_access_subcat",
+        label: "Tablets",
       },
       {
         value: 5,
-        name: 'Ipad_tablet_access_subcat',
-        label: 'Accessories',
+        name: "Ipad_tablet_access_subcat",
+        label: "Accessories",
       },
     ],
     4: [
       {
         value: 8,
-        name: 'other_subcat',
-        label: 'Power Bank',
+        name: "other_subcat",
+        label: "Power Bank",
       },
       {
         value: 9,
-        name: 'other_subcat',
-        label: 'Apple Watch',
+        name: "other_subcat",
+        label: "Apple Watch",
       },
       {
         value: 10,
-        name: 'other_subcat',
-        label: 'Speaker',
+        name: "other_subcat",
+        label: "Speaker",
       },
       {
         value: 11,
-        name: 'other_subcat',
-        label: 'Headphone',
+        name: "other_subcat",
+        label: "Headphone",
       },
     ],
     3: [
       {
         value: 6,
-        name: 'Laptop_access_subcat',
-        label: 'Laptop',
+        name: "Laptop_access_subcat",
+        label: "Laptop",
       },
       {
         value: 7,
-        name: 'Laptop_access_subcat',
-        label: 'Accessories',
+        name: "Laptop_access_subcat",
+        label: "Accessories",
       },
     ],
   };
@@ -371,7 +371,7 @@ const Modal = ({ selectedProduct, setSelectedProduct }) => {
         canClick={true}
         clickHandler={handler}
         event='onClick'
-        text={`${step === 0 ? 'Proceed' : step === 5 ? ' Submit' : 'Continue'}`}
+        text={`${step === 0 ? "Proceed" : step === 5 ? " Submit" : "Continue"}`}
         primary
         roundedFull
         icon={<FowardSymbolSVG />}
@@ -379,7 +379,7 @@ const Modal = ({ selectedProduct, setSelectedProduct }) => {
     ) : (
       <Button
         className='left-0.5 ml-auto focus:outline-none'
-        text={`${step === 0 ? 'Proceed' : 'Continue'}`}
+        text={`${step === 0 ? "Proceed" : "Continue"}`}
         disabled
         roundedFull
         icon={<FowardSymbolSVG />}
@@ -400,8 +400,8 @@ const Modal = ({ selectedProduct, setSelectedProduct }) => {
         >
           <div className='flex justify-between w-full pb-10 items-start'>
             <h3 className='text-2xl'>
-              {' '}
-              {step === 5 ? 'Product Details' : 'Add a new product'}
+              {" "}
+              {step === 5 ? "Product Details" : "Add a new product"}
             </h3>
 
             {!loading && step === 0 && (
@@ -540,23 +540,23 @@ const Modal = ({ selectedProduct, setSelectedProduct }) => {
                     {[
                       {
                         value: 1,
-                        name: 'gadgetType',
-                        label: 'Phone and Accessories',
+                        name: "gadgetType",
+                        label: "Phone and Accessories",
                       },
                       {
                         value: 2,
-                        name: 'gadgetType',
-                        label: 'IPad, Tablet and Accessories',
+                        name: "gadgetType",
+                        label: "IPad, Tablet and Accessories",
                       },
                       {
                         value: 3,
-                        name: 'gadgetType',
-                        label: 'Laptop and Accessories',
+                        name: "gadgetType",
+                        label: "Laptop and Accessories",
                       },
                       {
                         value: 4,
-                        name: 'gadgetType',
-                        label: 'Other Gadgets',
+                        name: "gadgetType",
+                        label: "Other Gadgets",
                       },
                     ].map((each, index) => (
                       <li
@@ -564,7 +564,7 @@ const Modal = ({ selectedProduct, setSelectedProduct }) => {
                         className='cursor-pointer'
                         onClick={() => {
                           dispatch({
-                            type: 'change-category',
+                            type: "change-category",
                             payload: each.value,
                           });
                         }}
@@ -590,7 +590,7 @@ const Modal = ({ selectedProduct, setSelectedProduct }) => {
                         key={index}
                         onClick={() => {
                           dispatch({
-                            type: 'change-subCategory',
+                            type: "change-subCategory",
                             payload: each.value,
                           });
                         }}
@@ -614,21 +614,21 @@ const Modal = ({ selectedProduct, setSelectedProduct }) => {
                   <ul>
                     {[
                       {
-                        value: 'New',
-                        name: 'condition',
-                        label: 'New',
+                        value: "New",
+                        name: "condition",
+                        label: "New",
                       },
                       {
-                        value: 'Used',
-                        name: 'condition',
-                        label: 'Used',
+                        value: "Used",
+                        name: "condition",
+                        label: "Used",
                       },
                     ].map((each, index) => (
                       <li
                         key={index}
                         onClick={() => {
                           dispatch({
-                            type: 'change-condition',
+                            type: "change-condition",
                             payload: each.value,
                           });
                         }}
@@ -652,35 +652,35 @@ const Modal = ({ selectedProduct, setSelectedProduct }) => {
                   <ul>
                     {[
                       {
-                        value: 'Apple',
-                        name: 'brand',
-                        label: 'Apple',
+                        value: "Apple",
+                        name: "brand",
+                        label: "Apple",
                       },
                       {
-                        value: 'Samsung',
-                        name: 'brand',
-                        label: 'Samsung',
+                        value: "Samsung",
+                        name: "brand",
+                        label: "Samsung",
                       },
                       ...(category_id === 3
                         ? [
                             {
-                              value: 'Hp',
-                              name: 'laptop_access_brand',
-                              label: 'Hp',
+                              value: "Hp",
+                              name: "laptop_access_brand",
+                              label: "Hp",
                             },
                             {
-                              value: 'Lenovo',
-                              name: 'laptop_access_brand',
-                              label: 'Lenovo',
+                              value: "Lenovo",
+                              name: "laptop_access_brand",
+                              label: "Lenovo",
                             },
                           ]
                         : []),
                       ...(category_id === 4
                         ? [
                             {
-                              value: 'JBL',
-                              name: 'other_brand',
-                              label: 'JBL',
+                              value: "JBL",
+                              name: "other_brand",
+                              label: "JBL",
                             },
                           ]
                         : []),
@@ -689,7 +689,7 @@ const Modal = ({ selectedProduct, setSelectedProduct }) => {
                         key={index}
                         onClick={() => {
                           dispatch({
-                            type: 'change-brand',
+                            type: "change-brand",
                             payload: each.value,
                           });
                         }}
