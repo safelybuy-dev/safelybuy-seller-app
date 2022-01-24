@@ -221,83 +221,65 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
   const handleEventCreation = async () => {
     const splitDate = event_date.split("-");
     const modifiedDate = `${splitDate[2]}/${splitDate[1]}/${splitDate[0]} ${event_time}`;
+      
+     const cloudinaryURl = "https://api.cloudinary.com/v1_1/hack-sc/image/upload";
+      const body = new FormData();
+        console.log(imageState.main_event_ticket_image);
+       body.append("file", imageState.main_event_ticket_image);
+       body.append("upload_preset", "events");
 
-    const data = {
-      category: "1",
-      title,
-      details,
-      event_date: modifiedDate,
-      location,
-      listing_number,
-      // main_image: main_event_ticket_image,
-      event_images: [
-        other_event_ticket_image_1,
-        other_event_ticket_image_2,
-        other_event_ticket_image_3,
-      ],
-      hashtag: "new one",
-      event_seats: [
-        {
-          type: event_seat_type,
-          price: event_seat_price,
-          available: event_available_seat,
-        },
-      ],
-    };
-
-    // console.log("res", imageState);
-
-    const body = new FormData();
-    body.append("category", "1");
-    body.append("title", title);
-    body.append("details", details);
-    body.append("event_date", modifiedDate);
-    body.append("location", location);
-    body.append("listing_number", listing_number);
-    body.append("main_image", imageState.main_event_ticket_image);
-    // body.append("event_images", [
-    // other_event_ticket_image_1,
-    // other_event_ticket_image_2,
-    // other_event_ticket_image_3,
-    // ]);
-    // body.append("hashtag", "new one");
-    body.append("event_seats", [
-      {
-        type: event_seat_type,
-        price: event_seat_price,
-        available: event_available_seat,
-      },
-    ]);
-
-    try {
-      // const res = await axios({
-      //   method: "post",
-      //   url: `${baseURL}/event/add`,
-      //   data,
-      //   withCredentials: false,
-      //   headers: {
-      //     "Access-Control-Allow-Headers":
-      //       "Access-Control-Allow-Origin, Access-Control-Allow-Headers, Content-Type, x-xsrf-token",
-      //     "Access-Control-Allow-Origin": "*",
-      //     "Content-Type": "multipart/form-data",
-      //     Authorization: `Bearer ${localStorage.getItem("safely_buy_token")}`,
-      //   },
-      // });
-
-      const res = await fetch(
-        "https://api.safelybuy.com/api/v1/seller/event/add",
-        {
-          method: "post",
-          headers: {
-            "Access-Control-Allow-Headers":
-              "Access-Control-Allow-Origin, Access-Control-Allow-Headers, Content-Type, x-xsrf-token",
-            "Access-Control-Allow-Origin": "*",
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${localStorage.getItem("safely_buy_token")}`,
+       const data = {
+        category: "1",
+        title,
+        details,
+        event_date: modifiedDate,
+        location,
+        listing_number,
+        event_seats: [
+          {
+            type: event_seat_type,
+            price: event_seat_price,
+            available: event_available_seat,
           },
-          body: JSON.stringify(data),
+        ],
+      };
+  
+
+      const mainImageUrl = await axios.post(cloudinaryURl, body);
+      
+        data.main_image =  mainImageUrl.data.secure_url;
+        
+       const otherImage =  [
+          imageState.other_event_ticket_image_1,
+          imageState.other_event_ticket_image_2,
+          imageState.other_event_ticket_image_3,];
+          const event_images = [];
+       for(let i =0; i < otherImage.length; i++){
+             if(otherImage[i]){
+               console.log("here");
+              const formData = new FormData();
+               formData.append("file" , otherImage[i]);
+               formData.append("upload_preset", "events");
+             
+               const res = await axios.post(cloudinaryURl, formData);
+                event_images.push(res.data.secure_url);
+             }else{
+                 event_images.push("");
+             }
         }
-      );
+
+
+         data.event_images = event_images;
+         console.log(data);
+    try {
+      const res = await axios({
+        method: "post",
+        url: `${baseURL}/event/add`,
+        data,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("safely_buy_token")}`,
+        },
+      });
 
       console.log("res", res);
       // setLoading(false);
@@ -879,6 +861,7 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
                         dispatch={dispatch}
                         containerID={name}
                         imgSrc={value}
+                        dispatchImage={dispatchImage}
                         useReducerKey={name}
                       />
                     ))}
