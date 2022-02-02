@@ -1,17 +1,17 @@
-import React from 'react';
+import React from "react";
 
 const Container = ({ children, topPadding, zIndex }) => {
   return (
     <div
       style={{
-        maxWidth: '1240px',
+        maxWidth: "1240px",
       }}
       className={
         topPadding && !zIndex
-          ? 'pt-44 px-4 w-full mx-auto my-0 md:pt-0'
+          ? "md:pt-32 px-4 w-full mx-auto my-0 pt-0"
           : zIndex
-          ? 'pt-44 px-4 w-full mx-auto my-0 md:pt-0 z-20'
-          : 'w-full px-4 mx-auto my-0'
+          ? "md:pt-44 px-4 w-full mx-auto my-0 pt-0 z-20"
+          : "w-full px-4 mx-auto my-0"
       }
     >
       {children}

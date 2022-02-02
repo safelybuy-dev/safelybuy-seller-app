@@ -1,5 +1,5 @@
-import React from 'react';
-import { CloseIcon } from 'svg';
+import React from "react";
+import { CloseIcon } from "svg";
 
 const KeyValue = ({ title, value }) => (
   <div className='flex my-3 flex-col'>
@@ -13,7 +13,7 @@ const Modal = ({ selectedProduct, setSelectedProduct }) => {
   return (
     <div
       onClick={() => setSelectedProduct(null)}
-      className='fixed overflow-scroll top-0 left-0 z-50 w-screen py-40 px-40 md:py-0 md:px-0 h-screen bg-purple-600 bg-opacity-30'
+      className='fixed overflow-scroll top-0 left-0 z-50 w-screen md:py-40 md:px-40 py-0 px-0 h-screen bg-purple-600 bg-opacity-30'
     >
       <div
         onClick={(e) => e.stopPropagation()}

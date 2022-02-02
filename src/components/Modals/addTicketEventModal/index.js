@@ -1,7 +1,7 @@
 import React, { useState, useReducer } from "react";
 import { CloseIcon, FowardSymbolSVG } from "svg";
 import { useForm, Controller } from "react-hook-form";
-import {useHistory} from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Button from "components/Button";
 import { BackArrowSVG, FowardArrowSVG, CameraSVG } from "../addProductModal";
 import NumberFormat from "react-number-format";
@@ -93,15 +93,18 @@ const initialState = {
   event_time: "",
   location: "",
   listing_number: "",
-  available: 0,
   main_event_ticket_image: "",
   other_event_ticket_image_1: "",
   other_event_ticket_image_2: "",
   other_event_ticket_image_3: "",
   event_images: [],
-  event_seat_type: "",
-  event_available_seat: "",
-  event_seat_price: "",
+  event_seats: [
+    {
+      type: "",
+      price: "",
+      available: "",
+    },
+  ],
 };
 
 function event_Ticket_Reducer(state, action) {
@@ -111,6 +114,23 @@ function event_Ticket_Reducer(state, action) {
       return {
         ...state,
         [field]: payload,
+      };
+    case "addmorecategory":
+      return {
+        ...state,
+        event_seats: [
+          ...state.event_seats,
+          {
+            type: "",
+            price: "",
+            available: "",
+          },
+        ],
+      };
+    case "updateseatcategory":
+      return {
+        ...state,
+        event_seats: payload,
       };
     default:
       return { ...state };
@@ -156,16 +176,29 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
     event_time,
     location,
     listing_number,
-    // available,
-    // event_seats,
-    event_seat_price,
-    event_seat_type,
-    event_available_seat,
+    event_seats,
     main_event_ticket_image,
     other_event_ticket_image_1,
     other_event_ticket_image_2,
     other_event_ticket_image_3,
   } = eventData;
+
+  const handleSeatCategory = (index, e) => {
+    let newCategory = [...event_seats];
+
+    if (e.target.name === "price") {
+      const filteredPrice = e.target.value.replace(/[₦,]/g, "").trim();
+
+      newCategory[index][e.target.name] = filteredPrice;
+    } else {
+      newCategory[index][e.target.name] = e.target.value;
+    }
+
+    dispatch({
+      type: "updateseatcategory",
+      payload: newCategory,
+    });
+  };
 
   const {
     register,
@@ -204,9 +237,9 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
 
   const watchFields_Step2 = watch([
     "listing_number",
-    "event_seat_price",
-    "event_available_seat",
-    "event_seat_type",
+    // "event_seat_price",
+    // "event_available_seat",
+    // "event_seat_type",
   ]);
 
   const formValuesLength_1 = Object.values(watchFields_Step1)
@@ -222,62 +255,54 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
   if (!openTicketModal) return null;
 
   const handleEventCreation = async () => {
-      setLoading(true);
+    setLoading(true);
     const splitDate = event_date.split("-");
     const modifiedDate = `${splitDate[2]}/${splitDate[1]}/${splitDate[0]} ${event_time}`;
-    const modifiedPrice = event_seat_price.replace(/[₦,]/g,"");  
-     const cloudinaryURl = "https://api.cloudinary.com/v1_1/hack-sc/image/upload";
-      const body = new FormData();
-        console.log(imageState.main_event_ticket_image);
-       body.append("file", imageState.main_event_ticket_image);
-       body.append("upload_preset", "events");
+    const cloudinaryURl =
+      "https://api.cloudinary.com/v1_1/hack-sc/image/upload";
+    const body = new FormData();
+    console.log(imageState.main_event_ticket_image);
+    body.append("file", imageState.main_event_ticket_image);
+    body.append("upload_preset", "events");
 
-       const data = {
-        category: "1",
-        title,
-        details,
-        event_date: modifiedDate,
-        location,
-        listing_number,
-        event_seats: [
-          {
-            type: event_seat_type,
-            price: modifiedPrice,
-            available: event_available_seat,
-          },
-        ],
-      };
-  
-        console.log(modifiedPrice);
-      const mainImageUrl = await axios.post(cloudinaryURl, body);
-      
-        data.main_image =  mainImageUrl.data.secure_url;
-        
-       const otherImage =  [
-          imageState.other_event_ticket_image_1,
-          imageState.other_event_ticket_image_2,
-          imageState.other_event_ticket_image_3,];
-          const event_images = [];
-       for(let i =0; i < otherImage.length; i++){
-             if(otherImage[i]){
-               console.log("here");
-              const formData = new FormData();
-               formData.append("file" , otherImage[i]);
-               formData.append("upload_preset", "events");
-             
-               const res = await axios.post(cloudinaryURl, formData);
-                event_images.push(res.data.secure_url);
-             }
-        }
+    const data = {
+      category: category === "Concerts" ? "1" : "2",
+      title,
+      details,
+      event_date: modifiedDate,
+      location,
+      listing_number,
+      event_seats,
+    };
 
-         if(event_images.length > 0){
-          data.event_images = event_images;
-         }
-         
-         console.log(data);
+    const mainImageUrl = await axios.post(cloudinaryURl, body);
+
+    data.main_image = mainImageUrl.data.secure_url;
+
+    const otherImage = [
+      imageState.other_event_ticket_image_1,
+      imageState.other_event_ticket_image_2,
+      imageState.other_event_ticket_image_3,
+    ];
+    const event_images = [];
+    for (let i = 0; i < otherImage.length; i++) {
+      if (otherImage[i]) {
+        console.log("here");
+        const formData = new FormData();
+        formData.append("file", otherImage[i]);
+        formData.append("upload_preset", "events");
+
+        const res = await axios.post(cloudinaryURl, formData);
+        event_images.push(res.data.secure_url);
+      }
+    }
+
+    if (event_images.length > 0) {
+      data.event_images = event_images;
+    }
+
     try {
-
-       await axios({
+      await axios({
         method: "post",
         url: `${baseURL}/event/add`,
         data,
@@ -288,14 +313,14 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
 
       setLoading(false);
       history.push({
-        pathname: '/success-error',
+        pathname: "/success-error",
         state: {
           data: true,
         },
       });
     } catch (err) {
       history.push({
-        pathname: '/success-error',
+        pathname: "/success-error",
         state: {
           data: false,
         },
@@ -324,19 +349,18 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
           </h3>
 
           <div className=''>
-            {step === 1 && (
-              // {/* (formValuesLength_1 === 6 ? ( */}
-              <Button
-                className='focus:outline-none'
-                text='Continue'
-                canClick={true}
-                clickHandler={() => setStep(2)}
-                primary
-                roundedFull
-                icon={<FowardSymbolSVG />}
-              />
-            )}
-            {/* ) : formValuesLength_1 !== 6 ? (
+            {step === 1 &&
+              (formValuesLength_1 === 6 ? (
+                <Button
+                  className='focus:outline-none'
+                  text='Continue'
+                  canClick={true}
+                  clickHandler={() => setStep(2)}
+                  primary
+                  roundedFull
+                  icon={<FowardSymbolSVG />}
+                />
+              ) : formValuesLength_1 !== 6 ? (
                 <Button
                   className='focus:outline-none'
                   text='Continue'
@@ -344,21 +368,20 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
                   roundedFull
                   icon={<FowardSymbolSVG />}
                 />
-              ) : null)}  */}
+              ) : null)}
 
-            {step === 2 && (
-              // {/* (formValuesLength_2 > 2 ? ( */}
-              <Button
-                className='focus:outline-none'
-                text='Continue'
-                canClick={true}
-                clickHandler={() => setStep(3)}
-                primary
-                roundedFull
-                icon={<FowardSymbolSVG />}
-              />
-            )}
-            {/* ) : formValuesLength_2 !== 4 ? (
+            {step === 2 &&
+              (formValuesLength_2 === 1 ? (
+                <Button
+                  className='focus:outline-none'
+                  text='Continue'
+                  canClick={true}
+                  clickHandler={() => setStep(3)}
+                  primary
+                  roundedFull
+                  icon={<FowardSymbolSVG />}
+                />
+              ) : formValuesLength_2 !== 4 ? (
                 <Button
                   className='focus:outline-none'
                   text='Continue'
@@ -366,7 +389,7 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
                   roundedFull
                   icon={<FowardSymbolSVG />}
                 />
-              ) : null)} */}
+              ) : null)}
 
             {step === 3 &&
               (mainImageUploaded ? (
@@ -389,18 +412,26 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
                 />
               ) : null)}
 
-            {step === 4 && (
+            {step === 4 ? (
               // {/* (formValuesLength_2 > 2 ? ( */}
               <Button
                 className='focus:outline-none'
                 text='Submit'
-                canClick={loading ? false : true}
+                canClick={true}
                 clickHandler={handleEventCreation}
-                primary
                 roundedFull
+                primary
                 icon={<FowardSymbolSVG />}
               />
-            )}
+            ) : loading ? (
+              <Button
+                className='focus:outline-none'
+                text='Submit'
+                roundedFull
+                disabled
+                icon={<FowardSymbolSVG />}
+              />
+            ) : null}
 
             <span
               onClick={() => setTicketModal(null)}
@@ -459,7 +490,7 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
                               });
                             }}
                             className='border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl'
-                            // {...register('category')}
+                            {...register("category")}
                           >
                             <option value='' disabled selected>
                               Select Category
@@ -486,9 +517,9 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
                               field: "title",
                             });
                           }}
-                          // {...register('title', {
-                          //   required: true,
-                          // })}
+                          {...register("title", {
+                            required: true,
+                          })}
                           placeholder='Live Concert'
                           className={`border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
                         />
@@ -513,9 +544,9 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
                               field: "details",
                             });
                           }}
-                          // {...register('details', {
-                          //   required: 'Required',
-                          // })}
+                          {...register("details", {
+                            required: "Required",
+                          })}
                         ></textarea>
                       </div>
 
@@ -532,9 +563,9 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
                               field: "event_date",
                             });
                           }}
-                          // {...register('event_date', {
-                          //   required: 'Required',
-                          // })}
+                          {...register("event_date", {
+                            required: "Required",
+                          })}
                           placeholder='Enter date'
                           className={`border border-black
                            w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
@@ -554,9 +585,9 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
                               field: "event_time",
                             });
                           }}
-                          // {...register('event_time', {
-                          //   required: true,
-                          // })}
+                          {...register("event_time", {
+                            required: true,
+                          })}
                           placeholder='Enter event time'
                           className={`border 
                              border-black
@@ -577,9 +608,9 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
                               field: "location",
                             });
                           }}
-                          // {...register('location', {
-                          //   required: 'Required',
-                          // })}
+                          {...register("location", {
+                            required: "Required",
+                          })}
                           placeholder='Enter event location'
                           className={`border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
                         />
@@ -659,9 +690,9 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
                             field: "listing_number",
                           });
                         }}
-                        // {...register('listing_number', {
-                        //   required: true,
-                        // })}
+                        {...register("listing_number", {
+                          required: true,
+                        })}
                         placeholder='Ex. 2322-23332-322'
                         className={`border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
                       />
@@ -670,106 +701,106 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
                     <div className='text-left  border-t-2 border-grey-600'>
                       <h3 className='my-4'>Seat Category</h3>
 
-                      <div className='flex flex-row justify-between'>
-                        <div className='mr-2'>
-                          <label className='text-sm my-2' htmlFor='email'>
-                            Seat type
-                          </label>
-                          <div className='relative md:w-full mb-2 mt-2'>
-                            <select
-                              onChange={(e) => {
-                                dispatch({
-                                  type: "updateTicketEventState",
-                                  payload: e.target.value,
-                                  field: "event_seat_type",
-                                });
-                              }}
-                              className='border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl'
-                              name='event_seat_type'
-                              // {...register('event_seat_type')}
-                            >
-                              <option value='' disabled>
-                                Select Category
-                              </option>
-                              {[
-                                "Regular",
-                                "VVIP",
-                                "Table for 2",
-                                "Table for 6",
-                              ].map((e, i) => (
-                                <option key={i} value={e}>
-                                  {e}
+                      {event_seats.map((data, index) => (
+                        <div
+                          className='flex flex-row justify-between'
+                          key={index}
+                        >
+                          <div className='mr-2'>
+                            <label className='text-sm my-2' htmlFor='email'>
+                              Seat type
+                            </label>
+                            <div className='relative md:w-full mb-2 mt-2'>
+                              <select
+                                onChange={(e) => handleSeatCategory(index, e)}
+                                value={event_seats[index].type}
+                                className='border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl'
+                                name='type'
+                                // {...register('event_seat_type')}
+                              >
+                                <option value='' disabled>
+                                  Select Category
                                 </option>
-                              ))}
-                            </select>
+                                {[
+                                  "Regular",
+                                  "VVIP",
+                                  "Table for 2",
+                                  "Table for 6",
+                                ].map((e, i) => (
+                                  <option key={i} value={e}>
+                                    {e}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                          </div>
+                          <div className='mr-2'>
+                            <label className='text-sm my-2' htmlFor='email'>
+                              Seat Price (NGN)
+                            </label>
+                            <div className='relative  mb-2 mt-2'>
+                              <Controller
+                                name='price'
+                                control={control}
+                                defaultValue={event_seats[index].price}
+                                rules={{ required: true }}
+                                render={({ field: { onChange } }) => (
+                                  <NumberFormat
+                                    // {...register("event_seat_price")}
+                                    name='price'
+                                    defaultValue={event_seats[index].price}
+                                    onChange={(e) => {
+                                      handleSeatCategory(index, e);
+                                      onChange(e.target.value);
+                                    }}
+                                    placeholder='Ex. 10,000'
+                                    thousandSeparator={true}
+                                    prefix={" ₦ "}
+                                    className={`border ${
+                                      errors.name
+                                        ? "border-red"
+                                        : "border-black"
+                                    } w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                                  />
+                                )}
+                              />
+                            </div>
+                          </div>
+                          <div>
+                            <label className='text-sm my-2' htmlFor='available'>
+                              Available Seats
+                            </label>
+                            <div className='relative w-full mb-2 mt-2'>
+                              <input
+                                type='number'
+                                onKeyDown={(e) => {
+                                  if (["-", "+", "e"].includes(e.key)) {
+                                    e.preventDefault();
+                                  }
+                                }}
+                                name='available'
+                                value={event_seats[index].available}
+                                onChange={(e) => handleSeatCategory(index, e)}
+                                // {...register("event_available_seat", {
+                                //   required: "Required",
+                                // })}
+                                placeholder='Available Seats'
+                                className={`border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                              />
+                            </div>
                           </div>
                         </div>
-                        <div className='mr-2'>
-                          <label className='text-sm my-2' htmlFor='email'>
-                            Seat Price (NGN)
-                          </label>
-                          <div className='relative  mb-2 mt-2'>
-                            <Controller
-                              name='event_seat_price'
-                              control={control}
-                              defaultValue={event_seat_price}
-                              rules={{ required: true }}
-                              render={({ field: { onChange } }) => (
-                                <NumberFormat
-                                  {...register("event_seat_price")}
-                                  defaultValue={event_seat_price}
-                                  onChange={(e) => {
-                                    dispatch({
-                                      type: "updateTicketEventState",
-                                      payload: e.target.value,
-                                      field: "event_seat_price",
-                                    });
-                                    onChange(e.target.value);
-                                  }}
-                                  placeholder='Ex. 10,000'
-                                  thousandSeparator={true}
-                                  prefix={" ₦ "}
-                                  className={`border ${
-                                    errors.name ? "border-red" : "border-black"
-                                  } w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
-                                />
-                              )}
-                            />
-                          </div>
-                        </div>
-                        <div>
-                          <label className='text-sm my-2' htmlFor='email'>
-                            Available Seats
-                          </label>
-                          <div className='relative w-full mb-2 mt-2'>
-                            <input
-                              type='number'
-                              onKeyDown={(e) => {
-                                if (["-", "+", "e"].includes(e.key)) {
-                                  e.preventDefault();
-                                }
-                              }}
-                              onChange={(e) => {
-                                dispatch({
-                                  type: "updateTicketEventState",
-                                  payload: e.target.value,
-                                  field: "event_available_seat",
-                                });
-                              }}
-                              // {...register('event_available_seat', {
-                              //   required: 'Required',
-                              // })}
-                              placeholder='Available Seats'
-                              className={`border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
-                            />
-                          </div>
-                        </div>
-                      </div>
+                      ))}
                     </div>
 
                     <div
                       style={{ background: "rgba(134, 97, 255, 0.15)" }}
                       className='px-5 py-3 border-dashed border-4 border-purple-500 rounded-3xl mt-5 text-center cursor-pointer'
+                      onClick={() =>
+                        dispatch({
+                          type: "addmorecategory",
+                        })
+                      }
                     >
                       Add a new seat category
                     </div>
@@ -944,29 +975,19 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
                 <div className='flex mt-6 flex-col'>
                   <KeyValue title='Listing Number' value={listing_number} />
                   <h5 className='text-lg'>Seat Category</h5>
-                  <div className='flex border-b justify-between w-full'>
-                    <KeyValue title='Seat Type' value={event_seat_type} />
-                    <KeyValue title='Seat Price' value={event_seat_price} />
-                    <KeyValue
-                      title='Available Seats'
-                      value={event_available_seat}
-                    />
-                  </div>
-                  <div className='flex border-b justify-between w-full'>
-                    <KeyValue title='Seat Type' value='VVIP' />
-                    <KeyValue title='Seat Price' value='15,000NGN' />
-                    <KeyValue title='Available Seats' value='5,000' />
-                  </div>
-                  <div className='flex border-b justify-between w-full'>
-                    <KeyValue title='Seat Type' value='Table for 2' />
-                    <KeyValue title='Seat Price' value='30,000NGN' />
-                    <KeyValue title='Available Seats' value='5,000' />
-                  </div>
-                  <div className='flex justify-between w-full'>
-                    <KeyValue title='Seat Type' value='Table for 6' />
-                    <KeyValue title='Seat Price' value='50,000NGN' />
-                    <KeyValue title='Available Seats' value='5,000' />
-                  </div>
+                  {event_seats.map((seat, index) => (
+                    <div
+                      className='flex border-b justify-between w-full'
+                      key={index}
+                    >
+                      <KeyValue title='Seat Type' value={seat.type} />
+                      <KeyValue title='Seat Price' value={seat.price} />
+                      <KeyValue
+                        title='Available Seats'
+                        value={seat.available}
+                      />
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>

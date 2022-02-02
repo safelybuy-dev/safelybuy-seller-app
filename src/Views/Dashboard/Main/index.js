@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import Highlight from './Highlight';
-import RecentSalesTable from './RecentSales';
+import React, { useState, useEffect } from "react";
+import Highlight from "./Highlight";
+import RecentSalesTable from "./RecentSales";
 // import { ArrowRight } from 'svg';
-import { useTable } from 'react-table';
-import { PieChart } from 'react-minimal-pie-chart';
-import { requests, baseURL } from 'requests';
+import { useTable } from "react-table";
+import { PieChart } from "react-minimal-pie-chart";
+import { requests, baseURL } from "requests";
+import { Spinner } from "components/Spinner";
 
 const RecentSales = ({ orders }) => {
   const data = React.useMemo(
@@ -81,19 +82,14 @@ const RecentSales = ({ orders }) => {
 
   const columns = React.useMemo(
     () => [
-      { Header: ' ', accessor: 'status' },
-      { Header: ' ', accessor: 'quantity' },
+      { Header: " ", accessor: "status" },
+      { Header: " ", accessor: "quantity" },
     ],
     []
   );
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = useTable({ columns, data });
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    useTable({ columns, data });
 
   return (
     <div className=''>
@@ -106,7 +102,7 @@ const RecentSales = ({ orders }) => {
                   className='pb-4 font-normal last:text-right'
                   {...column.getHeaderProps()}
                 >
-                  {column.render('Header')}
+                  {column.render("Header")}
                 </th>
               ))}
             </tr>
@@ -124,7 +120,7 @@ const RecentSales = ({ orders }) => {
                       className='border-b-2 pr-4 last:pr-0 border-gray-100 py-4'
                       {...cell.getCellProps()}
                     >
-                      {cell.render('Cell')}
+                      {cell.render("Cell")}
                     </td>
                   );
                 })}
@@ -145,14 +141,14 @@ const Main = () => {
   useEffect(() => {
     (async () => {
       setLoading(true);
-      const response = await requests.get(baseURL + '/seller/shopping');
+      const response = await requests.get(baseURL + "/seller/shopping");
       setLoading(false);
       console.log(response);
       setShoppingIndex(response);
     })();
   }, []);
 
-  if (loading) return 'loading...';
+  if (loading) return <Spinner partial dashboard />;
 
   return (
     <div className='flex flex-wrap md:justify-between mt-12'>
@@ -167,29 +163,29 @@ const Main = () => {
                 <PieChart
                   data={[
                     {
-                      title: 'Three',
+                      title: "Three",
                       value: shoppingIndex?.completed || 1,
-                      color: '#10b981',
+                      color: "#10b981",
                     },
                     {
-                      title: 'One',
+                      title: "One",
                       value: shoppingIndex?.processing || 1,
-                      color: '#1f2937',
+                      color: "#1f2937",
                     },
                     {
-                      title: 'Two',
+                      title: "Two",
                       value: shoppingIndex?.shipped || 1,
-                      color: '#fbbf24',
+                      color: "#fbbf24",
                     },
                     {
-                      title: 'Four',
+                      title: "Four",
                       value: shoppingIndex?.delivered || 1,
-                      color: '#a78bfa',
+                      color: "#a78bfa",
                     },
                     {
-                      title: 'Five',
+                      title: "Five",
                       value: shoppingIndex?.returned || 1,
-                      color: '#F87171',
+                      color: "#F87171",
                     },
                   ]}
                   lineWidth={15}
@@ -197,14 +193,16 @@ const Main = () => {
                 />
                 <div
                   style={{
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
                   }}
                   className='absolute w-36 flex flex-col px-6 bg-green-50 text-center items-center justify-center rounded-full h-36 border-2 border-green-100'
                 >
                   <div className='text-green-600'>Keep Selling!!!</div>
-                  <div className='text-gray-900 text-xs mt-1'>Nothing to show yet</div>
+                  <div className='text-gray-900 text-xs mt-1'>
+                    Nothing to show yet
+                  </div>
                 </div>
               </div>
             </div>

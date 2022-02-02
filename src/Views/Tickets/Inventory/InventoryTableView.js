@@ -11,7 +11,12 @@ const InventoryTableView = ({loading, items, deleteItem, selloutItem}) => {
   const [selectedSeller, setSelectedSeller] = useState(null);
   return (
     <div className="w-full mt-8">
-      <TabHeader active={active} setActive={setActive} />
+      <TabHeader 
+      active={active}
+      setActive={setActive}
+      activeLength={items.filter((item) => item.status === 'active').length}
+        inactiveLength={items.filter((item) => item.status !== 'active').length}
+      />
       <div className="bg-white overflow-x relative rounded-b-2xl rounded-tr-2xl md:p-10 z-40 p-4 -mx-6 ">
         <TableHeader active={active} setActive={setActive} />
         {loading ? (

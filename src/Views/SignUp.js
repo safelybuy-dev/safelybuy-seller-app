@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { ArrowRight } from 'svg';
-import Logo from 'components/Logo';
-import Footer from 'components/Footer';
-import Button from 'components/Button';
-import { Link, useHistory } from 'react-router-dom';
-import utilities from 'utilities';
-import { requests } from 'requests';
-import { useToasts } from 'react-toast-notifications';
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
+import React, { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { ArrowRight } from "svg";
+import Logo from "components/Logo";
+import Footer from "components/Footer";
+import Button from "components/Button";
+import { Link, useHistory } from "react-router-dom";
+import utilities from "utilities";
+import { requests } from "requests";
+import { useToasts } from "react-toast-notifications";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const isValidEmail = (email) =>
   // eslint-disable-next-line no-useless-escape
@@ -20,25 +20,25 @@ const isValidEmail = (email) =>
 const signUpSchema = yup.object().shape({
   firstname: yup
     .string()
-    .required('Please enter name')
-    .matches(/^[a-zA-Z][a-zA-Z '-]*$/, 'Invalid character supplied'),
+    .required("Please enter name")
+    .matches(/^[a-zA-Z][a-zA-Z '-]*$/, "Invalid character supplied"),
   lastname: yup
     .string()
-    .required('Please enter name')
-    .matches(/^[a-zA-Z][a-zA-Z '-]*$/, 'Invalid character supplied'),
+    .required("Please enter name")
+    .matches(/^[a-zA-Z][a-zA-Z '-]*$/, "Invalid character supplied"),
   email: yup.string().email().required(),
   phone: yup
     .string()
-    .required('Please enter  phone number')
-    .matches(/^[0-9]+$/, 'Phone number must be only digits')
-    .min(11, 'Phone number must be exactly 11 digits')
-    .max(11, 'Phone number must be exactly 11 digits'),
+    .required("Please enter  phone number")
+    .matches(/^[0-9]+$/, "Phone number must be only digits")
+    .min(11, "Phone number must be exactly 11 digits")
+    .max(11, "Phone number must be exactly 11 digits"),
   password: yup
     .string()
-    .required('Please enter at least 6 characters')
+    .required("Please enter at least 6 characters")
     .matches(
       /^.*(?=.{6,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
-      'Please include at least a capital letter, a special character and a number'
+      "Please include at least a capital letter, a special character and a number"
     ),
 });
 const SignUpPage = () => {
@@ -55,23 +55,23 @@ const SignUpPage = () => {
   });
 
   useEffect(() => {
-    sessionStorage.removeItem('safely_buy_pre_otp');
+    sessionStorage.removeItem("safely_buy_pre_otp");
     return () => {};
   }, []);
 
   const onSubmit = async (data) => {
     setLoadingUser(true);
     try {
-      const { user } = await requests.post('/register', {
+      const { user } = await requests.post("/register", {
         ...data,
-        role: 'seller',
+        role: "seller",
       });
       sessionStorage.setItem(
-        'safely_buy_pre_otp',
+        "safely_buy_pre_otp",
         JSON.stringify([data.phone, user])
       );
       setLoadingUser(false);
-      return history.push('/verifyOTP');
+      return history.push("/verifyOTP");
     } catch (err) {
       setLoadingUser(false);
 
@@ -80,11 +80,11 @@ const SignUpPage = () => {
           utilities.formatErrorResponse(
             Object.values(err.response?.data?.error).flat()
           ),
-          { appearance: 'error', autoDismiss: true }
+          { appearance: "error", autoDismiss: true }
         );
       }
-      return addToast(err.message || 'Failed to sign up try again', {
-        appearance: 'error',
+      return addToast(err.message || "Failed to sign up try again", {
+        appearance: "error",
         autoDismiss: true,
       });
     }
@@ -96,17 +96,20 @@ const SignUpPage = () => {
   };
 
   const togglePassword = () => {
-    const password = document.querySelector('#password');
-    const passwordHide = document.querySelector('#passwordHide');
-    password.type = password.type === 'password' ? 'text' : 'password';
-    passwordHide.hidden = password.type === 'password' ? true : false;
+    const password = document.querySelector("#password");
+    const passwordHide = document.querySelector("#passwordHide");
+    password.type = password.type === "password" ? "text" : "password";
+    passwordHide.hidden = password.type === "password" ? true : false;
   };
 
   return (
-    <div className='relative pb-56 md:pb-80 justify-between flex flex-col min-h-screen text-center'>
+    <div className='relative  justify-between flex flex-col min-h-screen text-center'>
       <div>
         <header className='flex tracking-wide justify-center mx-12 my-8 md:mx-6 md:my-3'>
-          <Logo color='black' text='transact with no regret' />
+          <Link to='/'>
+            {" "}
+            <Logo color='black' text='transact with no regret' />{" "}
+          </Link>
         </header>
         <h1 className='tracking-wide pt-8 pb-2 font-bold px-12 text-4xl z-10 md:px-8 md:text-3xl'>
           Sign up on Safelybuy
@@ -130,7 +133,7 @@ const SignUpPage = () => {
             )}
             {!loadingUser && (
               <>
-                {' '}
+                {" "}
                 <div className='flex justify-between'>
                   <div className='text-left mr-2'>
                     <label className='text-sm my-2' htmlFor='email'>
@@ -140,11 +143,11 @@ const SignUpPage = () => {
                       <input
                         type='text'
                         placeholder='First Name'
-                        {...register('firstname', { required: true })}
+                        {...register("firstname", { required: true })}
                         id='firstname'
                         required
                         className={`border ${
-                          errors.firstname ? 'border-red' : 'border-black'
+                          errors.firstname ? "border-red" : "border-black"
                         } w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
                       />
 
@@ -164,11 +167,11 @@ const SignUpPage = () => {
                       <input
                         type='lastname'
                         placeholder='Last Name'
-                        {...register('lastname', { required: true })}
+                        {...register("lastname", { required: true })}
                         id='lastname'
                         required
                         className={`border ${
-                          errors.lastname ? 'border-red' : 'border-black'
+                          errors.lastname ? "border-red" : "border-black"
                         } w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
                       />
                       <span className='text-red-500'>
@@ -187,18 +190,18 @@ const SignUpPage = () => {
                     <input
                       type='email'
                       placeholder='user@safelybuy.com'
-                      {...register('email', {
+                      {...register("email", {
                         required: true,
                         validate: handleEmailValidation,
                       })}
                       id='email'
                       required
                       className={`border ${
-                        errors.email ? 'border-red' : 'border-black'
+                        errors.email ? "border-red" : "border-black"
                       } w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
                     />
                     <span className='text-red-500'>
-                      {errors.email && 'Email is not valid'}
+                      {errors.email && "Email is not valid"}
                     </span>
                   </div>
                 </div>
@@ -210,11 +213,11 @@ const SignUpPage = () => {
                     <input
                       type='phone'
                       placeholder='0701090673*'
-                      {...register('phone', { required: true })}
+                      {...register("phone", { required: true })}
                       id='phone'
                       required
                       className={`border ${
-                        errors.phone ? 'border-red' : 'border-black'
+                        errors.phone ? "border-red" : "border-black"
                       } w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
                     />
                     <span className='text-red-500'>
@@ -230,7 +233,7 @@ const SignUpPage = () => {
                     <input
                       type='password'
                       placeholder='*********'
-                      {...register('password', { required: true })}
+                      {...register("password", { required: true })}
                       id='password'
                       className='border w-full border-black rounded-full px-6 py-2 focus:outline-none focus:shadow-xl'
                     />
@@ -257,10 +260,10 @@ const SignUpPage = () => {
                       </svg>
                       <div
                         style={{
-                          width: '.15rem',
-                          height: '1.4rem',
-                          top: '-.03rem',
-                          left: '.6rem',
+                          width: ".15rem",
+                          height: "1.4rem",
+                          top: "-.03rem",
+                          left: ".6rem",
                         }}
                         id='passwordHide'
                         className='bg-black absolute transform rotate-45'
@@ -281,7 +284,7 @@ const SignUpPage = () => {
                     />
                   </div>
                   <p className='text-center'>
-                    Already have an account?{' '}
+                    Already have an account?{" "}
                     <span className='text-purple-500'>
                       <Link to='/login'>Login</Link>
                     </span>

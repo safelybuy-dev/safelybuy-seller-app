@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import Breadcrumb from 'components/Breadcrumb';
-import InventoryTableView from './InventoryTableView';
-import { axiosWithAuth } from 'auth';
-import { baseUrl } from 'api';
-import TicketModal from 'components/Modals/addTicketEventModal';
-import Button from 'components/Button';
-import { useToasts } from 'react-toast-notifications';
-import { useRouteMatch } from 'react-router-dom';
-
+import React, { useState, useEffect } from "react";
+import Breadcrumb from "components/Breadcrumb";
+import InventoryTableView from "./InventoryTableView";
+import { axiosWithAuth } from "auth";
+import { baseUrl } from "api";
+import TicketModal from "components/Modals/addTicketEventModal";
+import Button from "components/Button";
+import { useToasts } from "react-toast-notifications";
+import { useRouteMatch } from "react-router-dom";
 
 const Inventory = () => {
   let { url } = useRouteMatch();
@@ -28,34 +27,36 @@ const Inventory = () => {
   const deleteItem = async (id) => {
     try {
       setLoading(true);
-      await axiosWithAuth().post(`${baseUrl}/api/v1/seller/event/delete/${id}`);
+      await axiosWithAuth().get(`${baseUrl}/api/v1/seller/event/delete/${id}`);
       setLoading(false);
-      addToast('Item deleted from inventory', {
-        appearance: 'success',
+      addToast("Item deleted from inventory", {
+        appearance: "success",
         autoDismiss: true,
       });
       fetchInventory();
     } catch (error) {
       setLoading(false);
       console.log(error.message, error.response);
-      addToast(error.message, { appearance: 'error', autoDismiss: true });
+      addToast(error.message, { appearance: "error", autoDismiss: true });
     }
   };
 
   const selloutItem = async (id) => {
     try {
       setLoading(true);
-      await axiosWithAuth().post(`${baseUrl}/api/v1/seller/event/sellout/${id}`);
+      await axiosWithAuth().post(
+        `${baseUrl}/api/v1/seller/event/sellout/${id}`
+      );
       setLoading(false);
-      addToast('Item sold out', {
-        appearance: 'success',
+      addToast("Item sold out", {
+        appearance: "success",
         autoDismiss: true,
       });
       fetchInventory();
     } catch (error) {
       setLoading(false);
       console.log(error.message, error.response);
-      addToast(error.message, { appearance: 'error', autoDismiss: true });
+      addToast(error.message, { appearance: "error", autoDismiss: true });
     }
   };
 
@@ -64,7 +65,7 @@ const Inventory = () => {
   }, []);
 
   useEffect(() => {
-    if (url.includes('add')) return setTicketModal(true);
+    if (url.includes("add")) return setTicketModal(true);
   }, [url]);
 
   return (
@@ -93,13 +94,13 @@ const Inventory = () => {
         </span>
       </div>
       {/* test */}
-          <InventoryTableView
-           loading={loading}
-           items={ticketInventory}
-           deleteItem={deleteItem}
-           selloutItem={selloutItem}
-          />
-        {/* test  */}
+      <InventoryTableView
+        loading={loading}
+        items={ticketInventory}
+        deleteItem={deleteItem}
+        selloutItem={selloutItem}
+      />
+      {/* test  */}
       <TicketModal
         openTicketModal={openTicketModal}
         setTicketModal={setTicketModal}

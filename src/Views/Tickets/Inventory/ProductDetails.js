@@ -1,5 +1,5 @@
-import React from 'react';
-import { CloseIcon } from 'svg';
+import React from "react";
+import { CloseIcon } from "svg";
 
 const KeyValue = ({ title, value }) => (
   <div className='flex my-3 flex-col'>
@@ -9,7 +9,6 @@ const KeyValue = ({ title, value }) => (
 );
 
 const ProductDetails = ({ selectedProduct, setSelectedProduct }) => {
-  console.log(selectedProduct);
   if (!selectedProduct) return null;
   return (
     <div
@@ -33,20 +32,26 @@ const ProductDetails = ({ selectedProduct, setSelectedProduct }) => {
           <div className='flex flex-col w-6/12 md:w-full'>
             <div className='border-b border-gray-100 pb-4 w-full'>
               <div className='w-64 md:w-24 rounded-xl h-32 md:h-24 bg-gray-200 overflow-hidden'>
-
-                <img src={selectedProduct.main_image} alt="" className="w-full object-contain" />
+                <img
+                  src={selectedProduct.main_image}
+                  alt=''
+                  className='w-full object-contain'
+                />
               </div>
             </div>
             <div className='flex flex-wrap'>
-              {
-                selectedProduct.images.map((image) => 
-                <div key={image.id} className='w-32 md:w-24 rounded-xl mt-4 mr-4 h-32 md:h-24 bg-gray-200 overflow-hidden'>
-                  <img src={image.image_url} alt="" className="w-full object-contain"/>
+              {selectedProduct.images.map((image) => (
+                <div
+                  key={image.id}
+                  className='w-32 md:w-24 rounded-xl mt-4 mr-4 h-32 md:h-24 bg-gray-200 overflow-hidden'
+                >
+                  <img
+                    src={image.image_url}
+                    alt=''
+                    className='w-full object-contain'
+                  />
                 </div>
-                )
-
-              }
-              
+              ))}
             </div>
           </div>
           <div className='flex flex-col w-6/12 ml-4 md:w-full'>
@@ -54,11 +59,13 @@ const ProductDetails = ({ selectedProduct, setSelectedProduct }) => {
               <h4 className='text-xl text-purple-500'>Display Information</h4>
               <div className='flex mt-6 flex-col'>
                 <div className='flex justify-between w-full'>
-                  <KeyValue title='Event Category' value={ selectedProduct.category === 1 ? "Concerts" : "Tickets"} />
                   <KeyValue
-                    title='Event Title'
-                    value={selectedProduct.title}
+                    title='Event Category'
+                    value={
+                      selectedProduct.category === 1 ? "Concerts" : "Tickets"
+                    }
                   />
+                  <KeyValue title='Event Title' value={selectedProduct.title} />
                 </div>
                 <div className='flex justify-between w-full'>
                   <KeyValue
@@ -81,18 +88,18 @@ const ProductDetails = ({ selectedProduct, setSelectedProduct }) => {
             <div className='flex flex-col w-full pt-4 md:ml-0 md:mt-4'>
               <h4 className='text-xl text-purple-500'>Ticket Number & Seats</h4>
               <div className='flex mt-6 flex-col'>
-                <KeyValue title='Listing Number' value={"#"+selectedProduct.listing_number} />
+                <KeyValue
+                  title='Listing Number'
+                  value={"#" + selectedProduct.listing_number}
+                />
                 <h5 className='text-lg'>Seat Category</h5>
-                 {
-                   selectedProduct.seats.map((seat) => 
-                   <div className='flex border-b justify-between w-full'>
-                   <KeyValue title='Seat Type' value={seat.type} />
-                   <KeyValue title='Seat Price' value={seat.price} />
-                   <KeyValue title='Available Seats' value={seat.available} />
-                 </div>
-                   )
-                 }
-              
+                {selectedProduct.seats.map((seat) => (
+                  <div className='flex border-b justify-between w-full'>
+                    <KeyValue title='Seat Type' value={seat.type} />
+                    <KeyValue title='Seat Price' value={seat.price} />
+                    <KeyValue title='Available Seats' value={seat.available} />
+                  </div>
+                ))}
               </div>
             </div>
           </div>

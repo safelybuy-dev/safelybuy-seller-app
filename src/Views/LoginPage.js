@@ -1,13 +1,13 @@
-import React, { useContext, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { ArrowRight } from 'svg';
-import Logo from 'components/Logo';
-import Footer from 'components/Footer';
-import Button from 'components/Button';
-import { ContextUser } from 'context';
-import { Link, useHistory } from 'react-router-dom';
-import { login } from 'actions/auth';
-import { useToasts } from 'react-toast-notifications';
+import React, { useContext, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { ArrowRight } from "svg";
+import Logo from "components/Logo";
+import Footer from "components/Footer";
+import Button from "components/Button";
+import { ContextUser } from "context";
+import { Link, useHistory } from "react-router-dom";
+import { login } from "actions/auth";
+import { useToasts } from "react-toast-notifications";
 
 const isValidEmail = (email) =>
   // eslint-disable-next-line no-useless-escape
@@ -31,19 +31,19 @@ const LoginPage = () => {
   };
 
   const togglePassword = () => {
-    const password = document.querySelector('#password');
-    const passwordHide = document.querySelector('#passwordHide');
-    password.type = password.type === 'password' ? 'text' : 'password';
-    passwordHide.hidden = password.type === 'password' ? true : false;
+    const password = document.querySelector("#password");
+    const passwordHide = document.querySelector("#passwordHide");
+    password.type = password.type === "password" ? "text" : "password";
+    passwordHide.hidden = password.type === "password" ? true : false;
   };
 
   useEffect(() => {
-    localStorage.removeItem('safely_buy_token');
-    localStorage.removeItem('safely_buy_id');
+    localStorage.removeItem("safely_buy_token");
+    localStorage.removeItem("safely_buy_id");
   }, []);
 
   return (
-    <div className='relative justify-between pb-56 md:pb-80 flex flex-col min-h-screen text-center'>
+    <div className='relative justify-between  flex flex-col min-h-screen text-center'>
       <div>
         <header className='flex tracking-wide justify-center mx-12 my-8 md:mx-6 md:my-3'>
           <Logo color='black' text='transact with no regret' />
@@ -71,7 +71,7 @@ const LoginPage = () => {
             )}
             {!state.loadingUser && (
               <>
-                {' '}
+                {" "}
                 <div className='text-left'>
                   <label className='text-sm my-2' htmlFor='email'>
                     Email
@@ -80,18 +80,18 @@ const LoginPage = () => {
                     <input
                       type='email'
                       placeholder='email@example.com'
-                      {...register('email', {
+                      {...register("email", {
                         required: true,
                         validate: handleEmailValidation,
                       })}
                       id='email'
                       required
                       className={`border ${
-                        errors.email ? 'border-red' : 'border-black'
+                        errors.email ? "border-red" : "border-black"
                       } w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
                     />
                     <span className='text-red-500'>
-                      {errors.email && 'Email is not valid'}
+                      {errors.email && "Email is not valid"}
                     </span>
                   </div>
                 </div>
@@ -103,7 +103,7 @@ const LoginPage = () => {
                     <input
                       type='password'
                       placeholder='*********'
-                      {...register('password', { required: true })}
+                      {...register("password", { required: true })}
                       id='password'
                       className='border w-full border-black rounded-full px-6 py-2 focus:outline-none focus:shadow-xl'
                     />
@@ -130,10 +130,10 @@ const LoginPage = () => {
                       </svg>
                       <div
                         style={{
-                          width: '.15rem',
-                          height: '1.4rem',
-                          top: '-.03rem',
-                          left: '.6rem',
+                          width: ".15rem",
+                          height: "1.4rem",
+                          top: "-.03rem",
+                          left: ".6rem",
                         }}
                         id='passwordHide'
                         className='bg-black absolute transform rotate-45'
@@ -154,7 +154,7 @@ const LoginPage = () => {
                     />
                   </div>
                   <p className='text-center'>
-                    Don't have an account?{' '}
+                    Don't have an account?{" "}
                     <span className='text-purple-500'>
                       <Link to='/signup'>Sign up</Link>
                     </span>
