@@ -343,7 +343,6 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
       });
     }
   };
-  console.log(formValuesLength_1);
   return (
     <div
       onClick={() => setTicketModal(null)}
@@ -366,7 +365,7 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
 
           <div className="">
             {step === 1 &&
-              (formValuesLength_1 === 6 ? (
+              (formValuesLength_1 >= 5 ? (
                 <Button
                   className="focus:outline-none"
                   text="Continue"
