@@ -3,11 +3,12 @@ import { useTable } from "react-table";
 import Button from "components/Button";
 import { confirmAlert } from "react-confirm-alert"; // Import
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
+import moment from "moment";
 
 const KeyValue = ({ title, value }) => (
-  <div className='flex my-3 flex-col'>
-    <small className='text-gray-400 uppercase text-xs'>{title}</small>
-    <h5 className='text-sm w-28'>{value}</h5>
+  <div className="flex my-3 flex-col">
+    <small className="text-gray-400 uppercase text-xs">{title}</small>
+    <h5 className="text-sm w-28">{value}</h5>
   </div>
 );
 
@@ -20,6 +21,7 @@ const TableBody = ({
   setSelectedSeller,
   items = [],
 }) => {
+  console.log(items);
   const handleDelete = React.useCallback(
     (id) => {
       confirmAlert({
@@ -73,44 +75,37 @@ const TableBody = ({
             <div>
               <p
                 onClick={() => setSelectedProduct(item)}
-                className='text-purple-600 cursor-pointer text-sm'
+                className="text-purple-600 cursor-pointer text-sm"
               >
                 {item.title}
               </p>
-              <div className='flex justify-between'>
-                <KeyValue title='Location' value={<p>{item.location}</p>} />
-                <KeyValue
-                  title='Seat Categories'
-                  value='VIP, Regular, VVIP, Table for 6, Table for 2'
-                />
+              <div className="flex justify-between">
+                <KeyValue title="Location" value={<p>{item.location}</p>} />
               </div>
             </div>
           ),
-          category: item.category === 1 ? "Concerts" : "Tickets",
-          seller: (
-            <p
-              onClick={() => setSelectedSeller(item)}
-              className='text-purple-500 cursor-pointer'
-            >
-              Kareem Chibuzor
-            </p>
+          image: (
+            <img
+              src={item.main_image}
+              alt="event"
+              className="h-20 w-20 rounded-sm object-contain"
+            />
           ),
+          category: item.category === 1 ? "Concerts" : "Tickets",
           date: (
             <div>
-              <p className=''>
-                {new Intl.DateTimeFormat("en-GB", {
-                  year: "numeric",
-                  month: "short",
-                  day: "numeric",
-                  hour: "numeric",
-                  hour12: true,
-                  minute: "numeric",
-                }).format(Date.now())}
+              <p className="">
+                {moment(item.event_date.split(" ")[0], "DD-MM-YYYY").format(
+                  "LL"
+                )}
+              </p>
+              <p className="">
+                {moment(item.event_date.split(" ")[1], "HH-mm").format("LT")}
               </p>
             </div>
           ),
           actions: (
-            <div className=' '>
+            <div className=" ">
               {item.approval_status === "pending" ? (
                 <span onClick={() => handleDelete(item.id)}>
                   <Button rounded danger>
@@ -129,13 +124,13 @@ const TableBody = ({
                 </Button>
               </div> */}
                   {/* <span className='inline-block p-px'></span> */}
-                  <div className='justify-around'>
+                  <div className="justify-around">
                     <span onClick={() => handleSellout(item.id)}>
                       <Button rounded alternate>
                         Sold Out
                       </Button>
                     </span>
-                    <span className='inline-block p-2'></span>
+                    <span className="inline-block p-2"></span>
                     <span onClick={() => handleDelete(item.id)}>
                       <Button rounded danger>
                         Delete
@@ -144,13 +139,13 @@ const TableBody = ({
                   </div>
                 </>
               ) : (
-                <p className='text-gray-300'>Item denied</p>
+                <p className="text-gray-300">Item denied</p>
               )}
             </div>
           ),
         })),
     [
-      setSelectedSeller,
+      // setSelectedSeller,
       setSelectedProduct,
       handleDelete,
       handleSellout,
@@ -162,11 +157,11 @@ const TableBody = ({
   const columns = React.useMemo(
     () => [
       { Header: "Status", accessor: "status" },
+      { Header: "Image", accessor: "image" },
       {
         Header: "Listing Number",
         accessor: "sku",
       },
-      { Header: "Seller", accessor: "seller" },
       {
         Header: "Event Date",
         accessor: "date",
@@ -187,20 +182,20 @@ const TableBody = ({
 
   if (data.length < 1) {
     return (
-      <div className='mt-20 mb-20 flex justify-center'>
-        <span className='text-purple-600'>No items Available</span>
+      <div className="mt-20 mb-20 flex justify-center">
+        <span className="text-purple-600">No items Available</span>
       </div>
     );
   }
 
   return (
-    <div className='overflow-x-scroll md:overflow-x-hidden mt-8'>
-      <table {...getTableProps()} className='w-full text-sm'>
-        <thead className='text-left border-b-2 border-gray-100'>
+    <div className="overflow-x-scroll md:overflow-x-hidden mt-8">
+      <table {...getTableProps()} className="w-full text-sm">
+        <thead className="text-left border-b-2 border-gray-100">
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
-                <th className='pb-4 font-normal' {...column.getHeaderProps()}>
+                <th className="pb-4 font-normal" {...column.getHeaderProps()}>
                   {column.render("Header")}
                 </th>
               ))}
@@ -216,7 +211,7 @@ const TableBody = ({
                   return (
                     <td
                       style={{ minWidth: "120px" }}
-                      className='border-b-2 pr-4   border-gray-100 py-4'
+                      className="border-b-2 pr-4   border-gray-100 py-4"
                       {...cell.getCellProps()}
                     >
                       {cell.render("Cell")}
