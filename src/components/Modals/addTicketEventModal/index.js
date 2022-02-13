@@ -337,7 +337,15 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
         },
       });
     } catch (err) {
-      addToast(err.message, {
+      let errorMessage;
+
+      if (err.response) {
+        const errors = Object.values(err.response.data.errors);
+        errorMessage = errors.map((error) => error[0]).join("<br />");
+      } else {
+        errorMessage = "Something went wrong";
+      }
+      addToast(errorMessage, {
         appearance: "error",
         autoDismiss: true,
       });
