@@ -37,31 +37,34 @@ function App() {
         <Suspense fallback={<Spinner />}>
           <ContextUser.Provider value={[state, dispatch]}>
             <Switch>
-              <PrivateRoute path='/shopping'>
+              <PrivateRoute path="/shopping">
                 <Dashboard />
               </PrivateRoute>
-              <PrivateRoute path='/tickets'>
+              <PrivateRoute path="/tickets">
                 <Dashboard />
               </PrivateRoute>
-              <PrivateRoute path='/settings'>
+              <PrivateRoute path="/food">
+                <Dashboard />
+              </PrivateRoute>
+              <PrivateRoute path="/settings">
                 <ProfileSettings />
               </PrivateRoute>
-              <Route path='/success-error'>
+              <Route path="/success-error">
                 <SuccessError />
               </Route>
-              <PrivateOTPRoute path='/verifyOTP'>
+              <PrivateOTPRoute path="/verifyOTP">
                 <Otp />
               </PrivateOTPRoute>
-              <Route path='/seller-kyc'>
+              <Route path="/seller-kyc">
                 <SellerKyc />
               </Route>
-              <Route path='/login'>
+              <Route path="/login">
                 <LoginPage />
               </Route>
-              <Route path='/signup'>
+              <Route path="/signup">
                 <SignUpPage />
               </Route>
-              <Route path='/'>
+              <Route path="/">
                 <SamplePage />
               </Route>
             </Switch>

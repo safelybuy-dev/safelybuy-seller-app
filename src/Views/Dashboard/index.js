@@ -18,7 +18,10 @@ const Messaging = lazy(() => import("./Main/Messaging"));
 const Orders = lazy(() => import("../Shopping/Orders"));
 const Reports = lazy(() => import("../Shopping/Reports"));
 const Tickets = lazy(() => import("../Tickets"));
+const Food = lazy(() => import("../Food"));
 const TicketsInventory = lazy(() => import("../Tickets/Inventory"));
+const RestaurantInventory = lazy(() => import("../Food/Inventory"));
+const RestaurantMenus = lazy(() => import("../Food/Menu"));
 const Inventory = lazy(() => import("../Inventory"));
 const TicketSales = lazy(() => import("../Tickets/Sales"));
 
@@ -52,7 +55,7 @@ export default function Dashboard() {
   }, [addToast, history, state]);
 
   return (
-    <div className='relative bg-purple-50 min-h-screen'>
+    <div className="relative bg-purple-50 min-h-screen">
       <Header
         prefrence={value}
         setPrefrence={setValue}
@@ -60,11 +63,11 @@ export default function Dashboard() {
         isMenuOpen={isMenuOpen}
       />
       <MobileMenu isMenuOpen={isMenuOpen} />
-      <div className='flex pb-20 md:pb-30 md:flex-wrap md:justify-center  md:px-6'>
+      <div className="flex pb-20 md:pb-30 md:flex-wrap md:justify-center  md:px-6">
         <Container topPadding>
           <Suspense fallback={<Spinner partial dashboard />}>
             <Switch>
-              <Route exact path='/messages'>
+              <Route exact path="/messages">
                 <Messaging />
               </Route>
               <Route
@@ -73,10 +76,10 @@ export default function Dashboard() {
               >
                 <Inventory />
               </Route>
-              <Route exact path='/shopping/orders'>
+              <Route exact path="/shopping/orders">
                 <Orders />
               </Route>
-              <Route exact path='/shopping/reports'>
+              <Route exact path="/shopping/reports">
                 <Reports />
               </Route>
               <Route
@@ -85,13 +88,25 @@ export default function Dashboard() {
               >
                 <TicketsInventory />
               </Route>
-              <Route exact path='/tickets'>
+              <Route exact path={["/food/inventory", "/food/inventory/add"]}>
+                <RestaurantInventory />
+              </Route>
+              <Route
+                exact
+                path={["/food/restaurant/:id", "/food/inventory/:id/add"]}
+              >
+                <RestaurantMenus />
+              </Route>
+              <Route exact path="/tickets">
                 <Tickets />
               </Route>
-              <Route exact path='/tickets/sales'>
+              <Route exact path="/food">
+                <Food />
+              </Route>
+              <Route exact path="/tickets/sales">
                 <TicketSales />
               </Route>
-              <Route path='/'>
+              <Route path="/">
                 <Main />
               </Route>
             </Switch>{" "}
