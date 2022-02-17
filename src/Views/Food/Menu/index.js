@@ -1,33 +1,35 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Breadcrumb from "components/Breadcrumb";
 import InventoryTableView from "./InventoryTableView";
 import { axiosWithAuth } from "auth";
 import { baseUrl } from "api";
-import RestaurantModal from "components/Modals/addRestaurantModal";
+import RestaurantMenuModal from "components/Modals/addRestaurantMenuModal";
 import Button from "components/Button";
 import { useToasts } from "react-toast-notifications";
-import { useRouteMatch } from "react-router-dom";
+import { useRouteMatch, useParams } from "react-router-dom";
 
 const Inventory = () => {
   let { url } = useRouteMatch();
-  const [openRestaurantModal, setRestaurantModal] = useState(false);
+  const { id } = useParams();
+  const [openRestaurantMenuModel, setRestaurantMenuModal] = useState(false);
   const { addToast } = useToasts();
   const [restaurantInventory, setRestaurantInventory] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const fetchInventory = async () => {
+  const fetchInventory = useCallback(async () => {
     setLoading(true);
     const response = await axiosWithAuth().get(
-      `${baseUrl}/api/v1/report/ticket-inventory`
+      `${baseUrl}/api/v1/restuarants/menus/${id}`
     );
-    setRestaurantInventory(response?.data?.inventory);
+    console.log(response.data.data);
+    setRestaurantInventory(response?.data?.data);
     setLoading(false);
-  };
+  }, [id]);
 
   const deleteItem = async (id) => {
     try {
       setLoading(true);
-      await axiosWithAuth().get(`${baseUrl}/api/v1/seller/event/delete/${id}`);
+      await axiosWithAuth().delete(`${baseUrl}/api/v1/menus/delete/${id}`);
       setLoading(false);
       addToast("Item deleted from inventory", {
         appearance: "success",
@@ -62,10 +64,10 @@ const Inventory = () => {
 
   useEffect(() => {
     fetchInventory();
-  }, []);
+  }, [fetchInventory]);
 
   useEffect(() => {
-    if (url.includes("add")) return setRestaurantModal(true);
+    if (url.includes("add")) return setRestaurantMenuModal(true);
   }, [url]);
   return (
     <div className="flex flex-col w-full items-start mt-10">
@@ -80,7 +82,7 @@ const Inventory = () => {
         <span className="md:inline-block hidden">
           <Button
             canClick={true}
-            clickHandler={() => setRestaurantModal(true)}
+            clickHandler={() => setRestaurantMenuModal(true)}
             event="onClick"
             text="Create a menu"
             primary
@@ -100,9 +102,10 @@ const Inventory = () => {
         selloutItem={selloutItem}
       />
       {/* test  */}
-      <RestaurantModal
-        openRestaurantModal={openRestaurantModal}
-        setRestaurantModal={setRestaurantModal}
+      <RestaurantMenuModal
+        openRestaurantMenuModel={openRestaurantMenuModel}
+        setRestaurantMenuModal={setRestaurantMenuModal}
+        id={id}
       />
     </div>
   );

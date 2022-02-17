@@ -341,7 +341,7 @@ const TicketModal = ({ openTicketModal, setTicketModal }) => {
 
       if (err.response) {
         const errors = Object.values(err.response.data.errors);
-        errorMessage = errors.map((error) => error[0]).join("<br />");
+        errorMessage = errors.map((error) => error[0]).join("\n");
       } else {
         errorMessage = "Something went wrong";
       }

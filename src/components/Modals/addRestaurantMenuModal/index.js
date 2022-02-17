@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useEffect } from "react";
+import React, { useState, useReducer } from "react";
 import { CloseIcon, FowardSymbolSVG } from "svg";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
@@ -7,7 +7,6 @@ import Button from "components/Button";
 import { BackArrowSVG, FowardArrowSVG, CameraSVG } from "../addProductModal";
 import axios from "axios";
 import { baseUrl } from "api";
-import moment from "moment";
 
 const BorderImageUpload = ({
   title,
@@ -86,26 +85,25 @@ const KeyValue = ({ title, value }) => (
 );
 
 const initialState = {
-  state_id: "",
   name: "",
-  opening_time: "",
-  closing_time: "",
-  min_order_price: "",
-  address: "",
-  contact_email: "",
+  description: "",
+  price_per_portion: "",
   display_image: "",
-  contact_phone: "",
-  time_to_deliver: "",
+  available_days: [""],
 };
 
 function restaurant_Reducer(state, action) {
-  console.log(action);
   const { type, payload, field } = action;
   switch (type) {
     case "updateRestaurantState":
       return {
         ...state,
         [field]: payload,
+      };
+    case "addMoreDays":
+      return {
+        ...state,
+        available_days: [...state.available_days, ""],
       };
     default:
       return { ...state };
@@ -117,7 +115,6 @@ const initialImageState = {
 };
 
 const imageReducer = (state, action) => {
-  console.log(action);
   const { payload, field, type } = action;
   switch (type) {
     case "updateImage":
@@ -130,10 +127,13 @@ const imageReducer = (state, action) => {
   }
 };
 
-const RestaurantModal = ({ openRestaurantModal, setRestaurantModal }) => {
+const RestaurantMenuModal = ({
+  openRestaurantMenuModel,
+  setRestaurantMenuModal,
+  id,
+}) => {
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [restaurantStates, setRestaurantStates] = useState([]);
   const history = useHistory();
   const { addToast } = useToasts();
   const [mainImageUploaded, setMainImageUploaded] = useState(false);
@@ -144,16 +144,11 @@ const RestaurantModal = ({ openRestaurantModal, setRestaurantModal }) => {
   const [eventData, dispatch] = useReducer(restaurant_Reducer, initialState);
 
   const {
-    state_id,
     name,
-    opening_time,
-    closing_time,
-    min_order_price,
-    address,
-    contact_email,
+    description,
     display_image,
-    contact_phone,
-    time_to_deliver,
+    price_per_portion,
+    available_days,
   } = eventData;
 
   const {
@@ -163,63 +158,39 @@ const RestaurantModal = ({ openRestaurantModal, setRestaurantModal }) => {
     watch,
   } = useForm({
     defaultValues: {
-      state_id: "",
       name: "",
-      opening_time: "",
-      closing_time: "",
-      min_order_price: "",
-      address: "",
-      contact_email: "",
-      contact_phone: "",
-      time_to_deliver: "",
+      description: "",
+      price_per_portion: "",
     },
   });
 
-  const watchFields_Step1 = watch([
-    "state_id",
-    "name",
-    "opening_time",
-    "closing_time",
-    "min_order_price",
-  ]);
-
-  const watchFields_Step2 = watch([
-    "contact_email",
-    "contact_phone",
-    "time_to_deliver",
-    "address",
-  ]);
+  const watchFields_Step1 = watch(["name", "description", "price_per_portion"]);
 
   const formValuesLength_1 = Object.values(watchFields_Step1)
     .filter(Boolean)
     .filter((e) => e.trim().length).length;
-  const formValuesLength_2 = Object.values(watchFields_Step2)
-    .filter(Boolean)
-    .filter((e) => e.trim().length).length;
-  console.log(formValuesLength_2);
+
   const onSubmit = () => console.log("f");
 
-  useEffect(() => {
-    axios
-      .get(`${baseUrl}/api/v1/restuarants/locations/states`)
-      .then((result) => setRestaurantStates(result.data.data))
-      .catch((error) => console.error(error.message));
-  }, []);
-  if (!openRestaurantModal) return null;
+  if (!openRestaurantMenuModel) return null;
+
+  const handleAvailableDays = (index, e) => {
+    const newDays = [...available_days];
+    newDays[index] = e.target.value;
+    dispatch({
+      type: "updateRestaurantState",
+      payload: newDays,
+      field: "available_days",
+    });
+  };
 
   const handleRestaurantCreation = async () => {
-    setLoading(true);
-
     const data = {
-      state_id,
+      restuarant_id: id,
       name,
-      opening_time,
-      closing_time,
-      min_order_price,
-      address,
-      contact_email,
-      contact_phone,
-      time_to_deliver,
+      description,
+      price_per_portion,
+      available_days,
     };
 
     try {
@@ -235,7 +206,7 @@ const RestaurantModal = ({ openRestaurantModal, setRestaurantModal }) => {
 
       await axios({
         method: "post",
-        url: `${baseUrl}/api/v1/restuarants/create`,
+        url: `${baseUrl}/api/v1/menus/create`,
         data,
         headers: {
           Authorization: `Bearer ${localStorage.getItem("safely_buy_token")}`,
@@ -254,7 +225,7 @@ const RestaurantModal = ({ openRestaurantModal, setRestaurantModal }) => {
 
       if (error.response) {
         const errors = Object.values(error.response.data.errors);
-        errorMessage = errors.map((error) => error[0]).join("<br />");
+        errorMessage = errors.map((error) => error[0]).join("\n");
       } else {
         errorMessage = error.message || "Something went wrong";
       }
@@ -267,7 +238,7 @@ const RestaurantModal = ({ openRestaurantModal, setRestaurantModal }) => {
 
   return (
     <div
-      onClick={() => setRestaurantModal(null)}
+      onClick={() => setRestaurantMenuModal(null)}
       className="fixed overflow-y-scroll top-0 left-0 z-50 w-screen md:py-40 md:px-40 py-0 px-0 h-screen bg-purple-600 bg-opacity-30"
     >
       <div
@@ -276,9 +247,9 @@ const RestaurantModal = ({ openRestaurantModal, setRestaurantModal }) => {
       >
         <div className="flex justify-between w-full pb-10 items-start">
           <h3 className="text-2xl">
-            {step === 4 ? "Review details" : "Create a restaurant"}
-            {step === 4 && (
-              <div onClick={() => setStep(3)} className="text-xs pb-2">
+            {step === 3 ? "Review details" : "Create a restaurant menu"}
+            {step === 3 && (
+              <div onClick={() => setStep(2)} className="text-xs pb-2">
                 <BackArrowSVG setSteps={setStep} value={3} />
                 &nbsp;&nbsp; Go back
               </div>
@@ -308,32 +279,12 @@ const RestaurantModal = ({ openRestaurantModal, setRestaurantModal }) => {
               ) : null)}
 
             {step === 2 &&
-              (formValuesLength_2 > 1 ? (
-                <Button
-                  className="focus:outline-none"
-                  text="Continue"
-                  canClick={true}
-                  clickHandler={() => setStep(3)}
-                  primary
-                  roundedFull
-                  icon={<FowardSymbolSVG />}
-                />
-              ) : formValuesLength_2 !== 4 ? (
-                <Button
-                  className="focus:outline-none"
-                  text="Continue"
-                  disabled
-                  roundedFull
-                  icon={<FowardSymbolSVG />}
-                />
-              ) : null)}
-            {step === 3 &&
               (mainImageUploaded ? (
                 <Button
                   className="focus:outline-none"
                   text="Continue"
                   canClick={true}
-                  clickHandler={() => setStep(4)}
+                  clickHandler={() => setStep(3)}
                   primary
                   roundedFull
                   icon={<FowardSymbolSVG />}
@@ -348,7 +299,7 @@ const RestaurantModal = ({ openRestaurantModal, setRestaurantModal }) => {
                 />
               ) : null)}
 
-            {step === 4 ? (
+            {step === 3 ? (
               <Button
                 className="focus:outline-none"
                 text="Submit"
@@ -358,7 +309,7 @@ const RestaurantModal = ({ openRestaurantModal, setRestaurantModal }) => {
                 primary
                 icon={<FowardSymbolSVG />}
               />
-            ) : step === 4 && loading ? (
+            ) : step === 3 && loading ? (
               <Button
                 className="focus:outline-none"
                 text="Submit"
@@ -369,7 +320,7 @@ const RestaurantModal = ({ openRestaurantModal, setRestaurantModal }) => {
             ) : null}
 
             <span
-              onClick={() => setRestaurantModal(null)}
+              onClick={() => setRestaurantMenuModal(null)}
               className="inline-block cursor-pointer rounded-full bg-red-500 p-3  absolute -right-8 -top-7"
             >
               <div>
@@ -386,7 +337,7 @@ const RestaurantModal = ({ openRestaurantModal, setRestaurantModal }) => {
                 <div className="divide-y divide-light-blue-400 w-full">
                   <div className="text-xs pb-2">
                     &nbsp;&nbsp;&nbsp; 1{" "}
-                    <span className="text-gray-400">/ 3</span>
+                    <span className="text-gray-400">/ 2</span>
                   </div>
 
                   <div>
@@ -411,41 +362,13 @@ const RestaurantModal = ({ openRestaurantModal, setRestaurantModal }) => {
                       onSubmit={handleSubmit(onSubmit)}
                       className="flex flex-col  md:max-w-7xl md:px-8"
                     >
-                      <div className="text-left mr-2">
-                        <label className="text-sm my-2" htmlFor="email">
-                          Enter State
-                        </label>
-                        <div className="relative md:w-full mb-2 mt-2">
-                          <select
-                            className="border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
-                            {...register("state_id")}
-                            onChange={(e) => {
-                              dispatch({
-                                type: "updateRestaurantState",
-                                payload: e.target.value,
-                                field: "state_id",
-                              });
-                            }}
-                          >
-                            <option value="" disabled>
-                              select state
-                            </option>
-                            {restaurantStates.map((state) => (
-                              <option value={state.id} key={state.id}>
-                                {state.name}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                      </div>
-
                       <div className="text-left mr-2 mt-2">
-                        <label className="text-sm my-2" htmlFor="Product_title">
-                          Restaurant Name
+                        <label className="text-sm my-2" htmlFor="menu_name">
+                          Menu Name
                         </label>
                         <input
                           type="text"
-                          {...register("title", {
+                          {...register("name", {
                             required: true,
                           })}
                           onChange={(e) => {
@@ -455,74 +378,98 @@ const RestaurantModal = ({ openRestaurantModal, setRestaurantModal }) => {
                               field: "name",
                             });
                           }}
-                          placeholder="Enter Restaurant Name"
+                          placeholder="Enter Restaurant Menu"
                           className={`border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
                         />
                       </div>
 
                       <div className="mt-2">
-                        <label className="text-sm my-2" htmlFor="opening_time">
-                          Opening Time
+                        <label className="text-sm my-2" htmlFor="address">
+                          Menu Description
                         </label>
-                        <input
-                          type="time"
-                          {...register("opening_time", {
-                            required: "Required",
-                          })}
-                          onChange={(e) => {
-                            dispatch({
-                              type: "updateRestaurantState",
-                              payload: e.target.value,
-                              field: "opening_time",
-                            });
-                          }}
-                          placeholder="opening time"
-                          className={`border border-black
-                           w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
-                        />
-                      </div>
 
-                      <div className="text-left mr-2 mt-2">
-                        <label className="text-sm my-2" htmlFor="Product_title">
-                          Closing Time
-                        </label>
-                        <input
-                          type="time"
-                          {...register("closing_time", {
+                        <textarea
+                          className={`border ${
+                            errors.name ? "border-red" : "border-black"
+                          } w-full  px-6 py-2 rounded-md focus:outline-none focus:shadow-xl`}
+                          rows="4"
+                          cols="50"
+                          placeholder="Description for the menu"
+                          {...register("description", {
                             required: "Required",
                           })}
                           onChange={(e) => {
                             dispatch({
                               type: "updateRestaurantState",
                               payload: e.target.value,
-                              field: "closing_time",
+                              field: "description",
                             });
                           }}
-                          placeholder="Closing time"
-                          className={`border border-black
-                           w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
-                        />
+                        ></textarea>
                       </div>
                       <div className="text-left mr-2 mt-2">
-                        <label className="text-sm my-2" htmlFor="Product_title">
-                          Minimum Order Price
+                        <label className="text-sm my-2" htmlFor="menu_name">
+                          Price Per Portion
                         </label>
                         <input
                           type="number"
-                          {...register("min_order_price", {
-                            required: "Required",
+                          {...register("price_per_portion", {
+                            required: true,
                           })}
                           onChange={(e) => {
                             dispatch({
                               type: "updateRestaurantState",
                               payload: e.target.value,
-                              field: "min_order_price",
+                              field: "price_per_portion",
                             });
                           }}
-                          placeholder="minimum order price"
-                          className={`border border-black
-                           w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                          placeholder="Price Per Portion"
+                          className={`border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
                         />
+                      </div>
+                      <div className="text-left  border-t-2 mt-5 border-grey-600">
+                        <h3 className="my-4">Available Days</h3>
+                        {available_days.map((day, index) => (
+                          <div className="text-left mr-2" key={index}>
+                            <label className="text-sm my-2" htmlFor="email">
+                              Day {index + 1}
+                            </label>
+                            <div className="relative md:w-full mb-2 mt-2">
+                              <select
+                                className="border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
+                                onChange={(e) => handleAvailableDays(index, e)}
+                              >
+                                <option value="" disabled>
+                                  Select Day
+                                </option>
+                                {[
+                                  "Monday",
+                                  "Tuesday",
+                                  "Wednesday",
+                                  "Thursday",
+                                  "Friday",
+                                  "Saturday",
+                                  "Sunday",
+                                ].map((day, index) => (
+                                  <option key={index} value={day.toLowerCase()}>
+                                    {day}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                          </div>
+                        ))}
+                        <div
+                          style={{ background: "rgba(134, 97, 255, 0.15)" }}
+                          className="px-5 py-3 border-dashed border-4 border-purple-500 rounded-3xl mt-5 text-center cursor-pointer"
+                          onClick={() =>
+                            dispatch({
+                              type: "addMoreDays",
+                            })
+                          }
+                        >
+                          Add a new day
+                        </div>
                       </div>
                     </form>
                   </div>
@@ -538,139 +485,15 @@ const RestaurantModal = ({ openRestaurantModal, setRestaurantModal }) => {
               <div className="flex w-5/12 justify-center">
                 <div className="divide-y divide-light-blue-400 w-full">
                   <div className="text-xs pb-2">
-                    &nbsp;&nbsp;&nbsp; 2{" "}
-                    <span className="text-gray-400">/ 3</span>
-                  </div>
-
-                  <div>
-                    <span className="text-safebuyColor mt-2 font-medium inline-block">
-                      Display Information
-                    </span>
-                    <p>
-                      {" "}
-                      <small>
-                        Enter the proper information as this section will be
-                        displayed to the users.
-                      </small>
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex w-6/12 justify-center">
-                <>
-                  <div className="flex">
-                    <form
-                      onSubmit={handleSubmit(onSubmit)}
-                      className="flex flex-col  md:max-w-7xl md:px-8"
-                    >
-                      <div className="text-left mr-2 mt-2">
-                        <label className="text-sm my-2" htmlFor="contact_email">
-                          Contact Email
-                        </label>
-                        <input
-                          type="text"
-                          {...register("contact_email", {
-                            required: true,
-                          })}
-                          onChange={(e) => {
-                            dispatch({
-                              type: "updateRestaurantState",
-                              payload: e.target.value,
-                              field: "contact_email",
-                            });
-                          }}
-                          placeholder="Email Address"
-                          className={`border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
-                        />
-                      </div>
-                      <div className="text-left mr-2 mt-2">
-                        <label className="text-sm my-2" htmlFor="contact_phone">
-                          Contact Phone
-                        </label>
-                        <input
-                          type="number"
-                          {...register("contact_phone", {
-                            required: true,
-                          })}
-                          onChange={(e) => {
-                            dispatch({
-                              type: "updateRestaurantState",
-                              payload: e.target.value,
-                              field: "contact_phone",
-                            });
-                          }}
-                          placeholder="contact phone"
-                          className={`border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
-                        />
-                      </div>
-                      <div className="text-left mr-2 mt-2">
-                        <label className="text-sm my-2" htmlFor="Product_title">
-                          Delivery Time
-                        </label>
-                        <input
-                          type="text"
-                          {...register("time_to_deliver", {
-                            required: true,
-                          })}
-                          onChange={(e) => {
-                            dispatch({
-                              type: "updateRestaurantState",
-                              payload: e.target.value,
-                              field: "time_to_deliver",
-                            });
-                          }}
-                          placeholder="delivery time"
-                          className={`border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
-                        />
-                      </div>
-                      <div className="mt-2">
-                        <label className="text-sm my-2" htmlFor="address">
-                          Address
-                        </label>
-
-                        <textarea
-                          className={`border ${
-                            errors.name ? "border-red" : "border-black"
-                          } w-full  px-6 py-2 rounded-md focus:outline-none focus:shadow-xl`}
-                          rows="4"
-                          cols="50"
-                          placeholder="enter the address of the restaurant"
-                          {...register("address", {
-                            required: "Required",
-                          })}
-                          onChange={(e) => {
-                            dispatch({
-                              type: "updateRestaurantState",
-                              payload: e.target.value,
-                              field: "address",
-                            });
-                          }}
-                        ></textarea>
-                      </div>
-                    </form>
-                  </div>
-                </>
-              </div>
-            </div>
-          </>
-        )}
-
-        {step === 3 && (
-          <>
-            <div className="flex justify-between">
-              <div className="flex w-5/12 justify-center">
-                <div className="divide-y divide-light-blue-400 w-full">
-                  <div className="text-xs pb-2">
-                    <BackArrowSVG setSteps={setStep} value={2} />
+                    <BackArrowSVG setSteps={setStep} value={1} />
                     &nbsp;&nbsp;&nbsp;
                     <FowardArrowSVG
                       setSteps={setStep}
-                      value={mainImageUploaded ? 4 : ""}
+                      value={mainImageUploaded ? 3 : ""}
                       // value={main_event_ticket_image.length ? 4 : ""}
                     />
-                    &nbsp;&nbsp;&nbsp; 3{" "}
-                    <span className="text-gray-400">/ 3</span>
+                    &nbsp;&nbsp;&nbsp; 2{" "}
+                    <span className="text-gray-400">/ 2</span>
                   </div>
 
                   <div>
@@ -724,7 +547,7 @@ const RestaurantModal = ({ openRestaurantModal, setRestaurantModal }) => {
           </>
         )}
 
-        {step === 4 && (
+        {step === 3 && (
           <div className="flex md:mr-4 mr-0 flex-col md:flex-row">
             <div className="flex flex-col md:w-6/12 w-full">
               <div className="border-b border-gray-100 pb-4 w-full">
@@ -743,34 +566,22 @@ const RestaurantModal = ({ openRestaurantModal, setRestaurantModal }) => {
                 <h4 className="text-xl text-purple-500">Display Information</h4>
                 <div className="flex mt-6 flex-col">
                   <div className="flex justify-between w-full">
-                    <KeyValue title="Restaurant Name" value={name} />
+                    <KeyValue title="Menu Name" value={name} />
                   </div>
                   <div className="flex justify-between w-full">
-                    <KeyValue title="Address" value={address} />
+                    <KeyValue title="Menu Description" value={description} />
                   </div>
                   <div className="flex justify-between w-full">
                     <KeyValue
-                      title="Opening Time"
-                      value={moment(opening_time, "LT").format("HH:mm a")}
-                    />
-                    <KeyValue
-                      title="Closing Time"
-                      value={moment(closing_time, "LT").format("HH:mm a")}
+                      title="Price Per Portion"
+                      value={price_per_portion}
                     />
                   </div>
                   <div className="flex justify-between w-full">
                     <KeyValue
-                      title="Minimum Order Price"
-                      value={`₦${min_order_price}`}
+                      title="Available Days"
+                      value={available_days.join(",\t")}
                     />
-                    <KeyValue title="Delivery Time" value={time_to_deliver} />
-                  </div>
-                  <div className="flex justify-between w-full">
-                    <KeyValue title="Contact Email" value={contact_email} />
-                    <KeyValue title="Contact Phone" value={contact_phone} />
-                  </div>
-                  <div className="flex justify-between w-full">
-                    <KeyValue title="State" value={state_id} />
                   </div>
                 </div>
               </div>
@@ -782,4 +593,4 @@ const RestaurantModal = ({ openRestaurantModal, setRestaurantModal }) => {
   );
 };
 
-export default RestaurantModal;
+export default RestaurantMenuModal;

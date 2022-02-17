@@ -69,28 +69,28 @@ const Inventory = () => {
   }, [url]);
 
   return (
-    <div className='flex flex-col w-full items-start'>
+    <div className="flex flex-col w-full items-start">
       <Breadcrumb
-        parentText='Tickets'
-        parentLink='/tickets'
-        childText='Manage Inventory'
-        childLink='/tickets/inventory'
+        parentText="Tickets"
+        parentLink="/tickets"
+        childText="Manage Inventory"
+        childLink="/tickets/inventory"
       />
-      <div className='flex justify-between w-full'>
-        <h2 className='text-xl'>Manage Inventory</h2>
-        <span className='md:inline-block hidden'>
+      <div className="flex justify-between w-full">
+        <h2 className="text-xl">Manage Inventory</h2>
+        <span className="md:inline-block hidden">
           <Button
             canClick={true}
             clickHandler={() => setTicketModal(true)}
-            event='onClick'
-            text='Create a ticket or an event'
+            event="onClick"
+            text="Create a ticket or an event"
             primary
             roundedFull
-            icon='+'
+            icon="+"
           />
         </span>
-        <span className='md:hidden inline-block'>
-          <Button text='Recent' secondary roundedFull preTagText='50' />
+        <span className="md:hidden inline-block">
+          <Button text="Recent" secondary roundedFull preTagText="50" />
         </span>
       </div>
       {/* test */}

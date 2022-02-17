@@ -17,7 +17,7 @@ const TableBody = ({
   setActive,
   deleteItem,
   selloutItem,
-  setSelectedProduct,
+  setSelectedRestaurant,
   setSelectedSeller,
   items = [],
 }) => {
@@ -41,26 +41,6 @@ const TableBody = ({
     [deleteItem]
   );
 
-  const handleSellout = React.useCallback(
-    (id) => {
-      confirmAlert({
-        title: "Sellout Item",
-        message: "Are you sure you want to mark this item as sold out??",
-        buttons: [
-          {
-            label: "Yes",
-            onClick: () => selloutItem(id),
-          },
-          {
-            label: "No",
-            onClick: () => {},
-          },
-        ],
-      });
-    },
-    [selloutItem]
-  );
-
   const data = React.useMemo(
     () =>
       items
@@ -68,86 +48,44 @@ const TableBody = ({
         .filter((item) => item.status === active || active === "all")
         .map((item) => ({
           status: item.status,
-          sku: `#${item.listing_number}`,
-          tickets_available: item.total_tickets,
+          name: item.name,
+          opening: moment(item.opening_time, "LT").format("HH:mm a"),
+          closing: moment(item.closing_time, "LT").format("HH:mm a"),
           desc: (
             <div>
               <p
-                onClick={() => setSelectedProduct(item)}
+                onClick={() => setSelectedRestaurant(item)}
                 className="text-purple-600 cursor-pointer text-sm"
               >
-                {item.title}
+                {item.name}
               </p>
               <div className="flex justify-between">
-                <KeyValue title="Location" value={<p>{item.location}</p>} />
+                <KeyValue title="Address" value={<p>{item.address}</p>} />
               </div>
             </div>
           ),
           image: (
             <img
-              src={item.main_image}
+              src={item.display_image}
               alt="event"
               className="h-20 w-20 rounded-sm object-contain"
             />
           ),
-          category: item.category === 1 ? "Concerts" : "Tickets",
-          date: (
-            <div>
-              <p className="">
-                {moment(item.event_date.split(" ")[0], "DD-MM-YYYY").format(
-                  "LL"
-                )}
-              </p>
-              <p className="">
-                {moment(item.event_date.split(" ")[1], "HH-mm").format("LT")}
-              </p>
-            </div>
-          ),
           actions: (
             <div className=" ">
-              {item.approval_status === "pending" ? (
-                <span onClick={() => handleDelete(item.id)}>
-                  <Button rounded danger>
-                    Delete
-                  </Button>
-                </span>
-              ) : item.approval_status === "approved" ? (
-                <>
-                  {/* <div className='justify-around'>
-                <Button rounded secondary>
-                  Edit
+              <span className="inline-block p-2"></span>
+              <span onClick={() => handleDelete(item.id)}>
+                <Button rounded danger>
+                  Delete
                 </Button>
-                <span className='inline-block p-2'></span>
-                <Button rounded primary>
-                  Print Details
-                </Button>
-              </div> */}
-                  {/* <span className='inline-block p-px'></span> */}
-                  <div className="justify-around">
-                    <span onClick={() => handleSellout(item.id)}>
-                      <Button rounded alternate>
-                        Sold Out
-                      </Button>
-                    </span>
-                    <span className="inline-block p-2"></span>
-                    <span onClick={() => handleDelete(item.id)}>
-                      <Button rounded danger>
-                        Delete
-                      </Button>
-                    </span>
-                  </div>
-                </>
-              ) : (
-                <p className="text-gray-300">Item denied</p>
-              )}
+              </span>
             </div>
           ),
         })),
     [
       // setSelectedSeller,
-      setSelectedProduct,
+      setSelectedRestaurant,
       handleDelete,
-      handleSellout,
       items,
       active,
     ]
@@ -158,19 +96,18 @@ const TableBody = ({
       { Header: "Status", accessor: "status" },
       { Header: "Image", accessor: "image" },
       {
-        Header: "Listing Number",
-        accessor: "sku",
+        Header: "Name",
+        accessor: "name",
       },
       {
-        Header: "Event Date",
-        accessor: "date",
+        Header: "Opening Time",
+        accessor: "opening",
       },
-      { Header: "Event Category", accessor: "category" },
+      { Header: "Closing Time", accessor: "closing" },
       {
         Header: "Event Details",
         accessor: "desc",
       },
-      { Header: "Available Tickets", accessor: "tickets_available" },
       { Header: "Actions", accessor: "actions" },
     ],
     []

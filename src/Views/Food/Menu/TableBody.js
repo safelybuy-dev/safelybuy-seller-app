@@ -3,7 +3,6 @@ import { useTable } from "react-table";
 import Button from "components/Button";
 import { confirmAlert } from "react-confirm-alert"; // Import
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
-import moment from "moment";
 
 const KeyValue = ({ title, value }) => (
   <div className="flex my-3 flex-col">
@@ -12,15 +11,7 @@ const KeyValue = ({ title, value }) => (
   </div>
 );
 
-const TableBody = ({
-  active,
-  setActive,
-  deleteItem,
-  selloutItem,
-  setSelectedProduct,
-  setSelectedSeller,
-  items = [],
-}) => {
+const TableBody = ({ active, deleteItem, setSelectedProduct, items = [] }) => {
   const handleDelete = React.useCallback(
     (id) => {
       confirmAlert({
@@ -41,26 +32,6 @@ const TableBody = ({
     [deleteItem]
   );
 
-  const handleSellout = React.useCallback(
-    (id) => {
-      confirmAlert({
-        title: "Sellout Item",
-        message: "Are you sure you want to mark this item as sold out??",
-        buttons: [
-          {
-            label: "Yes",
-            onClick: () => selloutItem(id),
-          },
-          {
-            label: "No",
-            onClick: () => {},
-          },
-        ],
-      });
-    },
-    [selloutItem]
-  );
-
   const data = React.useMemo(
     () =>
       items
@@ -68,89 +39,39 @@ const TableBody = ({
         .filter((item) => item.status === active || active === "all")
         .map((item) => ({
           status: item.status,
-          sku: `#${item.listing_number}`,
-          tickets_available: item.total_tickets,
+          price: item.price_per_portion,
+          available: item.available_days.join(",\t"),
           desc: (
             <div>
-              <p
-                onClick={() => setSelectedProduct(item)}
-                className="text-purple-600 cursor-pointer text-sm"
-              >
-                {item.title}
+              <p className="text-purple-600 cursor-pointer text-sm">
+                {item.name}
               </p>
               <div className="flex justify-between">
-                <KeyValue title="Location" value={<p>{item.location}</p>} />
+                <KeyValue
+                  title="Menu Description"
+                  value={<p>{item.description}</p>}
+                />
               </div>
             </div>
           ),
           image: (
             <img
-              src={item.main_image}
+              src={item.display_image}
               alt="event"
               className="h-20 w-20 rounded-sm object-contain"
             />
           ),
-          category: item.category === 1 ? "Concerts" : "Tickets",
-          date: (
-            <div>
-              <p className="">
-                {moment(item.event_date.split(" ")[0], "DD-MM-YYYY").format(
-                  "LL"
-                )}
-              </p>
-              <p className="">
-                {moment(item.event_date.split(" ")[1], "HH-mm").format("LT")}
-              </p>
-            </div>
-          ),
           actions: (
             <div className=" ">
-              {item.approval_status === "pending" ? (
-                <span onClick={() => handleDelete(item.id)}>
-                  <Button rounded danger>
-                    Delete
-                  </Button>
-                </span>
-              ) : item.approval_status === "approved" ? (
-                <>
-                  {/* <div className='justify-around'>
-                <Button rounded secondary>
-                  Edit
+              <span onClick={() => handleDelete(item.id)}>
+                <Button rounded danger>
+                  Delete
                 </Button>
-                <span className='inline-block p-2'></span>
-                <Button rounded primary>
-                  Print Details
-                </Button>
-              </div> */}
-                  {/* <span className='inline-block p-px'></span> */}
-                  <div className="justify-around">
-                    <span onClick={() => handleSellout(item.id)}>
-                      <Button rounded alternate>
-                        Sold Out
-                      </Button>
-                    </span>
-                    <span className="inline-block p-2"></span>
-                    <span onClick={() => handleDelete(item.id)}>
-                      <Button rounded danger>
-                        Delete
-                      </Button>
-                    </span>
-                  </div>
-                </>
-              ) : (
-                <p className="text-gray-300">Item denied</p>
-              )}
+              </span>
             </div>
           ),
         })),
-    [
-      // setSelectedSeller,
-      setSelectedProduct,
-      handleDelete,
-      handleSellout,
-      items,
-      active,
-    ]
+    [handleDelete, items, active]
   );
 
   const columns = React.useMemo(
@@ -158,19 +79,14 @@ const TableBody = ({
       { Header: "Status", accessor: "status" },
       { Header: "Image", accessor: "image" },
       {
-        Header: "Listing Number",
-        accessor: "sku",
+        Header: "Price Per Portion",
+        accessor: "price",
       },
       {
-        Header: "Event Date",
-        accessor: "date",
-      },
-      { Header: "Event Category", accessor: "category" },
-      {
-        Header: "Event Details",
+        Header: "Description",
         accessor: "desc",
       },
-      { Header: "Available Tickets", accessor: "tickets_available" },
+      { Header: "Available Days", accessor: "available" },
       { Header: "Actions", accessor: "actions" },
     ],
     []

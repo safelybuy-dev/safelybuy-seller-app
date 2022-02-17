@@ -17,17 +17,18 @@ const Inventory = () => {
 
   const fetchInventory = async () => {
     setLoading(true);
-    const response = await axiosWithAuth().get(
-      `${baseUrl}/api/v1/report/ticket-inventory`
-    );
-    setRestaurantInventory(response?.data?.inventory);
+    const response = await axiosWithAuth().get(`${baseUrl}/api/v1/restuarants`);
+    console.log(response?.data?.data);
+    setRestaurantInventory(response?.data?.data);
     setLoading(false);
   };
 
   const deleteItem = async (id) => {
     try {
       setLoading(true);
-      await axiosWithAuth().get(`${baseUrl}/api/v1/seller/event/delete/${id}`);
+      await axiosWithAuth().delete(
+        `${baseUrl}/api/v1/restuarants/delete/${id}`
+      );
       setLoading(false);
       addToast("Item deleted from inventory", {
         appearance: "success",
