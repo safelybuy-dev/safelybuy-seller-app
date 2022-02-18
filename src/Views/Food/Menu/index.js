@@ -15,6 +15,10 @@ const Inventory = () => {
   const { addToast } = useToasts();
   const [restaurantInventory, setRestaurantInventory] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [currentItem, setItem] = useState({});
+  const [isEdit, setEdit] = useState(false);
+
+  console.log(currentItem, isEdit);
 
   const fetchInventory = useCallback(async () => {
     setLoading(true);
@@ -100,12 +104,17 @@ const Inventory = () => {
         items={restaurantInventory}
         deleteItem={deleteItem}
         selloutItem={selloutItem}
+        setRestaurantMenuModal={setRestaurantMenuModal}
+        setItem={setItem}
+        setEdit={setEdit}
       />
       {/* test  */}
       <RestaurantMenuModal
         openRestaurantMenuModel={openRestaurantMenuModel}
         setRestaurantMenuModal={setRestaurantMenuModal}
         id={id}
+        currentItem={currentItem}
+        isEdit={isEdit}
       />
     </div>
   );

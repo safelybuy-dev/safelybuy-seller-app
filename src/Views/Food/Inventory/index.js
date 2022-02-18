@@ -37,7 +37,6 @@ const Inventory = () => {
       fetchInventory();
     } catch (error) {
       setLoading(false);
-      console.log(error.message, error.response);
       addToast(error.message, { appearance: "error", autoDismiss: true });
     }
   };

@@ -3,7 +3,7 @@ import Logo from "components/Logo";
 import { useComponentVisible } from "hooks";
 import NavItem from "./NavItem";
 import { Hamburger, CloseIcon } from "svg";
-import { navMenuItems, ticketNavMenuItems } from "data";
+import { navMenuItems, ticketNavMenuItems, foodNavMenuItems } from "data";
 import Notifications from "./Notifications";
 import NotificationDetails from "./NotificationDetails";
 import { Link, useHistory } from "react-router-dom";
@@ -36,35 +36,35 @@ const Header = ({ setIsMenuOpen, isMenuOpen, prefrence, setPrefrence }) => {
   } = useComponentVisible(false);
   return (
     <>
-      <header className='flex bg-white flex-col  pt-6  md:pt-3 fixed top-0 z-50 w-full shadow-md'>
+      <header className="flex bg-white flex-col  pt-6  md:pt-3 fixed top-0 z-50 w-full shadow-md">
         <Container>
           <NotificationDetails
             setNotIsVisible={setNotIsVisible}
             closeNav={closeNav}
           />
-          <div className='flex tracking-wide justify-between'>
-            <Link to='/' className='flex md:hidden'>
-              <Logo color='purple' text='SELLER CENTER' />
+          <div className="flex tracking-wide justify-between">
+            <Link to="/" className="flex md:hidden">
+              <Logo color="purple" text="SELLER CENTER" />
             </Link>
-            <div className='hidden md:flex items-center'>
-              <div className='mr-2 mb-1'>
+            <div className="hidden md:flex items-center">
+              <div className="mr-2 mb-1">
                 <button
                   onClick={() => setIsMenuOpen(!isMenuOpen)}
                   className={`block px-2 py-3 rounded-md ${buttonStyles()}`}
                 >
                   {!isMenuOpen ? (
-                    <Hamburger scale={1} color='black' />
+                    <Hamburger scale={1} color="black" />
                   ) : (
                     <CloseIcon />
                   )}
                 </button>
               </div>
-              <Link to='/'>
-                <Logo color='purple' text='Admin' allowSub />
+              <Link to="/">
+                <Logo color="purple" text="Admin" allowSub />
               </Link>
             </div>
-            <div className='flex items-center pl-12'>
-              <p
+            <div className="flex items-center pl-12">
+              {/* <p
                 onClick={() => {
                   prefrence === "Shopping"
                     ? setPrefrence("Tickets")
@@ -76,7 +76,25 @@ const Header = ({ setIsMenuOpen, isMenuOpen, prefrence, setPrefrence }) => {
                 className='mr-4 text-purple-500  font-semibold cursor-pointer'
               >
                 Switch to {prefrence === "Shopping" ? "Tickets" : "Shopping"}
-              </p>
+              </p> */}
+
+              <select
+                className="mr-5 border border-gray-300 px-3 py-2 rounded "
+                onChange={(e) => {
+                  setPrefrence(e.target.value);
+                  history.push("/" + e.target.value.toLowerCase());
+                }}
+              >
+                <option value="" disabled>
+                  Preference
+                </option>
+                {["Shopping", "Tickets", "Food"].map((pref, index) => (
+                  <option value={pref} key={index}>
+                    {" "}
+                    {pref}{" "}
+                  </option>
+                ))}
+              </select>
 
               <Notifications
                 notRef={notRef}
@@ -97,34 +115,48 @@ const Header = ({ setIsMenuOpen, isMenuOpen, prefrence, setPrefrence }) => {
             color: "white",
             backgroundColor: "rgba(134, 97, 255, 1)",
           }}
-          className='hidden md:flex items-center px-50 md:py-2  tracking-wide justify-center mt-6 '
+          className="hidden md:flex items-center px-50 md:py-2  tracking-wide justify-center mt-6 "
         >
-          <ul className='flex'>
-            {prefrence === "Shopping"
-              ? navMenuItems.map((item) => (
-                  <NavItem
-                    key={`${Math.random()}+${Date.now()}`}
-                    color={item.color}
-                    hasDropdown={item.hasDropdown}
-                    svg={<item.SVG scale={0.255319148936} color='white' />}
-                    url={item.url}
-                    dropDownLinks={item.dropdownLinks}
-                  >
-                    {item.text}
-                  </NavItem>
-                ))
-              : ticketNavMenuItems.map((item) => (
-                  <NavItem
-                    key={`${Math.random()}+${Date.now()}`}
-                    color={item.color}
-                    hasDropdown={item.hasDropdown}
-                    svg={<item.SVG scale={0.255319148936} color='white' />}
-                    url={item.url}
-                    dropDownLinks={item.dropdownLinks}
-                  >
-                    {item.text}
-                  </NavItem>
-                ))}
+          <ul className="flex">
+            {prefrence === "Shopping" &&
+              navMenuItems.map((item) => (
+                <NavItem
+                  key={`${Math.random()}+${Date.now()}`}
+                  color={item.color}
+                  hasDropdown={item.hasDropdown}
+                  svg={<item.SVG scale={0.255319148936} color="white" />}
+                  url={item.url}
+                  dropDownLinks={item.dropdownLinks}
+                >
+                  {item.text}
+                </NavItem>
+              ))}
+            {prefrence === "Tickets" &&
+              ticketNavMenuItems.map((item) => (
+                <NavItem
+                  key={`${Math.random()}+${Date.now()}`}
+                  color={item.color}
+                  hasDropdown={item.hasDropdown}
+                  svg={<item.SVG scale={0.255319148936} color="white" />}
+                  url={item.url}
+                  dropDownLinks={item.dropdownLinks}
+                >
+                  {item.text}
+                </NavItem>
+              ))}
+            {prefrence === "Food" &&
+              foodNavMenuItems.map((item) => (
+                <NavItem
+                  key={`${Math.random()}+${Date.now()}`}
+                  color={item.color}
+                  hasDropdown={item.hasDropdown}
+                  svg={<item.SVG scale={0.255319148936} color="white" />}
+                  url={item.url}
+                  dropDownLinks={item.dropdownLinks}
+                >
+                  {item.text}
+                </NavItem>
+              ))}
           </ul>
         </nav>
       </header>

@@ -84,14 +84,6 @@ const KeyValue = ({ title, value }) => (
   </div>
 );
 
-const initialState = {
-  name: "",
-  description: "",
-  price_per_portion: "",
-  display_image: "",
-  available_days: [""],
-};
-
 function restaurant_Reducer(state, action) {
   const { type, payload, field } = action;
   switch (type) {
@@ -131,7 +123,17 @@ const RestaurantMenuModal = ({
   openRestaurantMenuModel,
   setRestaurantMenuModal,
   id,
+  isEdit,
+  currentItem,
 }) => {
+  const initialState = {
+    name: "",
+    description: "",
+    price_per_portion: "",
+    display_image: "",
+    available_days: [""],
+  };
+
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const history = useHistory();
@@ -150,7 +152,7 @@ const RestaurantMenuModal = ({
     price_per_portion,
     available_days,
   } = eventData;
-
+  console.log(currentItem, name, "Here", isEdit);
   const {
     register,
     handleSubmit,
@@ -158,7 +160,7 @@ const RestaurantMenuModal = ({
     watch,
   } = useForm({
     defaultValues: {
-      name: "",
+      // name: "",
       description: "",
       price_per_portion: "",
     },
@@ -371,6 +373,7 @@ const RestaurantMenuModal = ({
                           {...register("name", {
                             required: true,
                           })}
+                          value={name}
                           onChange={(e) => {
                             dispatch({
                               type: "updateRestaurantState",

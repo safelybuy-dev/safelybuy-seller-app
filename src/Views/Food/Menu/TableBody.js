@@ -11,7 +11,15 @@ const KeyValue = ({ title, value }) => (
   </div>
 );
 
-const TableBody = ({ active, deleteItem, setSelectedProduct, items = [] }) => {
+const TableBody = ({
+  active,
+  deleteItem,
+  setSelectedProduct,
+  items = [],
+  setRestaurantMenuModal,
+  setItem,
+  setEdit,
+}) => {
   const handleDelete = React.useCallback(
     (id) => {
       confirmAlert({
@@ -62,10 +70,23 @@ const TableBody = ({ active, deleteItem, setSelectedProduct, items = [] }) => {
             />
           ),
           actions: (
-            <div className=" ">
+            <div className=" flex  items-center ">
               <span onClick={() => handleDelete(item.id)}>
                 <Button rounded danger>
                   Delete
+                </Button>
+              </span>
+              <div className="px-2"></div>
+              <span
+                onClick={() => {
+                  // setEdit(true);
+                  // setItem(item);
+                  // setRestaurantMenuModal(true);
+                  alert("Working On This");
+                }}
+              >
+                <Button rounded primary>
+                  Edit
                 </Button>
               </span>
             </div>

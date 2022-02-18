@@ -4,7 +4,15 @@ import TableHeader from "./TableHeader";
 import TableBody from "./TableBody";
 import ProductDetails from "./ProductDetails";
 
-const InventoryTableView = ({ loading, items, deleteItem, selloutItem }) => {
+const InventoryTableView = ({
+  loading,
+  items,
+  deleteItem,
+  selloutItem,
+  setRestaurantMenuModal,
+  setItem,
+  setEdit,
+}) => {
   const [active, setActive] = useState("all");
   const [selectedProduct, setSelectedProduct] = useState(null);
   return (
@@ -51,6 +59,9 @@ const InventoryTableView = ({ loading, items, deleteItem, selloutItem }) => {
             items={items}
             deleteItem={deleteItem}
             selloutItem={selloutItem}
+            setRestaurantMenuModal={setRestaurantMenuModal}
+            setEdit={setEdit}
+            setItem={setItem}
           />
         )}
       </div>

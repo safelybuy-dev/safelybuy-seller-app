@@ -70,6 +70,41 @@ export const ticketNavMenuItems = [
   },
 ];
 
+export const foodNavMenuItems = [
+  {
+    color: "white",
+    hasDropdown: false,
+    SVG: HomeSVG,
+    text: "Home",
+    url: "/food",
+    type: ["Shopping", "Tickets"],
+  },
+  {
+    color: "black",
+    hasDropdown: true,
+    SVG: InventorySVG,
+    dropdownLinks: [
+      { text: "Manage Inventory", url: "/food/inventory" },
+      { text: "Create an restaurant", url: "/food/inventory/add" },
+    ],
+    text: "Inventory",
+  },
+  {
+    color: "white",
+    hasDropdown: false,
+    SVG: orders,
+    text: "Orders",
+    url: "/food/orders",
+  },
+  {
+    color: "white",
+    hasDropdown: false,
+    SVG: reportSVG,
+    text: "Reports",
+    url: "/food/reports",
+  },
+];
+
 export const mainMenuItems = [
   { url: "/users", text: "Administrator Management" },
   { url: "/customers", text: "Customer Management" },

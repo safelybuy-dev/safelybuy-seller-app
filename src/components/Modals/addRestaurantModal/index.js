@@ -196,7 +196,6 @@ const RestaurantModal = ({ openRestaurantModal, setRestaurantModal }) => {
   const formValuesLength_2 = Object.values(watchFields_Step2)
     .filter(Boolean)
     .filter((e) => e.trim().length).length;
-  console.log(formValuesLength_2);
   const onSubmit = () => console.log("f");
 
   useEffect(() => {
