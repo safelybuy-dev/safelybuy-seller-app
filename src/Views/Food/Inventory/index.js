@@ -18,7 +18,6 @@ const Inventory = () => {
   const fetchInventory = async () => {
     setLoading(true);
     const response = await axiosWithAuth().get(`${baseUrl}/api/v1/restuarants`);
-    console.log(response?.data?.data);
     setRestaurantInventory(response?.data?.data);
     setLoading(false);
   };

@@ -97,6 +97,11 @@ function restaurant_Reducer(state, action) {
         ...state,
         available_days: [...state.available_days, ""],
       };
+    case "addMoreTime":
+      return {
+        ...state,
+        available_time: [...state.available_time, ""],
+      };
     default:
       return { ...state };
   }
@@ -125,13 +130,15 @@ const RestaurantMenuModal = ({
   id,
   isEdit,
   currentItem,
+  setEdit,
 }) => {
   const initialState = {
-    name: "",
-    description: "",
-    price_per_portion: "",
-    display_image: "",
-    available_days: [""],
+    name: isEdit ? currentItem.name : "",
+    description: isEdit ? currentItem.description : "",
+    price_per_portion: isEdit ? currentItem.price_per_portion : "",
+    display_image: isEdit ? currentItem.display_image : "",
+    available_days: isEdit ? currentItem.available_days : [""],
+    available_time: isEdit ? currentItem.available_time : [""],
   };
 
   const [step, setStep] = useState(1);
@@ -151,8 +158,8 @@ const RestaurantMenuModal = ({
     display_image,
     price_per_portion,
     available_days,
+    available_time,
   } = eventData;
-  console.log(currentItem, name, "Here", isEdit);
   const {
     register,
     handleSubmit,
@@ -161,11 +168,10 @@ const RestaurantMenuModal = ({
   } = useForm({
     defaultValues: {
       // name: "",
-      description: "",
-      price_per_portion: "",
+      // description: "",
+      // price_per_portion: "",
     },
   });
-
   const watchFields_Step1 = watch(["name", "description", "price_per_portion"]);
 
   const formValuesLength_1 = Object.values(watchFields_Step1)
@@ -186,29 +192,49 @@ const RestaurantMenuModal = ({
     });
   };
 
+  const handleAvailableTime = (index, e) => {
+    const newTime = [...available_time];
+    newTime[index] = e.target.value;
+    dispatch({
+      type: "updateRestaurantState",
+      payload: newTime,
+      field: "available_time",
+    });
+  };
+
   const handleRestaurantCreation = async () => {
     const data = {
-      restuarant_id: id,
       name,
       description,
       price_per_portion,
       available_days,
+      available_time,
     };
 
+    if (isEdit) {
+      data.id = currentItem.id;
+    } else {
+      data.restuarant_id = id;
+    }
+
     try {
-      const cloudinaryURl =
-        "https://api.cloudinary.com/v1_1/hack-sc/image/upload";
-      const body = new FormData();
-      body.append("file", imageState.display_image);
-      body.append("upload_preset", "events");
+      if (imageState.display_image) {
+        const cloudinaryURl =
+          "https://api.cloudinary.com/v1_1/hack-sc/image/upload";
+        const body = new FormData();
+        body.append("file", imageState.display_image);
+        body.append("upload_preset", "events");
 
-      const mainImageUrl = await axios.post(cloudinaryURl, body);
+        const mainImageUrl = await axios.post(cloudinaryURl, body);
 
-      data.display_image = mainImageUrl.data.secure_url;
+        data.display_image = mainImageUrl.data.secure_url;
+      } else {
+        data.display_image = display_image;
+      }
 
       await axios({
         method: "post",
-        url: `${baseUrl}/api/v1/menus/create`,
+        url: `${baseUrl}/api/v1/menus/${isEdit ? "update" : "create"}`,
         data,
         headers: {
           Authorization: `Bearer ${localStorage.getItem("safely_buy_token")}`,
@@ -225,11 +251,16 @@ const RestaurantMenuModal = ({
     } catch (error) {
       let errorMessage;
 
-      if (error.response) {
+      if (error.response && error.response.data.errors) {
+        console.log("Here 1");
         const errors = Object.values(error.response.data.errors);
         errorMessage = errors.map((error) => error[0]).join("\n");
       } else {
-        errorMessage = error.message || "Something went wrong";
+        console.log("Here 2");
+        errorMessage =
+          error.response.data.message ||
+          error.message ||
+          "Something went wrong";
       }
       addToast(errorMessage, {
         appearance: "error",
@@ -240,7 +271,10 @@ const RestaurantMenuModal = ({
 
   return (
     <div
-      onClick={() => setRestaurantMenuModal(null)}
+      onClick={() => {
+        setEdit(false);
+        setRestaurantMenuModal(false);
+      }}
       className="fixed overflow-y-scroll top-0 left-0 z-50 w-screen md:py-40 md:px-40 py-0 px-0 h-screen bg-purple-600 bg-opacity-30"
     >
       <div
@@ -260,7 +294,7 @@ const RestaurantMenuModal = ({
 
           <div className="">
             {step === 1 &&
-              (formValuesLength_1 > 1 ? (
+              (formValuesLength_1 > 1 || isEdit ? (
                 <Button
                   className="focus:outline-none"
                   text="Continue"
@@ -281,7 +315,7 @@ const RestaurantMenuModal = ({
               ) : null)}
 
             {step === 2 &&
-              (mainImageUploaded ? (
+              (mainImageUploaded || isEdit ? (
                 <Button
                   className="focus:outline-none"
                   text="Continue"
@@ -322,7 +356,10 @@ const RestaurantMenuModal = ({
             ) : null}
 
             <span
-              onClick={() => setRestaurantMenuModal(null)}
+              onClick={() => {
+                setEdit(false);
+                setRestaurantMenuModal(false);
+              }}
               className="inline-block cursor-pointer rounded-full bg-red-500 p-3  absolute -right-8 -top-7"
             >
               <div>
@@ -401,6 +438,7 @@ const RestaurantMenuModal = ({
                           {...register("description", {
                             required: "Required",
                           })}
+                          value={description}
                           onChange={(e) => {
                             dispatch({
                               type: "updateRestaurantState",
@@ -419,6 +457,7 @@ const RestaurantMenuModal = ({
                           {...register("price_per_portion", {
                             required: true,
                           })}
+                          value={price_per_portion}
                           onChange={(e) => {
                             dispatch({
                               type: "updateRestaurantState",
@@ -440,6 +479,7 @@ const RestaurantMenuModal = ({
                             <div className="relative md:w-full mb-2 mt-2">
                               <select
                                 className="border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
+                                value={day}
                                 onChange={(e) => handleAvailableDays(index, e)}
                               >
                                 <option value="" disabled>
@@ -472,6 +512,38 @@ const RestaurantMenuModal = ({
                           }
                         >
                           Add a new day
+                        </div>
+                      </div>
+
+                      <div className="text-left  border-t-2 mt-5 border-grey-600">
+                        <h3 className="my-4">Available Time</h3>
+                        {available_time.map((time, index) => (
+                          <div className="text-left mr-2" key={index}>
+                            <label className="text-sm my-2" htmlFor="email">
+                              Available Time {index + 1}
+                            </label>
+                            <div className="relative md:w-full mb-2 mt-2">
+                              <input
+                                type="time"
+                                onChange={(e) => handleAvailableTime(index, e)}
+                                value={time}
+                                placeholder="Available time"
+                                className={`border border-black
+                           w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                              />
+                            </div>
+                          </div>
+                        ))}
+                        <div
+                          style={{ background: "rgba(134, 97, 255, 0.15)" }}
+                          className="px-5 py-3 border-dashed border-4 border-purple-500 rounded-3xl mt-5 text-center cursor-pointer"
+                          onClick={() =>
+                            dispatch({
+                              type: "addMoreTime",
+                            })
+                          }
+                        >
+                          Add a new time
                         </div>
                       </div>
                     </form>
@@ -584,6 +656,12 @@ const RestaurantMenuModal = ({
                     <KeyValue
                       title="Available Days"
                       value={available_days.join(",\t")}
+                    />
+                  </div>
+                  <div className="flex justify-between w-full">
+                    <KeyValue
+                      title="Available Time"
+                      value={available_time.join(",\t")}
                     />
                   </div>
                 </div>

@@ -20,6 +20,7 @@ const TableBody = ({
   setItem,
   setEdit,
 }) => {
+  console.log(items);
   const handleDelete = React.useCallback(
     (id) => {
       confirmAlert({
@@ -79,10 +80,9 @@ const TableBody = ({
               <div className="px-2"></div>
               <span
                 onClick={() => {
-                  // setEdit(true);
-                  // setItem(item);
-                  // setRestaurantMenuModal(true);
-                  alert("Working On This");
+                  setEdit(true);
+                  setItem(item);
+                  setRestaurantMenuModal(true);
                 }}
               >
                 <Button rounded primary>
@@ -92,7 +92,7 @@ const TableBody = ({
             </div>
           ),
         })),
-    [handleDelete, items, active]
+    [handleDelete, items, active, setEdit, setRestaurantMenuModal, setItem]
   );
 
   const columns = React.useMemo(

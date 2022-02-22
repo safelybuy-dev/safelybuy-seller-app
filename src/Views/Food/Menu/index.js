@@ -18,14 +18,11 @@ const Inventory = () => {
   const [currentItem, setItem] = useState({});
   const [isEdit, setEdit] = useState(false);
 
-  console.log(currentItem, isEdit);
-
   const fetchInventory = useCallback(async () => {
     setLoading(true);
     const response = await axiosWithAuth().get(
       `${baseUrl}/api/v1/restuarants/menus/${id}`
     );
-    console.log(response.data.data);
     setRestaurantInventory(response?.data?.data);
     setLoading(false);
   }, [id]);
@@ -109,13 +106,16 @@ const Inventory = () => {
         setEdit={setEdit}
       />
       {/* test  */}
-      <RestaurantMenuModal
-        openRestaurantMenuModel={openRestaurantMenuModel}
-        setRestaurantMenuModal={setRestaurantMenuModal}
-        id={id}
-        currentItem={currentItem}
-        isEdit={isEdit}
-      />
+      {openRestaurantMenuModel && (
+        <RestaurantMenuModal
+          openRestaurantMenuModel={openRestaurantMenuModel}
+          setRestaurantMenuModal={setRestaurantMenuModal}
+          id={id}
+          currentItem={currentItem}
+          isEdit={isEdit}
+          setEdit={setEdit}
+        />
+      )}
     </div>
   );
 };

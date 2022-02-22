@@ -36,7 +36,8 @@ export default function Dashboard() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
-    setValue("Shopping");
+    if (!localStorage.getItem("dashboard_view_preference"))
+      setValue("Shopping");
   }, [setValue]);
 
   useEffect(() => {
