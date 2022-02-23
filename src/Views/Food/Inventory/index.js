@@ -25,9 +25,7 @@ const Inventory = () => {
   const deleteItem = async (id) => {
     try {
       setLoading(true);
-      await axiosWithAuth().delete(
-        `${baseUrl}/api/v1/restuarants/delete/${id}`
-      );
+      await axiosWithAuth().post(`${baseUrl}/api/v1/restuarants/delete/${id}`);
       setLoading(false);
       addToast("Item deleted from inventory", {
         appearance: "success",
@@ -36,7 +34,10 @@ const Inventory = () => {
       fetchInventory();
     } catch (error) {
       setLoading(false);
-      addToast(error.message, { appearance: "error", autoDismiss: true });
+      addToast(error.response.data.message || error.message, {
+        appearance: "error",
+        autoDismiss: true,
+      });
     }
   };
 

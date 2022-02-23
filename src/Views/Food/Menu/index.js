@@ -30,7 +30,7 @@ const Inventory = () => {
   const deleteItem = async (id) => {
     try {
       setLoading(true);
-      await axiosWithAuth().delete(`${baseUrl}/api/v1/menus/delete/${id}`);
+      await axiosWithAuth().post(`${baseUrl}/api/v1/menus/delete/${id}`);
       setLoading(false);
       addToast("Item deleted from inventory", {
         appearance: "success",

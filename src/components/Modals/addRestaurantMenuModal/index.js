@@ -252,11 +252,9 @@ const RestaurantMenuModal = ({
       let errorMessage;
 
       if (error.response && error.response.data.errors) {
-        console.log("Here 1");
         const errors = Object.values(error.response.data.errors);
         errorMessage = errors.map((error) => error[0]).join("\n");
       } else {
-        console.log("Here 2");
         errorMessage =
           error.response.data.message ||
           error.message ||
