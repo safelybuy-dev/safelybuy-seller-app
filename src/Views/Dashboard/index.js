@@ -29,7 +29,7 @@ export default function Dashboard() {
   const [state, dispatch] = useReducer(userReducer, auth);
   const [value, setValue] = useLocalStorage(
     "dashboard_view_preference",
-    "Shopping"
+    localStorage.getItem("dashboard_view_preference") || "Shopping"
   );
   const { addToast } = useToasts();
   const history = useHistory();

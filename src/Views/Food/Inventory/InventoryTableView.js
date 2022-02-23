@@ -5,10 +5,19 @@ import TableBody from "./TableBody";
 import ProductDetails from "./ProductDetails";
 import SellerDetails from "./SellerDetails";
 
-const InventoryTableView = ({ loading, items, deleteItem, selloutItem }) => {
+const InventoryTableView = ({
+  loading,
+  items,
+  deleteItem,
+  selloutItem,
+  setRestaurantModal,
+  setEdit,
+  setCurrentRestaurant,
+}) => {
   const [active, setActive] = useState("all");
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedSeller, setSelectedSeller] = useState(null);
+
   return (
     <div className="w-full mt-8">
       <TabHeader
@@ -53,6 +62,9 @@ const InventoryTableView = ({ loading, items, deleteItem, selloutItem }) => {
             items={items}
             deleteItem={deleteItem}
             selloutItem={selloutItem}
+            setRestaurantModal={setRestaurantModal}
+            setEdit={setEdit}
+            setCurrentRestaurant={setCurrentRestaurant}
           />
         )}
       </div>

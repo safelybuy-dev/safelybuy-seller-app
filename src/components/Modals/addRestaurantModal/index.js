@@ -85,19 +85,6 @@ const KeyValue = ({ title, value }) => (
   </div>
 );
 
-const initialState = {
-  state_id: "",
-  name: "",
-  opening_time: "",
-  closing_time: "",
-  min_order_price: "",
-  address: "",
-  contact_email: "",
-  display_image: "",
-  contact_phone: "",
-  time_to_deliver: "",
-};
-
 function restaurant_Reducer(state, action) {
   console.log(action);
   const { type, payload, field } = action;
@@ -130,7 +117,27 @@ const imageReducer = (state, action) => {
   }
 };
 
-const RestaurantModal = ({ openRestaurantModal, setRestaurantModal }) => {
+const RestaurantModal = ({
+  setRestaurantModal,
+  isEdit,
+  currentRestaurant,
+  setEdit,
+}) => {
+  console.log(currentRestaurant, isEdit);
+
+  const initialState = {
+    state_id: isEdit ? currentRestaurant.id : "",
+    name: isEdit ? currentRestaurant.name : "",
+    opening_time: isEdit ? currentRestaurant.opening_time : "",
+    closing_time: isEdit ? currentRestaurant.closing_time : "",
+    min_order_price: isEdit ? currentRestaurant.min_order_price : "",
+    address: isEdit ? currentRestaurant.address : "",
+    contact_email: isEdit ? currentRestaurant.contact_email : "",
+    display_image: isEdit ? currentRestaurant.display_image : "",
+    contact_phone: isEdit ? currentRestaurant.contact_phone : "",
+    time_to_deliver: isEdit ? currentRestaurant.time_to_deliver : "",
+  };
+
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [restaurantStates, setRestaurantStates] = useState([]);
@@ -162,17 +169,7 @@ const RestaurantModal = ({ openRestaurantModal, setRestaurantModal }) => {
     formState: { errors },
     watch,
   } = useForm({
-    defaultValues: {
-      state_id: "",
-      name: "",
-      opening_time: "",
-      closing_time: "",
-      min_order_price: "",
-      address: "",
-      contact_email: "",
-      contact_phone: "",
-      time_to_deliver: "",
-    },
+    defaultValues: {},
   });
 
   const watchFields_Step1 = watch([
@@ -204,7 +201,6 @@ const RestaurantModal = ({ openRestaurantModal, setRestaurantModal }) => {
       .then((result) => setRestaurantStates(result.data.data))
       .catch((error) => console.error(error.message));
   }, []);
-  if (!openRestaurantModal) return null;
 
   const handleRestaurantCreation = async () => {
     setLoading(true);
@@ -212,8 +208,8 @@ const RestaurantModal = ({ openRestaurantModal, setRestaurantModal }) => {
     const data = {
       state_id,
       name,
-      opening_time,
-      closing_time,
+      opening_time: moment(opening_time, "LT").format("HH:mm"),
+      closing_time: moment(closing_time, "LT").format("HH:mm"),
       min_order_price,
       address,
       contact_email,
@@ -221,20 +217,25 @@ const RestaurantModal = ({ openRestaurantModal, setRestaurantModal }) => {
       time_to_deliver,
     };
 
+    if (isEdit) {
+      data.id = currentRestaurant.id;
+    }
+
     try {
-      const cloudinaryURl =
-        "https://api.cloudinary.com/v1_1/hack-sc/image/upload";
-      const body = new FormData();
-      body.append("file", imageState.display_image);
-      body.append("upload_preset", "events");
+      if (imageState.display_image) {
+        const cloudinaryURl =
+          "https://api.cloudinary.com/v1_1/hack-sc/image/upload";
+        const body = new FormData();
+        body.append("file", imageState.display_image);
+        body.append("upload_preset", "events");
 
-      const mainImageUrl = await axios.post(cloudinaryURl, body);
+        const mainImageUrl = await axios.post(cloudinaryURl, body);
 
-      data.display_image = mainImageUrl.data.secure_url;
-
+        data.display_image = mainImageUrl.data.secure_url;
+      }
       await axios({
         method: "post",
-        url: `${baseUrl}/api/v1/restuarants/create`,
+        url: `${baseUrl}/api/v1/restuarants/${!isEdit ? "create" : "update"}`,
         data,
         headers: {
           Authorization: `Bearer ${localStorage.getItem("safely_buy_token")}`,
@@ -253,7 +254,7 @@ const RestaurantModal = ({ openRestaurantModal, setRestaurantModal }) => {
 
       if (error.response) {
         const errors = Object.values(error.response.data.errors);
-        errorMessage = errors.map((error) => error[0]).join("<br />");
+        errorMessage = errors.map((error) => error[0]).join("\n");
       } else {
         errorMessage = error.message || "Something went wrong";
       }
@@ -327,7 +328,7 @@ const RestaurantModal = ({ openRestaurantModal, setRestaurantModal }) => {
                 />
               ) : null)}
             {step === 3 &&
-              (mainImageUploaded ? (
+              (mainImageUploaded || isEdit ? (
                 <Button
                   className="focus:outline-none"
                   text="Continue"
@@ -368,7 +369,10 @@ const RestaurantModal = ({ openRestaurantModal, setRestaurantModal }) => {
             ) : null}
 
             <span
-              onClick={() => setRestaurantModal(null)}
+              onClick={() => {
+                setEdit(false);
+                setRestaurantModal(null);
+              }}
               className="inline-block cursor-pointer rounded-full bg-red-500 p-3  absolute -right-8 -top-7"
             >
               <div>
@@ -418,6 +422,7 @@ const RestaurantModal = ({ openRestaurantModal, setRestaurantModal }) => {
                           <select
                             className="border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
                             {...register("state_id")}
+                            value={state_id - 1}
                             onChange={(e) => {
                               dispatch({
                                 type: "updateRestaurantState",
@@ -447,6 +452,7 @@ const RestaurantModal = ({ openRestaurantModal, setRestaurantModal }) => {
                           {...register("title", {
                             required: true,
                           })}
+                          value={name}
                           onChange={(e) => {
                             dispatch({
                               type: "updateRestaurantState",
@@ -468,6 +474,7 @@ const RestaurantModal = ({ openRestaurantModal, setRestaurantModal }) => {
                           {...register("opening_time", {
                             required: "Required",
                           })}
+                          value={opening_time}
                           onChange={(e) => {
                             dispatch({
                               type: "updateRestaurantState",
@@ -490,6 +497,7 @@ const RestaurantModal = ({ openRestaurantModal, setRestaurantModal }) => {
                           {...register("closing_time", {
                             required: "Required",
                           })}
+                          value={closing_time}
                           onChange={(e) => {
                             dispatch({
                               type: "updateRestaurantState",
@@ -511,6 +519,7 @@ const RestaurantModal = ({ openRestaurantModal, setRestaurantModal }) => {
                           {...register("min_order_price", {
                             required: "Required",
                           })}
+                          value={min_order_price}
                           onChange={(e) => {
                             dispatch({
                               type: "updateRestaurantState",
@@ -537,6 +546,13 @@ const RestaurantModal = ({ openRestaurantModal, setRestaurantModal }) => {
               <div className="flex w-5/12 justify-center">
                 <div className="divide-y divide-light-blue-400 w-full">
                   <div className="text-xs pb-2">
+                    <BackArrowSVG setSteps={setStep} value={1} />
+                    &nbsp;&nbsp;&nbsp;
+                    <FowardArrowSVG
+                      setSteps={setStep}
+                      value={3}
+                      // value={main_event_ticket_image.length ? 4 : ""}
+                    />
                     &nbsp;&nbsp;&nbsp; 2{" "}
                     <span className="text-gray-400">/ 3</span>
                   </div>
@@ -572,6 +588,7 @@ const RestaurantModal = ({ openRestaurantModal, setRestaurantModal }) => {
                           {...register("contact_email", {
                             required: true,
                           })}
+                          value={contact_email}
                           onChange={(e) => {
                             dispatch({
                               type: "updateRestaurantState",
@@ -592,6 +609,7 @@ const RestaurantModal = ({ openRestaurantModal, setRestaurantModal }) => {
                           {...register("contact_phone", {
                             required: true,
                           })}
+                          value={contact_phone}
                           onChange={(e) => {
                             dispatch({
                               type: "updateRestaurantState",
@@ -612,6 +630,7 @@ const RestaurantModal = ({ openRestaurantModal, setRestaurantModal }) => {
                           {...register("time_to_deliver", {
                             required: true,
                           })}
+                          value={time_to_deliver}
                           onChange={(e) => {
                             dispatch({
                               type: "updateRestaurantState",
@@ -638,6 +657,7 @@ const RestaurantModal = ({ openRestaurantModal, setRestaurantModal }) => {
                           {...register("address", {
                             required: "Required",
                           })}
+                          value={address}
                           onChange={(e) => {
                             dispatch({
                               type: "updateRestaurantState",

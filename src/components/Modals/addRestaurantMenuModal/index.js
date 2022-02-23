@@ -166,11 +166,7 @@ const RestaurantMenuModal = ({
     formState: { errors },
     watch,
   } = useForm({
-    defaultValues: {
-      // name: "",
-      // description: "",
-      // price_per_portion: "",
-    },
+    defaultValues: {},
   });
   const watchFields_Step1 = watch(["name", "description", "price_per_portion"]);
 
@@ -179,8 +175,6 @@ const RestaurantMenuModal = ({
     .filter((e) => e.trim().length).length;
 
   const onSubmit = () => console.log("f");
-
-  if (!openRestaurantMenuModel) return null;
 
   const handleAvailableDays = (index, e) => {
     const newDays = [...available_days];

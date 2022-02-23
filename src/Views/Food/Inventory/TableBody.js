@@ -14,12 +14,12 @@ const KeyValue = ({ title, value }) => (
 
 const TableBody = ({
   active,
-  setActive,
   deleteItem,
-  selloutItem,
   setSelectedRestaurant,
-  setSelectedSeller,
   items = [],
+  setRestaurantModal,
+  setEdit,
+  setCurrentRestaurant,
 }) => {
   const handleDelete = React.useCallback(
     (id) => {
@@ -54,7 +54,9 @@ const TableBody = ({
           desc: (
             <div>
               <p
-                onClick={() => setSelectedRestaurant(item)}
+                onClick={() =>
+                  item.status === "active" && setSelectedRestaurant(item)
+                }
                 className="text-purple-600 cursor-pointer text-sm"
               >
                 {item.name}
@@ -73,21 +75,40 @@ const TableBody = ({
           ),
           actions: (
             <div className=" ">
+              {item.status === "active" ? (
+                <span onClick={() => handleDelete(item.id)}>
+                  <Button rounded danger>
+                    Delete
+                  </Button>
+                </span>
+              ) : (
+                <span className="text-gray-500 opacity-70">Deactivated</span>
+              )}
               <span className="inline-block p-2"></span>
-              <span onClick={() => handleDelete(item.id)}>
-                <Button rounded danger>
-                  Delete
-                </Button>
-              </span>
+              {item.status === "active" && (
+                <span
+                  onClick={() => {
+                    setCurrentRestaurant(item);
+                    setEdit(true);
+                    setRestaurantModal(true);
+                  }}
+                >
+                  <Button rounded primary>
+                    Edit
+                  </Button>
+                </span>
+              )}
             </div>
           ),
         })),
     [
-      // setSelectedSeller,
       setSelectedRestaurant,
       handleDelete,
       items,
       active,
+      setCurrentRestaurant,
+      setEdit,
+      setRestaurantModal,
     ]
   );
 

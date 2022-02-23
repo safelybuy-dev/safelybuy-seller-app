@@ -14,10 +14,14 @@ const Inventory = () => {
   const { addToast } = useToasts();
   const [restaurantInventory, setRestaurantInventory] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [currentRestaurant, setCurrentRestaurant] = useState({});
+  const [isEdit, setEdit] = useState(false);
 
   const fetchInventory = async () => {
     setLoading(true);
-    const response = await axiosWithAuth().get(`${baseUrl}/api/v1/restuarants`);
+    const response = await axiosWithAuth().get(
+      `${baseUrl}/api/v1/restuarants/my-restuarants`
+    );
     setRestaurantInventory(response?.data?.data);
     setLoading(false);
   };
@@ -98,12 +102,20 @@ const Inventory = () => {
         items={restaurantInventory}
         deleteItem={deleteItem}
         selloutItem={selloutItem}
+        setRestaurantModal={setRestaurantModal}
+        setEdit={setEdit}
+        setCurrentRestaurant={setCurrentRestaurant}
       />
       {/* test  */}
-      <RestaurantModal
-        openRestaurantModal={openRestaurantModal}
-        setRestaurantModal={setRestaurantModal}
-      />
+      {openRestaurantModal && (
+        <RestaurantModal
+          openRestaurantModal={openRestaurantModal}
+          setRestaurantModal={setRestaurantModal}
+          currentRestaurant={currentRestaurant}
+          isEdit={isEdit}
+          setEdit={setEdit}
+        />
+      )}
     </div>
   );
 };
