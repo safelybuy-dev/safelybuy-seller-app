@@ -27,7 +27,7 @@ export const login = (dispatch, data, history, toast) => {
       });
       localStorage.setItem('safely_buy_token', res.data.token);
       localStorage.setItem('safely_buy_id', res.data.user.id);
-      history.push('/shopping');
+      history.push(`/${localStorage.getItem("dashboard_view_preference") ? JSON.parse(localStorage.getItem("dashboard_view_preference")).toLowerCase() : "shopping"}`);
     },
     (err) => {
       if (err.response) {

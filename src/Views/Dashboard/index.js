@@ -16,6 +16,7 @@ const Main = lazy(() => import("./Main"));
 const Messaging = lazy(() => import("./Main/Messaging"));
 // const Shopping = lazy(() => import('../Shopping'));
 const Orders = lazy(() => import("../Shopping/Orders"));
+const FoodOrders = lazy(() => import("../Food/Order"));
 const Reports = lazy(() => import("../Shopping/Reports"));
 const Tickets = lazy(() => import("../Tickets"));
 const Food = lazy(() => import("../Food"));
@@ -51,7 +52,7 @@ export default function Dashboard() {
   useEffect(() => {
     if (!state.isAuthenticated && state.error) {
       addToast(state.error, { appearance: "error", autoDismiss: true });
-      Auth.signout(() => history.push("login"));
+      Auth.signout(() => history.push("/login"));
     }
   }, [addToast, history, state]);
 
@@ -103,6 +104,9 @@ export default function Dashboard() {
               </Route>
               <Route exact path="/food">
                 <Food />
+              </Route>
+              <Route exact path="/food/orders">
+                <FoodOrders />
               </Route>
               <Route exact path="/tickets/sales">
                 <TicketSales />

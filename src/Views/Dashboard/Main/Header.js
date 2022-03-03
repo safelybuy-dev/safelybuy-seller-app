@@ -64,34 +64,20 @@ const Header = ({ setIsMenuOpen, isMenuOpen, prefrence, setPrefrence }) => {
               </Link>
             </div>
             <div className="flex items-center pl-12">
-              {/* <p
-                onClick={() => {
-                  prefrence === "Shopping"
-                    ? setPrefrence("Tickets")
-                    : setPrefrence("Shopping");
-                  const current =
-                    prefrence === "Shopping" ? "Tickets" : "Shopping";
-                  history.push("/" + current.toLowerCase());
-                }}
-                className='mr-4 text-purple-500  font-semibold cursor-pointer'
-              >
-                Switch to {prefrence === "Shopping" ? "Tickets" : "Shopping"}
-              </p> */}
-
               <select
                 className="mr-5 border border-gray-300 px-3 py-2 rounded "
                 onChange={(e) => {
                   setPrefrence(e.target.value);
                   history.push("/" + e.target.value.toLowerCase());
                 }}
+                value={prefrence}
               >
                 <option value="" disabled>
                   Preference
                 </option>
                 {["Shopping", "Tickets", "Food"].map((pref, index) => (
                   <option value={pref} key={index}>
-                    {" "}
-                    {pref}{" "}
+                    {pref}
                   </option>
                 ))}
               </select>
