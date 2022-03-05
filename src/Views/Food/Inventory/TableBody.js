@@ -4,6 +4,7 @@ import Button from "components/Button";
 import { confirmAlert } from "react-confirm-alert"; // Import
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 import moment from "moment";
+import MoreButton from "components/MoreButton";
 
 const KeyValue = ({ title, value }) => (
   <div className="flex my-3 flex-col">
@@ -74,13 +75,9 @@ const TableBody = ({
             />
           ),
           actions: (
-            <div className=" ">
+            <div className=" flex">
               {item.status === "active" ? (
-                <span onClick={() => handleDelete(item.id)}>
-                  <Button rounded danger>
-                    Delete
-                  </Button>
-                </span>
+                <MoreButton id={item.id} handleDelete={handleDelete} />
               ) : (
                 <span className="text-gray-500 opacity-70">Deactivated</span>
               )}

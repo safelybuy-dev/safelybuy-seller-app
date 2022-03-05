@@ -13,7 +13,6 @@ const TableBody = ({
   setSelectedOwner,
   items = [],
 }) => {
-
   const data = React.useMemo(
     () =>
       items
@@ -23,39 +22,33 @@ const TableBody = ({
           status: item.order_status,
           order: (
             <div>
-            <p>{item.order_note}</p>
-            <p>{item.order_ref}</p>
+              <p>{item.order_note}</p>
+              <p>{item.order_ref}</p>
             </div>
           ),
           receiver: (
-              <p 
-                className="text-purple-600 cursor-pointer text-sm"
-                onClick={() => setSelectedOwner(item)}
-              >
-                {`${item.owner.firstname} ${item.owner.lastname}`} 
-              </p>
+            <p
+              className="text-purple-600 cursor-pointer text-sm"
+              onClick={() => setSelectedOwner(item)}
+            >
+              {`${item.owner.firstname} ${item.owner.lastname}`}
+            </p>
           ),
           details: (
             <div>
-              {
-                item.food_order_details.map(order => (
-                  <p key={order.id}
-                className="text-purple-600 cursor-pointer text-sm"
-                onClick={() => setSelectedOrder(order)}
-              >
-                {order.quantity} {order.menu.name} 
-              </p>
-                ))
-              }
+              {item.food_order_details.map((order) => (
+                <p
+                  key={order.id}
+                  className="text-purple-600 cursor-pointer text-sm"
+                  onClick={() => setSelectedOrder(order)}
+                >
+                  {order.quantity} {order.menu.name}
+                </p>
+              ))}
             </div>
           ),
         })),
-    [
-      setSelectedOrder,
-      items,
-      active,
-      setSelectedOwner
-    ]
+    [setSelectedOrder, items, active, setSelectedOwner]
   );
 
   const columns = React.useMemo(
@@ -69,7 +62,7 @@ const TableBody = ({
       {
         Header: "Order Details",
         accessor: "details",
-      }
+      },
     ],
     []
   );

@@ -7,22 +7,28 @@ import { baseUrl } from "api";
 const Inventory = () => {
   const [restaurantInventory, setRestaurantInventory] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  const fetchInventory = async () => {
-    setLoading(true);
-    const response = await axiosWithAuth().get(
-      `${baseUrl}/api/v1/seller/food/orders/my-orders`
-    );
-    setRestaurantInventory(response?.data?.data);
-    setLoading(false);
-  };
-
+  const [orderDate, setOrderDate] = useState("");
 
   useEffect(() => {
-    fetchInventory();
-  }, []);
+    const fetchInventory = async () => {
+      setLoading(true);
+      let response;
 
-  
+      if (!orderDate) {
+        response = await axiosWithAuth().get(
+          `${baseUrl}/api/v1/seller/food/orders/my-orders`
+        );
+      } else {
+        response = await axiosWithAuth().post(
+          `${baseUrl}/api/v1/seller/food/orders/my-orders-on?delivery_date=${orderDate}`
+        );
+      }
+      setRestaurantInventory(response?.data?.data);
+      setLoading(false);
+    };
+    fetchInventory();
+  }, [orderDate]);
+
   return (
     <div className="flex flex-col w-full items-start mt-10">
       <Breadcrumb
@@ -37,6 +43,8 @@ const Inventory = () => {
       <InventoryTableView
         loading={loading}
         items={restaurantInventory}
+        orderDate={orderDate}
+        setOrderDate={setOrderDate}
       />
     </div>
   );

@@ -5,24 +5,29 @@ import TableBody from "./TableBody";
 import ProductDetails from "./ProductDetails";
 import SellerDetails from "./SellerDetails";
 
-const InventoryTableView = ({
-  loading,
-  items,
-}) => {
+const InventoryTableView = ({ loading, items, orderDate, setOrderDate }) => {
   const [active, setActive] = useState("all");
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [selectedOwner, setSelectedOwner] = useState(null);
-
   return (
     <div className="w-full mt-8">
       <TabHeader
         active={active}
         setActive={setActive}
-        activeLength={items.filter((item) => item.order_status === "Dispatched").length}
-        inactiveLength={items.filter((item) => item.order_status !== "Received").length}
+        activeLength={
+          items.filter((item) => item.order_status === "Dispatched").length
+        }
+        inactiveLength={
+          items.filter((item) => item.order_status !== "Received").length
+        }
       />
       <div className="bg-white overflow-x relative rounded-b-2xl rounded-tr-2xl md:p-10 z-40 p-4 -mx-6 ">
-        <TableHeader active={active} setActive={setActive} />
+        <TableHeader
+          active={active}
+          setActive={setActive}
+          orderDate={orderDate}
+          setOrderDate={setOrderDate}
+        />
         {loading ? (
           <div className="mt-20 mb-20 flex justify-center">
             <svg
@@ -59,18 +64,18 @@ const InventoryTableView = ({
           />
         )}
       </div>
-      {
-        selectedOrder && <ProductDetails
-        selectedOrder={selectedOrder}
-        setSelectedOrder={setSelectedOrder}
-      />
-      }
-      {
-        selectedOwner && <SellerDetails
-        selectedSeller={selectedOwner}
-        setSelectedSeller={setSelectedOwner}
-      />
-      }
+      {selectedOrder && (
+        <ProductDetails
+          selectedOrder={selectedOrder}
+          setSelectedOrder={setSelectedOrder}
+        />
+      )}
+      {selectedOwner && (
+        <SellerDetails
+          selectedSeller={selectedOwner}
+          setSelectedSeller={setSelectedOwner}
+        />
+      )}
     </div>
   );
 };
