@@ -60,7 +60,7 @@ const Header = ({ setIsMenuOpen, isMenuOpen, prefrence, setPrefrence }) => {
                 </button>
               </div>
               <Link to="/">
-                <Logo color="purple" text="Admin" allowSub />
+                <Logo color="purple" text="SELLER CENTER" allowSub />
               </Link>
             </div>
             <div className="flex items-center pl-12">

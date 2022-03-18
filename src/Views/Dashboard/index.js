@@ -23,6 +23,7 @@ const Food = lazy(() => import("../Food"));
 const TicketsInventory = lazy(() => import("../Tickets/Inventory"));
 const RestaurantInventory = lazy(() => import("../Food/Inventory"));
 const RestaurantMenus = lazy(() => import("../Food/Menu"));
+const MealPlanInventory = lazy(() => import("../Food/mealPlan"));
 const Inventory = lazy(() => import("../Inventory"));
 const TicketSales = lazy(() => import("../Tickets/Sales"));
 
@@ -107,6 +108,9 @@ export default function Dashboard() {
               </Route>
               <Route exact path="/food/orders">
                 <FoodOrders />
+              </Route>
+              <Route exact path={["/food/meal-plan", "/food/meal-plan/add"]}>
+                <MealPlanInventory />
               </Route>
               <Route exact path="/tickets/sales">
                 <TicketSales />

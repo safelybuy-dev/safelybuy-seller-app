@@ -85,7 +85,11 @@ export const foodNavMenuItems = [
     SVG: InventorySVG,
     dropdownLinks: [
       { text: "Manage Inventory", url: "/food/inventory" },
-      { text: "Create an restaurant", url: "/food/inventory/add" },
+      { text: "Create a restaurant", url: "/food/inventory/add" },
+      {
+        text: "Create meal plan",
+        url: "/food/meal-plan",
+      },
     ],
     text: "Inventory",
   },

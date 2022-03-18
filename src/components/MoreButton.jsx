@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
 import { MoreSVG } from "svg";
 
-function MoreButton({ id, handleDelete }) {
-  const history = useHistory();
+function MoreButton({ links }) {
   const [dropDown, setDropDown] = useState(false);
   return (
-    <div className="relative mr-3 items-center ">
+    <div className="relative mr-3">
       <button
         className="bg-morebg-100 p-3 flex justify-center items-center rounded-sm"
         onClick={() => setDropDown(!dropDown)}
@@ -14,21 +12,8 @@ function MoreButton({ id, handleDelete }) {
         <MoreSVG />
       </button>
       {dropDown && (
-        <ul className="absolute list-none rounded shadow-lg mt-2 w-40 z-[100]">
-          {[
-            {
-              text: "View Menu",
-              clickHandler: () => history.push(`/food/restaurant/${id}`),
-            },
-            {
-              text: "View Orders",
-              clickHandler: () => history.push(`/food/orders`),
-            },
-            {
-              text: "Delete",
-              clickHandler: () => handleDelete(id),
-            },
-          ].map((option, index) => (
+        <ul className="absolute list-none  bg-white rounded shadow-lg mt-2 w-40 z-[100]">
+          {links.map((option, index) => (
             <li
               key={index}
               className={` ${

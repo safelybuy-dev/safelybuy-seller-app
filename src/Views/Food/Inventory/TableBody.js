@@ -5,6 +5,7 @@ import { confirmAlert } from "react-confirm-alert"; // Import
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 import moment from "moment";
 import MoreButton from "components/MoreButton";
+import { useHistory } from "react-router-dom";
 
 const KeyValue = ({ title, value }) => (
   <div className="flex my-3 flex-col">
@@ -22,6 +23,7 @@ const TableBody = ({
   setEdit,
   setCurrentRestaurant,
 }) => {
+  const history = useHistory();
   const handleDelete = React.useCallback(
     (id) => {
       confirmAlert({
@@ -77,7 +79,23 @@ const TableBody = ({
           actions: (
             <div className=" flex">
               {item.status === "active" ? (
-                <MoreButton id={item.id} handleDelete={handleDelete} />
+                <MoreButton
+                  links={[
+                    {
+                      text: "View Menu",
+                      clickHandler: () =>
+                        history.push(`/food/restaurant/${item.id}`),
+                    },
+                    {
+                      text: "View Orders",
+                      clickHandler: () => history.push(`/food/orders`),
+                    },
+                    {
+                      text: "Delete",
+                      clickHandler: () => handleDelete(item.id),
+                    },
+                  ]}
+                />
               ) : (
                 <span className="text-gray-500 opacity-70">Deactivated</span>
               )}
@@ -106,6 +124,7 @@ const TableBody = ({
       setCurrentRestaurant,
       setEdit,
       setRestaurantModal,
+      history,
     ]
   );
 
