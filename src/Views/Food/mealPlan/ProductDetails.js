@@ -9,7 +9,6 @@ const KeyValue = ({ title, value }) => (
 );
 
 const ProductDetails = ({ selectedProduct, setSelectedProduct }) => {
-  if (!selectedProduct) return null;
   return (
     <div
       onClick={() => setSelectedProduct(null)}
@@ -20,7 +19,7 @@ const ProductDetails = ({ selectedProduct, setSelectedProduct }) => {
         className="flex flex-col relative md:rounded-3xl rounded-none md:px-10 md:py-10 px-4 py-4 left-0 bg-white opacity-100 min-h-1/2"
       >
         <div className="flex justify-between w-full pb-10 items-start">
-          <h3 className="text-2xl">Event Details</h3>
+          <h3 className="text-2xl">Meal Plan Details</h3>
           <span
             onClick={() => setSelectedProduct(null)}
             className="inline-block cursor-pointer rounded-full bg-red-500 p-3"
@@ -31,7 +30,7 @@ const ProductDetails = ({ selectedProduct, setSelectedProduct }) => {
         <div className="flex md:mr-4 mr-0 flex-col md:flex-row">
           <div className="flex flex-col w-6/12 md:w-full">
             <div className="border-b border-gray-100 pb-4 w-full">
-              <div className="w-64 md:w-24 rounded-xl h-32 md:h-24 bg-gray-200 overflow-hidden">
+              <div className="md:w-64 w-24 rounded-xl md:h-32 h-24 bg-gray-200 overflow-hidden">
                 <img
                   src={selectedProduct.main_image}
                   alt=""
@@ -39,70 +38,67 @@ const ProductDetails = ({ selectedProduct, setSelectedProduct }) => {
                 />
               </div>
             </div>
-            <div className="flex flex-wrap">
-              {selectedProduct.images.map((image) => (
-                <div
-                  key={image.id}
-                  className="w-32 md:w-24 rounded-xl mt-4 mr-4 h-32 md:h-24 bg-gray-200 overflow-hidden"
-                >
-                  <img
-                    src={image.image_url}
-                    alt=""
-                    className="w-full object-contain"
-                  />
-                </div>
-              ))}
-            </div>
           </div>
           <div className="flex flex-col w-6/12 ml-4 md:w-full">
-            <div className="flex flex-col border-b pb-4 w-full md:ml-0 md:mt-4">
-              <h4 className="text-xl text-purple-500">Display Information</h4>
-              <div className="flex mt-6 flex-col">
-                <div className="flex justify-between w-full">
-                  <KeyValue
-                    title="Event Category"
-                    value={
-                      selectedProduct.category === 1 ? "Concerts" : "Tickets"
-                    }
-                  />
-                  <KeyValue title="Event Title" value={selectedProduct.title} />
-                </div>
-                <div className="flex justify-between w-full">
-                  <KeyValue
-                    title="Event Details"
-                    value={selectedProduct.details}
-                  />
-                </div>
-                <div className="flex justify-between w-full">
-                  <KeyValue
-                    title="Event Date/Time"
-                    value={selectedProduct.event_date}
-                  />
-                  <KeyValue
-                    title="Event Location"
-                    value={selectedProduct.location}
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="flex flex-col w-full pt-4 md:ml-0 md:mt-4">
-              <h4 className="text-xl text-purple-500">Ticket Number & Seats</h4>
-              <div className="flex mt-6 flex-col">
-                <KeyValue
-                  title="Listing Number"
-                  value={"#" + selectedProduct.listing_number}
-                />
-                <h5 className="text-lg">Seat Category</h5>
-                {selectedProduct.seats.map((seat, index) => (
-                  <div
-                    className="flex border-b justify-between w-full"
-                    key={index}
-                  >
-                    <KeyValue title="Seat Type" value={seat.type} />
-                    <KeyValue title="Seat Price" value={seat.price} />
-                    <KeyValue title="Available Seats" value={seat.available} />
+            <div className="flex flex-col  pb-4 w-full mt-4 md:mt-0">
+              <div className="flex  flex-col">
+                <div className="border-[#e0e0e066] pb-3  border-b-2 mb-3 ">
+                  <h4 className="text-lg text-purple-500">
+                    Title and Specifications
+                  </h4>
+                  <div className="flex justify-between w-full">
+                    <KeyValue title="Food Title" value={selectedProduct.name} />
+                    <KeyValue title="Food SKU" value={selectedProduct.sku} />
                   </div>
-                ))}
+                  <div className="flex justify-between w-full">
+                    <KeyValue
+                      title="Food Price"
+                      value={(+selectedProduct.cost).toLocaleString() + "NGN"}
+                    />
+                    <KeyValue
+                      title="Food Availability"
+                      value={
+                        <span className="capitalize">
+                          {selectedProduct.available_days
+                            .map((day) => day.substring(0, 3))
+                            .join(", ")}
+                        </span>
+                      }
+                    />
+                  </div>
+                  <div className="flex justify-between w-full">
+                    <KeyValue
+                      title="State"
+                      value={selectedProduct.state.name}
+                    />
+                    <KeyValue title="City" value={selectedProduct.city} />
+                  </div>
+                </div>
+                <div className="border-[#e0e0e066] pb-3  border-b-2 mb-3 ">
+                  <h4 className="text-lg text-purple-500">
+                    Inventory and Sales
+                  </h4>
+                  <div className="flex justify-between w-full">
+                    <KeyValue title="Seller SKU" value="SB-#2123434343" />
+                    <KeyValue
+                      title="Your Price"
+                      value={(+selectedProduct.cost).toLocaleString() + "NGN"}
+                    />
+                  </div>
+                </div>
+                <div>
+                  <h4 className="text-lg text-purple-500">Meal Location</h4>
+                  <div className="flex justify-between w-full">
+                    <KeyValue
+                      title="State"
+                      value={selectedProduct?.state?.name}
+                    />
+                    <KeyValue
+                      title="City / Town"
+                      value={selectedProduct.city}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>

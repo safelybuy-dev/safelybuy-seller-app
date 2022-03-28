@@ -17,7 +17,7 @@ const Inventory = () => {
   const [loading, setLoading] = useState(false);
   const [currentItem, setItem] = useState({});
   const [isEdit, setEdit] = useState(false);
-
+  console.log(restaurantInventory);
   const fetchInventory = useCallback(async () => {
     setLoading(true);
     const response = await axiosWithAuth().get(

@@ -69,6 +69,7 @@ const Inventory = () => {
           setRestaurantMenuModal={setOpenModal}
           currentItem={currentItem}
           isEdit={isEdit}
+          setEdit={setEdit}
         />
       )}
     </div>

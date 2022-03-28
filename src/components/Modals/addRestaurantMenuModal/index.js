@@ -240,6 +240,9 @@ const RestaurantMenuModal = ({
         pathname: "/success-error",
         state: {
           data: true,
+          menu: true,
+          path: "/food/inventory",
+          isEdit,
         },
       });
     } catch (error) {

@@ -17,6 +17,7 @@ const Messaging = lazy(() => import("./Main/Messaging"));
 // const Shopping = lazy(() => import('../Shopping'));
 const Orders = lazy(() => import("../Shopping/Orders"));
 const FoodOrders = lazy(() => import("../Food/Order"));
+const MealPlanOrders = lazy(() => import("../Food/mealPlan/Order"));
 const Reports = lazy(() => import("../Shopping/Reports"));
 const Tickets = lazy(() => import("../Tickets"));
 const Food = lazy(() => import("../Food"));
@@ -108,6 +109,9 @@ export default function Dashboard() {
               </Route>
               <Route exact path="/food/orders">
                 <FoodOrders />
+              </Route>
+              <Route exact path="/food/meal-plan-orders">
+                <MealPlanOrders />
               </Route>
               <Route exact path={["/food/meal-plan", "/food/meal-plan/add"]}>
                 <MealPlanInventory />

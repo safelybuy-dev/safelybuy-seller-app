@@ -2,7 +2,7 @@ import React from "react";
 import { useTable } from "react-table";
 import moment from "moment";
 
-const RecentSales = ({ items }) => {
+const RecentSales = ({ items, setSelectedItem }) => {
   const data = React.useMemo(
     () =>
       items?.map((item, index) => ({
@@ -21,7 +21,12 @@ const RecentSales = ({ items }) => {
               alt={item.meal_plan?.name}
             />
             <div className="ml-3">
-              <h4>{item.meal_plan.name}</h4>
+              <h4
+                className="capitalize text-purple-600 cursor-pointer"
+                onClick={() => setSelectedItem(item)}
+              >
+                {item.meal_plan.name}
+              </h4>
               <p className="text-[#A7A7A7]">
                 {item.meal_plan.sku} - {item.created_at.split("T")[0]}
               </p>
@@ -40,7 +45,7 @@ const RecentSales = ({ items }) => {
         price: <p>{item.meal_plan.cost}NGN</p>,
         time: <p>{item.delivery_time}</p>,
       })),
-    [items]
+    [items, setSelectedItem]
   );
 
   const columns = React.useMemo(
@@ -73,7 +78,7 @@ const RecentSales = ({ items }) => {
     useTable({ columns, data });
 
   return (
-    <div className="overflow-x-scroll">
+    <div className="overflow-x-scroll md:overflow-hidden ">
       <table {...getTableProps()} className="w-full text-sm">
         <thead className="text-left border-b-2 border-gray-100">
           {headerGroups.map((headerGroup) => (

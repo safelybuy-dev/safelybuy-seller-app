@@ -40,7 +40,8 @@ const TableBody = ({
       items
         .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
         .filter((item) => item.status === active || active === "all")
-        .map((item) => ({
+        .map((item, index) => ({
+          sn: <span>{index + 1}</span>,
           status: <span className="capitalize">{item.status}</span>,
           image: (
             <img
@@ -52,7 +53,10 @@ const TableBody = ({
           sku: item.sku,
           title: (
             <div>
-              <p className="text-purple-600 cursor-pointer text-sm">
+              <p
+                className="text-purple-600 cursor-pointer text-sm"
+                onClick={() => setSelectedProduct(item)}
+              >
                 {item.name}
               </p>
               <p className="text-gray-400 capitalize w-36 truncate">
@@ -81,14 +85,6 @@ const TableBody = ({
                   {moment(item.updated_at.split("T")[1], "LT").format("HH:mma")}
                 </span>
               </p>
-            </div>
-          ),
-          available: (
-            <div className="flex justify-center items-center">
-              {" "}
-              <span className="w-[40px] h-[30px] border-2 border-[#E0E0E0] rounded-[8px] flex justify-center items-center">
-                4
-              </span>{" "}
             </div>
           ),
           actions: (
@@ -126,11 +122,19 @@ const TableBody = ({
             </div>
           ),
         })),
-    [items, active, setEdit, setItem, setRestaurantMenuModal]
+    [
+      items,
+      active,
+      setEdit,
+      setItem,
+      setRestaurantMenuModal,
+      setSelectedProduct,
+    ]
   );
 
   const columns = React.useMemo(
     () => [
+      { Header: "SN", accessor: "sn" },
       { Header: "Status", accessor: "status" },
       { Header: "Image", accessor: "image" },
       { Header: "SKU", accessor: "sku" },
@@ -155,10 +159,6 @@ const TableBody = ({
           </div>
         ),
         accessor: "date",
-      },
-      {
-        Header: <p className="text-center">Available</p>,
-        accessor: "available",
       },
       { Header: "Actions", accessor: "actions" },
     ],

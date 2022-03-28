@@ -33,7 +33,21 @@ const SuccessError = () => {
               </div>
             )
           }
-
+          {
+            // Restaurant Menu
+            history.location.state?.menu && (
+              <div>
+                <h3 className="text-[#4BBF75] mt-6 mb-3 text-[30px]">
+                  {history.location.state?.isEdit
+                    ? "Menu Updated"
+                    : "Menu  Created"}
+                </h3>
+                <p>
+                  Your item has been added successfully and pending approval
+                </p>
+              </div>
+            )
+          }
           {!history.location.state?.data && (
             <div>
               <h3 className="text-[#EB5757] mt-6 mb-3 text-[34px]">

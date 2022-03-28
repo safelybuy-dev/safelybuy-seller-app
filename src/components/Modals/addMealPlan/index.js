@@ -119,6 +119,7 @@ const RestaurantMenuModal = ({
   setRestaurantMenuModal,
   isEdit,
   currentItem,
+  setEdit,
 }) => {
   const initialState = {
     display_image: isEdit ? currentItem.main_image : "",
@@ -131,7 +132,7 @@ const RestaurantMenuModal = ({
     city: isEdit ? currentItem.city : "",
   };
   const [restaurantStates, setRestaurantStates] = useState([]);
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(isEdit ? 2 : 1);
   const [loading, setLoading] = useState(false);
   const [days, setDays] = useState({
     monday: isEdit
@@ -283,6 +284,7 @@ const RestaurantMenuModal = ({
   return (
     <div
       onClick={() => {
+        setEdit(false);
         setRestaurantMenuModal(false);
       }}
       className="fixed overflow-scroll md:overflow-hidden md:overflow-y-scroll top-0 left-0 z-50 w-screen md:py-40 md:px-40 py-0 px-0 h-screen bg-purple-600 bg-opacity-30"
@@ -386,6 +388,7 @@ const RestaurantMenuModal = ({
 
             <span
               onClick={() => {
+                setEdit(false);
                 setRestaurantMenuModal(false);
               }}
               className="inline-block cursor-pointer rounded-full bg-red-500 p-3  absolute -right-8 -top-7"
@@ -403,7 +406,9 @@ const RestaurantMenuModal = ({
               <div className="flex w-full justify-center">
                 <div className="divide-y divide-light-blue-400 w-full">
                   <div className="text-xs pb-2">
-                    <FowardArrowSVG setSteps={setStep} value={2} />
+                    {category && (
+                      <FowardArrowSVG setSteps={setStep} value={2} />
+                    )}
                     &nbsp;&nbsp;&nbsp; 1{" "}
                     <span className="text-gray-400">/ 3</span>
                   </div>
@@ -494,7 +499,10 @@ const RestaurantMenuModal = ({
                 <div className="text-xs pb-2">
                   <BackArrowSVG setSteps={setStep} value={1} />
                   &nbsp;&nbsp;&nbsp;
-                  <FowardArrowSVG setSteps={setStep} value={3} />
+                  {(formValuesLength_1 === 5 || formValuesLength_1 === 4) &&
+                    availability.length > 0 && (
+                      <FowardArrowSVG setSteps={setStep} value={3} />
+                    )}
                   &nbsp;&nbsp;&nbsp; 2{" "}
                   <span className="text-gray-400">/ 3</span>
                 </div>
@@ -679,16 +687,13 @@ const RestaurantMenuModal = ({
                   </div>
 
                   <div>
-                    <span className="text-safebuyColor mt-2 font-medium inline-block">
-                      Promotional Images
-                    </span>
-                    <p>
+                    <p className="py-4">
                       {" "}
                       <small>
-                        Events or tickets without a main image will not appear
-                        in the search or browse area unless added. Ensure the
-                        images are clear, crisp, informative and appealing.
-                        Follow the requirements below:
+                        Meals without a main image will not appear in the search
+                        or browse area unless added. Ensure the images are
+                        clear, crisp, informative and appealing. Follow the
+                        requirements below:
                       </small>
                     </p>
 

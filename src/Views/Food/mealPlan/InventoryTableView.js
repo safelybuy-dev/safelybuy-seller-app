@@ -13,6 +13,7 @@ const InventoryTableView = ({
   setItem,
   setEdit,
 }) => {
+  console.log(items);
   const [active, setActive] = useState("all");
   const [selectedProduct, setSelectedProduct] = useState(null);
   return (
@@ -65,10 +66,12 @@ const InventoryTableView = ({
           />
         )}
       </div>
-      <ProductDetails
-        selectedProduct={selectedProduct}
-        setSelectedProduct={setSelectedProduct}
-      />
+      {selectedProduct && (
+        <ProductDetails
+          selectedProduct={selectedProduct}
+          setSelectedProduct={setSelectedProduct}
+        />
+      )}
     </div>
   );
 };

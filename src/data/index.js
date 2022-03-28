@@ -95,10 +95,13 @@ export const foodNavMenuItems = [
   },
   {
     color: "white",
-    hasDropdown: false,
     SVG: orders,
     text: "Orders",
-    url: "/food/orders",
+    hasDropdown: true,
+    dropdownLinks: [
+      { text: "Restaurant Orders", url: "/food/orders" },
+      { text: "Meal Plan Orders", url: "/food/meal-plan-orders" },
+    ],
   },
   {
     color: "white",

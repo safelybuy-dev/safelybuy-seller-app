@@ -1,17 +1,22 @@
-import React, { useState } from "react";
+import React from "react";
 import { MoreSVG } from "svg";
+import { useComponentVisible } from "hooks";
 
 function MoreButton({ links }) {
-  const [dropDown, setDropDown] = useState(false);
+  const { ref, isComponentVisible, setIsComponentVisible } =
+    useComponentVisible(false);
   return (
-    <div className="relative mr-3">
+    <div className="relative mr-3" ref={ref}>
       <button
         className="bg-morebg-100 p-3 flex justify-center items-center rounded-sm"
-        onClick={() => setDropDown(!dropDown)}
+        onClick={(e) => {
+          setIsComponentVisible(!isComponentVisible);
+          e.stopPropagation();
+        }}
       >
         <MoreSVG />
       </button>
-      {dropDown && (
+      {isComponentVisible && (
         <ul className="absolute list-none  bg-white rounded shadow-lg mt-2 w-40 z-[100]">
           {links.map((option, index) => (
             <li
