@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Times } from "svg";
 import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 
 function SortMealModal({ setTriggerSort, items }) {
+  const [uniqueMeal, setUniqueMeal] = useState([]);
+  const [uniqueTime, setUniqueTime] = useState([]);
+  const [selectedPlans, setSelectedPlans] = useState([]);
+  const [selectedTime, setSelectedTime] = useState([]);
   const [state, setState] = useState([
     {
       startDate: new Date(),
@@ -13,10 +17,23 @@ function SortMealModal({ setTriggerSort, items }) {
     },
   ]);
 
-  const [selectedPlans, setSelectedPlans] = useState([]);
-  const [selectedTime, setSelectedTime] = useState([]);
+  useEffect(() => {
+    items.map(({ meal_plan: { name } }) => {
+      if (!uniqueMeal.includes(name)) {
+        setUniqueMeal([...uniqueMeal, name]);
+      }
+      return null;
+    });
+  }, [items, uniqueMeal]);
 
-  console.log(state);
+  useEffect(() => {
+    items.map(({ delivery_time }) => {
+      if (!uniqueTime.includes(delivery_time)) {
+        setUniqueTime([...uniqueTime, delivery_time]);
+      }
+      return null;
+    });
+  }, [items, uniqueTime]);
 
   return (
     <div
@@ -24,7 +41,7 @@ function SortMealModal({ setTriggerSort, items }) {
       onClick={() => setTriggerSort(false)}
     >
       <div
-        className="bg-[#F6F5FF]  w-[contain] p-6 h-[1000px]  relative flex flex-col justify-center"
+        className="bg-[#F6F5FF]  w-[contain] p-6 min-h-[980px]  relative flex flex-col justify-center"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="absolute -top-3 -right-2">
@@ -50,7 +67,7 @@ function SortMealModal({ setTriggerSort, items }) {
           </div>
           <div className="mx-8 mt-5 pb-5 border-b-[1.3278px] border-[#E0E0E0]">
             <h4 className="mb-4">Meal Title</h4>
-            {items.map(({ meal_plan: { name } }, index) => (
+            {uniqueMeal.map((meal, index) => (
               <div key={index} className="mb-1 flex  items-center">
                 <input
                   type="checkbox"
@@ -68,10 +85,10 @@ function SortMealModal({ setTriggerSort, items }) {
                       setSelectedPlans(filteredPlans);
                     }
                   }}
-                  value={name}
+                  value={meal}
                   className="mr-3 appearance-none h-[15px] w-[15px] checked:bg-[#4BBF75] border border-[#a7a7a7] rounded-[3px] cursor-pointer border-opacity-[0.4]"
                 />
-                <label className=" font-[600] text-[14px]">{name}</label>
+                <label className=" font-[600] text-[14px]">{meal}</label>
               </div>
             ))}
           </div>
@@ -88,15 +105,28 @@ function SortMealModal({ setTriggerSort, items }) {
           </div>
           <div className="mx-8 mt-5 pb-5 border-b-[1.3278px] border-[#E0E0E0]">
             <h4 className="mb-4">Delivery Time</h4>
-            {items.map(({ delivery_time }, index) => (
+            {uniqueTime.map((time, index) => (
               <div key={index} className="mb-1">
                 <input
                   type="checkbox"
+                  onChange={(e) => {
+                    const selectedMealTime = selectedTime.find(
+                      (time) => time === e.target.value
+                    );
+
+                    if (!selectedMealTime)
+                      setSelectedTime([...selectedTime, e.target.value]);
+                    else {
+                      const filteredTime = selectedTime.filter(
+                        (time) => time !== e.target.value
+                      );
+                      setSelectedTime(filteredTime);
+                    }
+                  }}
+                  value={time}
                   className="mr-3 appearance-none h-[15px] w-[15px] checked:bg-[#4BBF75] border border-[#a7a7a7] rounded-[3px] cursor-pointer border-opacity-[0.4]"
                 />
-                <label className="font-[600] text-[14px]">
-                  {delivery_time}
-                </label>
+                <label className="font-[600] text-[14px]">{time}</label>
               </div>
             ))}
           </div>
