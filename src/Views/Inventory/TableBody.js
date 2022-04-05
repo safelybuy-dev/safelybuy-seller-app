@@ -4,14 +4,14 @@ import Button from 'components/Button';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
-const TableBody = ({
+function TableBody({
   active,
   setActive,
   items = [],
   setSelectedProduct,
   deleteItem,
   selloutItem,
-}) => {
+}) {
   const handleDelete = React.useCallback(
     (id) => {
       confirmAlert({
@@ -59,39 +59,38 @@ const TableBody = ({
         .filter((item) => item.status === active || active === 'all')
         .map((item) => ({
           id: item.id,
-          status: <div className='  capitalize'>{item.status}</div>,
+          status: <div className="  capitalize">{item.status}</div>,
           image: (
-            <div className=' '>
+            <div className=" ">
               <img
-                className='w-12 h-12 object-cover rounded-lg'
+                className="w-12 h-12 object-cover rounded-lg"
                 src={item.main_image}
                 alt={item.title}
               />
             </div>
           ),
           sku: (
-            <div className=' '>
+            <div className=" ">
               <div>{item.seller_sku}</div>
-              <div className='text-sm text-gray-400'>{item.item_condition}</div>
+              <div className="text-sm text-gray-400">{item.item_condition}</div>
             </div>
           ),
           desc: (
-            <div className=' '>
+            <div className=" ">
               <p
                 // onClick={() => setSelectedProduct(item)}
-                className='text-purple-600 cursor-pointer text-sm'
-              >
+                className="text-purple-600 cursor-pointer text-sm">
                 {item.title}
               </p>
-              <p className='text-sm text-gray-400'>{item.description}</p>
+              <p className="text-sm text-gray-400">{item.description}</p>
             </div>
           ),
           location: (
-            <div className=' '>{`${item.shipping_city}, ${item.shipping_state}`}</div>
+            <div className=" ">{`${item.shipping_city}, ${item.shipping_state}`}</div>
           ),
           date: (
-            <div className=' '>
-              <p className=''>
+            <div className=" ">
+              <p className="">
                 {new Intl.DateTimeFormat('en-GB', {
                   year: 'numeric',
                   month: 'short',
@@ -101,7 +100,7 @@ const TableBody = ({
                   minute: 'numeric',
                 }).format(Date.parse(item.created_at))}
               </p>
-              <p className='text-sm text-gray-400'>
+              <p className="text-sm text-gray-400">
                 {new Intl.DateTimeFormat('en-GB', {
                   year: 'numeric',
                   month: 'short',
@@ -114,12 +113,12 @@ const TableBody = ({
             </div>
           ),
           available: (
-            <div className='inline-block py-1 w-8 text-center mx-1 border rounded-md'>
+            <div className="inline-block py-1 w-8 text-center mx-1 border rounded-md">
               {item.available}
             </div>
           ),
           actions: (
-            <div className=' '>
+            <div className=" ">
               {item.approval_status === 'pending' ? (
                 <span onClick={() => handleDelete(item.id)}>
                   <Button rounded danger>
@@ -138,13 +137,13 @@ const TableBody = ({
                   </Button>
                 </div> */}
                   {/* <span className='inline-block p-px'></span> */}
-                  <div className='justify-around'>
+                  <div className="justify-around">
                     <span onClick={() => handleSellout(item.id)}>
                       <Button rounded alternate>
                         Sold Out
                       </Button>
                     </span>
-                    <span className='inline-block p-2'></span>
+                    <span className="inline-block p-2" />
                     <span onClick={() => handleDelete(item.id)}>
                       <Button rounded danger>
                         Delete
@@ -153,7 +152,7 @@ const TableBody = ({
                   </div>
                 </>
               ) : (
-                <p className='text-gray-300'>Item denied</p>
+                <p className="text-gray-300">Item denied</p>
               )}
             </div>
           ),
@@ -167,18 +166,18 @@ const TableBody = ({
       { Header: 'Image', accessor: 'image' },
       {
         Header: (
-          <div className='flex flex-col'>
+          <div className="flex flex-col">
             <div>SKU</div>
-            <div className='text-sm text-gray-400'>Condition</div>
+            <div className="text-sm text-gray-400">Condition</div>
           </div>
         ),
         accessor: 'sku',
       },
       {
         Header: (
-          <div className='flex flex-col'>
+          <div className="flex flex-col">
             <div>Product Name</div>
-            <div className='text-sm text-gray-400'>Description</div>
+            <div className="text-sm text-gray-400">Description</div>
           </div>
         ),
         accessor: 'desc',
@@ -186,9 +185,9 @@ const TableBody = ({
       { Header: 'Product Location', accessor: 'location' },
       {
         Header: (
-          <div className='flex flex-col'>
+          <div className="flex flex-col">
             <div>Date created</div>
-            <div className='text-sm text-gray-400'>Last updated</div>
+            <div className="text-sm text-gray-400">Last updated</div>
           </div>
         ),
         accessor: 'date',
@@ -199,30 +198,25 @@ const TableBody = ({
     []
   );
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = useTable({ columns, data });
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    useTable({ columns, data });
 
   if (data.length < 1) {
     return (
-      <div className='mt-20 mb-20 flex justify-center'>
-        <span className='text-purple-600'>No items Available</span>
+      <div className="mt-20 mb-20 flex justify-center">
+        <span className="text-purple-600">No items Available</span>
       </div>
     );
   }
 
   return (
-    <div className='overflow-x-scroll mt-8'>
-      <table {...getTableProps()} className='w-full text-sm'>
-        <thead className='text-left border-b-2 border-gray-100'>
+    <div className="overflow-x-scroll mt-8">
+      <table {...getTableProps()} className="w-full text-sm">
+        <thead className="text-left border-b-2 border-gray-100">
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
-                <th className='pb-4 font-normal' {...column.getHeaderProps()}>
+                <th className="pb-4 font-normal" {...column.getHeaderProps()}>
                   {column.render('Header')}
                 </th>
               ))}
@@ -238,9 +232,8 @@ const TableBody = ({
                   return (
                     <td
                       style={{ minWidth: '50px', maxWidth: '250px' }}
-                      className='border-b-2 pr-4 border-gray-100 py-4'
-                      {...cell.getCellProps()}
-                    >
+                      className="border-b-2 pr-4 border-gray-100 py-4"
+                      {...cell.getCellProps()}>
                       {cell.render('Cell')}
                     </td>
                   );
@@ -252,6 +245,6 @@ const TableBody = ({
       </table>
     </div>
   );
-};
+}
 
 export default TableBody;

@@ -1,33 +1,32 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
-import { CloseIcon } from "svg";
-import Button from "components/Button";
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import { CloseIcon } from 'svg';
+import Button from 'components/Button';
 
-const KeyValue = ({ title, value }) => (
-  <div className="flex my-3 flex-col">
-    <small className="text-gray-500">{title}</small>
-    <h5 className="text-lg">{value}</h5>
-  </div>
-);
+function KeyValue({ title, value }) {
+  return (
+    <div className="flex my-3 flex-col">
+      <small className="text-gray-500">{title}</small>
+      <h5 className="text-lg">{value}</h5>
+    </div>
+  );
+}
 
-const ProductDetails = ({ selectedProduct, setSelectedProduct }) => {
+function ProductDetails({ selectedProduct, setSelectedProduct }) {
   const history = useHistory();
   if (!selectedProduct) return null;
   return (
     <div
       onClick={() => setSelectedProduct(null)}
-      className="fixed overflow-scroll top-0 left-0 z-50 w-screen md:py-40 md:px-40 py-0 px-0 h-screen bg-purple-600 bg-opacity-30"
-    >
+      className="fixed overflow-scroll top-0 left-0 z-50 w-screen md:py-40 md:px-40 py-0 px-0 h-screen bg-purple-600 bg-opacity-30">
       <div
         onClick={(e) => e.stopPropagation()}
-        className="flex flex-col relative md:rounded-3xl rounded-none md:px-10 md:py-10 px-4 py-4 left-0 bg-white opacity-100 min-h-1/2"
-      >
+        className="flex flex-col relative md:rounded-3xl rounded-none md:px-10 md:py-10 px-4 py-4 left-0 bg-white opacity-100 min-h-1/2">
         <div className="flex justify-between w-full pb-10 items-start">
           <h3 className="text-2xl">Restaurant Details</h3>
           <span
             onClick={() => setSelectedProduct(null)}
-            className="inline-block cursor-pointer rounded-full bg-red-500 p-3"
-          >
+            className="inline-block cursor-pointer rounded-full bg-red-500 p-3">
             <CloseIcon color="white" />
           </span>
         </div>
@@ -87,7 +86,7 @@ const ProductDetails = ({ selectedProduct, setSelectedProduct }) => {
                   <Button
                     className="focus:outline-none"
                     text="View Menus"
-                    canClick={true}
+                    canClick
                     clickHandler={() => {
                       history.push(`/food/restaurant/${selectedProduct.id}`);
                     }}
@@ -102,6 +101,6 @@ const ProductDetails = ({ selectedProduct, setSelectedProduct }) => {
       </div>
     </div>
   );
-};
+}
 
 export default ProductDetails;

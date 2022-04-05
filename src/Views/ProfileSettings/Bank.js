@@ -8,7 +8,7 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Button from 'components/Button';
 
-const BankForm = ({ setIsLoading, dispatch }) => {
+function BankForm({ setIsLoading, dispatch }) {
   const history = useHistory();
   const { addToast } = useToasts();
   const [banks, setBanks] = useState([]);
@@ -56,7 +56,6 @@ const BankForm = ({ setIsLoading, dispatch }) => {
         autoDismiss: true,
       });
       setAccountNameLoading(false);
-      return;
     }
   };
 
@@ -122,22 +121,20 @@ const BankForm = ({ setIsLoading, dispatch }) => {
   }, [userBank]);
 
   return (
-    <div className='py-4'>
-      <div className='flex justify-start'>
+    <div className="py-4">
+      <div className="flex justify-start">
         <form
-          className='flex mt-6 flex-col md:px-8 w-full'
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <div className='text-left'>
-            <label className='text-sm my-2' htmlFor='bank_code'>
+          className="flex mt-6 flex-col md:px-8 w-full"
+          onSubmit={handleSubmit(onSubmit)}>
+          <div className="text-left">
+            <label className="text-sm my-2" htmlFor="bank_code">
               Bank
             </label>
-            <div className='relative md:w-full mb-6 mt-2'>
+            <div className="relative md:w-full mb-6 mt-2">
               <select
-                className='border border-black w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl'
-                {...register('bank_code', { required: true })}
-              >
-                <option key='null/bank' value='0'>
+                className="border border-black w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
+                {...register('bank_code', { required: true })}>
+                <option key="null/bank" value="0">
                   Select Bank
                 </option>
                 {banks.map((e, i) => (
@@ -147,18 +144,18 @@ const BankForm = ({ setIsLoading, dispatch }) => {
                 ))}
               </select>
               {errors.bank_code && (
-                <span className='error-span'>{errors.bank_code?.message}</span>
+                <span className="error-span">{errors.bank_code?.message}</span>
               )}
             </div>
           </div>
 
-          <div className='text-left'>
-            <label className='text-sm my-2' htmlFor='email'>
+          <div className="text-left">
+            <label className="text-sm my-2" htmlFor="email">
               Account Number
             </label>
-            <div className='relative md:w-full mb-6 mt-2'>
+            <div className="relative md:w-full mb-6 mt-2">
               <input
-                type='text'
+                type="text"
                 {...register('account_number')}
                 onBlur={(e) => {
                   const { value } = e.target;
@@ -174,29 +171,29 @@ const BankForm = ({ setIsLoading, dispatch }) => {
                   e.target.value = value.replace(/[^0-9]/g, '');
                   if (value.length > 10) e.target.value = value.slice(0, 10);
                 }}
-                placeholder='Enter your account number'
+                placeholder="Enter your account number"
                 className={`border ${
                   errors.account_name ? 'border-red' : 'border-black'
                 } w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
               />
 
               {errors.account_number && (
-                <span className='error-span'>
+                <span className="error-span">
                   {errors.account_number?.message}
                 </span>
               )}
             </div>
           </div>
 
-          <div className='text-left'>
-            <label className='text-sm my-2' htmlFor='email'>
+          <div className="text-left">
+            <label className="text-sm my-2" htmlFor="email">
               Account Name
             </label>
-            <div className='relative md:w-full mb-6 mt-2'>
+            <div className="relative md:w-full mb-6 mt-2">
               <input
-                type='text'
+                type="text"
                 disabled
-                placeholder='Account Name'
+                placeholder="Account Name"
                 value={account_name}
                 className={`border 
                 border-black 
@@ -206,18 +203,18 @@ const BankForm = ({ setIsLoading, dispatch }) => {
             </div>
           </div>
 
-          <div className='text-left'>
-            <div className='my-3 flex'>
+          <div className="text-left">
+            <div className="my-3 flex">
               <Button
                 primary={account_name.length}
                 disabled={!account_name.length}
                 roundedMd
                 icon={
-                  <div className='animate-bounceSide'>
-                    <ArrowRight color='white' />
+                  <div className="animate-bounceSide">
+                    <ArrowRight color="white" />
                   </div>
                 }
-                text='Save Changes'
+                text="Save Changes"
                 Continue
               />
             </div>
@@ -226,6 +223,6 @@ const BankForm = ({ setIsLoading, dispatch }) => {
       </div>
     </div>
   );
-};
+}
 
 export default BankForm;

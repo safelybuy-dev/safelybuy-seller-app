@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTable } from 'react-table';
 
-const RecentSales = () => {
+function RecentSales() {
   const data = React.useMemo(
     () => [
       {
@@ -13,30 +13,30 @@ const RecentSales = () => {
           hour12: true,
           minute: 'numeric',
         }).format(Date.now()),
-        name: <p className='text-purple-500'>Kareem Chibuzor</p>,
+        name: <p className="text-purple-500">Kareem Chibuzor</p>,
         status: (
           <>
-            <div className='relative w-8 h-4 inline-block'>
-              <div className='absolute animate-ping mt-1 w-4 bg-gray-100 mr-2 h-4 inline-block'></div>
-              <div className='absolute top-1 left-1 mt-1 w-2 bg-black h-2 inline-block'></div>
+            <div className="relative w-8 h-4 inline-block">
+              <div className="absolute animate-ping mt-1 w-4 bg-gray-100 mr-2 h-4 inline-block" />
+              <div className="absolute top-1 left-1 mt-1 w-2 bg-black h-2 inline-block" />
             </div>
             Processing
           </>
         ),
         desc: (
           <div>
-            <p className='text-purple-600 text-sm'>12239-0229-384</p>
-            <p className='text-sm mt-2'>iPhone Xmax</p>
-            <div className='flex mt-3'>
-              <div className='flex flex-col text-xs text-gray-300 uppercase'>
+            <p className="text-purple-600 text-sm">12239-0229-384</p>
+            <p className="text-sm mt-2">iPhone Xmax</p>
+            <div className="flex mt-3">
+              <div className="flex flex-col text-xs text-gray-300 uppercase">
                 contact buyer
-                <span className='text-purple-500 capitalize'>
+                <span className="text-purple-500 capitalize">
                   Elvis Presely
                 </span>
               </div>
-              <div className='flex ml-4 flex-col text-xs text-gray-300 uppercase'>
+              <div className="flex ml-4 flex-col text-xs text-gray-300 uppercase">
                 contact seller
-                <span className='text-purple-500 capitalize'>
+                <span className="text-purple-500 capitalize">
                   Kareem Chibuzor
                 </span>
               </div>
@@ -45,7 +45,7 @@ const RecentSales = () => {
         ),
         orderId: '12230223938489',
         amount: (
-          <p className='text-right'>
+          <p className="text-right">
             {Number(120000).toLocaleString('en-NG', {
               style: 'currency',
               currency: 'NGN',
@@ -62,30 +62,30 @@ const RecentSales = () => {
           hour: 'numeric',
           minute: 'numeric',
         }).format(Date.now()),
-        name: <p className='text-purple-500'>Kareem Chibuzor</p>,
+        name: <p className="text-purple-500">Kareem Chibuzor</p>,
         status: (
           <>
-            <div className='relative w-8 h-4 inline-block'>
-              <div className='absolute animate-ping mt-1 w-4 bg-yellow-100 mr-2 h-4 inline-block'></div>
-              <div className='absolute top-1 left-1 mt-1 w-2 bg-yellow-400 h-2 inline-block'></div>
+            <div className="relative w-8 h-4 inline-block">
+              <div className="absolute animate-ping mt-1 w-4 bg-yellow-100 mr-2 h-4 inline-block" />
+              <div className="absolute top-1 left-1 mt-1 w-2 bg-yellow-400 h-2 inline-block" />
             </div>
             Shipped
           </>
         ),
         desc: (
           <div>
-            <p className='text-purple-600 text-sm'>12239-0229-384</p>
-            <p className='text-sm mt-2'>iPhone Xmax</p>
-            <div className='flex mt-3'>
-              <div className='flex flex-col text-xs text-gray-300 uppercase'>
+            <p className="text-purple-600 text-sm">12239-0229-384</p>
+            <p className="text-sm mt-2">iPhone Xmax</p>
+            <div className="flex mt-3">
+              <div className="flex flex-col text-xs text-gray-300 uppercase">
                 contact buyer
-                <span className='text-purple-500 capitalize'>
+                <span className="text-purple-500 capitalize">
                   Elvis Presely
                 </span>
               </div>
-              <div className='flex ml-4 flex-col text-xs text-gray-300 uppercase'>
+              <div className="flex ml-4 flex-col text-xs text-gray-300 uppercase">
                 contact seller
-                <span className='text-purple-500 capitalize'>
+                <span className="text-purple-500 capitalize">
                   Kareem Chibuzor
                 </span>
               </div>
@@ -94,7 +94,7 @@ const RecentSales = () => {
         ),
         orderId: '12230223938489',
         amount: (
-          <p className='text-right'>
+          <p className="text-right">
             {Number(4450).toLocaleString('en-NG', {
               style: 'currency',
               currency: 'NGN',
@@ -111,30 +111,30 @@ const RecentSales = () => {
           hour: 'numeric',
           minute: 'numeric',
         }).format(Date.now()),
-        name: <p className='text-purple-500'>Kareem Chibuzor</p>,
+        name: <p className="text-purple-500">Kareem Chibuzor</p>,
         status: (
           <>
-            <div className='relative w-8 h-4 inline-block'>
-              <div className='absolute animate-ping mt-1 w-4 bg-purple-100 mr-2 h-4 inline-block'></div>
-              <div className='absolute top-1 left-1 mt-1 w-2 bg-purple-400 h-2 inline-block'></div>
+            <div className="relative w-8 h-4 inline-block">
+              <div className="absolute animate-ping mt-1 w-4 bg-purple-100 mr-2 h-4 inline-block" />
+              <div className="absolute top-1 left-1 mt-1 w-2 bg-purple-400 h-2 inline-block" />
             </div>
             Delivered
           </>
         ),
         desc: (
           <div>
-            <p className='text-purple-600 text-sm'>12239-0229-384</p>
-            <p className='text-sm mt-2'>iPhone Xmax</p>
-            <div className='flex mt-3'>
-              <div className='flex flex-col text-xs text-gray-300 uppercase'>
+            <p className="text-purple-600 text-sm">12239-0229-384</p>
+            <p className="text-sm mt-2">iPhone Xmax</p>
+            <div className="flex mt-3">
+              <div className="flex flex-col text-xs text-gray-300 uppercase">
                 contact buyer
-                <span className='text-purple-500 capitalize'>
+                <span className="text-purple-500 capitalize">
                   Elvis Presely
                 </span>
               </div>
-              <div className='flex ml-4 flex-col text-xs text-gray-300 uppercase'>
+              <div className="flex ml-4 flex-col text-xs text-gray-300 uppercase">
                 contact seller
-                <span className='text-purple-500 capitalize'>
+                <span className="text-purple-500 capitalize">
                   Kareem Chibuzor
                 </span>
               </div>
@@ -143,7 +143,7 @@ const RecentSales = () => {
         ),
         orderId: '12230223938489',
         amount: (
-          <p className='text-right'>
+          <p className="text-right">
             {Number(12000).toLocaleString('en-NG', {
               style: 'currency',
               currency: 'NGN',
@@ -160,30 +160,30 @@ const RecentSales = () => {
           hour: 'numeric',
           minute: 'numeric',
         }).format(Date.now()),
-        name: <p className='text-purple-500'>Kareem Chibuzor</p>,
+        name: <p className="text-purple-500">Kareem Chibuzor</p>,
         status: (
           <>
-            <div className='relative w-8 h-4 inline-block'>
-              <div className='absolute animate-ping mt-1 w-4 bg-green-100 mr-2 h-4 inline-block'></div>
-              <div className='absolute top-1 left-1 mt-1 w-2 bg-green-400 h-2 inline-block'></div>
+            <div className="relative w-8 h-4 inline-block">
+              <div className="absolute animate-ping mt-1 w-4 bg-green-100 mr-2 h-4 inline-block" />
+              <div className="absolute top-1 left-1 mt-1 w-2 bg-green-400 h-2 inline-block" />
             </div>
             Completed
           </>
         ),
         desc: (
           <div>
-            <p className='text-purple-600 text-sm'>12239-0229-384</p>
-            <p className='text-sm mt-2'>iPhone Xmax</p>
-            <div className='flex mt-3'>
-              <div className='flex flex-col text-xs text-gray-300 uppercase'>
+            <p className="text-purple-600 text-sm">12239-0229-384</p>
+            <p className="text-sm mt-2">iPhone Xmax</p>
+            <div className="flex mt-3">
+              <div className="flex flex-col text-xs text-gray-300 uppercase">
                 contact buyer
-                <span className='text-purple-500 capitalize'>
+                <span className="text-purple-500 capitalize">
                   Elvis Presely
                 </span>
               </div>
-              <div className='flex ml-4 flex-col text-xs text-gray-300 uppercase'>
+              <div className="flex ml-4 flex-col text-xs text-gray-300 uppercase">
                 contact seller
-                <span className='text-purple-500 capitalize'>
+                <span className="text-purple-500 capitalize">
                   Kareem Chibuzor
                 </span>
               </div>
@@ -192,7 +192,7 @@ const RecentSales = () => {
         ),
         orderId: '12230223938489',
         amount: (
-          <p className='text-right'>
+          <p className="text-right">
             {Number(46000).toLocaleString('en-NG', {
               style: 'currency',
               currency: 'NGN',
@@ -209,30 +209,30 @@ const RecentSales = () => {
           hour: 'numeric',
           minute: 'numeric',
         }).format(Date.now()),
-        name: <p className='text-purple-500'>Kareem Chibuzor</p>,
+        name: <p className="text-purple-500">Kareem Chibuzor</p>,
         status: (
           <>
-            <div className='relative w-8 h-4 inline-block'>
-              <div className='absolute animate-ping mt-1 w-4 bg-gray-100 mr-2 h-4 inline-block'></div>
-              <div className='absolute top-1 left-1 mt-1 w-2 bg-black h-2 inline-block'></div>
+            <div className="relative w-8 h-4 inline-block">
+              <div className="absolute animate-ping mt-1 w-4 bg-gray-100 mr-2 h-4 inline-block" />
+              <div className="absolute top-1 left-1 mt-1 w-2 bg-black h-2 inline-block" />
             </div>
             Processing
           </>
         ),
         desc: (
           <div>
-            <p className='text-purple-600 text-sm'>12239-0229-384</p>
-            <p className='text-sm mt-2'>iPhone Xmax</p>
-            <div className='flex mt-3'>
-              <div className='flex flex-col text-xs text-gray-300 uppercase'>
+            <p className="text-purple-600 text-sm">12239-0229-384</p>
+            <p className="text-sm mt-2">iPhone Xmax</p>
+            <div className="flex mt-3">
+              <div className="flex flex-col text-xs text-gray-300 uppercase">
                 contact buyer
-                <span className='text-purple-500 capitalize'>
+                <span className="text-purple-500 capitalize">
                   Elvis Presely
                 </span>
               </div>
-              <div className='flex ml-4 flex-col text-xs text-gray-300 uppercase'>
+              <div className="flex ml-4 flex-col text-xs text-gray-300 uppercase">
                 contact seller
-                <span className='text-purple-500 capitalize'>
+                <span className="text-purple-500 capitalize">
                   Kareem Chibuzor
                 </span>
               </div>
@@ -241,7 +241,7 @@ const RecentSales = () => {
         ),
         orderId: '12230223938489',
         amount: (
-          <p className='text-right'>
+          <p className="text-right">
             {Number(520090).toLocaleString('en-NG', {
               style: 'currency',
               currency: 'NGN',
@@ -263,25 +263,19 @@ const RecentSales = () => {
     []
   );
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = useTable({ columns, data });
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    useTable({ columns, data });
 
   return (
-    <div className='overflow-x-scroll'>
-      <table {...getTableProps()} className='w-full text-sm'>
-        <thead className='text-left border-b-2 border-gray-100'>
+    <div className="overflow-x-scroll">
+      <table {...getTableProps()} className="w-full text-sm">
+        <thead className="text-left border-b-2 border-gray-100">
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
                 <th
-                  className='pb-4 font-normal last:text-right'
-                  {...column.getHeaderProps()}
-                >
+                  className="pb-4 font-normal last:text-right"
+                  {...column.getHeaderProps()}>
                   {column.render('Header')}
                 </th>
               ))}
@@ -297,9 +291,8 @@ const RecentSales = () => {
                   return (
                     <td
                       style={{ minWidth: '120px' }}
-                      className='border-b-2 pr-4   last:pr-0 border-gray-100 py-4'
-                      {...cell.getCellProps()}
-                    >
+                      className="border-b-2 pr-4   last:pr-0 border-gray-100 py-4"
+                      {...cell.getCellProps()}>
                       {cell.render('Cell')}
                     </td>
                   );
@@ -311,6 +304,6 @@ const RecentSales = () => {
       </table>
     </div>
   );
-};
+}
 
 export default RecentSales;

@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { ArrowRight } from 'svg';
 import Logo from 'components/Logo';
-import BankForm from './bankForm';
 import Button from 'components/Button';
 import { Redirect } from 'react-router-dom';
 import utilities from 'utilities';
@@ -12,8 +11,9 @@ import { useForm } from 'react-hook-form';
 import { ContextUser } from 'context';
 // import { yupResolver } from '@hookform/resolvers/yup';
 import states from 'states';
+import BankForm from './bankForm';
 
-const SellerKyc = () => {
+function SellerKyc() {
   const { addToast } = useToasts();
 
   const { user, isAuthenticated } = useContext(ContextUser)[0];
@@ -58,7 +58,7 @@ const SellerKyc = () => {
 
     if (!user.business_name) {
       try {
-        const {status} = await requests.post('/seller/profile', data);
+        const { status } = await requests.post('/seller/profile', data);
         if (status === 'success') {
           addToast('Successfully updated seller business profile', {
             appearance: 'success',
@@ -116,116 +116,116 @@ const SellerKyc = () => {
     }
   };
 
-  const Loading = () => (
-    <>
-      <div className={`animate-pulse`}>
-        <div className='flex flex-col'>
-          <div className='h-6 my-2 bg-gray-200 rounded w-1/4'></div>
-          <div className='h-12 my-2 bg-gray-300 rounded-full w-10/12'></div>
+  function Loading() {
+    return (
+      <div className="animate-pulse">
+        <div className="flex flex-col">
+          <div className="h-6 my-2 bg-gray-200 rounded w-1/4" />
+          <div className="h-12 my-2 bg-gray-300 rounded-full w-10/12" />
         </div>
 
-        <div className='flex mt-6 flex-col'>
-          <div className='h-6 my-2 bg-gray-200 rounded w-1/4'></div>
-          <div className='h-12 my-2 bg-gray-300 rounded-full w-10/12'></div>
+        <div className="flex mt-6 flex-col">
+          <div className="h-6 my-2 bg-gray-200 rounded w-1/4" />
+          <div className="h-12 my-2 bg-gray-300 rounded-full w-10/12" />
         </div>
 
-        <div className='flex mt-6 flex-col'>
-          <div className='h-6 my-2 bg-gray-200 rounded w-1/4'></div>
-          <div className='h-12 my-2 bg-gray-300 rounded-full w-10/12'></div>
+        <div className="flex mt-6 flex-col">
+          <div className="h-6 my-2 bg-gray-200 rounded w-1/4" />
+          <div className="h-12 my-2 bg-gray-300 rounded-full w-10/12" />
         </div>
       </div>
-    </>
-  );
+    );
+  }
 
   const skipToBankDetails = () => setIskipped(true);
 
-  const SubmitButton = () => (
-    <Button
-      primaryOutline
-      roundedMd
-      icon={
-        <div className='animate-bounceSide'>
-          <ArrowRight color='black' />
-        </div>
-      }
-      text='Continue'
-      Continue
-    />
-  );
+  function SubmitButton() {
+    return (
+      <Button
+        primaryOutline
+        roundedMd
+        icon={
+          <div className="animate-bounceSide">
+            <ArrowRight color="black" />
+          </div>
+        }
+        text="Continue"
+        Continue
+      />
+    );
+  }
 
-  const Form = () => {
+  function Form() {
     if (!user.business_name) {
       return (
         <>
-          <h1 className='tracking-wide pt-2 pb-2 font-bold px-12 text-4xl z-10 md:px-8 md:text-3xl'>
+          <h1 className="tracking-wide pt-2 pb-2 font-bold px-12 text-4xl z-10 md:px-8 md:text-3xl">
             Complete your information
           </h1>
           <small
             style={{ color: 'rgba(130, 130, 130, 1)' }}
-            className='align-left font-thin'
-          >
+            className="align-left font-thin">
             {' '}
             Fill in the details in the form below to complete your information.
           </small>
-          <div className='flex justify-center mt-5'>
+          <div className="flex justify-center mt-5">
             <form
               onSubmit={handleSubmit(onSubmit)}
-              className='flex flex-col w-96 md:max-w-7xl md:px-8 scrollable-form'
-            >
-              <div className='text-left'>
-                <div className='text-left mr-2'>
-                  <label className='text-sm my-2' htmlFor='email'>
+              className="flex flex-col w-96 md:max-w-7xl md:px-8 scrollable-form">
+              <div className="text-left">
+                <div className="text-left mr-2">
+                  <label className="text-sm my-2" htmlFor="email">
                     Full Name
                   </label>
-                  <div className='relative md:w-full mb-2 mt-2'>
+                  <div className="relative md:w-full mb-2 mt-2">
                     <input
-                      type='text'
-                      placeholder='First Name'
-                      name='firstname'
+                      type="text"
+                      placeholder="First Name"
+                      name="firstname"
                       disabled
-                      id='fullname'
+                      id="fullname"
                       value={`${user.firstname} ${user.lastname}`}
-                      className={`border border-black  w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                      className="border border-black  w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
                     />
                   </div>
                 </div>
 
-                <label className='text-sm my-2' htmlFor='email'>
+                <label className="text-sm my-2" htmlFor="email">
                   Email
                 </label>
-                <div className='relative md:w-full mb-2 mt-2'>
+                <div className="relative md:w-full mb-2 mt-2">
                   <input
-                    type='email'
+                    type="email"
                     value={user.email}
-                    placeholder='email@example.com'
-                    name='email'
-                    id='email'
+                    placeholder="email@example.com"
+                    name="email"
+                    id="email"
                     disabled
-                    className={`border border-black  w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                    className="border border-black  w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
                   />
                 </div>
               </div>
-              <div className='text-left mr-2'>
-                <label className='text-sm my-2' htmlFor='email'>
+              <div className="text-left mr-2">
+                <label className="text-sm my-2" htmlFor="email">
                   Phone Number
                 </label>
-                <div className='relative md:w-full mb-2 mt-2'>
+                <div className="relative md:w-full mb-2 mt-2">
                   <input
-                    type='text'
+                    type="text"
                     value={user.phone}
                     disabled
-                    className={`border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                    className="border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
                   />
                 </div>
               </div>
-              <div className='text-left mr-2'>
-                <label className='text-sm my-2' htmlFor='email'>
+              <div className="text-left mr-2">
+                <label className="text-sm my-2" htmlFor="email">
                   Date of Birth
                 </label>
-                <div className='relative md:w-full mb-2 mt-2'>
+                <div className="relative md:w-full mb-2 mt-2">
                   <input
-                    type='date'
-                    placeholder='Click to select a date'
+                    type="date"
+                    placeholder="Click to select a date"
                     {...register('dob')}
                     // required
                     className={`border ${
@@ -234,18 +234,18 @@ const SellerKyc = () => {
                   />
 
                   {errors.dob && (
-                    <span className='error-span'>{errors.dob?.message}</span>
+                    <span className="error-span">{errors.dob?.message}</span>
                   )}
                 </div>
               </div>
-              <div className='text-left mr-2'>
-                <label className='text-sm my-2' htmlFor='email'>
+              <div className="text-left mr-2">
+                <label className="text-sm my-2" htmlFor="email">
                   Business Name
                 </label>
-                <div className='relative md:w-full mb-3 mt-2'>
+                <div className="relative md:w-full mb-3 mt-2">
                   <input
-                    type='text'
-                    placeholder='Enter your business name'
+                    type="text"
+                    placeholder="Enter your business name"
                     // name='business_name'
                     {...register('business_name')}
                     // required
@@ -255,15 +255,15 @@ const SellerKyc = () => {
                   />
 
                   {errors.business_name && (
-                    <span className='error-span'>
+                    <span className="error-span">
                       {errors.business_name?.message}
                     </span>
                   )}
                 </div>
               </div>
-              <div className='text-left'>
-                <div className='my-4 flex justify-center'>
-                  <small className='mt-3'>
+              <div className="text-left">
+                <div className="my-4 flex justify-center">
+                  <small className="mt-3">
                     Proceed to complete creating your profile.
                     &nbsp;&nbsp;&nbsp;&nbsp;{' '}
                   </small>
@@ -280,73 +280,70 @@ const SellerKyc = () => {
     if (!user.isBusinessDetails && !isSkipped) {
       return (
         <>
-          <h1 className='tracking-wide pt-2 pb-2 font-bold px-12 text-4xl z-10 md:px-8 md:text-3xl'>
+          <h1 className="tracking-wide pt-2 pb-2 font-bold px-12 text-4xl z-10 md:px-8 md:text-3xl">
             Add business information
           </h1>
           <small
             style={{ color: 'rgba(130, 130, 130, 1)' }}
-            className='font-thin'
-          >
+            className="font-thin">
             {' '}
             Fill in the legal details of your company.
           </small>
-          <div className='flex justify-center mt-5'>
+          <div className="flex justify-center mt-5">
             <form
               onSubmit={handleSubmit(onSubmit)}
-              className='flex flex-col w-96 md:max-w-7xl md:px-8 scrollable-form'
-            >
-              <div className='text-left'>
-                <div className='text-left mr-2'>
-                  <label className='text-sm my-2' htmlFor='email'>
+              className="flex flex-col w-96 md:max-w-7xl md:px-8 scrollable-form">
+              <div className="text-left">
+                <div className="text-left mr-2">
+                  <label className="text-sm my-2" htmlFor="email">
                     Business Name
                   </label>
-                  <div className='relative md:w-full mb-2 mt-2'>
+                  <div className="relative md:w-full mb-2 mt-2">
                     <input
-                      type='text'
+                      type="text"
                       disabled
-                      id='fullname'
+                      id="fullname"
                       {...register('business_name')}
-                      className={`border border-black  w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                      className="border border-black  w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
                     />
                   </div>
                 </div>
 
-                <label className='text-sm my-2' htmlFor='email'>
+                <label className="text-sm my-2" htmlFor="email">
                   Street Address
                 </label>
-                <div className='relative md:w-full mb-2 mt-2'>
+                <div className="relative md:w-full mb-2 mt-2">
                   <input
-                    type='name'
+                    type="name"
                     {...register('street')}
-                    placeholder='Enter your Street Address'
-                    className={`border border-black  w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                    placeholder="Enter your Street Address"
+                    className="border border-black  w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
                   />
                 </div>
               </div>
-              <div className='text-left mr-2'>
-                <label className='text-sm my-2' htmlFor='email'>
+              <div className="text-left mr-2">
+                <label className="text-sm my-2" htmlFor="email">
                   City / Town
                 </label>
-                <div className='relative md:w-full mb-2 mt-2'>
+                <div className="relative md:w-full mb-2 mt-2">
                   <input
-                    type='text'
+                    type="text"
                     {...register('city')}
-                    placeholder='Enter your City/Town'
-                    className={`border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                    placeholder="Enter your City/Town"
+                    className="border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
                   />
                 </div>
               </div>
 
-              <div className='text-left mr-2'>
-                <label className='text-sm my-2' htmlFor='email'>
+              <div className="text-left mr-2">
+                <label className="text-sm my-2" htmlFor="email">
                   State
                 </label>
-                <div className='relative md:w-full mb-2 mt-2'>
+                <div className="relative md:w-full mb-2 mt-2">
                   <select
-                    className='border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl'
-                    {...register('state')}
-                  >
-                    <option key='null' value=''>
+                    className="border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
+                    {...register('state')}>
+                    <option key="null" value="">
                       Select State
                     </option>
                     {states.map((e, i) => (
@@ -356,57 +353,56 @@ const SellerKyc = () => {
                     ))}
                   </select>
                   {errors.dob && (
-                    <span className='error-span'>{errors.state?.message}</span>
+                    <span className="error-span">{errors.state?.message}</span>
                   )}
                 </div>
               </div>
 
-              <div className='text-left mr-2'>
-                <label className='text-sm my-2' htmlFor='email'>
+              <div className="text-left mr-2">
+                <label className="text-sm my-2" htmlFor="email">
                   Tax Identification Number
                 </label>
-                <div className='relative md:w-full mb-2 mt-2'>
+                <div className="relative md:w-full mb-2 mt-2">
                   <input
-                    type='text'
+                    type="text"
                     {...register('tin')}
-                    placeholder='Enter your Tax Identification Number (TIN)'
-                    className={`border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                    placeholder="Enter your Tax Identification Number (TIN)"
+                    className="border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
                   />
                 </div>
               </div>
-              <div className='text-left mr-2'>
-                <label className='text-sm my-2' htmlFor='email'>
+              <div className="text-left mr-2">
+                <label className="text-sm my-2" htmlFor="email">
                   Business Registration Number
                 </label>
-                <div className='relative md:w-full mb-2 mt-2'>
+                <div className="relative md:w-full mb-2 mt-2">
                   <input
-                    type='text'
+                    type="text"
                     {...register('business_num')}
-                    placeholder='Enter your Business Registration Number'
-                    className={`border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                    placeholder="Enter your Business Registration Number"
+                    className="border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
                   />
                 </div>
               </div>
-              <div className='text-left mr-2'>
-                <label className='text-sm my-2' htmlFor='email'>
+              <div className="text-left mr-2">
+                <label className="text-sm my-2" htmlFor="email">
                   VAT Number
                 </label>
-                <div className='relative md:w-full mb-2 mt-2'>
+                <div className="relative md:w-full mb-2 mt-2">
                   <input
-                    type='text'
+                    type="text"
                     {...register('vat_num')}
-                    placeholder='Enter your VAT Number'
-                    className={`border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                    placeholder="Enter your VAT Number"
+                    className="border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
                   />
                 </div>
               </div>
 
-              <div className='text-left'>
-                <div className='my-4 flex justify-center'>
+              <div className="text-left">
+                <div className="my-4 flex justify-center">
                   <small
                     onClick={skipToBankDetails}
-                    className='mt-3 pr-10 mr-20 cursor-pointer '
-                  >
+                    className="mt-3 pr-10 mr-20 cursor-pointer ">
                     Skip for later
                   </small>
 
@@ -420,32 +416,27 @@ const SellerKyc = () => {
     }
 
     if (!user.isBankDetailsVerified && isSkipped) {
-      return (
-        <>
-          <BankForm setIsLoading={setIsLoading} dispatch={dispatch} />
-        </>
-      );
+      return <BankForm setIsLoading={setIsLoading} dispatch={dispatch} />;
     }
-  };
+  }
 
   return isAuthenticated ? (
-    <div className='relative justify-between flex flex-col min-h-screen text-center'>
-      <header className='flex tracking-wide justify-center mx-12 my-8 md:mx-6 md:my-3'>
-        <Logo color='black' text='transact with no regret' />
+    <div className="relative justify-between flex flex-col min-h-screen text-center">
+      <header className="flex tracking-wide justify-center mx-12 my-8 md:mx-6 md:my-3">
+        <Logo color="black" text="transact with no regret" />
       </header>
 
-      <div className='box'>
+      <div className="box">
         <div>
-          <div className='timeline-container mt-10'>
-            <div className='history-tl-container shadow-2xl rounded-3xl'>
-              <ul className='tl'>
+          <div className="timeline-container mt-10">
+            <div className="history-tl-container shadow-2xl rounded-3xl">
+              <ul className="tl">
                 <li
                   style={{ borderLeft: '3px solid  rgba(134, 97, 255, 1)' }}
-                  className='tl-item verify-phone-num'
-                  ng-repeat='item in retailer_history'
-                >
-                  <div className='item-detail'>Step 01</div>
-                  <div className='item-title'>Verify Seller Phone Number</div>
+                  className="tl-item verify-phone-num"
+                  ng-repeat="item in retailer_history">
+                  <div className="item-detail">Step 01</div>
+                  <div className="item-title">Verify Seller Phone Number</div>
                 </li>
 
                 <li
@@ -459,10 +450,9 @@ const SellerKyc = () => {
                       ? 'complete-seller-info-1-done'
                       : 'complete-seller-info-1'
                   }`}
-                  ng-repeat='item in retailer_history'
-                >
-                  <div className='item-detail'>Step 02</div>
-                  <div className='item-title'>Complete Seller Information</div>
+                  ng-repeat="item in retailer_history">
+                  <div className="item-detail">Step 02</div>
+                  <div className="item-title">Complete Seller Information</div>
                 </li>
 
                 <li
@@ -476,18 +466,16 @@ const SellerKyc = () => {
                       ? 'complete-seller-info-1-done'
                       : 'complete-seller-info-1'
                   }`}
-                  ng-repeat='item in retailer_history'
-                >
-                  <div className='item-detail'>Step 03</div>
-                  <div className='item-title'>Seller Business Information</div>
+                  ng-repeat="item in retailer_history">
+                  <div className="item-detail">Step 03</div>
+                  <div className="item-title">Seller Business Information</div>
                 </li>
 
                 <li
-                  className='tl-item complete-bank-info'
-                  ng-repeat='item in retailer_history'
-                >
-                  <div className='item-detail'>Step 04</div>
-                  <div className='item-title'>Seller Bank Details</div>
+                  className="tl-item complete-bank-info"
+                  ng-repeat="item in retailer_history">
+                  <div className="item-detail">Step 04</div>
+                  <div className="item-title">Seller Bank Details</div>
                 </li>
               </ul>
             </div>
@@ -498,8 +486,8 @@ const SellerKyc = () => {
       </div>
     </div>
   ) : (
-    <Redirect to='/login' />
+    <Redirect to="/login" />
   );
-};
+}
 
 export default SellerKyc;

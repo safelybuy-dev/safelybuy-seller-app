@@ -1,8 +1,8 @@
-import React from "react";
-import { AngleRight, SearchIcon } from "svg";
+import React from 'react';
+import { AngleRight, SearchIcon } from 'svg';
 // import SortBy from "./SortBy";
-import ItemsPerPage from "./ItemsPerPage";
-import { useComponentVisible } from "hooks";
+import { useComponentVisible } from 'hooks';
+import ItemsPerPage from './ItemsPerPage';
 
 export default function TableHeader({
   active,

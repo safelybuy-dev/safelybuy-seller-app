@@ -106,189 +106,184 @@ export default function Account() {
   }, [selectedState]);
 
   return (
-    <div className='py-4'>
-      <div className='flex justify-start'>
+    <div className="py-4">
+      <div className="flex justify-start">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className='flex mt-6 flex-col md:px-8 w-full'
-        >
-          {/* {!loadingUser && ( */}
-          <>
-            {' '}
-            <div className='text-left mr-2'>
-              <label className='text-sm my-2' htmlFor='firstname'>
-                Business Name
-              </label>
-              <div className='relative md:w-full mb-6 mt-2'>
-                <input
-                  // defaultValue={user.firstname}
-                  type='text'
-                  placeholder='Enter your business name'
-                  {...register('business_name', {
-                    required: true,
-                  })}
-                  id='firstname'
-                  required
-                  className={`border ${
-                    errors.business_name ? 'border-red' : 'border-black'
-                  } w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
-                />
-                <div className='text-red-500'>
-                  {errors.business_name && (
-                    <span>{errors.business_name.message}</span>
-                  )}
-                </div>
+          className="flex mt-6 flex-col md:px-8 w-full">
+          {/* {!loadingUser && ( */}{' '}
+          <div className="text-left mr-2">
+            <label className="text-sm my-2" htmlFor="firstname">
+              Business Name
+            </label>
+            <div className="relative md:w-full mb-6 mt-2">
+              <input
+                // defaultValue={user.firstname}
+                type="text"
+                placeholder="Enter your business name"
+                {...register('business_name', {
+                  required: true,
+                })}
+                id="firstname"
+                required
+                className={`border ${
+                  errors.business_name ? 'border-red' : 'border-black'
+                } w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+              />
+              <div className="text-red-500">
+                {errors.business_name && (
+                  <span>{errors.business_name.message}</span>
+                )}
               </div>
             </div>
-            <div className='text-left  md:mr-0 w-full'>
-              <label className='text-sm my-2' htmlFor='street'>
-                Street Address
-              </label>
-              <div className='relative md:w-full mb-6 mt-2'>
-                <input
-                  type='text'
-                  placeholder='Enter your street address'
-                  {...register('street', {
-                    required: true,
-                  })}
-                  id='street'
-                  required
-                  className={`border ${
-                    errors.street ? 'border-red' : 'border-black'
-                  } w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
-                />
-                <span className='text-red-500'>
-                  {errors.street && 'Please enter your street address'}
-                </span>
+          </div>
+          <div className="text-left  md:mr-0 w-full">
+            <label className="text-sm my-2" htmlFor="street">
+              Street Address
+            </label>
+            <div className="relative md:w-full mb-6 mt-2">
+              <input
+                type="text"
+                placeholder="Enter your street address"
+                {...register('street', {
+                  required: true,
+                })}
+                id="street"
+                required
+                className={`border ${
+                  errors.street ? 'border-red' : 'border-black'
+                } w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+              />
+              <span className="text-red-500">
+                {errors.street && 'Please enter your street address'}
+              </span>
+            </div>
+          </div>
+          <div className="text-left  md:mr-0 w-full">
+            <label className="text-sm my-2" htmlFor="email">
+              State
+            </label>
+            <div className="relative md:w-full mb-6 mt-2">
+              <select
+                {...register('state', {
+                  required: true,
+                })}
+                className="border w-full border-black rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
+                name="state"
+                id="state"
+                onChange={(e) => setSelectedState(e.target.value)}>
+                <option value="">Select State</option>
+                {states.map((e) => (
+                  <option key={e} value={e}>
+                    {e}
+                  </option>
+                ))}
+              </select>
+              <span className="text-red-500">
+                {errors.state && <span>{errors.state.message}</span>}
+              </span>
+            </div>
+          </div>
+          <div className="text-left  md:mr-0 w-full">
+            <label className="text-sm my-2" htmlFor="town">
+              Town/City
+            </label>
+            <div className="relative md:w-full mb-6 mt-2">
+              <select
+                className="border w-full border-black rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
+                name="city"
+                id="city"
+                {...register('city', {
+                  required: true,
+                })}
+                // defaultValue={
+                //   existing && modalOpen[1] === 'edit' ? existing.city : ''
+                // }
+              >
+                <option value="">Select City</option>
+                {towns.map((e) => (
+                  <option key={e} value={e}>
+                    {e}
+                  </option>
+                ))}
+              </select>
+              <span className="text-red-500">
+                {errors.city && <span>{errors.city.message}</span>}
+              </span>
+            </div>
+          </div>
+          <div className="text-left">
+            <label className="text-sm my-2" htmlFor="tin">
+              Tax Identification Number{' '}
+            </label>
+            <div className="relative md:w-full mb-6 mt-2">
+              <input
+                // defaultValue={user.tin}
+                type="text"
+                placeholder="Enter your Tax Identification Number (TIN)"
+                {...register('tin', {
+                  required: true,
+                })}
+                id="tin"
+                required
+                className={`border ${
+                  errors.tin ? 'border-red' : 'border-black'
+                } w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+              />
+              <div className="text-red-500">
+                {errors.tin && <span>{errors.tin.message}</span>}
               </div>
             </div>
-            <div className='text-left  md:mr-0 w-full'>
-              <label className='text-sm my-2' htmlFor='email'>
-                State
-              </label>
-              <div className='relative md:w-full mb-6 mt-2'>
-                <select
-                  {...register('state', {
-                    required: true,
-                  })}
-                  className='border w-full border-black rounded-full px-6 py-2 focus:outline-none focus:shadow-xl'
-                  name='state'
-                  id='state'
-                  onChange={(e) => setSelectedState(e.target.value)}
-                >
-                  <option value=''>Select State</option>
-                  {states.map((e) => (
-                    <option key={e} value={e}>
-                      {e}
-                    </option>
-                  ))}
-                </select>
-                <span className='text-red-500'>
-                  {errors.state && <span>{errors.state.message}</span>}
-                </span>
+          </div>
+          <div className="text-left ">
+            <label className="text-sm my-2" htmlFor="business_num">
+              Business Registration Number
+            </label>
+            <div className="relative md:w-full mb-6 mt-2">
+              <input
+                // defaultValue={user.business_num}
+                type="text"
+                placeholder="Enter your business registration number"
+                {...register('business_num', {
+                  required: true,
+                })}
+                id="business_num"
+                required
+                className={`border ${
+                  errors.business_num ? 'border-red' : 'border-black'
+                } w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+              />
+              <div className="text-red-500">
+                {errors.business_num && (
+                  <span>{errors.business_num.message}</span>
+                )}
               </div>
             </div>
-            <div className='text-left  md:mr-0 w-full'>
-              <label className='text-sm my-2' htmlFor='town'>
-                Town/City
-              </label>
-              <div className='relative md:w-full mb-6 mt-2'>
-                <select
-                  className='border w-full border-black rounded-full px-6 py-2 focus:outline-none focus:shadow-xl'
-                  name='city'
-                  id='city'
-                  {...register('city', {
-                    required: true,
-                  })}
-                  // defaultValue={
-                  //   existing && modalOpen[1] === 'edit' ? existing.city : ''
-                  // }
-                >
-                  <option value=''>Select City</option>
-                  {towns.map((e) => (
-                    <option key={e} value={e}>
-                      {e}
-                    </option>
-                  ))}
-                </select>
-                <span className='text-red-500'>
-                  {errors.city && <span>{errors.city.message}</span>}
-                </span>
-              </div>
-            </div>
-            <div className='text-left'>
-              <label className='text-sm my-2' htmlFor='tin'>
-                Tax Identification Number{' '}
-              </label>
-              <div className='relative md:w-full mb-6 mt-2'>
-                <input
-                  // defaultValue={user.tin}
-                  type='text'
-                  placeholder='Enter your Tax Identification Number (TIN)'
-                  {...register('tin', {
-                    required: true,
-                  })}
-                  id='tin'
-                  required
-                  className={`border ${
-                    errors.tin ? 'border-red' : 'border-black'
-                  } w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
-                />
-                <div className='text-red-500'>
-                  {errors.tin && <span>{errors.tin.message}</span>}
-                </div>
-              </div>
-            </div>
-            <div className='text-left '>
-              <label className='text-sm my-2' htmlFor='business_num'>
-                Business Registration Number
-              </label>
-              <div className='relative md:w-full mb-6 mt-2'>
-                <input
-                  // defaultValue={user.business_num}
-                  type='text'
-                  placeholder='Enter your business registration number'
-                  {...register('business_num', {
-                    required: true,
-                  })}
-                  id='business_num'
-                  required
-                  className={`border ${
-                    errors.business_num ? 'border-red' : 'border-black'
-                  } w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
-                />
-                <div className='text-red-500'>
-                  {errors.business_num && (
-                    <span>{errors.business_num.message}</span>
-                  )}
-                </div>
-              </div>
-            </div>
-            <div onClick={handleSubmit(onSubmit)} className='my-3'>
-              {isLoading ? (
-                <span
-                  style={{
-                    borderRightWidth: '2px',
-                    borderLeftWidth: '2px',
-                    borderRightColor: 'white',
-                  }}
-                  className='animate-spin rounded-full inline-block w-6 h-6 border-purple-700'
-                ></span>
-              ) : (
-                <Button
-                  primary
-                  roundedMd
-                  icon={
-                    <div className='animate-bounceSide'>
-                      <ArrowRight color='white' />
-                    </div>
-                  }
-                  text='Save Changes'
-                  submit
-                />
-              )}
-            </div>
-          </>
+          </div>
+          <div onClick={handleSubmit(onSubmit)} className="my-3">
+            {isLoading ? (
+              <span
+                style={{
+                  borderRightWidth: '2px',
+                  borderLeftWidth: '2px',
+                  borderRightColor: 'white',
+                }}
+                className="animate-spin rounded-full inline-block w-6 h-6 border-purple-700"
+              />
+            ) : (
+              <Button
+                primary
+                roundedMd
+                icon={
+                  <div className="animate-bounceSide">
+                    <ArrowRight color="white" />
+                  </div>
+                }
+                text="Save Changes"
+                submit
+              />
+            )}
+          </div>
           {/* )} */}
         </form>
       </div>

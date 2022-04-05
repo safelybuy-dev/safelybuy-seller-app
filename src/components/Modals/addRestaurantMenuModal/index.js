@@ -1,14 +1,14 @@
-import React, { useState, useReducer } from "react";
-import { CloseIcon, FowardSymbolSVG } from "svg";
-import { useForm } from "react-hook-form";
-import { useHistory } from "react-router-dom";
-import { useToasts } from "react-toast-notifications";
-import Button from "components/Button";
-import { BackArrowSVG, FowardArrowSVG, CameraSVG } from "../addProductModal";
-import axios from "axios";
-import { baseUrl } from "api";
+import React, { useState, useReducer } from 'react';
+import { CloseIcon, FowardSymbolSVG } from 'svg';
+import { useForm } from 'react-hook-form';
+import { useHistory } from 'react-router-dom';
+import { useToasts } from 'react-toast-notifications';
+import Button from 'components/Button';
+import axios from 'axios';
+import { baseUrl } from 'api';
+import { BackArrowSVG, FowardArrowSVG, CameraSVG } from '../addProductModal';
 
-const BorderImageUpload = ({
+function BorderImageUpload({
   title,
   containerID,
   dispatch,
@@ -16,7 +16,7 @@ const BorderImageUpload = ({
   imgSrc,
   useReducerKey,
   setMainImageUploaded,
-}) => {
+}) {
   const loadFile = (e) => {
     if (!e.target.files.length) return;
 
@@ -24,23 +24,23 @@ const BorderImageUpload = ({
 
     reader.onloadend = function () {
       dispatch({
-        type: "updateRestaurantState",
+        type: 'updateRestaurantState',
         payload: reader.result,
         field: useReducerKey,
       });
 
       dispatchImage({
-        type: "updateImage",
+        type: 'updateImage',
         payload: e.target.files[0],
         field: useReducerKey,
       });
     };
     reader.readAsDataURL(e.target.files[0]);
 
-    if (useReducerKey === "display_image") return setMainImageUploaded(true);
+    if (useReducerKey === 'display_image') return setMainImageUploaded(true);
   };
 
-  if (containerID === "cover-product-img") {
+  if (containerID === 'cover-product-img') {
   }
 
   return (
@@ -48,8 +48,7 @@ const BorderImageUpload = ({
       className="border-2 p-4 border-gray-200 
         border-dashed  w-32 cursor-pointer
         rounded-lg block  text-center 
-         mr-3  "
-    >
+         mr-3  ">
       <input
         type="file"
         accept=".png, .jpg, .jpeg"
@@ -58,16 +57,15 @@ const BorderImageUpload = ({
       />
 
       <div
-        style={{ height: imgSrc ? "100px" : "0px" }}
+        style={{ height: imgSrc ? '100px' : '0px' }}
         className={` "w-full h-1/4 m-0 rounded-full ${
-          imgSrc ? "visible" : "invisible"
-        } `}
-      >
+          imgSrc ? 'visible' : 'invisible'
+        } `}>
         <img
-          className={`object-cover w-full h-full`}
+          className="object-cover w-full h-full"
           id={containerID}
-          src={imgSrc ? imgSrc : ""}
-          alt={imgSrc ? "product" : ""}
+          src={imgSrc || ''}
+          alt={imgSrc ? 'product' : ''}
         />
       </div>
       {!imgSrc && <CameraSVG />}
@@ -75,32 +73,34 @@ const BorderImageUpload = ({
       {!imgSrc && title}
     </label>
   );
-};
+}
 
-const KeyValue = ({ title, value }) => (
-  <div className="flex my-3 flex-col">
-    <small className="text-gray-500">{title}</small>
-    <h5 className="text-lg">{value}</h5>
-  </div>
-);
+function KeyValue({ title, value }) {
+  return (
+    <div className="flex my-3 flex-col">
+      <small className="text-gray-500">{title}</small>
+      <h5 className="text-lg">{value}</h5>
+    </div>
+  );
+}
 
 function restaurant_Reducer(state, action) {
   const { type, payload, field } = action;
   switch (type) {
-    case "updateRestaurantState":
+    case 'updateRestaurantState':
       return {
         ...state,
         [field]: payload,
       };
-    case "addMoreDays":
+    case 'addMoreDays':
       return {
         ...state,
-        available_days: [...state.available_days, ""],
+        available_days: [...state.available_days, ''],
       };
-    case "addMoreTime":
+    case 'addMoreTime':
       return {
         ...state,
-        available_time: [...state.available_time, ""],
+        available_time: [...state.available_time, ''],
       };
     default:
       return { ...state };
@@ -108,13 +108,13 @@ function restaurant_Reducer(state, action) {
 }
 
 const initialImageState = {
-  restaurant_image: "",
+  restaurant_image: '',
 };
 
 const imageReducer = (state, action) => {
   const { payload, field, type } = action;
   switch (type) {
-    case "updateImage":
+    case 'updateImage':
       return {
         ...state,
         [field]: payload,
@@ -124,21 +124,21 @@ const imageReducer = (state, action) => {
   }
 };
 
-const RestaurantMenuModal = ({
+function RestaurantMenuModal({
   openRestaurantMenuModel,
   setRestaurantMenuModal,
   id,
   isEdit,
   currentItem,
   setEdit,
-}) => {
+}) {
   const initialState = {
-    name: isEdit ? currentItem.name : "",
-    description: isEdit ? currentItem.description : "",
-    price_per_portion: isEdit ? currentItem.price_per_portion : "",
-    display_image: isEdit ? currentItem.display_image : "",
-    available_days: isEdit ? currentItem.available_days : [""],
-    available_time: isEdit ? currentItem.available_time : [""],
+    name: isEdit ? currentItem.name : '',
+    description: isEdit ? currentItem.description : '',
+    price_per_portion: isEdit ? currentItem.price_per_portion : '',
+    display_image: isEdit ? currentItem.display_image : '',
+    available_days: isEdit ? currentItem.available_days : [''],
+    available_time: isEdit ? currentItem.available_time : [''],
   };
 
   const [step, setStep] = useState(1);
@@ -168,21 +168,21 @@ const RestaurantMenuModal = ({
   } = useForm({
     defaultValues: {},
   });
-  const watchFields_Step1 = watch(["name", "description", "price_per_portion"]);
+  const watchFields_Step1 = watch(['name', 'description', 'price_per_portion']);
 
   const formValuesLength_1 = Object.values(watchFields_Step1)
     .filter(Boolean)
     .filter((e) => e.trim().length).length;
 
-  const onSubmit = () => console.log("f");
+  const onSubmit = () => console.log('f');
 
   const handleAvailableDays = (index, e) => {
     const newDays = [...available_days];
     newDays[index] = e.target.value;
     dispatch({
-      type: "updateRestaurantState",
+      type: 'updateRestaurantState',
       payload: newDays,
-      field: "available_days",
+      field: 'available_days',
     });
   };
 
@@ -190,9 +190,9 @@ const RestaurantMenuModal = ({
     const newTime = [...available_time];
     newTime[index] = e.target.value;
     dispatch({
-      type: "updateRestaurantState",
+      type: 'updateRestaurantState',
       payload: newTime,
-      field: "available_time",
+      field: 'available_time',
     });
   };
 
@@ -214,10 +214,10 @@ const RestaurantMenuModal = ({
     try {
       if (imageState.display_image) {
         const cloudinaryURl =
-          "https://api.cloudinary.com/v1_1/hack-sc/image/upload";
+          'https://api.cloudinary.com/v1_1/hack-sc/image/upload';
         const body = new FormData();
-        body.append("file", imageState.display_image);
-        body.append("upload_preset", "events");
+        body.append('file', imageState.display_image);
+        body.append('upload_preset', 'events');
 
         const mainImageUrl = await axios.post(cloudinaryURl, body);
 
@@ -227,21 +227,21 @@ const RestaurantMenuModal = ({
       }
 
       await axios({
-        method: "post",
-        url: `${baseUrl}/api/v1/menus/${isEdit ? "update" : "create"}`,
+        method: 'post',
+        url: `${baseUrl}/api/v1/menus/${isEdit ? 'update' : 'create'}`,
         data,
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("safely_buy_token")}`,
+          Authorization: `Bearer ${localStorage.getItem('safely_buy_token')}`,
         },
       });
 
       setLoading(false);
       history.push({
-        pathname: "/success-error",
+        pathname: '/success-error',
         state: {
           data: true,
           menu: true,
-          path: "/food/inventory",
+          path: '/food/inventory',
           isEdit,
         },
       });
@@ -250,15 +250,15 @@ const RestaurantMenuModal = ({
 
       if (error.response && error.response.data.errors) {
         const errors = Object.values(error.response.data.errors);
-        errorMessage = errors.map((error) => error[0]).join("\n");
+        errorMessage = errors.map((error) => error[0]).join('\n');
       } else {
         errorMessage =
           error.response.data.message ||
           error.message ||
-          "Something went wrong";
+          'Something went wrong';
       }
       addToast(errorMessage, {
-        appearance: "error",
+        appearance: 'error',
         autoDismiss: true,
       });
     }
@@ -270,15 +270,13 @@ const RestaurantMenuModal = ({
         setEdit(false);
         setRestaurantMenuModal(false);
       }}
-      className="fixed overflow-y-scroll top-0 left-0 z-50 w-screen md:py-40 md:px-40 py-0 px-0 h-screen bg-purple-600 bg-opacity-30"
-    >
+      className="fixed overflow-y-scroll top-0 left-0 z-50 w-screen md:py-40 md:px-40 py-0 px-0 h-screen bg-purple-600 bg-opacity-30">
       <div
         onClick={(e) => e.stopPropagation()}
-        className="flex flex-col relative md:rounded-3xl rounded-none md:px-10 md:py-10 px-4 py-4 left-0 bg-white opacity-100 min-h-1/2"
-      >
+        className="flex flex-col relative md:rounded-3xl rounded-none md:px-10 md:py-10 px-4 py-4 left-0 bg-white opacity-100 min-h-1/2">
         <div className="flex justify-between w-full pb-10 items-start">
           <h3 className="text-2xl">
-            {step === 3 ? "Review details" : "Create a restaurant menu"}
+            {step === 3 ? 'Review details' : 'Create a restaurant menu'}
             {step === 3 && (
               <div onClick={() => setStep(2)} className="text-xs pb-2">
                 <BackArrowSVG setSteps={setStep} value={3} />
@@ -293,7 +291,7 @@ const RestaurantMenuModal = ({
                 <Button
                   className="focus:outline-none"
                   text="Continue"
-                  canClick={true}
+                  canClick
                   clickHandler={() => setStep(2)}
                   primary
                   roundedFull
@@ -314,7 +312,7 @@ const RestaurantMenuModal = ({
                 <Button
                   className="focus:outline-none"
                   text="Continue"
-                  canClick={true}
+                  canClick
                   clickHandler={() => setStep(3)}
                   primary
                   roundedFull
@@ -334,7 +332,7 @@ const RestaurantMenuModal = ({
               <Button
                 className="focus:outline-none"
                 text="Submit"
-                canClick={true}
+                canClick
                 clickHandler={handleRestaurantCreation}
                 roundedFull
                 primary
@@ -355,8 +353,7 @@ const RestaurantMenuModal = ({
                 setEdit(false);
                 setRestaurantMenuModal(false);
               }}
-              className="inline-block cursor-pointer rounded-full bg-red-500 p-3  absolute -right-8 -top-7"
-            >
+              className="inline-block cursor-pointer rounded-full bg-red-500 p-3  absolute -right-8 -top-7">
               <div>
                 <CloseIcon color="white" />
               </div>
@@ -365,256 +362,246 @@ const RestaurantMenuModal = ({
         </div>
 
         {step === 1 && (
-          <>
-            <div className="flex justify-between">
-              <div className="flex w-5/12 justify-center">
-                <div className="divide-y divide-light-blue-400 w-full">
-                  <div className="text-xs pb-2">
-                    &nbsp;&nbsp;&nbsp; 1{" "}
-                    <span className="text-gray-400">/ 2</span>
-                  </div>
+          <div className="flex justify-between">
+            <div className="flex w-5/12 justify-center">
+              <div className="divide-y divide-light-blue-400 w-full">
+                <div className="text-xs pb-2">
+                  &nbsp;&nbsp;&nbsp; 1{' '}
+                  <span className="text-gray-400">/ 2</span>
+                </div>
 
-                  <div>
-                    <span className="text-safebuyColor mt-2 font-medium inline-block">
-                      Display Information
-                    </span>
-                    <p>
-                      {" "}
-                      <small>
-                        Enter the proper information as this section will be
-                        displayed to the users.
-                      </small>
-                    </p>
-                  </div>
+                <div>
+                  <span className="text-safebuyColor mt-2 font-medium inline-block">
+                    Display Information
+                  </span>
+                  <p>
+                    {' '}
+                    <small>
+                      Enter the proper information as this section will be
+                      displayed to the users.
+                    </small>
+                  </p>
                 </div>
               </div>
+            </div>
 
-              <div className="flex w-6/12 justify-center">
-                <>
-                  <div className="flex">
-                    <form
-                      onSubmit={handleSubmit(onSubmit)}
-                      className="flex flex-col  md:max-w-7xl md:px-8"
-                    >
-                      <div className="text-left mr-2 mt-2">
-                        <label className="text-sm my-2" htmlFor="menu_name">
-                          Menu Name
-                        </label>
-                        <input
-                          type="text"
-                          {...register("name", {
-                            required: true,
-                          })}
-                          value={name}
-                          onChange={(e) => {
-                            dispatch({
-                              type: "updateRestaurantState",
-                              payload: e.target.value,
-                              field: "name",
-                            });
-                          }}
-                          placeholder="Enter Restaurant Menu"
-                          className={`border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
-                        />
-                      </div>
-
-                      <div className="mt-2">
-                        <label className="text-sm my-2" htmlFor="address">
-                          Menu Description
-                        </label>
-
-                        <textarea
-                          className={`border ${
-                            errors.name ? "border-red" : "border-black"
-                          } w-full  px-6 py-2 rounded-md focus:outline-none focus:shadow-xl`}
-                          rows="4"
-                          cols="50"
-                          placeholder="Description for the menu"
-                          {...register("description", {
-                            required: "Required",
-                          })}
-                          value={description}
-                          onChange={(e) => {
-                            dispatch({
-                              type: "updateRestaurantState",
-                              payload: e.target.value,
-                              field: "description",
-                            });
-                          }}
-                        ></textarea>
-                      </div>
-                      <div className="text-left mr-2 mt-2">
-                        <label className="text-sm my-2" htmlFor="menu_name">
-                          Price Per Portion
-                        </label>
-                        <input
-                          type="number"
-                          {...register("price_per_portion", {
-                            required: true,
-                          })}
-                          value={price_per_portion}
-                          onChange={(e) => {
-                            dispatch({
-                              type: "updateRestaurantState",
-                              payload: e.target.value,
-                              field: "price_per_portion",
-                            });
-                          }}
-                          placeholder="Price Per Portion"
-                          className={`border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
-                        />
-                      </div>
-                      <div className="text-left  border-t-2 mt-5 border-grey-600">
-                        <h3 className="my-4">Available Days</h3>
-                        {available_days.map((day, index) => (
-                          <div className="text-left mr-2" key={index}>
-                            <label className="text-sm my-2" htmlFor="email">
-                              Day {index + 1}
-                            </label>
-                            <div className="relative md:w-full mb-2 mt-2">
-                              <select
-                                className="border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
-                                value={day}
-                                onChange={(e) => handleAvailableDays(index, e)}
-                              >
-                                <option value="" disabled>
-                                  Select Day
-                                </option>
-                                {[
-                                  "Monday",
-                                  "Tuesday",
-                                  "Wednesday",
-                                  "Thursday",
-                                  "Friday",
-                                  "Saturday",
-                                  "Sunday",
-                                ].map((day, index) => (
-                                  <option key={index} value={day.toLowerCase()}>
-                                    {day}
-                                  </option>
-                                ))}
-                              </select>
-                            </div>
-                          </div>
-                        ))}
-                        <div
-                          style={{ background: "rgba(134, 97, 255, 0.15)" }}
-                          className="px-5 py-3 border-dashed border-4 border-purple-500 rounded-3xl mt-5 text-center cursor-pointer"
-                          onClick={() =>
-                            dispatch({
-                              type: "addMoreDays",
-                            })
-                          }
-                        >
-                          Add a new day
-                        </div>
-                      </div>
-
-                      <div className="text-left  border-t-2 mt-5 border-grey-600">
-                        <h3 className="my-4">Available Time</h3>
-                        {available_time.map((time, index) => (
-                          <div className="text-left mr-2" key={index}>
-                            <label className="text-sm my-2" htmlFor="email">
-                              Available Time {index + 1}
-                            </label>
-                            <div className="relative md:w-full mb-2 mt-2">
-                              <input
-                                type="time"
-                                onChange={(e) => handleAvailableTime(index, e)}
-                                value={time}
-                                placeholder="Available time"
-                                className={`border border-black
-                           w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
-                              />
-                            </div>
-                          </div>
-                        ))}
-                        <div
-                          style={{ background: "rgba(134, 97, 255, 0.15)" }}
-                          className="px-5 py-3 border-dashed border-4 border-purple-500 rounded-3xl mt-5 text-center cursor-pointer"
-                          onClick={() =>
-                            dispatch({
-                              type: "addMoreTime",
-                            })
-                          }
-                        >
-                          Add a new time
-                        </div>
-                      </div>
-                    </form>
+            <div className="flex w-6/12 justify-center">
+              <div className="flex">
+                <form
+                  onSubmit={handleSubmit(onSubmit)}
+                  className="flex flex-col  md:max-w-7xl md:px-8">
+                  <div className="text-left mr-2 mt-2">
+                    <label className="text-sm my-2" htmlFor="menu_name">
+                      Menu Name
+                    </label>
+                    <input
+                      type="text"
+                      {...register('name', {
+                        required: true,
+                      })}
+                      value={name}
+                      onChange={(e) => {
+                        dispatch({
+                          type: 'updateRestaurantState',
+                          payload: e.target.value,
+                          field: 'name',
+                        });
+                      }}
+                      placeholder="Enter Restaurant Menu"
+                      className="border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
+                    />
                   </div>
-                </>
+
+                  <div className="mt-2">
+                    <label className="text-sm my-2" htmlFor="address">
+                      Menu Description
+                    </label>
+
+                    <textarea
+                      className={`border ${
+                        errors.name ? 'border-red' : 'border-black'
+                      } w-full  px-6 py-2 rounded-md focus:outline-none focus:shadow-xl`}
+                      rows="4"
+                      cols="50"
+                      placeholder="Description for the menu"
+                      {...register('description', {
+                        required: 'Required',
+                      })}
+                      value={description}
+                      onChange={(e) => {
+                        dispatch({
+                          type: 'updateRestaurantState',
+                          payload: e.target.value,
+                          field: 'description',
+                        });
+                      }}
+                    />
+                  </div>
+                  <div className="text-left mr-2 mt-2">
+                    <label className="text-sm my-2" htmlFor="menu_name">
+                      Price Per Portion
+                    </label>
+                    <input
+                      type="number"
+                      {...register('price_per_portion', {
+                        required: true,
+                      })}
+                      value={price_per_portion}
+                      onChange={(e) => {
+                        dispatch({
+                          type: 'updateRestaurantState',
+                          payload: e.target.value,
+                          field: 'price_per_portion',
+                        });
+                      }}
+                      placeholder="Price Per Portion"
+                      className="border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
+                    />
+                  </div>
+                  <div className="text-left  border-t-2 mt-5 border-grey-600">
+                    <h3 className="my-4">Available Days</h3>
+                    {available_days.map((day, index) => (
+                      <div className="text-left mr-2" key={index}>
+                        <label className="text-sm my-2" htmlFor="email">
+                          Day {index + 1}
+                        </label>
+                        <div className="relative md:w-full mb-2 mt-2">
+                          <select
+                            className="border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
+                            value={day}
+                            onChange={(e) => handleAvailableDays(index, e)}>
+                            <option value="" disabled>
+                              Select Day
+                            </option>
+                            {[
+                              'Monday',
+                              'Tuesday',
+                              'Wednesday',
+                              'Thursday',
+                              'Friday',
+                              'Saturday',
+                              'Sunday',
+                            ].map((day, index) => (
+                              <option key={index} value={day.toLowerCase()}>
+                                {day}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                    ))}
+                    <div
+                      style={{ background: 'rgba(134, 97, 255, 0.15)' }}
+                      className="px-5 py-3 border-dashed border-4 border-purple-500 rounded-3xl mt-5 text-center cursor-pointer"
+                      onClick={() =>
+                        dispatch({
+                          type: 'addMoreDays',
+                        })
+                      }>
+                      Add a new day
+                    </div>
+                  </div>
+
+                  <div className="text-left  border-t-2 mt-5 border-grey-600">
+                    <h3 className="my-4">Available Time</h3>
+                    {available_time.map((time, index) => (
+                      <div className="text-left mr-2" key={index}>
+                        <label className="text-sm my-2" htmlFor="email">
+                          Available Time {index + 1}
+                        </label>
+                        <div className="relative md:w-full mb-2 mt-2">
+                          <input
+                            type="time"
+                            onChange={(e) => handleAvailableTime(index, e)}
+                            value={time}
+                            placeholder="Available time"
+                            className={`border border-black
+                           w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                    <div
+                      style={{ background: 'rgba(134, 97, 255, 0.15)' }}
+                      className="px-5 py-3 border-dashed border-4 border-purple-500 rounded-3xl mt-5 text-center cursor-pointer"
+                      onClick={() =>
+                        dispatch({
+                          type: 'addMoreTime',
+                        })
+                      }>
+                      Add a new time
+                    </div>
+                  </div>
+                </form>
               </div>
             </div>
-          </>
+          </div>
         )}
 
         {step === 2 && (
-          <>
-            <div className="flex justify-between">
-              <div className="flex w-5/12 justify-center">
-                <div className="divide-y divide-light-blue-400 w-full">
-                  <div className="text-xs pb-2">
-                    <BackArrowSVG setSteps={setStep} value={1} />
-                    &nbsp;&nbsp;&nbsp;
-                    <FowardArrowSVG
-                      setSteps={setStep}
-                      value={mainImageUploaded ? 3 : ""}
-                      // value={main_event_ticket_image.length ? 4 : ""}
-                    />
-                    &nbsp;&nbsp;&nbsp; 2{" "}
-                    <span className="text-gray-400">/ 2</span>
-                  </div>
-
-                  <div>
-                    <span className="text-safebuyColor mt-2 font-medium inline-block">
-                      Promotional Images
-                    </span>
-                    <p>
-                      {" "}
-                      <small>
-                        Events or tickets without a main image will not appear
-                        in the search or browse area unless added. Ensure the
-                        images are clear, crisp, informative and appealing.
-                        Follow the requirements below:
-                      </small>
-                    </p>
-
-                    <ul className="list-disc mt-2 text-safebuyColor">
-                      {[
-                        "Preferred formats are; JPEG & TIFF",
-                        "Products must fill 80% of the image.  It should only contain information about the specific event and nothing more, flyers or posters will do.",
-                        "Main images should have a preferred dimension of 1200 by 600 pixels.",
-                        "Images must be at least 1000 pixels and not more than 10,000 pixels.",
-                      ].map((each, index) => (
-                        <li key={index}>
-                          <small className="text-black">{each}</small>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div className="flex w-6/12 justify-center ">
-                <div>
-                  <BorderImageUpload
-                    title="Cover Image"
-                    containerID="cover-product-img"
-                    dispatch={dispatch}
-                    imgSrc={display_image}
-                    useReducerKey="display_image"
-                    setMainImageUploaded={setMainImageUploaded}
-                    dispatchImage={dispatchImage}
+          <div className="flex justify-between">
+            <div className="flex w-5/12 justify-center">
+              <div className="divide-y divide-light-blue-400 w-full">
+                <div className="text-xs pb-2">
+                  <BackArrowSVG setSteps={setStep} value={1} />
+                  &nbsp;&nbsp;&nbsp;
+                  <FowardArrowSVG
+                    setSteps={setStep}
+                    value={mainImageUploaded ? 3 : ''}
+                    // value={main_event_ticket_image.length ? 4 : ""}
                   />
+                  &nbsp;&nbsp;&nbsp; 2{' '}
+                  <span className="text-gray-400">/ 2</span>
+                </div>
 
-                  <div className="grid grid-cols-1 divide-y divide-grey-500">
-                    <div className="mt-8 "></div>
-                    <div className="mb-8"></div>
-                  </div>
+                <div>
+                  <span className="text-safebuyColor mt-2 font-medium inline-block">
+                    Promotional Images
+                  </span>
+                  <p>
+                    {' '}
+                    <small>
+                      Events or tickets without a main image will not appear in
+                      the search or browse area unless added. Ensure the images
+                      are clear, crisp, informative and appealing. Follow the
+                      requirements below:
+                    </small>
+                  </p>
+
+                  <ul className="list-disc mt-2 text-safebuyColor">
+                    {[
+                      'Preferred formats are; JPEG & TIFF',
+                      'Products must fill 80% of the image.  It should only contain information about the specific event and nothing more, flyers or posters will do.',
+                      'Main images should have a preferred dimension of 1200 by 600 pixels.',
+                      'Images must be at least 1000 pixels and not more than 10,000 pixels.',
+                    ].map((each, index) => (
+                      <li key={index}>
+                        <small className="text-black">{each}</small>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
             </div>
-          </>
+            <div className="flex w-6/12 justify-center ">
+              <div>
+                <BorderImageUpload
+                  title="Cover Image"
+                  containerID="cover-product-img"
+                  dispatch={dispatch}
+                  imgSrc={display_image}
+                  useReducerKey="display_image"
+                  setMainImageUploaded={setMainImageUploaded}
+                  dispatchImage={dispatchImage}
+                />
+
+                <div className="grid grid-cols-1 divide-y divide-grey-500">
+                  <div className="mt-8 " />
+                  <div className="mb-8" />
+                </div>
+              </div>
+            </div>
+          </div>
         )}
 
         {step === 3 && (
@@ -624,7 +611,7 @@ const RestaurantMenuModal = ({
                 <div className="md:w-64 w-24 rounded-xl md:h-32 h-24 bg-gray-200">
                   <img
                     src={display_image}
-                    className={`object-cover w-full h-full`}
+                    className="object-cover w-full h-full"
                     alt="Restaurant"
                   />
                 </div>
@@ -650,13 +637,13 @@ const RestaurantMenuModal = ({
                   <div className="flex justify-between w-full">
                     <KeyValue
                       title="Available Days"
-                      value={available_days.join(",\t")}
+                      value={available_days.join(',\t')}
                     />
                   </div>
                   <div className="flex justify-between w-full">
                     <KeyValue
                       title="Available Time"
-                      value={available_time.join(",\t")}
+                      value={available_time.join(',\t')}
                     />
                   </div>
                 </div>
@@ -667,6 +654,6 @@ const RestaurantMenuModal = ({
       </div>
     </div>
   );
-};
+}
 
 export default RestaurantMenuModal;

@@ -1,5 +1,5 @@
-import jwtDecode from "jwt-decode";
-import axios from "axios";
+import jwtDecode from 'jwt-decode';
+import axios from 'axios';
 
 export const Auth = {
   isAuthenticated() {
@@ -20,7 +20,7 @@ export const Auth = {
       !decoded.sub
     )
       return false;
-    return decoded.exp > Date.now() / 1000 ? true : false;
+    return decoded.exp > Date.now() / 1000;
   },
   signout(cb) {
     // localStorage.removeItem("safely_buy_token");
@@ -29,7 +29,7 @@ export const Auth = {
 };
 
 export const axiosWithAuth = () => {
-  const token = localStorage.getItem("safely_buy_token");
+  const token = localStorage.getItem('safely_buy_token');
   return axios.create({
     headers: {
       Authorization: `Bearer ${token}`,

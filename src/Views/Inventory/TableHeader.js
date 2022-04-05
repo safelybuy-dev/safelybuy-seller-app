@@ -1,7 +1,8 @@
 import React from 'react';
-import { 
-  // AngleRight, 
-SearchIcon } from 'svg';
+import {
+  // AngleRight,
+  SearchIcon,
+} from 'svg';
 // import ItemsPerPage from './ItemsPerPage';
 // import { useComponentVisible } from 'hooks';
 
@@ -12,17 +13,17 @@ export default function TableHeader({ active, setActive }) {
   //   setIsComponentVisible: setIsItemVisible,
   // } = useComponentVisible(false);
   return (
-    <div className='flex justify-between w-full md:flex-col md:flex-wrap'>
+    <div className="flex justify-between w-full md:flex-col md:flex-wrap">
       {/* Search box */}
-      <div className='flex md:w-full md:flex-col md:flex-wrap'>
-        <div className='relative w-96 md:w-full'>
+      <div className="flex md:w-full md:flex-col md:flex-wrap">
+        <div className="relative w-96 md:w-full">
           <input
-            className='border-2 border-purple-100 w-full focus:outline-none mb-4 px-10 py-1 rounded-full'
-            type='search'
-            placeholder='Search by SKU, Product Name...'
+            className="border-2 border-purple-100 w-full focus:outline-none mb-4 px-10 py-1 rounded-full"
+            type="search"
+            placeholder="Search by SKU, Product Name..."
           />
-          <span className='absolute top-3 left-4'>
-            <SearchIcon color='#8661FF' />
+          <span className="absolute top-3 left-4">
+            <SearchIcon color="#8661FF" />
           </span>
         </div>
         {/* Filter Items per page page */}

@@ -1,10 +1,10 @@
-import { BackroundGradient, ArrowRight } from "svg";
-import { Link } from "react-router-dom";
-import phone from "assets/images/landing-phone.png";
-import Button from "components/Button";
-import Logo from "components/Logo";
-import Footer from "components/Footer";
-import { Auth } from "auth";
+import { BackroundGradient, ArrowRight } from 'svg';
+import { Link } from 'react-router-dom';
+import phone from 'assets/images/landing-phone.png';
+import Button from 'components/Button';
+import Logo from 'components/Logo';
+import Footer from 'components/Footer';
+import { Auth } from 'auth';
 
 function SamplePage() {
   return (
@@ -16,22 +16,21 @@ function SamplePage() {
             {Auth.isAuthenticated() ? (
               <Link
                 to={`/${
-                  localStorage.getItem("dashboard_view_preference")
+                  localStorage.getItem('dashboard_view_preference')
                     ? JSON.parse(
-                        localStorage.getItem("dashboard_view_preference")
+                        localStorage.getItem('dashboard_view_preference')
                       ).toLowerCase()
-                    : "shopping"
-                }`}
-              >
+                    : 'shopping'
+                }`}>
                 <Button text="Go to Dashboard" primary roundedFull />
               </Link>
             ) : (
               <>
-                {" "}
+                {' '}
                 <Link to="/signup">
                   <Button text="Sign up" underlined />
                 </Link>
-                <div className="p-2"></div>
+                <div className="p-2" />
                 <Link to="/login">
                   <Button text="Login" primary roundedFull />
                 </Link>
@@ -71,17 +70,16 @@ function SamplePage() {
           )}
         </div>
         <div
-          style={{ top: "30%", right: "1%", filter: "blur(80px)" }}
-          className="absolute"
-        >
-          {<BackroundGradient />}
+          style={{ top: '30%', right: '1%', filter: 'blur(80px)' }}
+          className="absolute">
+          <BackroundGradient />
         </div>
         <div className="z-10">
           <img
             src={phone}
             alt="phone"
             className="object-contain"
-            style={{ height: "500px" }}
+            style={{ height: '500px' }}
           />
         </div>
       </div>

@@ -1,25 +1,20 @@
-import React from "react";
-import { useTable } from "react-table";
-import moment from "moment";
+import React from 'react';
+import { useTable } from 'react-table';
+import moment from 'moment';
 
-const TableBody = ({
-  active,
-  setSelectedOrder,
-  setSelectedOwner,
-  items = [],
-}) => {
+function TableBody({ active, setSelectedOrder, setSelectedOwner, items = [] }) {
   const data = React.useMemo(
     () =>
       items
         .filter(
-          (item) => item?.meal_plan?.status === active || active === "all"
+          (item) => item?.meal_plan?.status === active || active === 'all'
         )
         .map((item, index) => ({
           id: index,
           serial: <p>{index + 1}</p>,
           deliveryDate: (
             <div className="text-[#A7A7A7]">
-              <p>{moment(item.delivery_date, "YYYY-MM-DD").format("LL")}</p>
+              <p>{moment(item.delivery_date, 'YYYY-MM-DD').format('LL')}</p>
             </div>
           ),
           meal: (
@@ -32,12 +27,11 @@ const TableBody = ({
               <div className="ml-3">
                 <h4
                   className="capitalize text-purple-600 cursor-pointer"
-                  onClick={() => setSelectedOrder(item)}
-                >
+                  onClick={() => setSelectedOrder(item)}>
                   {item.meal_plan.name}
                 </h4>
                 <p className="text-[#A7A7A7]">
-                  {item.meal_plan.sku} - {item.created_at.split("T")[0]}
+                  {item.meal_plan.sku} - {item.created_at.split('T')[0]}
                 </p>
               </div>
             </div>
@@ -59,8 +53,8 @@ const TableBody = ({
 
   const columns = React.useMemo(
     () => [
-      { Header: "S/NO", accessor: "serial" },
-      { Header: "Delivery Date", accessor: "deliveryDate" },
+      { Header: 'S/NO', accessor: 'serial' },
+      { Header: 'Delivery Date', accessor: 'deliveryDate' },
       {
         Header: (
           <div>
@@ -68,16 +62,16 @@ const TableBody = ({
             <small className="text-[#A7A7A7]">Order No & Date</small>
           </div>
         ),
-        accessor: "meal",
+        accessor: 'meal',
       },
-      { Header: "Customer details ", accessor: "customer" },
+      { Header: 'Customer details ', accessor: 'customer' },
       {
-        Header: "Total Price ",
-        accessor: "price",
+        Header: 'Total Price ',
+        accessor: 'price',
       },
       {
-        Header: "Delivery Time",
-        accessor: "time",
+        Header: 'Delivery Time',
+        accessor: 'time',
       },
     ],
     []
@@ -102,7 +96,7 @@ const TableBody = ({
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
                 <th className="pb-4 font-normal" {...column.getHeaderProps()}>
-                  {column.render("Header")}
+                  {column.render('Header')}
                 </th>
               ))}
             </tr>
@@ -116,11 +110,10 @@ const TableBody = ({
                 {row.cells.map((cell) => {
                   return (
                     <td
-                      style={{ minWidth: "120px" }}
+                      style={{ minWidth: '120px' }}
                       className="border-b-2 pr-4   border-gray-100 py-4"
-                      {...cell.getCellProps()}
-                    >
-                      {cell.render("Cell")}
+                      {...cell.getCellProps()}>
+                      {cell.render('Cell')}
                     </td>
                   );
                 })}
@@ -131,6 +124,6 @@ const TableBody = ({
       </table>
     </div>
   );
-};
+}
 
 export default TableBody;

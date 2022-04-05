@@ -8,7 +8,7 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Button from 'components/Button';
 
-const BankForm = ({ setIsLoading, dispatch }) => {
+function BankForm({ setIsLoading, dispatch }) {
   const history = useHistory();
   const { addToast } = useToasts();
   const [banks, setBanks] = useState([]);
@@ -53,7 +53,6 @@ const BankForm = ({ setIsLoading, dispatch }) => {
         autoDismiss: true,
       });
       setAccountNameLoading(false);
-      return;
     }
   };
 
@@ -96,27 +95,25 @@ const BankForm = ({ setIsLoading, dispatch }) => {
 
   return (
     <>
-      <h1 className='tracking-wide pt-2 pb-2 font-bold px-12 text-4xl z-10 md:px-8 md:text-3xl'>
+      <h1 className="tracking-wide pt-2 pb-2 font-bold px-12 text-4xl z-10 md:px-8 md:text-3xl">
         Add bank details
       </h1>
-      <small style={{ color: 'rgba(130, 130, 130, 1)' }} className='font-thin'>
+      <small style={{ color: 'rgba(130, 130, 130, 1)' }} className="font-thin">
         {' '}
         Enter your bank details for payments.
       </small>
-      <div className='flex justify-center mt-5'>
+      <div className="flex justify-center mt-5">
         <form
-          className='scrollable-form flex flex-col w-96 md:max-w-7xl md:px-8'
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <div className='text-left mr-2'>
-            <label className='text-sm my-2' htmlFor='email'>
+          className="scrollable-form flex flex-col w-96 md:max-w-7xl md:px-8"
+          onSubmit={handleSubmit(onSubmit)}>
+          <div className="text-left mr-2">
+            <label className="text-sm my-2" htmlFor="email">
               Bank
             </label>
-            <div className='relative md:w-full mb-2 mt-2'>
+            <div className="relative md:w-full mb-2 mt-2">
               <select
-                className='border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl'
-                {...register('bank_code')}
-              >
+                className="border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
+                {...register('bank_code')}>
                 {banks.map((e, i) => (
                   <option key={i} value={e.bank_code}>
                     {e.bank_name}
@@ -124,18 +121,18 @@ const BankForm = ({ setIsLoading, dispatch }) => {
                 ))}
               </select>
               {errors.bank_id && (
-                <span className='error-span'>{errors.bank_id?.message}</span>
+                <span className="error-span">{errors.bank_id?.message}</span>
               )}
             </div>
           </div>
 
-          <div className='text-left mr-2'>
-            <label className='text-sm my-2' htmlFor='email'>
+          <div className="text-left mr-2">
+            <label className="text-sm my-2" htmlFor="email">
               Account Number
             </label>
-            <div className='relative md:w-full mb-2 mt-2'>
+            <div className="relative md:w-full mb-2 mt-2">
               <input
-                type='text'
+                type="text"
                 {...register('account_number')}
                 onChange={(e) => {
                   const { value } = e.target;
@@ -144,35 +141,35 @@ const BankForm = ({ setIsLoading, dispatch }) => {
                   if (value.length > 10) {
                     e.target.value = value.slice(0, 10);
                     return;
-                  } 
-                    if (value.length === 10) {
+                  }
+                  if (value.length === 10) {
                     // onSubmitAccountNum(e.target.value)
                     return handleSubmit(onSubmitAccountNum)();
                   }
                 }}
-                placeholder='Enter your account number'
+                placeholder="Enter your account number"
                 className={`border ${
                   errors.account_name ? 'border-red' : 'border-black'
                 } w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
               />
 
               {errors.account_number && (
-                <span className='error-span'>
+                <span className="error-span">
                   {errors.account_number?.message}
                 </span>
               )}
             </div>
           </div>
 
-          <div className='text-left mr-2'>
-            <label className='text-sm my-2' htmlFor='email'>
+          <div className="text-left mr-2">
+            <label className="text-sm my-2" htmlFor="email">
               Account Name
             </label>
-            <div className='relative md:w-full mb-3 mt-2'>
+            <div className="relative md:w-full mb-3 mt-2">
               <input
-                type='text'
+                type="text"
                 disabled
-                placeholder='Account Name'
+                placeholder="Account Name"
                 value={account_name}
                 className={`border 
                 border-black 
@@ -182,15 +179,14 @@ const BankForm = ({ setIsLoading, dispatch }) => {
             </div>
           </div>
 
-          <div className='text-left'>
-            <div className='my-4 flex justify-center'>
+          <div className="text-left">
+            <div className="my-4 flex justify-center">
               <small
                 onClick={() => history.push('/shopping')}
                 style={{
                   cursor: 'pointer',
                 }}
-                className='mt-3 mr-20'
-              >
+                className="mt-3 mr-20">
                 Skip for later &nbsp;&nbsp;&nbsp;&nbsp;{' '}
               </small>
 
@@ -199,11 +195,11 @@ const BankForm = ({ setIsLoading, dispatch }) => {
                 disabled={!account_name.length}
                 roundedMd
                 icon={
-                  <div className='animate-bounceSide'>
-                    <ArrowRight color='black' />
+                  <div className="animate-bounceSide">
+                    <ArrowRight color="black" />
                   </div>
                 }
-                text='Continue'
+                text="Continue"
                 Continue
               />
             </div>
@@ -212,6 +208,6 @@ const BankForm = ({ setIsLoading, dispatch }) => {
       </div>
     </>
   );
-};
+}
 
 export default BankForm;

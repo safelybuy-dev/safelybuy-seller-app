@@ -1,7 +1,7 @@
 import React from 'react';
 // import { useTable } from 'react-table';
 
-const RecentSales = () => {
+function RecentSales() {
   // const data = React.useMemo(
   //   () => [
   //     {
@@ -306,7 +306,7 @@ const RecentSales = () => {
   // } = useTable({ columns, data });
 
   return (
-    <div className=''>
+    <div className="">
       {/* <table {...getTableProps()} className="w-full text-sm">
         <thead className="text-left border-b-2 border-gray-100">
           {headerGroups.map((headerGroup) => (
@@ -347,6 +347,6 @@ const RecentSales = () => {
       <p className="text-gray-500 ">No sales yet.</p>
     </div>
   );
-};
+}
 
 export default RecentSales;

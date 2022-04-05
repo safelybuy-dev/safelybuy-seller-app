@@ -1,8 +1,8 @@
-import React from "react";
-import ContactList from "./ContactList";
-import Search from "./Search";
+import React from 'react';
+import ContactList from './ContactList';
+import Search from './Search';
 
-const Contacts = ({ contacts, setContacts, setSelectedContact }) => {
+function Contacts({ contacts, setContacts, setSelectedContact }) {
   return (
     <div className="w-5/12 md:w-full border-r md:border-0">
       <Search setContacts={setContacts} />
@@ -12,6 +12,6 @@ const Contacts = ({ contacts, setContacts, setSelectedContact }) => {
       />
     </div>
   );
-};
+}
 
 export default Contacts;

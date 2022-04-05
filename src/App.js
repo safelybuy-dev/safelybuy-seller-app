@@ -1,23 +1,23 @@
-import React, { useReducer, Suspense, lazy, useEffect } from "react";
-import { ToastProvider } from "react-toast-notifications";
-import "./App.css";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { ContextUser } from "./context";
-import PrivateRoute from "./auth/PrivateRoute";
-import PrivateOTPRoute from "./auth/Otp";
-import { auth } from "./reducers/initialState";
-import userReducer from "./reducers/auth";
-import { loadUser } from "./requests";
-import { Spinner } from "components/Spinner";
+import React, { useReducer, Suspense, lazy, useEffect } from 'react';
+import { ToastProvider } from 'react-toast-notifications';
+import './App.css';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Spinner } from 'components/Spinner';
+import { ContextUser } from './context';
+import PrivateRoute from './auth/PrivateRoute';
+import PrivateOTPRoute from './auth/Otp';
+import { auth } from './reducers/initialState';
+import userReducer from './reducers/auth';
+import { loadUser } from './requests';
 
-const SuccessError = lazy(() => import("./Views/Success-Error/index"));
-const Dashboard = lazy(() => import("./Views/Dashboard"));
-const ProfileSettings = lazy(() => import("./Views/ProfileSettings"));
-const SamplePage = lazy(() => import("./Views/SamplePage"));
-const SellerKyc = lazy(() => import("./Views/SellerKyc"));
-const LoginPage = lazy(() => import("./Views/LoginPage"));
-const Otp = lazy(() => import("./Views/Otp"));
-const SignUpPage = lazy(() => import("./Views/SignUp"));
+const SuccessError = lazy(() => import('./Views/Success-Error/index'));
+const Dashboard = lazy(() => import('./Views/Dashboard'));
+const ProfileSettings = lazy(() => import('./Views/ProfileSettings'));
+const SamplePage = lazy(() => import('./Views/SamplePage'));
+const SellerKyc = lazy(() => import('./Views/SellerKyc'));
+const LoginPage = lazy(() => import('./Views/LoginPage'));
+const Otp = lazy(() => import('./Views/Otp'));
+const SignUpPage = lazy(() => import('./Views/SignUp'));
 
 function App() {
   const [state, dispatch] = useReducer(userReducer, auth);

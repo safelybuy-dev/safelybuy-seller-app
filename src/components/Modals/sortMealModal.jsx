@@ -3,8 +3,13 @@ import { Times } from "svg";
 import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
+import { axiosWithAuth } from "auth";
+import { baseUrl } from "api";
+import moment from "moment";
+import { useToasts } from "react-toast-notifications";
 
-function SortMealModal({ setTriggerSort, items }) {
+function SortMealModal({ setTriggerSort, items, setDashboardDetails }) {
+  const { addToast } = useToasts();
   const [uniqueMeal, setUniqueMeal] = useState([]);
   const [uniqueTime, setUniqueTime] = useState([]);
   const [selectedPlans, setSelectedPlans] = useState([]);
@@ -16,6 +21,59 @@ function SortMealModal({ setTriggerSort, items }) {
       key: "selection",
     },
   ]);
+  const [loading, setLoading] = useState(false);
+
+  const handleFilter = async () => {
+    setLoading(true);
+    const selectedIds = items
+      .filter((item) => selectedPlans.includes(item?.meal_plan?.name))
+      .map((item) => item?.meal_plan?.id);
+
+    const selectedDates = Object.values(state[0]);
+
+    selectedDates.pop();
+
+    const delivery_dates = selectedDates.map((date) =>
+      moment(date).format("YYYY-MM-DD")
+    );
+
+    const filterByData = {};
+    if (selectedPlans.length > 0) filterByData.name = selectedPlans.join(", ");
+    if (selectedTime.length > 0) filterByData.delivery_times = selectedTime;
+    if (selectedIds.length > 0) filterByData.meal_plan_ids = selectedIds;
+    if (delivery_dates.length > 0) selectedTime.delivery_dates = delivery_dates;
+
+    try {
+      const response = await axiosWithAuth().post(
+        `${baseUrl}/api/v1/meal-plans-orders/search`,
+        filterByData
+      );
+      setDashboardDetails((dashboard) => ({
+        ...dashboard,
+        meal_plan_recent_sales: response.data?.data,
+      }));
+      setLoading(false);
+      setTriggerSort(false);
+    } catch (error) {
+      addToast();
+      setLoading(false);
+      let errorMessage;
+
+      if (error.response && error.response.data.errors) {
+        const errors = Object.values(error.response.data.errors);
+        errorMessage = errors.map((error) => error[0]).join("\n");
+      } else {
+        errorMessage =
+          error.response.data.message ||
+          error.message ||
+          "Something went wrong";
+      }
+      addToast(errorMessage, {
+        appearance: "error",
+        autoDismiss: true,
+      });
+    }
+  };
 
   useEffect(() => {
     items.map(({ meal_plan: { name } }) => {
@@ -131,8 +189,14 @@ function SortMealModal({ setTriggerSort, items }) {
             ))}
           </div>
           <div className="my-8 flex justify-center items-center">
-            <button className="rounded-full w-3/5 text-white bg-[#8661FF] py-[0.5rem] ">
-              Filter
+            <button
+              className={`rounded-full w-3/5 text-white bg-[#8661FF] py-[0.5rem] ${
+                loading && "opacity-30 cursor-not-allowed"
+              }`}
+              onClick={handleFilter}
+              disabled={loading}
+            >
+              {loading ? "Please wait.." : "Filter"}
             </button>
           </div>
         </div>

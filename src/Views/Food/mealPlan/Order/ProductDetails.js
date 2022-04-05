@@ -1,30 +1,29 @@
-import React from "react";
-import { CloseIcon } from "svg";
-import moment from "moment";
+import React from 'react';
+import { CloseIcon } from 'svg';
+import moment from 'moment';
 
-const KeyValue = ({ title, value }) => (
-  <div className="flex my-3 flex-col">
-    <small className="text-gray-500">{title}</small>
-    <h5 className="text-lg">{value}</h5>
-  </div>
-);
+function KeyValue({ title, value }) {
+  return (
+    <div className="flex my-3 flex-col">
+      <small className="text-gray-500">{title}</small>
+      <h5 className="text-lg">{value}</h5>
+    </div>
+  );
+}
 
-const ProductDetails = ({ selectedOrder, setSelectedOrder }) => {
+function ProductDetails({ selectedOrder, setSelectedOrder }) {
   return (
     <div
       onClick={() => setSelectedOrder(null)}
-      className="fixed overflow-scroll top-0 left-0 z-50 w-screen md:py-40 md:px-40 py-0 px-0 h-screen bg-purple-600 bg-opacity-30"
-    >
+      className="fixed overflow-scroll top-0 left-0 z-50 w-screen md:py-40 md:px-40 py-0 px-0 h-screen bg-purple-600 bg-opacity-30">
       <div
         onClick={(e) => e.stopPropagation()}
-        className="flex flex-col relative md:rounded-3xl rounded-none md:px-10 md:py-10 px-4 py-4 left-0 bg-white opacity-100 min-h-1/2"
-      >
+        className="flex flex-col relative md:rounded-3xl rounded-none md:px-10 md:py-10 px-4 py-4 left-0 bg-white opacity-100 min-h-1/2">
         <div className="flex justify-between w-full pb-10 items-start">
           <h3 className="text-2xl">Order Details</h3>
           <span
             onClick={() => setSelectedOrder(null)}
-            className="inline-block cursor-pointer rounded-full bg-red-500 p-3"
-          >
+            className="inline-block cursor-pointer rounded-full bg-red-500 p-3">
             <CloseIcon color="white" />
           </span>
         </div>
@@ -65,11 +64,11 @@ const ProductDetails = ({ selectedOrder, setSelectedOrder }) => {
                     title="Delivery Time"
                     value={`${moment(
                       selectedOrder.delivery_date,
-                      "YYYY-MM-DD"
-                    ).format("LL")} at ${moment(
+                      'YYYY-MM-DD'
+                    ).format('LL')} at ${moment(
                       selectedOrder.delivery_time,
-                      "HH-mm a"
-                    ).format("LT")}`}
+                      'HH-mm a'
+                    ).format('LT')}`}
                   />
                 </div>
                 <div className="flex justify-between w-full">
@@ -82,7 +81,7 @@ const ProductDetails = ({ selectedOrder, setSelectedOrder }) => {
                   <KeyValue
                     title="Available Days"
                     value={selectedOrder.menu.available_days
-                      .join(", ")
+                      .join(', ')
                       .toUpperCase()}
                   />
                 </div>
@@ -90,9 +89,9 @@ const ProductDetails = ({ selectedOrder, setSelectedOrder }) => {
                   <KeyValue
                     title="Available Time"
                     value={moment(
-                      selectedOrder.menu.available_time.join(", "),
-                      "HH:mm a"
-                    ).format("LT")}
+                      selectedOrder.menu.available_time.join(', '),
+                      'HH:mm a'
+                    ).format('LT')}
                   />
                 </div>
               </div>
@@ -102,6 +101,6 @@ const ProductDetails = ({ selectedOrder, setSelectedOrder }) => {
       </div>
     </div>
   );
-};
+}
 
 export default ProductDetails;

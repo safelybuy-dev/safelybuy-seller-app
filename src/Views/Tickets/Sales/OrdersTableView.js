@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import TableHeader from "./TableHeader";
-import TableBody from "./TableBody";
-import OrderDetails from "./OrderDetails";
+import React, { useState } from 'react';
+import TableHeader from './TableHeader';
+import TableBody from './TableBody';
+import OrderDetails from './OrderDetails';
 
-const OrdersTableView = () => {
+function OrdersTableView() {
   const [selectedOrder, setSelectedOrder] = useState(null);
   return (
     <div className="w-full mt-8">
@@ -17,6 +17,6 @@ const OrdersTableView = () => {
       />
     </div>
   );
-};
+}
 
 export default OrdersTableView;

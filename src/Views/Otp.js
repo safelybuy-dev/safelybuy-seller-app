@@ -3,15 +3,14 @@ import { ArrowRight } from 'svg';
 import Logo from 'components/Logo';
 import Footer from 'components/Footer';
 import Button from 'components/Button';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Redirect } from 'react-router-dom';
 // import utilities from 'utilities';
 import { requests, action } from 'requests';
 import { useToasts } from 'react-toast-notifications';
 import { ContextUser } from 'context';
 import OtpInput from 'react-otp-input';
-import { Redirect } from 'react-router-dom';
 
-const Otp = () => {
+function Otp() {
   const history = useHistory();
   const pre_otp_details = sessionStorage.getItem('safely_buy_pre_otp');
 
@@ -80,12 +79,12 @@ const Otp = () => {
   // };
 
   return sessionStorage.getItem('safely_buy_pre_otp') ? (
-    <div className='relative justify-between flex flex-col min-h-screen text-center'>
+    <div className="relative justify-between flex flex-col min-h-screen text-center">
       <div>
-        <header className='flex tracking-wide justify-center mx-12 my-8 md:mx-6 md:my-3'>
-          <Logo color='black' text='SELLER CENTER' />
+        <header className="flex tracking-wide justify-center mx-12 my-8 md:mx-6 md:my-3">
+          <Logo color="black" text="SELLER CENTER" />
         </header>
-        <h1 className='tracking-wide pt-8 pb-2 font-bold px-12 text-4xl z-10 md:px-8 md:text-3xl'>
+        <h1 className="tracking-wide pt-8 pb-2 font-bold px-12 text-4xl z-10 md:px-8 md:text-3xl">
           Verify your phone number
         </h1>
         <p>
@@ -95,40 +94,40 @@ const Otp = () => {
           </small>
         </p>
         <small>to +234 {user_phone} </small>
-        <div className='flex justify-center'>
+        <div className="flex justify-center">
           {loadingVerification ? (
             <small>Loading...</small>
           ) : (
             <OtpInput
-              className='otp mt-10'
+              className="otp mt-10"
               value={otp}
               onChange={setOtp}
               numInputs={6}
-              isInputNum={true}
+              isInputNum
               separator={<span> </span>}
             />
           )}
         </div>
       </div>
-      <div className='mb-12 flex justify-center'>
+      <div className="mb-12 flex justify-center">
         <Button
           onClick={alert}
-          disabled={otp > 5 ? false : true}
+          disabled={!(otp > 5)}
           primaryOutline
           roundedMd
           icon={
-            <div className='animate-bounceSide'>
-              <ArrowRight color='black' />
+            <div className="animate-bounceSide">
+              <ArrowRight color="black" />
             </div>
           }
-          text='Proceed'
+          text="Proceed"
         />
       </div>
       <Footer />
     </div>
   ) : (
-    <Redirect to='/login' />
+    <Redirect to="/login" />
   );
-};
+}
 
 export default Otp;

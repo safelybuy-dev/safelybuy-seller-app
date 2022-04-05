@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import Breadcrumb from "components/Breadcrumb";
-import InventoryTableView from "./InventoryTableView";
-import { axiosWithAuth } from "auth";
-import { baseUrl } from "api";
+import React, { useState, useEffect } from 'react';
+import Breadcrumb from 'components/Breadcrumb';
+import { axiosWithAuth } from 'auth';
+import { baseUrl } from 'api';
+import InventoryTableView from './InventoryTableView';
 
-const Inventory = () => {
+function Inventory() {
   const [restaurantInventory, setRestaurantInventory] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [orderDate, setOrderDate] = useState("");
+  const [orderDate, setOrderDate] = useState('');
 
   useEffect(() => {
     const fetchInventory = async () => {
@@ -48,6 +48,6 @@ const Inventory = () => {
       />
     </div>
   );
-};
+}
 
 export default Inventory;

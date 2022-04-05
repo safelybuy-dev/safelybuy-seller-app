@@ -1,16 +1,15 @@
-import React from "react";
-import moment from "moment";
-import { isToday } from "../NotificationDetails";
+import React from 'react';
+import moment from 'moment';
+import { isToday } from '../NotificationDetails';
 
-const ContactList = ({ contacts, setSelectedContact }) => {
+function ContactList({ contacts, setSelectedContact }) {
   return (
     <div>
       {contacts.map((contact) => (
         <div
           key={Math.random()}
           onClick={() => setSelectedContact(contact)}
-          className="contact cursor-pointer flex items-center border-b last:border-b-0 py-4 justify-between hover:bg-purple-50 active:bg-purple-100"
-        >
+          className="contact cursor-pointer flex items-center border-b last:border-b-0 py-4 justify-between hover:bg-purple-50 active:bg-purple-100">
           <div className="flex items-center w-9/12">
             <img
               className="rounded-full flex-shrink-0"
@@ -28,13 +27,13 @@ const ContactList = ({ contacts, setSelectedContact }) => {
           </div>
           <div className="w-3/12 text-right text-gray-400 pr-8">
             {isToday(new Date(contact.lastMessageTime))
-              ? moment(contact.lastMessageTime).format("HH:mm")
-              : moment(contact.lastMessageTime).format("MMM D")}
+              ? moment(contact.lastMessageTime).format('HH:mm')
+              : moment(contact.lastMessageTime).format('MMM D')}
           </div>
         </div>
       ))}
     </div>
   );
-};
+}
 
 export default ContactList;

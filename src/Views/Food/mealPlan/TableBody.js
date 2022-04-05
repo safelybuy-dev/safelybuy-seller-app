@@ -1,12 +1,12 @@
-import React from "react";
-import { useTable } from "react-table";
-import Button from "components/Button";
+import React from 'react';
+import { useTable } from 'react-table';
+import Button from 'components/Button';
 // import { confirmAlert } from "react-confirm-alert"; // Import
-import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
-import MoreButton from "components/MoreButton";
-import moment from "moment";
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import MoreButton from 'components/MoreButton';
+import moment from 'moment';
 
-const TableBody = ({
+function TableBody({
   active,
   deleteItem,
   setSelectedProduct,
@@ -14,7 +14,7 @@ const TableBody = ({
   setRestaurantMenuModal,
   setItem,
   setEdit,
-}) => {
+}) {
   // const handleDelete = React.useCallback(
   //   (id) => {
   //     confirmAlert({
@@ -39,7 +39,7 @@ const TableBody = ({
     () =>
       items
         .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-        .filter((item) => item.status === active || active === "all")
+        .filter((item) => item.status === active || active === 'all')
         .map((item, index) => ({
           sn: <span>{index + 1}</span>,
           status: <span className="capitalize">{item.status}</span>,
@@ -55,8 +55,7 @@ const TableBody = ({
             <div>
               <p
                 className="text-purple-600 cursor-pointer text-sm"
-                onClick={() => setSelectedProduct(item)}
-              >
+                onClick={() => setSelectedProduct(item)}>
                 {item.name}
               </p>
               <p className="text-gray-400 capitalize w-36 truncate">
@@ -72,17 +71,17 @@ const TableBody = ({
           date: (
             <div>
               <p className="flex justify-between items-center">
-                <span>{item.created_at.split("T")[0]}</span>
-                <span className="w-1 h-1 rounded-[50%] bg-[#000]"></span>
+                <span>{item.created_at.split('T')[0]}</span>
+                <span className="w-1 h-1 rounded-[50%] bg-[#000]" />
                 <span>
-                  {moment(item.created_at.split("T")[1], "LT").format("HH:mma")}
+                  {moment(item.created_at.split('T')[1], 'LT').format('HH:mma')}
                 </span>
               </p>
               <p className="flex justify-between items-center text-gray-400 mt-1 text-sm">
-                <span>{item.updated_at.split("T")[0]}</span>
-                <span className="w-1 h-1 rounded-[50%] bg-gray-400"></span>
+                <span>{item.updated_at.split('T')[0]}</span>
+                <span className="w-1 h-1 rounded-[50%] bg-gray-400" />
                 <span>
-                  {moment(item.updated_at.split("T")[1], "LT").format("HH:mma")}
+                  {moment(item.updated_at.split('T')[1], 'LT').format('HH:mma')}
                 </span>
               </p>
             </div>
@@ -94,26 +93,25 @@ const TableBody = ({
                   setItem(item);
                   setEdit(true);
                   setRestaurantMenuModal(true);
-                }}
-              >
+                }}>
                 <Button rounded secondary>
                   Edit
                 </Button>
               </span>
-              <div className="px-2"></div>
+              <div className="px-2" />
               <div>
                 <MoreButton
                   links={[
                     {
-                      text: "Print details",
+                      text: 'Print details',
                       clickHandler: () => {},
                     },
                     {
-                      text: "Sold Out",
+                      text: 'Sold Out',
                       clickHandler: () => {},
                     },
                     {
-                      text: "Delete",
+                      text: 'Delete',
                       clickHandler: () => {},
                     },
                   ]}
@@ -134,10 +132,10 @@ const TableBody = ({
 
   const columns = React.useMemo(
     () => [
-      { Header: "SN", accessor: "sn" },
-      { Header: "Status", accessor: "status" },
-      { Header: "Image", accessor: "image" },
-      { Header: "SKU", accessor: "sku" },
+      { Header: 'SN', accessor: 'sn' },
+      { Header: 'Status', accessor: 'status' },
+      { Header: 'Image', accessor: 'image' },
+      { Header: 'SKU', accessor: 'sku' },
       {
         Header: (
           <div>
@@ -145,11 +143,11 @@ const TableBody = ({
             <p className="text-gray-400 text-sm">Description</p>
           </div>
         ),
-        accessor: "title",
+        accessor: 'title',
       },
       {
-        Header: "Food Location",
-        accessor: "location",
+        Header: 'Food Location',
+        accessor: 'location',
       },
       {
         Header: (
@@ -158,9 +156,9 @@ const TableBody = ({
             <p className="text-gray-400 text-sm">Status Changed Date</p>
           </div>
         ),
-        accessor: "date",
+        accessor: 'date',
       },
-      { Header: "Actions", accessor: "actions" },
+      { Header: 'Actions', accessor: 'actions' },
     ],
     []
   );
@@ -184,7 +182,7 @@ const TableBody = ({
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
                 <th className="pb-4 font-normal" {...column.getHeaderProps()}>
-                  {column.render("Header")}
+                  {column.render('Header')}
                 </th>
               ))}
             </tr>
@@ -198,11 +196,10 @@ const TableBody = ({
                 {row.cells.map((cell) => {
                   return (
                     <td
-                      style={{ minWidth: "120px" }}
+                      style={{ minWidth: '120px' }}
                       className="border-b-2 pr-4   border-gray-100 py-4"
-                      {...cell.getCellProps()}
-                    >
-                      {cell.render("Cell")}
+                      {...cell.getCellProps()}>
+                      {cell.render('Cell')}
                     </td>
                   );
                 })}
@@ -213,6 +210,6 @@ const TableBody = ({
       </table>
     </div>
   );
-};
+}
 
 export default TableBody;

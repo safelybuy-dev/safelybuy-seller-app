@@ -28,22 +28,25 @@ export const isTokenValid = () => {
     !decoded.sub
   )
     return false;
-  return decoded.exp > Date.now() / 1000 ? true : false;
+  return decoded.exp > Date.now() / 1000;
 };
 
-export const axiosInstance = () => axios.create({
-  baseURL,
-  withCredentials: false,
-  headers: {
-    'Access-Control-Allow-Headers':
-      'Access-Control-Allow-Origin, Access-Control-Allow-Headers, Content-Type, x-xsrf-token',
-    'Access-Control-Allow-Origin': '*',
-    Authorization: `Bearer ${localStorage.safely_buy_token}`,
-  },
-});
+export const axiosInstance = () =>
+  axios.create({
+    baseURL,
+    withCredentials: false,
+    headers: {
+      'Access-Control-Allow-Headers':
+        'Access-Control-Allow-Origin, Access-Control-Allow-Headers, Content-Type, x-xsrf-token',
+      'Access-Control-Allow-Origin': '*',
+      Authorization: `Bearer ${localStorage.safely_buy_token}`,
+    },
+  });
 
 if (isTokenValid()) {
-  axiosInstance().defaults.headers.common = { Authorization: `Bearer ${token}` };
+  axiosInstance().defaults.headers.common = {
+    Authorization: `Bearer ${token}`,
+  };
 }
 
 export const requests = {

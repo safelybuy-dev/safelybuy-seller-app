@@ -1,6 +1,6 @@
 const Columns = [
-  { Header: "Status", accessor: "status" },
-  { Header: "Image", accessor: "image" },
+  { Header: 'Status', accessor: 'status' },
+  { Header: 'Image', accessor: 'image' },
   {
     Header: (
       <div className="flex flex-col">
@@ -8,7 +8,7 @@ const Columns = [
         <div className="text-sm text-gray-400">Condition</div>
       </div>
     ),
-    accessor: "sku",
+    accessor: 'sku',
   },
   {
     Header: (
@@ -17,10 +17,10 @@ const Columns = [
         <div className="text-sm text-gray-400">Description</div>
       </div>
     ),
-    accessor: "desc",
+    accessor: 'desc',
   },
-  { Header: "Product Location", accessor: "location" },
-  { Header: "Seller", accessor: "seller" },
+  { Header: 'Product Location', accessor: 'location' },
+  { Header: 'Seller', accessor: 'seller' },
   {
     Header: (
       <div className="flex flex-col">
@@ -28,9 +28,9 @@ const Columns = [
         <div className="text-sm text-gray-400">Last updated</div>
       </div>
     ),
-    accessor: "date",
+    accessor: 'date',
   },
-  { Header: "Actions", accessor: "actions" },
+  { Header: 'Actions', accessor: 'actions' },
 ];
 
 export default Columns;

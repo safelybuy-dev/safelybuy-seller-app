@@ -21,13 +21,21 @@ export const login = (dispatch, data, history, toast) => {
         toast('Access not granted', { appearance: 'error', autoDismiss: true });
         return;
       }
-      toast('Welcome back, ' + res.data.user.firstname, {
+      toast(`Welcome back, ${res.data.user.firstname}`, {
         appearance: 'success',
         autoDismiss: true,
       });
       localStorage.setItem('safely_buy_token', res.data.token);
       localStorage.setItem('safely_buy_id', res.data.user.id);
-      history.push(`/${localStorage.getItem("dashboard_view_preference") ? JSON.parse(localStorage.getItem("dashboard_view_preference")).toLowerCase() : "shopping"}`);
+      history.push(
+        `/${
+          localStorage.getItem('dashboard_view_preference')
+            ? JSON.parse(
+                localStorage.getItem('dashboard_view_preference')
+              ).toLowerCase()
+            : 'shopping'
+        }`
+      );
     },
     (err) => {
       if (err.response) {
@@ -94,14 +102,15 @@ export const updatePassword = (dispatch, data, toast, reset) => {
     (res) => {
       dispatch(action(UPDATE_PASSWORD, res.data));
       if (res.data.status === 'error')
-      toast(res.data.message, {
-        appearance: 'error',
-        autoDismiss: true,
-      });
-      else toast('User password changed', {
-        appearance: 'success',
-        autoDismiss: true,
-      });
+        toast(res.data.message, {
+          appearance: 'error',
+          autoDismiss: true,
+        });
+      else
+        toast('User password changed', {
+          appearance: 'success',
+          autoDismiss: true,
+        });
       reset();
     },
     (err) => {

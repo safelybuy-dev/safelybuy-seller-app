@@ -1,17 +1,19 @@
-import React from "react";
-import { useTable } from "react-table";
-import Button from "components/Button";
-import { confirmAlert } from "react-confirm-alert"; // Import
-import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
+import React from 'react';
+import { useTable } from 'react-table';
+import Button from 'components/Button';
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
-const KeyValue = ({ title, value }) => (
-  <div className="flex my-3 flex-col">
-    <small className="text-gray-400 uppercase text-xs">{title}</small>
-    <h5 className="text-sm w-28">{value}</h5>
-  </div>
-);
+function KeyValue({ title, value }) {
+  return (
+    <div className="flex my-3 flex-col">
+      <small className="text-gray-400 uppercase text-xs">{title}</small>
+      <h5 className="text-sm w-28">{value}</h5>
+    </div>
+  );
+}
 
-const TableBody = ({
+function TableBody({
   active,
   deleteItem,
   setSelectedProduct,
@@ -19,20 +21,20 @@ const TableBody = ({
   setRestaurantMenuModal,
   setItem,
   setEdit,
-}) => {
+}) {
   console.log(items);
   const handleDelete = React.useCallback(
     (id) => {
       confirmAlert({
-        title: "Delete Item",
-        message: "Are you sure you want to delete the item?",
+        title: 'Delete Item',
+        message: 'Are you sure you want to delete the item?',
         buttons: [
           {
-            label: "Yes",
+            label: 'Yes',
             onClick: () => deleteItem(id),
           },
           {
-            label: "No",
+            label: 'No',
             onClick: () => {},
           },
         ],
@@ -45,11 +47,11 @@ const TableBody = ({
     () =>
       items
         .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-        .filter((item) => item.status === active || active === "all")
+        .filter((item) => item.status === active || active === 'all')
         .map((item) => ({
           status: item.status,
           price: item.price_per_portion,
-          available: item.available_days.join(",\t"),
+          available: item.available_days.join(',\t'),
           desc: (
             <div>
               <p className="text-purple-600 cursor-pointer text-sm">
@@ -77,14 +79,13 @@ const TableBody = ({
                   Delete
                 </Button>
               </span>
-              <div className="px-2"></div>
+              <div className="px-2" />
               <span
                 onClick={() => {
                   setEdit(true);
                   setItem(item);
                   setRestaurantMenuModal(true);
-                }}
-              >
+                }}>
                 <Button rounded primary>
                   Edit
                 </Button>
@@ -97,18 +98,18 @@ const TableBody = ({
 
   const columns = React.useMemo(
     () => [
-      { Header: "Status", accessor: "status" },
-      { Header: "Image", accessor: "image" },
+      { Header: 'Status', accessor: 'status' },
+      { Header: 'Image', accessor: 'image' },
       {
-        Header: "Price Per Portion",
-        accessor: "price",
+        Header: 'Price Per Portion',
+        accessor: 'price',
       },
       {
-        Header: "Description",
-        accessor: "desc",
+        Header: 'Description',
+        accessor: 'desc',
       },
-      { Header: "Available Days", accessor: "available" },
-      { Header: "Actions", accessor: "actions" },
+      { Header: 'Available Days', accessor: 'available' },
+      { Header: 'Actions', accessor: 'actions' },
     ],
     []
   );
@@ -132,7 +133,7 @@ const TableBody = ({
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
                 <th className="pb-4 font-normal" {...column.getHeaderProps()}>
-                  {column.render("Header")}
+                  {column.render('Header')}
                 </th>
               ))}
             </tr>
@@ -146,11 +147,10 @@ const TableBody = ({
                 {row.cells.map((cell) => {
                   return (
                     <td
-                      style={{ minWidth: "120px" }}
+                      style={{ minWidth: '120px' }}
                       className="border-b-2 pr-4   border-gray-100 py-4"
-                      {...cell.getCellProps()}
-                    >
-                      {cell.render("Cell")}
+                      {...cell.getCellProps()}>
+                      {cell.render('Cell')}
                     </td>
                   );
                 })}
@@ -161,6 +161,6 @@ const TableBody = ({
       </table>
     </div>
   );
-};
+}
 
 export default TableBody;

@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
-import Breadcrumb from "components/Breadcrumb";
-import InventoryTableView from "./InventoryTableView";
-import { axiosWithAuth } from "auth";
-import { baseUrl } from "api";
-import RestaurantModal from "components/Modals/addRestaurantModal";
-import Button from "components/Button";
-import { useToasts } from "react-toast-notifications";
-import { useRouteMatch } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import Breadcrumb from 'components/Breadcrumb';
+import { axiosWithAuth } from 'auth';
+import { baseUrl } from 'api';
+import RestaurantModal from 'components/Modals/addRestaurantModal';
+import Button from 'components/Button';
+import { useToasts } from 'react-toast-notifications';
+import { useRouteMatch } from 'react-router-dom';
+import InventoryTableView from './InventoryTableView';
 
-const Inventory = () => {
-  let { url } = useRouteMatch();
+function Inventory() {
+  const { url } = useRouteMatch();
   const [openRestaurantModal, setRestaurantModal] = useState(false);
   const { addToast } = useToasts();
   const [restaurantInventory, setRestaurantInventory] = useState([]);
@@ -31,15 +31,15 @@ const Inventory = () => {
       setLoading(true);
       await axiosWithAuth().post(`${baseUrl}/api/v1/restuarants/delete/${id}`);
       setLoading(false);
-      addToast("Item deleted from inventory", {
-        appearance: "success",
+      addToast('Item deleted from inventory', {
+        appearance: 'success',
         autoDismiss: true,
       });
       fetchInventory();
     } catch (error) {
       setLoading(false);
       addToast(error.response.data.message || error.message, {
-        appearance: "error",
+        appearance: 'error',
         autoDismiss: true,
       });
     }
@@ -52,15 +52,15 @@ const Inventory = () => {
         `${baseUrl}/api/v1/seller/event/sellout/${id}`
       );
       setLoading(false);
-      addToast("Item sold out", {
-        appearance: "success",
+      addToast('Item sold out', {
+        appearance: 'success',
         autoDismiss: true,
       });
       fetchInventory();
     } catch (error) {
       setLoading(false);
       console.log(error.message, error.response);
-      addToast(error.message, { appearance: "error", autoDismiss: true });
+      addToast(error.message, { appearance: 'error', autoDismiss: true });
     }
   };
 
@@ -69,7 +69,7 @@ const Inventory = () => {
   }, []);
 
   useEffect(() => {
-    if (url.includes("add")) return setRestaurantModal(true);
+    if (url.includes('add')) return setRestaurantModal(true);
   }, [url]);
   return (
     <div className="flex flex-col w-full items-start mt-10">
@@ -83,7 +83,7 @@ const Inventory = () => {
         <h2 className="text-xl">Manage Inventory</h2>
         <span className="md:inline-block hidden">
           <Button
-            canClick={true}
+            canClick
             clickHandler={() => setRestaurantModal(true)}
             event="onClick"
             text="Create a restaurant"
@@ -118,6 +118,6 @@ const Inventory = () => {
       )}
     </div>
   );
-};
+}
 
 export default Inventory;

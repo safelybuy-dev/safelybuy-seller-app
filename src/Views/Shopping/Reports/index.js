@@ -1,5 +1,5 @@
-import Button from "components/Button";
-import React from "react";
+import Button from 'components/Button';
+import React from 'react';
 
 const index = () => {
   return (
@@ -25,8 +25,7 @@ const index = () => {
                     viewBox="0 0 10 10"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                    className="inline-block ml-2"
-                  >
+                    className="inline-block ml-2">
                     <path
                       fillRule="evenodd"
                       clipRule="evenodd"
@@ -47,9 +46,8 @@ const index = () => {
           </div>
           <div className="flex flex-wrap justify-between mr-8">
             <div
-              style={{ width: "47%" }}
-              className="bg-white rounded-2xl md:mr-0 p-8"
-            >
+              style={{ width: '47%' }}
+              className="bg-white rounded-2xl md:mr-0 p-8">
               <div className="flex items-start">
                 <div className="justify-between mr-4">
                   <h3 className="text-xl">Inventory</h3>
@@ -70,8 +68,7 @@ const index = () => {
                     height="30"
                     viewBox="0 0 30 30"
                     fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
+                    xmlns="http://www.w3.org/2000/svg">
                     <path
                       d="M10 17H20M1 1H29V9H1V1ZM3 9V27C3 28.1046 3.89543 29 5 29H25C26.1046 29 27 28.1046 27 27V9H3Z"
                       stroke="#1B9CFC"
@@ -93,8 +90,7 @@ const index = () => {
                     viewBox="0 0 10 10"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                    className="inline-block ml-2"
-                  >
+                    className="inline-block ml-2">
                     <path
                       fillRule="evenodd"
                       clipRule="evenodd"
@@ -105,7 +101,7 @@ const index = () => {
                 </p>
               </div>
             </div>
-            <div style={{ width: "47%" }} className="bg-white rounded-2xl p-8">
+            <div style={{ width: '47%' }} className="bg-white rounded-2xl p-8">
               <div className="flex items-start">
                 <div className="justify-between mr-4">
                   <h3 className="text-xl">Orders</h3>
@@ -127,8 +123,7 @@ const index = () => {
                     height="30"
                     viewBox="0 0 30 30"
                     fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
+                    xmlns="http://www.w3.org/2000/svg">
                     <path
                       d="M9 14.2408H8.25V15.7408H9V14.2408ZM21 15.7408H21.75V14.2408H21V15.7408ZM9 19H8.25V19.75H9V19ZM21 19V19.75H21.75V19H21ZM9 11V10.25H8.25V11H9ZM21 11H21.75V10.25H21V11ZM27 7H27.75V6.68934L27.5303 6.46967L27 7ZM21 1L21.5303 0.46967L21.3107 0.25H21V1ZM9 15.7408H21V14.2408H9V15.7408ZM9 19.75H21V18.25H9V19.75ZM9 11.75H21V10.25H9V11.75ZM25 28.25H5V29.75H25V28.25ZM3.75 27V3H2.25V27H3.75ZM26.25 7V27H27.75V7H26.25ZM5 1.75H21V0.25H5V1.75ZM20.4697 1.53033L26.4697 7.53033L27.5303 6.46967L21.5303 0.46967L20.4697 1.53033ZM5 28.25C4.30964 28.25 3.75 27.6904 3.75 27H2.25C2.25 28.5188 3.48122 29.75 5 29.75V28.25ZM25 29.75C26.5188 29.75 27.75 28.5188 27.75 27H26.25C26.25 27.6904 25.6904 28.25 25 28.25V29.75ZM3.75 3C3.75 2.30964 4.30964 1.75 5 1.75V0.25C3.48122 0.25 2.25 1.48122 2.25 3H3.75ZM8.25 11V19H9.75V11H8.25ZM14.25 11V19H15.75V11H14.25ZM20.25 11V19H21.75V11H20.25ZM8 7.75H14V6.25H8V7.75ZM16 23.75H22V22.25H16V23.75Z"
                       fill="#F2994A"
@@ -149,8 +144,7 @@ const index = () => {
                     viewBox="0 0 10 10"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                    className="inline-block ml-2"
-                  >
+                    className="inline-block ml-2">
                     <path
                       fillRule="evenodd"
                       clipRule="evenodd"

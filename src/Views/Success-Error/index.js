@@ -1,11 +1,11 @@
-import React from "react";
-import { Link, useHistory } from "react-router-dom";
-import Logo from "components/Logo";
-import Footer from "components/Footer";
-import Button from "components/Button";
-import { ArrowRight, FailureIcon, SuccessIcon } from "svg";
+import React from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import Logo from 'components/Logo';
+import Footer from 'components/Footer';
+import Button from 'components/Button';
+import { ArrowRight, FailureIcon, SuccessIcon } from 'svg';
 
-const SuccessError = () => {
+function SuccessError() {
   const history = useHistory();
 
   return (
@@ -24,8 +24,8 @@ const SuccessError = () => {
               <div>
                 <h3 className="text-[#4BBF75] mt-6 mb-3 text-[30px]">
                   {history.location.state?.isEdit
-                    ? "Meal Plan Updated"
-                    : "Meal Plan Created"}
+                    ? 'Meal Plan Updated'
+                    : 'Meal Plan Created'}
                 </h3>
                 <p>
                   Your item has been added successfully and pending approval
@@ -39,8 +39,8 @@ const SuccessError = () => {
               <div>
                 <h3 className="text-[#4BBF75] mt-6 mb-3 text-[30px]">
                   {history.location.state?.isEdit
-                    ? "Menu Updated"
-                    : "Menu  Created"}
+                    ? 'Menu Updated'
+                    : 'Menu  Created'}
                 </h3>
                 <p>
                   Your item has been added successfully and pending approval
@@ -60,16 +60,16 @@ const SuccessError = () => {
             </div>
           )}
         </div>
-        <div className="mt-10"></div>
-        <Link to={`${history.location.state?.path || "/"}`}>
+        <div className="mt-10" />
+        <Link to={`${history.location.state?.path || '/'}`}>
           <Button secondary roundedLg icon={<ArrowRight color="white" />}>
-            {history.location.state?.data ? "Continue" : "Retry"}
+            {history.location.state?.data ? 'Continue' : 'Retry'}
           </Button>
         </Link>
       </div>
       <Footer />
     </div>
   );
-};
+}
 
 export default SuccessError;

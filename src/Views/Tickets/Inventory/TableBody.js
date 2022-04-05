@@ -1,18 +1,20 @@
-import React from "react";
-import { useTable } from "react-table";
-import Button from "components/Button";
-import { confirmAlert } from "react-confirm-alert"; // Import
-import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
-import moment from "moment";
+import React from 'react';
+import { useTable } from 'react-table';
+import Button from 'components/Button';
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import moment from 'moment';
 
-const KeyValue = ({ title, value }) => (
-  <div className="flex my-3 flex-col">
-    <small className="text-gray-400 uppercase text-xs">{title}</small>
-    <h5 className="text-sm w-28">{value}</h5>
-  </div>
-);
+function KeyValue({ title, value }) {
+  return (
+    <div className="flex my-3 flex-col">
+      <small className="text-gray-400 uppercase text-xs">{title}</small>
+      <h5 className="text-sm w-28">{value}</h5>
+    </div>
+  );
+}
 
-const TableBody = ({
+function TableBody({
   active,
   setActive,
   deleteItem,
@@ -20,19 +22,19 @@ const TableBody = ({
   setSelectedProduct,
   setSelectedSeller,
   items = [],
-}) => {
+}) {
   const handleDelete = React.useCallback(
     (id) => {
       confirmAlert({
-        title: "Delete Item",
-        message: "Are you sure you want to delete the item?",
+        title: 'Delete Item',
+        message: 'Are you sure you want to delete the item?',
         buttons: [
           {
-            label: "Yes",
+            label: 'Yes',
             onClick: () => deleteItem(id),
           },
           {
-            label: "No",
+            label: 'No',
             onClick: () => {},
           },
         ],
@@ -44,15 +46,15 @@ const TableBody = ({
   const handleSellout = React.useCallback(
     (id) => {
       confirmAlert({
-        title: "Sellout Item",
-        message: "Are you sure you want to mark this item as sold out??",
+        title: 'Sellout Item',
+        message: 'Are you sure you want to mark this item as sold out??',
         buttons: [
           {
-            label: "Yes",
+            label: 'Yes',
             onClick: () => selloutItem(id),
           },
           {
-            label: "No",
+            label: 'No',
             onClick: () => {},
           },
         ],
@@ -65,7 +67,7 @@ const TableBody = ({
     () =>
       items
         .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-        .filter((item) => item.status === active || active === "all")
+        .filter((item) => item.status === active || active === 'all')
         .map((item) => ({
           status: item.status,
           sku: `#${item.listing_number}`,
@@ -74,8 +76,7 @@ const TableBody = ({
             <div>
               <p
                 onClick={() => setSelectedProduct(item)}
-                className="text-purple-600 cursor-pointer text-sm"
-              >
+                className="text-purple-600 cursor-pointer text-sm">
                 {item.title}
               </p>
               <div className="flex justify-between">
@@ -90,28 +91,28 @@ const TableBody = ({
               className="h-20 w-20 rounded-sm object-contain"
             />
           ),
-          category: item.category === 1 ? "Concerts" : "Tickets",
+          category: item.category === 1 ? 'Concerts' : 'Tickets',
           date: (
             <div>
               <p className="">
-                {moment(item.event_date.split(" ")[0], "DD-MM-YYYY").format(
-                  "LL"
+                {moment(item.event_date.split(' ')[0], 'DD-MM-YYYY').format(
+                  'LL'
                 )}
               </p>
               <p className="">
-                {moment(item.event_date.split(" ")[1], "HH-mm").format("LT")}
+                {moment(item.event_date.split(' ')[1], 'HH-mm').format('LT')}
               </p>
             </div>
           ),
           actions: (
             <div className=" ">
-              {item.approval_status === "pending" ? (
+              {item.approval_status === 'pending' ? (
                 <span onClick={() => handleDelete(item.id)}>
                   <Button rounded danger>
                     Delete
                   </Button>
                 </span>
-              ) : item.approval_status === "approved" ? (
+              ) : item.approval_status === 'approved' ? (
                 <>
                   {/* <div className='justify-around'>
                 <Button rounded secondary>
@@ -129,7 +130,7 @@ const TableBody = ({
                         Sold Out
                       </Button>
                     </span>
-                    <span className="inline-block p-2"></span>
+                    <span className="inline-block p-2" />
                     <span onClick={() => handleDelete(item.id)}>
                       <Button rounded danger>
                         Delete
@@ -155,23 +156,23 @@ const TableBody = ({
 
   const columns = React.useMemo(
     () => [
-      { Header: "Status", accessor: "status" },
-      { Header: "Image", accessor: "image" },
+      { Header: 'Status', accessor: 'status' },
+      { Header: 'Image', accessor: 'image' },
       {
-        Header: "Listing Number",
-        accessor: "sku",
+        Header: 'Listing Number',
+        accessor: 'sku',
       },
       {
-        Header: "Event Date",
-        accessor: "date",
+        Header: 'Event Date',
+        accessor: 'date',
       },
-      { Header: "Event Category", accessor: "category" },
+      { Header: 'Event Category', accessor: 'category' },
       {
-        Header: "Event Details",
-        accessor: "desc",
+        Header: 'Event Details',
+        accessor: 'desc',
       },
-      { Header: "Available Tickets", accessor: "tickets_available" },
-      { Header: "Actions", accessor: "actions" },
+      { Header: 'Available Tickets', accessor: 'tickets_available' },
+      { Header: 'Actions', accessor: 'actions' },
     ],
     []
   );
@@ -195,7 +196,7 @@ const TableBody = ({
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
                 <th className="pb-4 font-normal" {...column.getHeaderProps()}>
-                  {column.render("Header")}
+                  {column.render('Header')}
                 </th>
               ))}
             </tr>
@@ -209,11 +210,10 @@ const TableBody = ({
                 {row.cells.map((cell) => {
                   return (
                     <td
-                      style={{ minWidth: "120px" }}
+                      style={{ minWidth: '120px' }}
                       className="border-b-2 pr-4   border-gray-100 py-4"
-                      {...cell.getCellProps()}
-                    >
-                      {cell.render("Cell")}
+                      {...cell.getCellProps()}>
+                      {cell.render('Cell')}
                     </td>
                   );
                 })}
@@ -224,6 +224,6 @@ const TableBody = ({
       </table>
     </div>
   );
-};
+}
 
 export default TableBody;

@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useCallback } from "react";
-import Breadcrumb from "components/Breadcrumb";
-import InventoryTableView from "./InventoryTableView";
-import { axiosWithAuth } from "auth";
-import { baseUrl } from "api";
-import MealPlanModal from "components/Modals/addMealPlan";
-import Button from "components/Button";
-import { useRouteMatch } from "react-router-dom";
+import React, { useState, useEffect, useCallback } from 'react';
+import Breadcrumb from 'components/Breadcrumb';
+import { axiosWithAuth } from 'auth';
+import { baseUrl } from 'api';
+import MealPlanModal from 'components/Modals/addMealPlan';
+import Button from 'components/Button';
+import { useRouteMatch } from 'react-router-dom';
+import InventoryTableView from './InventoryTableView';
 
-const Inventory = () => {
-  let { url } = useRouteMatch();
+function Inventory() {
+  const { url } = useRouteMatch();
   // const { id } = useParams();
   const [openModal, setOpenModal] = useState(false);
   const [inventory, setInventory] = useState([]);
@@ -30,7 +30,7 @@ const Inventory = () => {
   }, [fetchInventory]);
 
   useEffect(() => {
-    if (url.includes("add")) return setOpenModal(true);
+    if (url.includes('add')) return setOpenModal(true);
   }, [url]);
   return (
     <div className="flex flex-col w-full items-start mt-10">
@@ -44,7 +44,7 @@ const Inventory = () => {
         <h2 className="text-xl">Manage Inventory</h2>
         <span className="md:inline-block hidden">
           <Button
-            canClick={true}
+            canClick
             clickHandler={() => setOpenModal(true)}
             event="onClick"
             text="Create a meal plan"
@@ -74,6 +74,6 @@ const Inventory = () => {
       )}
     </div>
   );
-};
+}
 
 export default Inventory;

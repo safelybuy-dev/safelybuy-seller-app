@@ -1,93 +1,70 @@
-import React, { useState, useEffect } from "react";
-import { PieChart } from "react-minimal-pie-chart";
-import { useTable } from "react-table";
-import Highlight from "Views/Dashboard/Main/Highlight";
-import { SearchIcon } from "svg";
-import RecentPurchases from "./RecentSales";
-import SortMealModal from "components/Modals/sortMealModal";
-import { axiosWithAuth } from "auth";
-import { baseUrl } from "api";
-import ItemsPerPage from "./Inventory/ItemsPerPage";
-import { useComponentVisible } from "hooks";
-import RecentDetails from "./RecentDetails";
+import React, { useState, useEffect } from 'react';
+import { PieChart } from 'react-minimal-pie-chart';
+import { useTable } from 'react-table';
+import Highlight from 'Views/Dashboard/Main/Highlight';
+import { SearchIcon } from 'svg';
+import SortMealModal from 'components/Modals/sortMealModal';
+import { axiosWithAuth } from 'auth';
+import { baseUrl } from 'api';
+import { useComponentVisible } from 'hooks';
+import ItemsPerPage from './Inventory/ItemsPerPage';
+import RecentPurchases from './RecentSales';
+import RecentDetails from './RecentDetails';
 
-const RecentSales = ({ orders }) => {
+function RecentSales({ orders }) {
   const data = React.useMemo(
     () => [
       {
         status: (
           <div className="text-gray-900 flex items-center">
             <div className="relative w-8 h-4 inline-block">
-              <div className="absolute w-4 bg-gray-100 mr-2 h-4 inline-block "></div>
-              <div className="absolute top-1 left-1 w-2 bg-gray-800 h-2 inline-block "></div>
+              <div className="absolute w-4 bg-gray-100 mr-2 h-4 inline-block " />
+              <div className="absolute top-1 left-1 w-2 bg-gray-800 h-2 inline-block " />
             </div>
-            To be confirmed
+            Total Orders
           </div>
         ),
-        quantity: <p className="text-right">{orders.processing}</p>,
+        quantity: <p className="text-right">{orders.total_orders_count}</p>,
       },
       {
         status: (
           <div className="text-yellow-500 flex items-center">
             <div className="relative w-8 h-4 inline-block">
-              <div className="absolute w-4 bg-yellow-100 mr-2 h-4 inline-block "></div>
-              <div className="absolute top-1 left-1 w-2 bg-yellow-400 h-2 inline-block "></div>
+              <div className="absolute w-4 bg-yellow-100 mr-2 h-4 inline-block " />
+              <div className="absolute top-1 left-1 w-2 bg-yellow-400 h-2 inline-block " />
             </div>
-            Shipped
+            Meal Plan Orders
           </div>
         ),
-        quantity: <p className="text-right">{orders.shipped}</p>,
+        quantity: <p className="text-right">{orders.meal_plan_orders_count}</p>,
       },
-      {
-        status: (
-          <div className="text-purple-500 flex items-center">
-            <div className="relative w-8 h-4 inline-block">
-              <div className="absolute w-4 bg-purple-100 mr-2 h-4 inline-block "></div>
-              <div className="absolute top-1 left-1 w-2 bg-purple-400 h-2 inline-block "></div>
-            </div>
-            Delivered
-          </div>
-        ),
-        quantity: <p className="text-right">{orders.delivered}</p>,
-      },
-      {
-        status: (
-          <div className="text-red-500 flex items-center">
-            <div className="relative w-8 h-4 inline-block">
-              <div className="absolute w-4 bg-red-100 mr-2 h-4 inline-block "></div>
-              <div className="absolute top-1 left-1 w-2 bg-red-400 h-2 inline-block "></div>
-            </div>
-            Returned
-          </div>
-        ),
-        quantity: <p className="text-right">{orders.returned}</p>,
-      },
+
       {
         status: (
           <div className="text-green-500 flex items-center">
             <div className="relative w-8 h-4 inline-block">
-              <div className="absolute w-4 bg-green-100 mr-2 h-4 inline-block "></div>
-              <div className="absolute top-1 left-1 w-2 bg-green-400 h-2 inline-block "></div>
+              <div className="absolute w-4 bg-green-100 mr-2 h-4 inline-block " />
+              <div className="absolute top-1 left-1 w-2 bg-green-400 h-2 inline-block " />
             </div>
-            Completed
+            Restaurant Orders
           </div>
         ),
-        quantity: <p className="text-right">{orders.completed}</p>,
+        quantity: (
+          <p className="text-right">{orders.restaurant_orders_count}</p>
+        ),
       },
     ],
     [
-      orders.completed,
-      orders.delivered,
-      orders.processing,
-      orders.returned,
-      orders.shipped,
+      orders.total_orders_count,
+      orders.restaurant_orders_count,
+      orders.meal_plan_orders_count,
     ]
   );
 
   const columns = React.useMemo(
     () => [
-      { Header: " ", accessor: "status" },
-      { Header: " ", accessor: "quantity" },
+      { Header: ' ', accessor: 'status' },
+      { Header: ' ', accessor: 'quantity' },
     ],
     []
   );
@@ -104,9 +81,8 @@ const RecentSales = ({ orders }) => {
               {headerGroup.headers.map((column) => (
                 <th
                   className="pb-4 font-normal last:text-right"
-                  {...column.getHeaderProps()}
-                >
-                  {column.render("Header")}
+                  {...column.getHeaderProps()}>
+                  {column.render('Header')}
                 </th>
               ))}
             </tr>
@@ -122,9 +98,8 @@ const RecentSales = ({ orders }) => {
                     <td
                       // style={{ minWidth: '120px' }}
                       className="border-b-2 pr-4 last:pr-0 border-gray-100 py-4"
-                      {...cell.getCellProps()}
-                    >
-                      {cell.render("Cell")}
+                      {...cell.getCellProps()}>
+                      {cell.render('Cell')}
                     </td>
                   );
                 })}
@@ -135,13 +110,21 @@ const RecentSales = ({ orders }) => {
       </table>
     </div>
   );
-};
+}
 
-const Food = () => {
+function Food() {
   const [triggerSort, setTriggerSort] = useState(false);
-  const [recentOrders, setRecentOrders] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+
   const [selectedItem, setSelectedItem] = useState(null);
+  const [dashboardDetails, setDashboardDetails] = useState({
+    loading: false,
+    details: {},
+  });
+
+  console.log(dashboardDetails);
+
+  const [recentType, setRecentType] = useState('restaurant');
+
   const {
     ref: salesRef,
     isComponentVisible: salesVisible,
@@ -153,20 +136,39 @@ const Food = () => {
     setIsComponentVisible: setIsDaysVisible,
   } = useComponentVisible(false);
 
+  // useEffect(() => {
+  //   const fetchOrders = async () => {
+  //     try {
+  //       setIsLoading(true);
+  //       const response = await axiosWithAuth().get(
+  //         `${baseUrl}/api/v1/meal-plans-orders/seller/my-meal-plans-orders`
+  //       );
+  //       setRecentOrders(response.data.data?.data);
+  //       setIsLoading(false);
+  //     } catch (error) {
+  //       console.error(error.response || error.message);
+  //     }
+  //   };
+  //   fetchOrders();
+  // }, []);
+
   useEffect(() => {
-    const fetchOrders = async () => {
+    const fetchDashboardDetails = async () => {
       try {
-        setIsLoading(true);
+        setDashboardDetails((state) => ({ ...state, loading: true }));
         const response = await axiosWithAuth().get(
-          `${baseUrl}/api/v1/meal-plans-orders/seller/my-meal-plans-orders`
+          `${baseUrl}/api/v1/seller/food/dashboard-details`
         );
-        setRecentOrders(response.data.data?.data);
-        setIsLoading(false);
+        setDashboardDetails((state) => ({
+          ...state,
+          details: response?.data?.data,
+          loading: false,
+        }));
       } catch (error) {
         console.error(error.response || error.message);
       }
     };
-    fetchOrders();
+    fetchDashboardDetails();
   }, []);
 
   return (
@@ -174,7 +176,7 @@ const Food = () => {
       {/* Total Orders And Transactions */}
       <div className="mt-12 flex flex-col md:flex-row justify-between ">
         <div className="flex-0.7">
-          <div className="mt-5 p-10 md:py-5 md:px-5 md:mt-0 rounded-3xl bg-white">
+          <div className="mt-5 md:p-10 py-5 px-5 md:mt-0 rounded-3xl bg-white md:h-[400px]">
             <h3 className="text-2xl md:pb-6 text-gray-800 md:bg-white md:mt-2 tracking-wider">
               Your Orders
             </h3>
@@ -184,29 +186,29 @@ const Food = () => {
                   <PieChart
                     data={[
                       {
-                        title: "Three",
+                        title: 'Three',
                         value: 1,
-                        color: "#10b981",
+                        color: '#10b981',
                       },
                       {
-                        title: "One",
+                        title: 'One',
                         value: 1,
-                        color: "#1f2937",
+                        color: '#1f2937',
                       },
                       {
-                        title: "Two",
+                        title: 'Two',
                         value: 1,
-                        color: "#fbbf24",
+                        color: '#fbbf24',
                       },
                       {
-                        title: "Four",
+                        title: 'Four',
                         value: 1,
-                        color: "#a78bfa",
+                        color: '#a78bfa',
                       },
                       {
-                        title: "Five",
+                        title: 'Five',
                         value: 1,
-                        color: "#F87171",
+                        color: '#F87171',
                       },
                     ]}
                     lineWidth={15}
@@ -214,12 +216,11 @@ const Food = () => {
                   />
                   <div
                     style={{
-                      top: "50%",
-                      left: "50%",
-                      transform: "translate(-50%, -50%)",
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
                     }}
-                    className="absolute w-36 flex flex-col px-6 bg-green-50 text-center items-center justify-center rounded-full h-36 border-2 border-green-100"
-                  >
+                    className="absolute w-36 flex flex-col px-6 bg-green-50 text-center items-center justify-center rounded-full h-36 border-2 border-green-100">
                     <div className="text-green-600">Keep Selling!!!</div>
                     <div className="text-gray-900 text-xs mt-1">
                       Nothing to show yet
@@ -230,11 +231,13 @@ const Food = () => {
               <div className="flex-1">
                 <RecentSales
                   orders={{
-                    completed: 0,
-                    processing: 0,
-                    returned: 0,
-                    delivered: 0,
-                    shipped: 0,
+                    meal_plan_orders_count:
+                      dashboardDetails.details?.meal_plan_orders_count || 0,
+                    restaurant_orders_count:
+                      dashboardDetails.details?.restuarant_orders_count || 0,
+                    total_orders_count:
+                      dashboardDetails.details?.meal_plan_orders_count +
+                        dashboardDetails.details?.restuarant_orders_count || 0,
                   }}
                 />
               </div>
@@ -242,7 +245,13 @@ const Food = () => {
           </div>
         </div>
         <div className="flex-0.3">
-          <Highlight balance={"0"} />
+          <Highlight
+            balance={
+              dashboardDetails.loading
+                ? '0'
+                : dashboardDetails.details?.wallet?.balance
+            }
+          />
         </div>
       </div>
       <div className="mt-8 mb-4  md:bg-white md:py-8 md:px-10 rounded-3xl ">
@@ -250,21 +259,24 @@ const Food = () => {
           <ItemsPerPage
             selectRef={salesRef}
             isVisible={salesVisible}
+            recentType={recentType}
+            setRecentType={setRecentType}
             setIsVisible={setIsSalesVisible}
-            options={["Restaurant Sales", "Meal Plan Sales"]}
+            options={['Restaurant Sales', 'Meal Plan Sales']}
+            salesToggle
             customWidth
           />
           <div className="flex justify-between items-center rounded-full border-2 border-[#F1F0FF] py-2 px-4 md:w-[400px]">
-            <SearchIcon color={"#8661FF"} />
+            <SearchIcon color="#8661FF" />
             <input
               type="text"
-              placeholder="Search by SKU, Food tittle..."
+              placeholder="Search by SKU, Food title..."
               className="flex-1 mx-3 placeholder:text-sm text-sm outline-none border-none"
             />
             <button
               className="text-xs  md:w-16 text-[#8661FF] bg-[#8661ff26] rounded-full py-1 px-2"
               onClick={() => setTriggerSort(true)}
-            >
+              disabled={recentType === 'restaurant'}>
               Sort
             </button>
           </div>
@@ -273,19 +285,18 @@ const Food = () => {
               selectRef={daysRef}
               isVisible={daysVisible}
               setIsVisible={setIsDaysVisible}
-              options={["Last 5 Days", "Last 10 Days", "Last 15 Days"]}
+              options={['Last 5 Days', 'Last 10 Days', 'Last 15 Days']}
               customWidth
             />
           </div>
         </div>
-        {isLoading ? (
+        {dashboardDetails.loading ? (
           <div className="mt-20 mb-20 flex justify-center">
             <svg
               className="animate-spin -ml-1 mr-3 h-5 w-5 text-purple-500"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
-              viewBox="0 0 24 24"
-            >
+              viewBox="0 0 24 24">
               <circle
                 className="opacity-25"
                 cx="12"
@@ -293,12 +304,12 @@ const Food = () => {
                 r="10"
                 stroke="currentColor"
                 strokeWidth="4"
-              ></circle>
+              />
               <path
                 className="opacity-75"
                 fill="currentColor"
                 d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              ></path>
+              />
             </svg>
             <span className="text-purple-500 animate-pulse">
               Loading items...
@@ -306,13 +317,26 @@ const Food = () => {
           </div>
         ) : (
           <RecentPurchases
-            items={recentOrders}
+            items={
+              recentType === 'restaurant'
+                ? dashboardDetails.details?.restuarant_recent_sales || []
+                : dashboardDetails.details?.meal_plan_recent_sales || []
+            }
             setSelectedItem={setSelectedItem}
+            recentType={recentType}
           />
         )}
       </div>
       {triggerSort && (
-        <SortMealModal setTriggerSort={setTriggerSort} items={recentOrders} />
+        <SortMealModal
+          setTriggerSort={setTriggerSort}
+          items={
+            recentType === 'restaurant'
+              ? dashboardDetails.details?.restuarant_recent_sales || []
+              : dashboardDetails.details?.meal_plan_recent_sales || []
+          }
+          setDashboardDetails={setDashboardDetails}
+        />
       )}
       {selectedItem && (
         <RecentDetails
@@ -322,6 +346,6 @@ const Food = () => {
       )}
     </div>
   );
-};
+}
 
 export default Food;
