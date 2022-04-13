@@ -1,10 +1,8 @@
 import React from 'react';
 import { useTable } from 'react-table';
 import moment from 'moment';
-import ImageSlide from 'components/ImageSlide';
 
 function RecentSales({ items, setSelectedItem, recentType }) {
-  console.log(items);
   const data1 = React.useMemo(
     () =>
       items?.map((item, index) => ({
@@ -61,13 +59,6 @@ function RecentSales({ items, setSelectedItem, recentType }) {
               <p>{item.order_ref}</p>
             </div>
           ),
-          img: (
-            <ImageSlide
-              images={item?.food_order_details?.map(
-                (det) => det?.menu?.display_image
-              )}
-            />
-          ),
           receiver: (
             <p
               className="text-purple-600 cursor-pointer text-sm"
@@ -121,7 +112,6 @@ function RecentSales({ items, setSelectedItem, recentType }) {
   const column2 = React.useMemo(
     () => [
       { Header: 'Status', accessor: 'status' },
-      { Header: 'Meal', accessor: 'img' },
       { Header: 'Order Descriptions', accessor: 'order' },
       {
         Header: 'Receiver Details',
