@@ -1,5 +1,6 @@
 import React, { useState, useReducer, useEffect } from 'react';
 import { CloseIcon, FowardSymbolSVG } from 'svg';
+import plusIcon from 'assets/images/addIcon.svg';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
@@ -128,9 +129,38 @@ function RestaurantMenuModal({
     sku: isEdit ? currentItem.sku : '',
     price: isEdit ? currentItem.cost : '',
     availability: isEdit ? currentItem.available_days : [],
-    state_id: isEdit ? currentItem.state.id : '',
-    city: isEdit ? currentItem.city : '',
+    extras: [
+      {
+        name: 'Turkey',
+        price: '',
+      },
+      {
+        name: 'Extra Portion',
+        price: '',
+      },
+      {
+        name: 'Water 50cl',
+        price: '',
+      },
+    ],
+    cities: isEdit
+      ? currentItem.cities
+      : [
+          {
+            id: 5,
+            name: 'Lekki',
+          },
+          {
+            id: 9,
+            name: 'Ikeja',
+          },
+          {
+            id: 3,
+            name: 'Yaba',
+          },
+        ],
   };
+
   const [restaurantStates, setRestaurantStates] = useState([]);
   const [step, setStep] = useState(isEdit ? 2 : 1);
   const [loading, setLoading] = useState(false);
@@ -156,6 +186,8 @@ function RestaurantMenuModal({
   });
   const history = useHistory();
   const { addToast } = useToasts();
+  const [addExtra, setAddExtra] = useState(false);
+  const [addCity, setAddCity] = useState(false);
   const [mainImageUploaded, setMainImageUploaded] = useState(false);
   const [imageState, dispatchImage] = useReducer(
     imageReducer,
@@ -167,23 +199,33 @@ function RestaurantMenuModal({
     title,
     sku,
     price,
-    state_id,
-    city,
+    city_id,
     display_image,
     availability,
     category,
+    extras,
+    cities,
   } = eventData;
+
+  const handleChange = (e, i) => {
+    const { value } = e.target;
+
+    const newExtras = extras.map((extra, index) => {
+      if (index === i) extra.price = value;
+      return extra;
+    });
+
+    dispatch({
+      type: 'updateState',
+      field: 'extras',
+      payload: newExtras,
+    });
+  };
 
   const { register, handleSubmit, watch } = useForm({
     defaultValues: {},
   });
-  const watchFields_Step1 = watch([
-    'title',
-    'sku',
-    'price',
-    'state_id',
-    'city',
-  ]);
+  const watchFields_Step1 = watch(['title', 'sku', 'price', 'city_id']);
 
   const formValuesLength_1 = Object.values(watchFields_Step1)
     .filter(Boolean)
@@ -191,7 +233,7 @@ function RestaurantMenuModal({
 
   useEffect(() => {
     axios
-      .get(`${baseUrl}/api/v1/restuarants/locations/states`)
+      .get(`${baseUrl}/api/v1/food/active-locations/cities`)
       .then((result) => setRestaurantStates(result.data.data))
       .catch((error) => console.error(error.message));
   }, []);
@@ -215,8 +257,7 @@ function RestaurantMenuModal({
 
   const handleRestaurantCreation = async () => {
     const data = {
-      state_id,
-      city,
+      city_id,
       name: title,
       sku,
       cost: price,
@@ -324,7 +365,7 @@ function RestaurantMenuModal({
                 />
               ) : null)}
             {step === 2 &&
-              ((formValuesLength_1 === 5 || formValuesLength_1 === 4) &&
+              ((formValuesLength_1 === 3 || formValuesLength_1 === 4) &&
               availability.length > 0 ? (
                 <Button
                   className="focus:outline-none"
@@ -335,7 +376,7 @@ function RestaurantMenuModal({
                   roundedFull
                   icon={<FowardSymbolSVG />}
                 />
-              ) : formValuesLength_1 !== 5 || formValuesLength_1 !== 4 ? (
+              ) : formValuesLength_1 !== 3 || formValuesLength_1 !== 4 ? (
                 <Button
                   className="focus:outline-none"
                   text="Continue"
@@ -478,7 +519,7 @@ function RestaurantMenuModal({
 
         {step === 2 && (
           <div className="flex flex-col md:flex-row justify-between">
-            <div className="flex w-5/12 justify-center mb-6 md:mb-0">
+            <div className="flex w-[36%] justify-center mb-6 md:mb-0">
               <div className="divide-y divide-light-blue-400 w-full">
                 <div className="text-xs pb-2">
                   <BackArrowSVG setSteps={setStep} value={1} />
@@ -506,8 +547,8 @@ function RestaurantMenuModal({
               </div>
             </div>
 
-            <div className="flex w-6/12 justify-center">
-              <div className="flex w-full">
+            <div className="flex w-[60%] justify-center">
+              <div className="flex flex-col w-full">
                 <form
                   onSubmit={handleSubmit(onSubmit)}
                   className="flex flex-col  w-full md:px-8">
@@ -574,13 +615,13 @@ function RestaurantMenuModal({
                         transition focus:border-gray-800 w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
                     />
                   </div>
-                  <div className="text-left mr-2 mt-2 mb-2">
+                  <div className="text-left mr-2 mt-2 mb-2 w-full">
                     <label className="text-sm my-2" htmlFor="availability">
                       Food Availablity
                     </label>
                     <div
                       className="border border-[#E0E0E0] 
-                        transition focus:border-gray-800 w-full rounded-xl px-6 py-2 focus:outline-none focus:shadow-xl h-[90px]">
+                        transition focus:border-gray-800 w-full rounded-[1.875rem] px-6 py-2 focus:outline-none focus:shadow-xl h-[90px]">
                       {[
                         'monday',
                         'tuesday',
@@ -600,48 +641,199 @@ function RestaurantMenuModal({
                     </div>
                   </div>
                   <div className="text-left mr-2 mt-2 mb-2">
-                    <label className="text-sm my-2" htmlFor="state">
-                      State
+                    <label className="text-sm my-2" htmlFor="availability">
+                      Drinks & Extras
                     </label>
-                    <select
-                      {...register('state_id')}
-                      value={state_id}
-                      onChange={(e) => {
-                        dispatch({
-                          type: 'updateState',
-                          payload: e.target.value,
-                          field: 'state_id',
-                        });
-                      }}
-                      className={`border border-[#E0E0E0] 
-                        transition focus:border-gray-800 w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}>
-                      <option value="">select state</option>
-                      {restaurantStates.map((state) => (
-                        <option key={state.id} value={state.id}>
-                          {state.name}
-                        </option>
-                      ))}
-                    </select>
+                    <div
+                      className="border border-[#E0E0E0] 
+                        transition focus:border-gray-800  rounded-[1.875rem]  focus:outline-none focus:shadow-xl min-h-[185px] w-full p-4">
+                      <div className="flex justify-between w-[90%] mx-auto">
+                        <div className="flex flex-wrap">
+                          {extras.map((extra, index) => (
+                            <div
+                              key={extra.name}
+                              className=" rounded-[5px] relative  border border-[#c4c4c4]  w-[90px] h-[28px] mr-2 mb-4">
+                              <input
+                                type="number"
+                                name="extra"
+                                id="extra"
+                                className=" extra-input outline-none p-2 w-[95%] h-[95%] m-auto   text-sm  bg-transparent "
+                                required
+                                value={extra.price}
+                                onChange={(e) => handleChange(e, index)}
+                              />
+                              <label
+                                htmlFor="extra"
+                                className=" extra-label absolute pointer-events-none bg-[#c4c4c4] w-full h-full bg-opacity-30 
+                  top-0
+                  left-0
+                text-[#828282]
+                  text-sm
+                  flex
+           justify-center
+           items-center
+           font-medium
+           tracking-[0.04em]
+          ">
+                                {extra.name}
+                              </label>
+                            </div>
+                          ))}
+                        </div>
+                        <div className="">
+                          <button
+                            type="button"
+                            className="p-3 flex justify-center items-center h-[28px] w-[35px] bg-[#c4c4c4] bg-opacity-30 rounded-[3px]"
+                            onClick={() => setAddExtra(true)}>
+                            <img src={plusIcon} alt="plus icon" />
+                          </button>
+                        </div>
+                      </div>
+                      {addExtra && (
+                        <div className=" bg-[#c4c4c4] bg-opacity-20 rounded-full w-[90%] mx-auto h-[30px] my-4 ">
+                          <input
+                            type="text"
+                            name=""
+                            id=""
+                            placeholder="Search here..."
+                            className="w-full h-full outline-none bg-transparent p-3 text-sm"
+                          />
+                        </div>
+                      )}
+
+                      {addExtra && (
+                        <div className="flex w-[90%] mx-auto">
+                          {['Beef', 'Dodo', 'Efo', 'Titus Fish'].map(
+                            (option) => (
+                              <button
+                                key={option}
+                                type="button"
+                                className="bg-[#c4c4c4] bg-opacity-30 w-fit px-2 py-[0.35rem] rounded text-[#828282] font-medium mr-2 mb-2 text-sm"
+                                onClick={() => {
+                                  const isInArray = extras.find(
+                                    (extra) => extra.name === option
+                                  );
+                                  if (!isInArray) {
+                                    const newExtra = [
+                                      ...extras,
+                                      { name: option, price: '' },
+                                    ];
+
+                                    dispatch({
+                                      type: 'updateState',
+                                      field: 'extras',
+                                      payload: newExtra,
+                                    });
+                                  }
+                                }}>
+                                {option}
+                              </button>
+                            )
+                          )}
+                        </div>
+                      )}
+                    </div>
                   </div>
                   <div className="text-left mr-2 mt-2 mb-2">
-                    <label className="text-sm my-2" htmlFor="city">
+                    <label className="text-sm my-2" htmlFor="state">
                       City
                     </label>
-                    <input
-                      type="text"
-                      {...register('city')}
-                      value={city}
-                      onChange={(e) => {
-                        dispatch({
-                          type: 'updateState',
-                          payload: e.target.value,
-                          field: 'city',
-                        });
-                      }}
-                      placeholder="Ex. Lekki"
-                      className={`border border-[#E0E0E0] 
-                        transition focus:border-gray-800 w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
-                    />
+                    <div
+                      className="border border-[#E0E0E0] 
+                        transition focus:border-gray-800  rounded-[1.875rem]  focus:outline-none focus:shadow-xl min-h-[185px] w-full p-4">
+                      <div className="flex justify-between w-[90%] mx-auto">
+                        <div className="flex flex-wrap">
+                          {cities.map((city) => (
+                            <div
+                              className="bg-[#c4c4c4] bg-opacity-30 w-fit h-[26px] p-3 text-sm font-medium rounded flex justify-center items-center mb-2 mr-2"
+                              key={city.id}>
+                              <span className="mr-2 text-[#828282] tracking-[0.04em]">
+                                {city.name}
+                              </span>
+                              <button
+                                type="button"
+                                className=""
+                                onClick={() => {
+                                  const newCityArray = cities.filter(
+                                    (c) => c.id !== city.id
+                                  );
+
+                                  dispatch({
+                                    type: 'updateState',
+                                    field: 'cities',
+                                    payload: newCityArray,
+                                  });
+                                }}>
+                                <CloseIcon scale={0.6} />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                        <div className="">
+                          <button
+                            type="button"
+                            className="p-3 flex justify-center items-center h-[28px] w-[35px] bg-[#c4c4c4] bg-opacity-30 rounded-[3px]"
+                            onClick={() => setAddCity(true)}>
+                            <img src={plusIcon} alt="plus icon" />
+                          </button>
+                        </div>
+                      </div>
+                      {addCity && (
+                        <div className=" bg-[#c4c4c4] bg-opacity-20 rounded-full w-[90%] mx-auto h-[30px] my-4 ">
+                          <input
+                            type="text"
+                            name=""
+                            id=""
+                            placeholder="Search here..."
+                            className="w-full h-full outline-none bg-transparent p-3 text-sm"
+                          />
+                        </div>
+                      )}
+
+                      {addCity && (
+                        <div className="flex w-[90%] mx-auto">
+                          {[
+                            {
+                              id: 5,
+                              name: 'Mushin',
+                            },
+                            {
+                              id: 6,
+                              name: 'Kosofe',
+                            },
+                            {
+                              id: 7,
+                              name: 'Badagry',
+                            },
+                          ].map((option) => (
+                            <button
+                              key={option.id}
+                              type="button"
+                              className="bg-[#c4c4c4] bg-opacity-30 w-fit px-2 py-[0.35rem] rounded text-[#828282] font-medium mr-2 mb-2 text-sm"
+                              onClick={() => {
+                                const isInCityArray = cities.find(
+                                  (city) => city.name === option.name
+                                );
+                                if (!isInCityArray) {
+                                  dispatch({
+                                    type: 'updateState',
+                                    field: 'cities',
+                                    payload: [...cities, option],
+                                  });
+                                }
+                              }}>
+                              {option.name}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <div className="mt-4">
+                    <span className="text-sm font-semibold">
+                      All items filled, press “Enter” or click “Proceed” above
+                      to continue.
+                    </span>
                   </div>
                 </form>
               </div>
@@ -752,14 +944,12 @@ function RestaurantMenuModal({
                     </div>
                     <div className="flex justify-between w-full">
                       <KeyValue
-                        title="State"
+                        title="City"
                         value={
-                          restaurantStates.find(
-                            (state) => state.id === +state_id
-                          ).name
+                          restaurantStates.find((city) => city.id === +city_id)
+                            .name
                         }
                       />
-                      <KeyValue title="City" value={city} />
                     </div>
                   </div>
                   <div className="border-[#e0e0e066] pb-3  border-b-2 mb-3 ">
@@ -775,14 +965,12 @@ function RestaurantMenuModal({
                     <h4 className="text-lg text-purple-500">Meal Location</h4>
                     <div className="flex justify-between w-full">
                       <KeyValue
-                        title="State"
+                        title="City"
                         value={
-                          restaurantStates.find(
-                            (state) => state.id === +state_id
-                          ).name
+                          restaurantStates.find((city) => city.id === +city_id)
+                            .name
                         }
                       />
-                      <KeyValue title="City / Town" value={city} />
                     </div>
                   </div>
                 </div>
