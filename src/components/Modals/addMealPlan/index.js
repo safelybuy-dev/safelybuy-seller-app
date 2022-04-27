@@ -129,36 +129,23 @@ function RestaurantMenuModal({
     sku: isEdit ? currentItem.sku : '',
     price: isEdit ? currentItem.cost : '',
     availability: isEdit ? currentItem.available_days : [],
-    extras: [
-      {
-        name: 'Turkey',
-        price: '',
-      },
-      {
-        name: 'Extra Portion',
-        price: '',
-      },
-      {
-        name: 'Water 50cl',
-        price: '',
-      },
-    ],
-    cities: isEdit
-      ? currentItem.cities
+    extras: isEdit
+      ? currentItem.drinks_and_xtras
       : [
           {
-            id: 5,
-            name: 'Lekki',
+            name: 'Turkey',
+            cost: '',
           },
           {
-            id: 9,
-            name: 'Ikeja',
+            name: 'Extra Portion',
+            cost: '',
           },
           {
-            id: 3,
-            name: 'Yaba',
+            name: 'Water 50cl',
+            cost: '',
           },
         ],
+    cities: isEdit ? currentItem.cities : [],
   };
 
   const [restaurantStates, setRestaurantStates] = useState([]);
@@ -199,7 +186,6 @@ function RestaurantMenuModal({
     title,
     sku,
     price,
-    city_id,
     display_image,
     availability,
     category,
@@ -211,7 +197,7 @@ function RestaurantMenuModal({
     const { value } = e.target;
 
     const newExtras = extras.map((extra, index) => {
-      if (index === i) extra.price = value;
+      if (index === i) extra.cost = value;
       return extra;
     });
 
@@ -257,12 +243,13 @@ function RestaurantMenuModal({
 
   const handleRestaurantCreation = async () => {
     const data = {
-      city_id,
+      available_cities_ids: cities.map((city) => city.id),
       name: title,
       sku,
       cost: price,
       available_days: availability,
     };
+    data.drinks_and_xtras = extras.filter((extra) => extra.cost !== '');
 
     if (isEdit) {
       data.id = currentItem.id;
@@ -365,8 +352,10 @@ function RestaurantMenuModal({
                 />
               ) : null)}
             {step === 2 &&
-              ((formValuesLength_1 === 3 || formValuesLength_1 === 4) &&
-              availability.length > 0 ? (
+              (((formValuesLength_1 === 3 || formValuesLength_1 === 4) &&
+                availability.length > 0 &&
+                cities.length > 0) ||
+              isEdit ? (
                 <Button
                   className="focus:outline-none"
                   text="Continue"
@@ -592,7 +581,9 @@ function RestaurantMenuModal({
                       }}
                       placeholder="Ex. SB-#2123434343"
                       className={`border border-[#E0E0E0] 
-                        transition focus:border-gray-800 w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                        transition focus:border-gray-800 w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl ${
+                          isEdit && 'cursor-not-allowed'
+                        }`}
                     />
                   </div>
                   <div className="text-left mr-2 mt-2 mb-2">
@@ -659,7 +650,7 @@ function RestaurantMenuModal({
                                 id="extra"
                                 className=" extra-input outline-none p-2 w-[95%] h-[95%] m-auto   text-sm  bg-transparent "
                                 required
-                                value={extra.price}
+                                value={extra.cost}
                                 onChange={(e) => handleChange(e, index)}
                               />
                               <label
@@ -716,7 +707,7 @@ function RestaurantMenuModal({
                                   if (!isInArray) {
                                     const newExtra = [
                                       ...extras,
-                                      { name: option, price: '' },
+                                      { name: option, cost: '' },
                                     ];
 
                                     dispatch({
@@ -792,20 +783,7 @@ function RestaurantMenuModal({
 
                       {addCity && (
                         <div className="flex w-[90%] mx-auto">
-                          {[
-                            {
-                              id: 5,
-                              name: 'Mushin',
-                            },
-                            {
-                              id: 6,
-                              name: 'Kosofe',
-                            },
-                            {
-                              id: 7,
-                              name: 'Badagry',
-                            },
-                          ].map((option) => (
+                          {restaurantStates.map((option) => (
                             <button
                               key={option.id}
                               type="button"
@@ -944,11 +922,8 @@ function RestaurantMenuModal({
                     </div>
                     <div className="flex justify-between w-full">
                       <KeyValue
-                        title="City"
-                        value={
-                          restaurantStates.find((city) => city.id === +city_id)
-                            .name
-                        }
+                        title="Cities"
+                        value={cities.map((city) => city.name).join(', ')}
                       />
                     </div>
                   </div>
@@ -965,11 +940,8 @@ function RestaurantMenuModal({
                     <h4 className="text-lg text-purple-500">Meal Location</h4>
                     <div className="flex justify-between w-full">
                       <KeyValue
-                        title="City"
-                        value={
-                          restaurantStates.find((city) => city.id === +city_id)
-                            .name
-                        }
+                        title="Cities"
+                        value={cities.map((city) => city.name).join(', ')}
                       />
                     </div>
                   </div>

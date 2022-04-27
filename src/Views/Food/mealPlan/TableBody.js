@@ -63,11 +63,7 @@ function TableBody({
               </p>
             </div>
           ),
-          location: (
-            <p>
-              {item.city}, {item.state.name}
-            </p>
-          ),
+          location: <p>{item.cities?.map((city) => city.name).join(', ')}</p>,
           date: (
             <div>
               <p className="flex justify-between items-center">

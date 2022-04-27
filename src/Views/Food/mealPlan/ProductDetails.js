@@ -65,12 +65,30 @@ function ProductDetails({ selectedProduct, setSelectedProduct }) {
                       }
                     />
                   </div>
+                  <div className="flex  w-full">
+                    <KeyValue
+                      title="Extras And Drinks"
+                      value={
+                        <div className="capitalize w-full">
+                          {selectedProduct?.drinks_and_xtras.map((xtra) => (
+                            <div
+                              key={Math.random() * Date.now()}
+                              className="flex justify-between mb-2 w-full">
+                              <span className="md:mr-6">{xtra?.name}</span>
+                              <span>{xtra?.cost}NGN</span>
+                            </div>
+                          ))}
+                        </div>
+                      }
+                    />
+                  </div>
                   <div className="flex justify-between w-full">
                     <KeyValue
-                      title="State"
-                      value={selectedProduct.state.name}
+                      title="Cities"
+                      value={selectedProduct.cities
+                        .map((city) => city.name)
+                        .join(', ')}
                     />
-                    <KeyValue title="City" value={selectedProduct.city} />
                   </div>
                 </div>
                 <div className="border-[#e0e0e066] pb-3  border-b-2 mb-3 ">
@@ -89,12 +107,10 @@ function ProductDetails({ selectedProduct, setSelectedProduct }) {
                   <h4 className="text-lg text-purple-500">Meal Location</h4>
                   <div className="flex justify-between w-full">
                     <KeyValue
-                      title="State"
-                      value={selectedProduct?.state?.name}
-                    />
-                    <KeyValue
-                      title="City / Town"
-                      value={selectedProduct.city}
+                      title="Cities"
+                      value={selectedProduct.cities
+                        .map((city) => city.name)
+                        .join(', ')}
                     />
                   </div>
                 </div>

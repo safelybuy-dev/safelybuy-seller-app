@@ -156,7 +156,8 @@ input.extra-input::-webkit-inner-spin-button {
   transition: all 0.2s ease-in;
 }
 
-input.extra-input:valid + label {
+input.extra-input:valid + label,
+input.extra-input:focus + label {
   @apply -top-3 left-3 text-xs bg-[#c4c4c4] w-fit p-2 h-[19px] text-white;
 }
 
