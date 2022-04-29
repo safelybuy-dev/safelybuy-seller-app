@@ -130,7 +130,8 @@ function RecentSales({ items, setSelectedItem, recentType }) {
       columns: recentType === 'restaurant' ? column2 : columns1,
       data: recentType === 'restaurant' ? data2 : data1,
     });
-
+  if (data1?.length === 0 || data2?.length === 0)
+    return <p className="text-center">No Orders Yet..</p>;
   return (
     <div className="overflow-x-scroll md:overflow-hidden ">
       <table {...getTableProps()} className="w-full text-sm">

@@ -643,31 +643,36 @@ function RestaurantMenuModal({
                           {extras.map((extra, index) => (
                             <div
                               key={extra.name}
-                              className=" rounded-[5px] relative  border border-[#c4c4c4]  w-[90px] h-[28px] mr-2 mb-4">
+                              className=" rounded-[5px] relative   border border-[#c4c4c4]  w-[90px] h-[28px] mr-7 mb-4 mt-2">
                               <input
                                 type="number"
                                 name="extra"
                                 id="extra"
-                                className=" extra-input outline-none p-2 w-[95%] h-[95%] m-auto   text-sm  bg-transparent "
+                                className=" extra-input outline-none p-2  h-[95%] m-auto   text-sm  bg-transparent "
                                 required
                                 value={extra.cost}
                                 onChange={(e) => handleChange(e, index)}
                               />
                               <label
                                 htmlFor="extra"
-                                className=" extra-label absolute pointer-events-none bg-[#c4c4c4] w-full h-full bg-opacity-30 
-                  top-0
-                  left-0
-                text-[#828282]
-                  text-sm
-                  flex
-           justify-center
-           items-center
-           font-medium
-           tracking-[0.04em]
-          ">
+                                className=" extra-label absolute pointer-events-none bg-[#c4c4c4] w-full h-full bg-opacity-30 top-0 left-0 text-[#828282] text-sm flex justify-center items-center font-medium tracking-[0.04em] ">
                                 {extra.name}
                               </label>
+                              <button
+                                type="button"
+                                className="absolute top-[50%] translate-x-[-50%] translate-y-[-50%] -right-5"
+                                onClick={() => {
+                                  const newExtra = extras.filter(
+                                    (ex) => ex.name !== extra.name
+                                  );
+                                  dispatch({
+                                    type: 'updateState',
+                                    field: 'extras',
+                                    payload: newExtra,
+                                  });
+                                }}>
+                                <CloseIcon scale={0.6} />
+                              </button>
                             </div>
                           ))}
                         </div>

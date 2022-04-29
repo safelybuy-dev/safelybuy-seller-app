@@ -158,7 +158,7 @@ input.extra-input::-webkit-inner-spin-button {
 
 input.extra-input:valid + label,
 input.extra-input:focus + label {
-  @apply -top-3 left-3 text-xs bg-[#c4c4c4] w-fit p-2 h-[19px] text-white;
+  @apply -top-[0.85rem] left-3 text-xs bg-[#c4c4c4] w-fit p-2 h-[19px] text-white;
 }
 
 .border-red {

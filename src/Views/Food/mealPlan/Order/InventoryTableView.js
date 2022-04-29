@@ -15,10 +15,10 @@ function InventoryTableView({ loading, items }) {
         active={active}
         setActive={setActive}
         activeLength={
-          items.filter((item) => item?.meal_plan?.status === 'active').length
+          items?.filter((item) => item?.meal_plan?.status === 'active').length
         }
         inactiveLength={
-          items.filter((item) => item?.meal_plan?.status !== 'active').length
+          items?.filter((item) => item?.meal_plan?.status !== 'active').length
         }
       />
       <div className="bg-white overflow-x relative rounded-b-2xl rounded-tr-2xl md:p-10 z-40 p-4 -mx-6 ">
