@@ -7,6 +7,7 @@ import { useToasts } from 'react-toast-notifications';
 import Button from 'components/Button';
 import axios from 'axios';
 import { baseUrl } from 'api';
+import { axiosWithAuth } from 'auth';
 import DayButton from 'components/DayButton';
 import { BackArrowSVG, FowardArrowSVG, CameraSVG } from '../addProductModal';
 
@@ -133,10 +134,6 @@ function RestaurantMenuModal({
       ? currentItem.drinks_and_xtras
       : [
           {
-            name: 'Turkey',
-            cost: '',
-          },
-          {
             name: 'Extra Portion',
             cost: '',
           },
@@ -149,6 +146,7 @@ function RestaurantMenuModal({
   };
 
   const [restaurantStates, setRestaurantStates] = useState([]);
+  const [dbExtras, setDBExtras] = useState([]);
   const [step, setStep] = useState(isEdit ? 2 : 1);
   const [loading, setLoading] = useState(false);
   const [days, setDays] = useState({
@@ -180,6 +178,7 @@ function RestaurantMenuModal({
     imageReducer,
     initialImageState
   );
+  const [searchText, setSearchText] = useState('');
   const [eventData, dispatch] = useReducer(restaurant_Reducer, initialState);
 
   const {
@@ -222,6 +221,20 @@ function RestaurantMenuModal({
       .get(`${baseUrl}/api/v1/food/active-locations/cities`)
       .then((result) => setRestaurantStates(result.data.data))
       .catch((error) => console.error(error.message));
+  }, []);
+
+  useEffect(() => {
+    const fetchExtras = async () => {
+      try {
+        const { data } = await axiosWithAuth().get(
+          `${baseUrl}/api/v1/drinks-and-xtras/all`
+        );
+        setDBExtras(data.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchExtras();
   }, []);
 
   const onSubmit = () => console.log('f');
@@ -638,17 +651,17 @@ function RestaurantMenuModal({
                     <div
                       className="border border-[#E0E0E0] 
                         transition focus:border-gray-800  rounded-[1.875rem]  focus:outline-none focus:shadow-xl min-h-[185px] w-full p-4">
-                      <div className="flex justify-between w-[90%] mx-auto">
+                      <div className="flex justify-between  w-[90%] mx-auto">
                         <div className="flex flex-wrap">
                           {extras.map((extra, index) => (
                             <div
                               key={extra.name}
-                              className=" rounded-[5px] relative   border border-[#c4c4c4]  w-[90px] h-[28px] mr-7 mb-4 mt-2">
+                              className=" rounded-[5px] relative   border border-[#c4c4c4]  w-[90px] h-[28px] mr-7 mb-4">
                               <input
                                 type="number"
                                 name="extra"
                                 id="extra"
-                                className=" extra-input outline-none p-2  h-[95%] m-auto   text-sm  bg-transparent "
+                                className=" extra-input outline-none p-2 w-full h-[95%] m-auto   text-sm  bg-transparent "
                                 required
                                 value={extra.cost}
                                 onChange={(e) => handleChange(e, index)}
@@ -693,26 +706,30 @@ function RestaurantMenuModal({
                             id=""
                             placeholder="Search here..."
                             className="w-full h-full outline-none bg-transparent p-3 text-sm"
+                            value={searchText}
+                            onChange={(e) => setSearchText(e.target.value)}
                           />
                         </div>
                       )}
 
                       {addExtra && (
                         <div className="flex w-[90%] mx-auto">
-                          {['Beef', 'Dodo', 'Efo', 'Titus Fish'].map(
-                            (option) => (
+                          {dbExtras
+                            .filter((ex) => ex.name.includes(searchText))
+                            .slice(0, 5)
+                            .map((option) => (
                               <button
-                                key={option}
+                                key={option.id}
                                 type="button"
                                 className="bg-[#c4c4c4] bg-opacity-30 w-fit px-2 py-[0.35rem] rounded text-[#828282] font-medium mr-2 mb-2 text-sm"
                                 onClick={() => {
                                   const isInArray = extras.find(
-                                    (extra) => extra.name === option
+                                    (extra) => extra.name === option.name
                                   );
                                   if (!isInArray) {
                                     const newExtra = [
                                       ...extras,
-                                      { name: option, cost: '' },
+                                      { name: option.name, cost: '' },
                                     ];
 
                                     dispatch({
@@ -722,10 +739,9 @@ function RestaurantMenuModal({
                                     });
                                   }
                                 }}>
-                                {option}
+                                {option.name}
                               </button>
-                            )
-                          )}
+                            ))}
                         </div>
                       )}
                     </div>
