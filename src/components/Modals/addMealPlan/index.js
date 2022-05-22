@@ -78,9 +78,9 @@ function BorderImageUpload({
   );
 }
 
-function KeyValue({ title, value }) {
+function KeyValue({ title, value, full }) {
   return (
-    <div className="flex my-3 flex-col">
+    <div className={`flex my-3 flex-col ${full && 'w-full'}`}>
       <small className="text-gray-500">{title}</small>
       <h5 className="text-lg">{value}</h5>
     </div>
@@ -715,7 +715,11 @@ function RestaurantMenuModal({
                       {addExtra && (
                         <div className="flex w-[90%] mx-auto">
                           {dbExtras
-                            .filter((ex) => ex.name.includes(searchText))
+                            .filter((ex) =>
+                              ex.name
+                                .toLowerCase()
+                                .includes(searchText.toLowerCase())
+                            )
                             .slice(0, 5)
                             .map((option) => (
                               <button
@@ -938,13 +942,30 @@ function RestaurantMenuModal({
                       <KeyValue title="Food Price" value={price} />
                       <KeyValue
                         title="Food Availability"
-                        value={availability.join(', ')}
+                        value={availability
+                          .map((ava) => ava.substr(0, 3))
+                          .join(', ')}
                       />
                     </div>
                     <div className="flex justify-between w-full">
                       <KeyValue
                         title="Cities"
                         value={cities.map((city) => city.name).join(', ')}
+                      />
+                    </div>
+                    <div className="flex justify-between w-full">
+                      <KeyValue
+                        title="Extras"
+                        full
+                        value={extras.map(
+                          (extra) =>
+                            extra.cost && (
+                              <p className="flex justify-between items-center w-full">
+                                <span>{extra.name}</span>
+                                <span>{extra.cost}NGN</span>
+                              </p>
+                            )
+                        )}
                       />
                     </div>
                   </div>
