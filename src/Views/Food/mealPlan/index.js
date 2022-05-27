@@ -37,11 +37,11 @@ function Inventory() {
       <Breadcrumb
         parentText="Food"
         parentLink="/food"
-        childText="Manage Inventory"
-        childLink="/food/inventory"
+        childText="Manage Meal Plan Inventory"
+        childLink="/food/meal-plan"
       />
       <div className="flex justify-between w-full">
-        <h2 className="text-xl">Manage Inventory</h2>
+        <h2 className="text-xl">Meal Plan Inventory</h2>
         <span className="md:inline-block hidden">
           <Button
             canClick
@@ -67,6 +67,7 @@ function Inventory() {
       {openModal && (
         <MealPlanModal
           setRestaurantMenuModal={setOpenModal}
+          menuModal={openModal}
           currentItem={currentItem}
           isEdit={isEdit}
           setEdit={setEdit}

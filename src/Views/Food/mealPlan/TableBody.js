@@ -15,6 +15,7 @@ function TableBody({
   setItem,
   setEdit,
 }) {
+  console.log(items);
   // const handleDelete = React.useCallback(
   //   (id) => {
   //     confirmAlert({
@@ -52,14 +53,15 @@ function TableBody({
           ),
           sku: item.sku,
           title: (
-            <div>
+            <div className="md:w-50">
               <p
                 className="text-purple-600 cursor-pointer text-sm"
                 onClick={() => setSelectedProduct(item)}>
                 {item.name}
               </p>
-              <p className="text-gray-400 capitalize w-36 truncate">
-                {item.description}
+              <p className="text-gray-400 capitalize">
+                {item.drinks_and_xtras?.length > 0 &&
+                  item.drinks_and_xtras?.map((extra) => extra.name).join(', ')}
               </p>
             </div>
           ),
@@ -171,7 +173,7 @@ function TableBody({
   }
 
   return (
-    <div className=" mt-8">
+    <div className="mt-8">
       <table {...getTableProps()} className="w-full text-sm">
         <thead className="text-left border-b-2 border-gray-100">
           {headerGroups.map((headerGroup) => (
@@ -188,12 +190,12 @@ function TableBody({
           {rows.map((row) => {
             prepareRow(row);
             return (
-              <tr {...row.getRowProps()}>
+              <tr {...row.getRowProps()} className="border-b-2 border-gray-100">
                 {row.cells.map((cell) => {
                   return (
                     <td
-                      style={{ minWidth: '120px' }}
-                      className="border-b-2 pr-4   border-gray-100 py-4"
+                      // style={{ minWidth: '120px' }}
+                      className="py-4 pr-8"
                       {...cell.getCellProps()}>
                       {cell.render('Cell')}
                     </td>

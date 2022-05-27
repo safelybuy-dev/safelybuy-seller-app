@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CloseIcon } from 'svg';
 
 function KeyValue({ title, value }) {
@@ -11,10 +11,17 @@ function KeyValue({ title, value }) {
 }
 
 function ProductDetails({ selectedProduct, setSelectedProduct }) {
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, []);
+
   return (
     <div
       onClick={() => setSelectedProduct(null)}
-      className="fixed overflow-scroll top-0 left-0 z-50 w-screen md:py-40 md:px-40 py-0 px-0 h-screen bg-purple-600 bg-opacity-30">
+      className="fixed overflow-y-scroll top-0 left-0 z-50 w-screen md:py-40 md:px-40 py-0 px-0 h-screen bg-purple-600 bg-opacity-30">
       <div
         onClick={(e) => e.stopPropagation()}
         className="flex flex-col relative md:rounded-3xl rounded-none md:px-10 md:py-10 px-4 py-4 left-0 bg-white opacity-100 min-h-1/2">

@@ -50,7 +50,11 @@ function SamplePage() {
             eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </p>
           {Auth.isAuthenticated() ? (
-            <Link to="/shopping">
+            <Link
+              to={`/${
+                JSON.parse(localStorage.getItem('dashboard_view_preference')) ||
+                'shopping'
+              }`}>
               <Button
                 text="Get Started"
                 primary

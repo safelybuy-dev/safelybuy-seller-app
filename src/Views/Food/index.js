@@ -121,8 +121,6 @@ function Food() {
     details: {},
   });
 
-  console.log(dashboardDetails);
-
   const [recentType, setRecentType] = useState('restaurant');
 
   const {
@@ -135,22 +133,6 @@ function Food() {
     isComponentVisible: daysVisible,
     setIsComponentVisible: setIsDaysVisible,
   } = useComponentVisible(false);
-
-  // useEffect(() => {
-  //   const fetchOrders = async () => {
-  //     try {
-  //       setIsLoading(true);
-  //       const response = await axiosWithAuth().get(
-  //         `${baseUrl}/api/v1/meal-plans-orders/seller/my-meal-plans-orders`
-  //       );
-  //       setRecentOrders(response.data.data?.data);
-  //       setIsLoading(false);
-  //     } catch (error) {
-  //       console.error(error.response || error.message);
-  //     }
-  //   };
-  //   fetchOrders();
-  // }, []);
 
   useEffect(() => {
     const fetchDashboardDetails = async () => {

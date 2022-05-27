@@ -13,7 +13,6 @@ function InventoryTableView({
   setItem,
   setEdit,
 }) {
-  console.log(items);
   const [active, setActive] = useState('all');
   const [selectedProduct, setSelectedProduct] = useState(null);
   return (

@@ -119,6 +119,7 @@ const imageReducer = (state, action) => {
 
 function RestaurantMenuModal({
   setRestaurantMenuModal,
+  menuModal,
   isEdit,
   currentItem,
   setEdit,
@@ -322,6 +323,17 @@ function RestaurantMenuModal({
     }
   };
 
+  useEffect(() => {
+    const body = document.body;
+
+    if (menuModal) {
+      body.style.overflow = 'hidden';
+    }
+    return () => {
+      body.style.overflow = 'scroll';
+    };
+  }, [menuModal]);
+
   return (
     <div
       onClick={() => {
@@ -489,7 +501,9 @@ function RestaurantMenuModal({
                           });
                         }}
                       />
-                      <label className="text-[#828282]" htmlFor="category1">
+                      <label
+                        className="text-[#828282] cursor-pointer"
+                        htmlFor="category1">
                         Meal plan
                       </label>
                     </div>
@@ -508,7 +522,9 @@ function RestaurantMenuModal({
                           });
                         }}
                       />
-                      <label className="text-[#828282]" htmlFor="category2">
+                      <label
+                        className="text-[#828282] cursor-pointer"
+                        htmlFor="category2">
                         Restaurant
                       </label>
                     </div>
@@ -693,7 +709,7 @@ function RestaurantMenuModal({
                           <button
                             type="button"
                             className="p-3 flex justify-center items-center h-[28px] w-[35px] bg-[#c4c4c4] bg-opacity-30 rounded-[3px]"
-                            onClick={() => setAddExtra(true)}>
+                            onClick={() => setAddExtra((prev) => !prev)}>
                             <img src={plusIcon} alt="plus icon" />
                           </button>
                         </div>
@@ -789,7 +805,7 @@ function RestaurantMenuModal({
                           <button
                             type="button"
                             className="p-3 flex justify-center items-center h-[28px] w-[35px] bg-[#c4c4c4] bg-opacity-30 rounded-[3px]"
-                            onClick={() => setAddCity(true)}>
+                            onClick={() => setAddCity((prev) => !prev)}>
                             <img src={plusIcon} alt="plus icon" />
                           </button>
                         </div>
