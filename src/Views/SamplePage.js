@@ -19,7 +19,7 @@ function SamplePage() {
                   localStorage.getItem('dashboard_view_preference')
                     ? JSON.parse(
                         localStorage.getItem('dashboard_view_preference')
-                      ).toLowerCase()
+                      )?.toLowerCase()
                     : 'shopping'
                 }`}>
                 <Button text="Go to Dashboard" primary roundedFull />
@@ -52,8 +52,11 @@ function SamplePage() {
           {Auth.isAuthenticated() ? (
             <Link
               to={`/${
-                JSON.parse(localStorage.getItem('dashboard_view_preference')) ||
-                'shopping'
+                localStorage.getItem('dashboard_view_preference')
+                  ? JSON.parse(
+                      localStorage.getItem('dashboard_view_preference')
+                    )?.toLowerCase()
+                  : 'shopping'
               }`}>
               <Button
                 text="Get Started"

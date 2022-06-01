@@ -1,7 +1,7 @@
 import React from 'react';
 import Logo from 'components/Logo';
 import { useComponentVisible } from 'hooks';
-import { Hamburger, CloseIcon } from 'svg';
+// import { Hamburger, CloseIcon } from 'svg';
 import { navMenuItems, ticketNavMenuItems, foodNavMenuItems } from 'data';
 import { Link, useHistory } from 'react-router-dom';
 import Container from 'components/Container';
@@ -9,6 +9,7 @@ import NavItem from './NavItem';
 import Notifications from './Notifications';
 import NotificationDetails from './NotificationDetails';
 import User from './User';
+import OptionsSelector from 'components/options-selector';
 
 export const buttonStyles = (color) =>
   `hover:bg-${color}-100 transform active:shadow-sm active:bg-${color}-200 hover:scale-105 active:scale-100 hover:shadow-xl focus:outline-none`;
@@ -21,7 +22,7 @@ function closeNav() {
   document.getElementById('myNav').style.width = '0%';
 }
 
-function Header({ setIsMenuOpen, isMenuOpen, prefrence, setPrefrence }) {
+function Header({ prefrence, setPrefrence }) {
   const history = useHistory();
   const {
     ref: notRef,
@@ -46,7 +47,7 @@ function Header({ setIsMenuOpen, isMenuOpen, prefrence, setPrefrence }) {
             <Logo color="purple" text="SELLER CENTER" />
           </Link>
           <div className="hidden md:flex items-center">
-            <div className="mr-2 mb-1">
+            {/* <div className="mr-2 mb-1">
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className={`block px-2 py-3 rounded-md ${buttonStyles()}`}>
@@ -56,29 +57,28 @@ function Header({ setIsMenuOpen, isMenuOpen, prefrence, setPrefrence }) {
                   <CloseIcon />
                 )}
               </button>
-            </div>
+            </div> */}
+
             <Link to="/">
               <Logo color="purple" text="SELLER CENTER" allowSub />
             </Link>
           </div>
           <div className="flex items-center pl-12">
-            <select
-              className="mr-5 border border-gray-300 px-3 py-2 rounded "
-              onChange={(e) => {
-                setPrefrence(e.target.value);
-                history.push(`/${e.target.value.toLowerCase()}`);
+            <OptionsSelector
+              preference={
+                localStorage.getItem('dashboard_view_preference')
+                  ? JSON.parse(
+                      localStorage.getItem('dashboard_view_preference')
+                    )
+                  : 'Shopping'
+              }
+              options={['Shopping', 'Tickets', 'Food']}
+              cb={(text) => {
+                setPrefrence(text);
+                history.push(`/${text.toLowerCase()}`);
               }}
-              value={prefrence}>
-              <option value="" disabled>
-                Preference
-              </option>
-              {['Shopping', 'Tickets', 'Food'].map((pref, index) => (
-                <option value={pref} key={index}>
-                  {pref}
-                </option>
-              ))}
-            </select>
-
+            />
+            <div className="md:mr-5" />
             <Notifications
               notRef={notRef}
               setNotIsVisible={setNotIsVisible}

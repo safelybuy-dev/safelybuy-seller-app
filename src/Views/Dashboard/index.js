@@ -9,7 +9,7 @@ import { loadUser } from 'requests';
 import { auth } from 'reducers/initialState';
 import Container from 'components/Container';
 import { Spinner } from 'components/Spinner';
-import { MobileMenu } from './Main/MobileMenu';
+// import { MobileMenu } from './Main/MobileMenu';
 import Header from './Main/Header';
 
 const Main = lazy(() => import('./Main'));
@@ -66,7 +66,7 @@ export default function Dashboard() {
         setIsMenuOpen={setIsMenuOpen}
         isMenuOpen={isMenuOpen}
       />
-      <MobileMenu isMenuOpen={isMenuOpen} />
+      {/* <MobileMenu isMenuOpen /> */}
       <div className="flex pb-20 md:pb-30 md:flex-wrap md:justify-center  md:px-6">
         <Container topPadding>
           <Suspense fallback={<Spinner partial dashboard />}>

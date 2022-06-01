@@ -9,7 +9,6 @@ import InventoryTableView from './InventoryTableView';
 
 function Inventory() {
   const { url } = useRouteMatch();
-  // const { id } = useParams();
   const [openModal, setOpenModal] = useState(false);
   const [inventory, setInventory] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -30,7 +29,7 @@ function Inventory() {
   }, [fetchInventory]);
 
   useEffect(() => {
-    if (url.includes('add')) return setOpenModal(true);
+    if (url.match(/\/add$/i)) return setOpenModal(true);
   }, [url]);
   return (
     <div className="flex flex-col w-full items-start mt-10">

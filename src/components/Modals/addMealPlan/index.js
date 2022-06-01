@@ -196,6 +196,10 @@ function RestaurantMenuModal({
   const handleChange = (e, i) => {
     const { value } = e.target;
 
+    // check if price inputed is less than 1
+    if (Number(value) < 1) return;
+
+    // add the price to the corresponding extra
     const newExtras = extras.map((extra, index) => {
       if (index === i) extra.cost = value;
       return extra;
@@ -256,11 +260,12 @@ function RestaurantMenuModal({
   };
 
   const handleRestaurantCreation = async () => {
+    const sanitizedPrice = +price.replaceAll(',', '');
     const data = {
       available_cities_ids: cities.map((city) => city.id),
       name: title,
       sku,
-      cost: price,
+      cost: sanitizedPrice,
       available_days: availability,
     };
     data.drinks_and_xtras = extras.filter((extra) => extra.cost !== '');
@@ -620,13 +625,16 @@ function RestaurantMenuModal({
                       Food Price
                     </label>
                     <input
-                      type="number"
+                      type="text"
                       {...register('price')}
                       value={price}
                       onChange={(e) => {
+                        const { value } = e.target;
+                        const sanitizedPrice = +value.replaceAll(',', '');
+                        if (Number.isNaN(sanitizedPrice)) return;
                         dispatch({
                           type: 'updateState',
-                          payload: e.target.value,
+                          payload: sanitizedPrice.toLocaleString(),
                           field: 'price',
                         });
                       }}
@@ -976,7 +984,9 @@ function RestaurantMenuModal({
                         value={extras.map(
                           (extra) =>
                             extra.cost && (
-                              <p className="flex justify-between items-center w-full">
+                              <p
+                                className="flex justify-between items-center w-full"
+                                key={extra}>
                                 <span>{extra.name}</span>
                                 <span>{extra.cost}NGN</span>
                               </p>
