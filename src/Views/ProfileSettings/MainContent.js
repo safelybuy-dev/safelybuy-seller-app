@@ -5,7 +5,7 @@ import BankForm from './Bank';
 import Business from './Business';
 
 export default function MainContent({ active, setActive }) {
-  function RenderSections() {
+  function renderSections() {
     switch (active) {
       case 'personal':
         return (
@@ -49,5 +49,9 @@ export default function MainContent({ active, setActive }) {
     }
   }
 
-  return <RenderSections />;
+  return (
+    <div className="flex-[0.65]  overflow-y-scroll  h-screen   py-8">
+      <div className="w-[85%] mx-auto">{renderSections()}</div>
+    </div>
+  );
 }

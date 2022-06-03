@@ -1,4 +1,11 @@
-import React, { useReducer, useState, Suspense, lazy, useEffect } from 'react';
+import React, {
+  useReducer,
+  useState,
+  Suspense,
+  lazy,
+  useEffect,
+  useCallback,
+} from 'react';
 import Footer from 'components/Footer';
 import { Route, Switch, useHistory } from 'react-router-dom';
 import { useLocalStorage } from 'react-use';
@@ -11,6 +18,7 @@ import Container from 'components/Container';
 import { Spinner } from 'components/Spinner';
 // import { MobileMenu } from './Main/MobileMenu';
 import Header from './Main/Header';
+import ProfileSettings from 'Views/ProfileSettings';
 
 const Main = lazy(() => import('./Main'));
 const Messaging = lazy(() => import('./Main/Messaging'));
@@ -37,6 +45,12 @@ export default function Dashboard() {
   const { addToast } = useToasts();
   const history = useHistory();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+
+  const handleSettingsOpen = useCallback(
+    () => setIsSettingsOpen((prev) => !prev),
+    []
+  );
 
   useEffect(() => {
     if (!localStorage.getItem('dashboard_view_preference'))
@@ -45,10 +59,6 @@ export default function Dashboard() {
 
   useEffect(() => {
     loadUser(dispatch);
-    // log user out from all tabs if they log out in one tab
-    // window.addEventListener('storage', () => {
-    //   if (!localStorage.token) store.dispatch({ type: LOGOUT });
-    // });
   }, [dispatch]);
 
   useEffect(() => {
@@ -65,8 +75,12 @@ export default function Dashboard() {
         setPrefrence={setValue}
         setIsMenuOpen={setIsMenuOpen}
         isMenuOpen={isMenuOpen}
+        handleSettingsOpen={handleSettingsOpen}
       />
       {/* <MobileMenu isMenuOpen /> */}
+      {isSettingsOpen && (
+        <ProfileSettings handleSettingsOpen={handleSettingsOpen} />
+      )}
       <div className="flex pb-20 md:pb-30 md:flex-wrap md:justify-center  md:px-6">
         <Container topPadding>
           <Suspense fallback={<Spinner partial dashboard />}>

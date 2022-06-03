@@ -95,8 +95,8 @@ export default function Account() {
                 id="firstname"
                 required
                 className={`border ${
-                  errors.firstname ? 'border-red' : 'border-black'
-                } w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                  errors.firstname ? 'border-red' : 'border-[#E0E0E0]'
+                } w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:border-black focus:shadow-xl`}
               />
               <div className="text-red-500">
                 {errors.firstname && <span>{errors.firstname.message}</span>}
@@ -118,8 +118,8 @@ export default function Account() {
                 id="lastname"
                 required
                 className={`border ${
-                  errors.lastname ? 'border-red' : 'border-black'
-                } w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                  errors.lastname ? 'border-red' : 'border-[#E0E0E0]'
+                } w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:border-black focus:shadow-xl`}
               />
               <div className="text-red-500">
                 {errors.lastname && <span>{errors.lastname.message}</span>}
@@ -141,8 +141,8 @@ export default function Account() {
                 id="phone"
                 required
                 className={`border ${
-                  errors.phone ? 'border-red' : 'border-black'
-                } w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                  errors.phone ? 'border-red' : 'border-[#E0E0E0]'
+                } w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:border-black focus:shadow-xl`}
               />
               <div className="text-red-500">
                 {errors.phone && <span>{errors.phone.message}</span>}
@@ -165,8 +165,8 @@ export default function Account() {
                 id="email"
                 required
                 className={`border ${
-                  errors.email ? 'border-red' : 'border-black'
-                } w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                  errors.email ? 'border-red' : 'border-[#E0E0E0]'
+                } w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:border-black focus:shadow-xl`}
               />
               <div className="text-red-500">
                 {errors.email && 'Email is not valid'}
@@ -178,7 +178,7 @@ export default function Account() {
               Date of Birth
             </label>
             <div className="relative md:w-full mb-6 mt-2">
-              <div className="relative border border-black w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl">
+              <div className="relative border focus:border-black border-[#E0E0E0] w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl">
                 <DatePicker onChange={setDob} value={dob} />
               </div>
             </div>
@@ -195,11 +195,11 @@ export default function Account() {
               />
             ) : (
               <Button
-                primary
+                primaryOutline
                 roundedMd
                 icon={
                   <div className="animate-bounceSide">
-                    <ArrowRight color="white" />
+                    <ArrowRight color="black" />
                   </div>
                 }
                 text="Save Changes"

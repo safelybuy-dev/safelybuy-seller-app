@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { requests } from 'requests';
 import { useToasts } from 'react-toast-notifications';
 import { useForm } from 'react-hook-form';
@@ -15,10 +15,12 @@ function BankForm({ setIsLoading, dispatch }) {
   const [userBank, setUserBank] = useState({});
   const [accountNameLoading, setAccountNameLoading] = useState(false);
   const [account_name, setAccountName] = useState('');
+  const [account_number, setAccountNumber] = useState('');
+  const [bankCode, setBankCode] = useState('');
 
   const schema = yup.object().shape({
     bank_code: yup.string(),
-    account_number: yup.string(),
+    account_number: yup.string().min(10, 'Invalid Account Number'),
   });
 
   const {
@@ -26,38 +28,41 @@ function BankForm({ setIsLoading, dispatch }) {
     handleSubmit,
     formState: { errors },
     setValue,
-    getValues,
   } = useForm({
     resolver: yupResolver(schema),
   });
 
-  const getAccountName = async (data) => {
-    setAccountNameLoading(true);
-    setAccountName('');
-    try {
-      const { data: da_ta } = await requests.post('/bank/confirm', data);
+  const getAccountName = useCallback(
+    async (data) => {
+      if (!Number(data.bank_code)) return;
+      setAccountNameLoading(true);
+      setAccountName('');
+      try {
+        const { data: da_ta } = await requests.post('/bank/confirm', data);
 
-      const { status, message } = da_ta;
-      setAccountNameLoading(false);
+        const { status, message } = da_ta;
+        setAccountNameLoading(false);
 
-      if (!status) {
-        addToast(message, { appearance: 'error', autoDismiss: true });
-        return;
+        if (!status) {
+          addToast(message, { appearance: 'error', autoDismiss: true });
+          return;
+        }
+
+        if (status) {
+          const { data } = da_ta;
+          setAccountName(data.account_name);
+          return;
+        }
+      } catch (err) {
+        addToast(err.message || 'Failed to get account Name', {
+          appearance: 'error',
+          autoDismiss: true,
+        });
+        setAccountNameLoading(false);
       }
-
-      if (status) {
-        const { data } = da_ta;
-        setAccountName(data.account_name);
-        return;
-      }
-    } catch (err) {
-      addToast(err.message || 'Failed to get account Name', {
-        appearance: 'error',
-        autoDismiss: true,
-      });
-      setAccountNameLoading(false);
-    }
-  };
+    },
+    [addToast]
+  );
 
   const onSubmit = async (data) => {
     if (!account_name.length) return;
@@ -84,8 +89,6 @@ function BankForm({ setIsLoading, dispatch }) {
       });
     }
   };
-
-  const onSubmitAccountNum = async (data) => await getAccountName(data);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -120,6 +123,12 @@ function BankForm({ setIsLoading, dispatch }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userBank]);
 
+  useEffect(() => {
+    if (account_number.length === 10 && Number(bankCode)) {
+      getAccountName({ bank_code: bankCode, account_number });
+    }
+  }, [bankCode, account_number, getAccountName]);
+
   return (
     <div className="py-4">
       <div className="flex justify-start">
@@ -132,8 +141,13 @@ function BankForm({ setIsLoading, dispatch }) {
             </label>
             <div className="relative md:w-full mb-6 mt-2">
               <select
-                className="border border-black w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
-                {...register('bank_code', { required: true })}>
+                className="border border-[#E0E0E0] focus:border-black w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
+                {...register('bank_code', { required: true })}
+                value={bankCode}
+                onChange={(e) => {
+                  setAccountName('');
+                  setBankCode(e.target.value);
+                }}>
                 <option key="null/bank" value="0">
                   Select Bank
                 </option>
@@ -157,23 +171,18 @@ function BankForm({ setIsLoading, dispatch }) {
               <input
                 type="text"
                 {...register('account_number')}
-                onBlur={(e) => {
-                  const { value } = e.target;
-                  if (value.length === 10) {
-                    onSubmitAccountNum({
-                      bank_code: getValues('bank_code'),
-                      account_number: value,
-                    });
-                  }
-                }}
                 onChange={(e) => {
                   const { value } = e.target;
                   e.target.value = value.replace(/[^0-9]/g, '');
                   if (value.length > 10) e.target.value = value.slice(0, 10);
+                  setAccountName('');
+                  setAccountNumber(e.target.value);
                 }}
                 placeholder="Enter your account number"
                 className={`border ${
-                  errors.account_name ? 'border-red' : 'border-black'
+                  errors.account_name
+                    ? 'border-red'
+                    : 'border-[#E0E0E0] focus:border-black'
                 } w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
               />
 
@@ -196,8 +205,8 @@ function BankForm({ setIsLoading, dispatch }) {
                 placeholder="Account Name"
                 value={account_name}
                 className={`border 
-                border-black 
-                ${accountNameLoading ? 'bg-gray-200 animate-pulse' : ''}
+                ${account_name ? 'border-black' : 'border-[#E0E0E0]'}
+                ${accountNameLoading && 'bg-gray-200 animate-pulse'}
                  w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
               />
             </div>
@@ -206,12 +215,12 @@ function BankForm({ setIsLoading, dispatch }) {
           <div className="text-left">
             <div className="my-3 flex">
               <Button
-                primary={account_name.length}
+                primaryOutline={account_name.length}
                 disabled={!account_name.length}
                 roundedMd
                 icon={
                   <div className="animate-bounceSide">
-                    <ArrowRight color="white" />
+                    <ArrowRight color="black" />
                   </div>
                 }
                 text="Save Changes"
