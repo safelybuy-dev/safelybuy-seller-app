@@ -1,10 +1,13 @@
+import { useContext } from 'react';
 import Container from './ContentContainer';
 import Personal from './Personal';
 import Password from './Password';
 import BankForm from './Bank';
 import Business from './Business';
+import { ContextUser } from 'context';
 
 export default function MainContent({ active, setActive }) {
+  const userContext = useContext(ContextUser);
   function renderSections() {
     switch (active) {
       case 'personal':
@@ -13,7 +16,7 @@ export default function MainContent({ active, setActive }) {
             title="Personal Information"
             subtitle="Details about your personal information"
             setActive={setActive}>
-            <Personal />
+            <Personal userContext={userContext} />
           </Container>
         );
       case 'business':

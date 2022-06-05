@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { ArrowRight } from 'svg';
 import DatePicker from 'react-date-picker/dist/entry.nostyle';
@@ -6,7 +6,6 @@ import Button from 'components/Button';
 import { useToasts } from 'react-toast-notifications';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { ContextUser } from 'context';
 import { updateUser } from 'actions/auth';
 
 const isValidEmail = (email) =>
@@ -34,8 +33,9 @@ const signUpSchema = yup.object().shape({
   gender: yup.string().required(),
 });
 
-export default function Account() {
-  const [{ user, loadingUser }, dispatch] = useContext(ContextUser);
+export default function Account({ userContext }) {
+  const [{ user, loadingUser }, dispatch] = userContext;
+  console.log(user);
   const { addToast } = useToasts();
   const [dob, setDob] = useState(!user.dob ? '' : new Date(user.dob));
   const {
@@ -48,7 +48,6 @@ export default function Account() {
   });
 
   useEffect(() => {
-    console.log(user);
     if (user.firstname) {
       const fields = [
         'firstname',
@@ -62,7 +61,7 @@ export default function Account() {
       setDob(new Date(user.dob));
     }
     return () => {};
-  }, [loadingUser, setValue, user]);
+  }, [setValue, user]);
 
   const onSubmit = async (data) => {
     data.dob = dob;

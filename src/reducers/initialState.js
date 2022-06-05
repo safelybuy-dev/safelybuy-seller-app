@@ -25,4 +25,5 @@ export const auth = {
   loadingUser: false,
   error: '',
   isAuthenticated: isTokenValid(),
+  bankDetails: null,
 };

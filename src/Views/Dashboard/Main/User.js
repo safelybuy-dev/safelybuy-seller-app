@@ -45,7 +45,11 @@ function User({
           )}`}>
           <UserAvatar scale={1.5} />
           <div className="ml-3 md:flex flex-col hidden">
-            <span className="font-normal capitalize text-xs">{`${state.user.firstname} ${state.user.lastname}`}</span>
+            <span className="font-normal capitalize text-xs">
+              {state?.user &&
+                state?.user?.firstname &&
+                `${state?.user?.firstname} ${state?.user?.lastname}`}
+            </span>
             <span className="uppercase text-gray-400 text-xs">
               {state.user.role}
             </span>

@@ -67,13 +67,15 @@ function BankForm({ setIsLoading, dispatch }) {
   const onSubmit = async (data) => {
     if (!account_name.length) return;
     data.bank_id = data.bank_code;
-    console.log(data);
     delete data.bank_code;
     try {
-      const { status } = await requests.post('/seller/bank/update', {
-        ...data,
-        account_name,
-      });
+      const { message, status } = await requests.post(
+        `/seller/bank${userBank.id && '/update/' + userBank.id}`,
+        {
+          ...data,
+          account_name,
+        }
+      );
 
       if (status === 'success') {
         addToast('Successfully added bank details', {
@@ -81,6 +83,12 @@ function BankForm({ setIsLoading, dispatch }) {
           autoDismiss: true,
         });
         return history.push('/shopping');
+      }
+      if (message === 'Bank Details updated!') {
+        addToast(message, {
+          appearance: 'success',
+          autoDismiss: true,
+        });
       }
     } catch (err) {
       addToast(err.message || 'Failed to save bank details', {
@@ -103,12 +111,15 @@ function BankForm({ setIsLoading, dispatch }) {
   useEffect(() => {
     const fetchData = async () => {
       const res = await requests.get('/seller/bank');
-      res.data.length &&
+      if (res.data.length > 0) {
         setUserBank({
+          id: res.data[0].id,
           account_name: res.data[0].account_name,
           bank_code: res.data[0].bank_id,
           account_number: res.data[0].account_number,
         });
+        setBankCode(res.data[0].bank_id);
+      }
     };
     fetchData();
   }, []);
