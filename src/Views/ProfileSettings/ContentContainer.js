@@ -2,11 +2,11 @@ import { CloseIcon } from 'svg';
 
 export default function Container({ title, subtitle, children, setActive }) {
   return (
-    <div className="bg-white flex flex-col ml-104 my-12 rounded-3xl p-8 md:ml-0 md:p-3 md:my-4 md:w-full md:absolute md:min-h-screen">
-      <div className="flex justify-between items-center w-full">
+    <div className="bg-white flex flex-col   rounded-3xl md:p-8  p-3">
+      <div className="flex justify-between items-center w-full md:px-5">
         <div className="">
-          <h3 className="text-xl font-medium tracking-wide">{title}</h3>
-          <small className="text-sm tracking-wider text-gray-400">
+          <h3 className="text-2xl font-semibold  tracking-[0.04em]">{title}</h3>
+          <small className="text-sm tracking-wider text-[#a7a7a7]">
             {subtitle}
           </small>
         </div>
@@ -16,7 +16,7 @@ export default function Container({ title, subtitle, children, setActive }) {
           <CloseIcon color="currentColor" />
         </div>
       </div>
-      {children}
+      <div className="w-[90%]">{children}</div>
     </div>
   );
 }

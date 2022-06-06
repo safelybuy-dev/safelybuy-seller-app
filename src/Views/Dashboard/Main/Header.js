@@ -22,7 +22,7 @@ function closeNav() {
   document.getElementById('myNav').style.width = '0%';
 }
 
-function Header({ prefrence, setPrefrence }) {
+function Header({ prefrence, setPrefrence, handleSettingsOpen }) {
   const history = useHistory();
   const {
     ref: notRef,
@@ -89,6 +89,7 @@ function Header({ prefrence, setPrefrence }) {
               userRef={userRef}
               setUserIsVisible={setUserIsVisible}
               userIsVisible={userIsVisible}
+              handleSettingsOpen={handleSettingsOpen}
             />
           </div>
         </div>

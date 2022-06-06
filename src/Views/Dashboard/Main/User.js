@@ -1,32 +1,55 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
 import { ArrowDown, ArrowUp, AngleRight, UserAvatar } from 'svg';
 import { ContextUser } from 'context';
 import { buttonStyles } from './Header';
-import { UserMenuMobile } from './UserMenuMobile';
-// import { fetchUser } from "actions/auth";
+// import { UserMenuMobile } from './UserMenuMobile';
 
-function User({ userIsVisible, setUserIsVisible, userRef }) {
-  // const history = useHistory();
+function User({
+  userIsVisible,
+  setUserIsVisible,
+  userRef,
+  handleSettingsOpen,
+}) {
   const [state] = useContext(ContextUser);
-  // useEffect(() => {
-  //   fetchUser(dispatch, localStorage.getItem('safely_buy_id'))
-  // }, [dispatch]);
+  const dropdownItems = [
+    {
+      text: 'Messages',
+      hasNotification: true,
+      hasIcon: true,
+      icon: <AngleRight />,
+      clickHandler() {},
+    },
+    {
+      text: 'Settings',
+      clickHandler() {
+        handleSettingsOpen();
+      },
+    },
+    {
+      text: 'Logout',
+      clickHandler() {},
+      color: 'red',
+    },
+  ];
   return (
     <div className="relative">
-      <div className="relative">
+      <div className="relative ml-4">
         <button
           onClick={(e) => {
             if (userIsVisible) setUserIsVisible(false);
             else setUserIsVisible(true);
             e.stopPropagation();
           }}
-          className={`flex p-1 pr-4 md:pr-1 rounded-full shadow-xl ml-2 items-center ${buttonStyles(
+          className={`flex py-2 px-4 rounded-full shadow-xl ml-2 items-center ${buttonStyles(
             'purple'
           )}`}>
           <UserAvatar scale={1.5} />
           <div className="ml-3 md:flex flex-col hidden">
-            <span className="font-normal capitalize text-xs">{`${state.user.firstname} ${state.user.lastname}`}</span>
+            <span className="font-normal capitalize text-xs">
+              {state?.user &&
+                state?.user?.firstname &&
+                `${state?.user?.firstname} ${state?.user?.lastname}`}
+            </span>
             <span className="uppercase text-gray-400 text-xs">
               {state.user.role}
             </span>
@@ -40,49 +63,31 @@ function User({ userIsVisible, setUserIsVisible, userRef }) {
             </div>
           </div>
         </button>
-        <div ref={userRef}>
-          {userIsVisible && (
-            <UserMenuMobile
-              isMenuOpen={userIsVisible}
-              setIsMenuOpen={setUserIsVisible}
-            />
-          )}
-          {userIsVisible && (
-            <ul className="absolute w-40 mt-2 bg-white z-10 rounded-xl border-gray-100 border-2 md:visible invisible">
-              {[
-                {
-                  url: '/messages',
-                  text: 'Messages',
-                  unread: true,
-                  svg: <AngleRight />,
-                },
-                { url: '/settings', text: 'Settings' },
-                {
-                  url: '/login',
-                  text: 'Logout',
-                  onClick: (e) => {
-                    localStorage.removeItem('safely_buy_token');
-                  },
-                  color: 'red',
-                },
-              ].map((e) => (
-                <Link key={Date.now() + Math.random()} to={e.url}>
-                  <li className="py-2 px-4 rounded-xl hover:bg-purple-100 flex items-center justify-between">
-                    <div>
-                      <span className={`${e.color && `text-${e.color}-500`}`}>
-                        {e.text}
-                      </span>
-                      {e.unread && (
-                        <div className="relative h-2 w-2 ml-1 -top-2 inline-block bg-red-500 rounded-full" />
-                      )}
-                    </div>
-                    {e.svg && e.svg}
-                  </li>
-                </Link>
+        {userIsVisible && (
+          <div
+            ref={userRef}
+            className="absolute bg-white w-full h-[9rem] p-4 -mt-4 rounded-[0.625rem] border-2 border-[#F7F7F7]">
+            <ul className="h-full w-full flex flex-col justify-between">
+              {dropdownItems.map((item) => (
+                <li
+                  key={item.text}
+                  className={` cursor-pointer relative ${
+                    item.color && 'text-' + item.color + '-500'
+                  } `}>
+                  <button
+                    className="flex justify-between items-center w-full"
+                    onClick={item.clickHandler}>
+                    <span>{item.text}</span>
+                    {item.hasIcon && <span>{item.icon}</span>}
+                    {item.hasNotification && (
+                      <span className="absolute bg-[#EB5757] h-[0.375rem] w-[0.375rem] top-1 left-[4.3rem] rounded-full"></span>
+                    )}
+                  </button>
+                </li>
               ))}
             </ul>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );

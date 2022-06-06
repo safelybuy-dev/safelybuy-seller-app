@@ -36,7 +36,7 @@ export default function Account() {
   }, []);
 
   useEffect(() => {
-    if (bizInfo.business_name) {
+    if (bizInfo?.business_name) {
       if (bizInfo.state) setSelectedState(bizInfo.state);
       if (bizInfo.city) {
         let newTowns = [...towns, bizInfo.city];
@@ -57,7 +57,7 @@ export default function Account() {
     }
     return () => {};
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bizInfo, bizInfo.business_name, setValue]);
+  }, [bizInfo, bizInfo?.business_name, setValue]);
 
   const onSubmit = async (data) => {
     setIsLoading(true);
@@ -110,7 +110,7 @@ export default function Account() {
       <div className="flex justify-start">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex mt-6 flex-col md:px-8 w-full">
+          className="flex mt-6 flex-col md:px-5 w-full">
           {/* {!loadingUser && ( */}{' '}
           <div className="text-left mr-2">
             <label className="text-sm my-2" htmlFor="firstname">
@@ -127,8 +127,8 @@ export default function Account() {
                 id="firstname"
                 required
                 className={`border ${
-                  errors.business_name ? 'border-red' : 'border-black'
-                } w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                  errors.business_name ? 'border-red' : 'border-[#E0E0E0]'
+                } w-96 md:w-full rounded-full px-6 py-2 tracking-[0.04em] placeholder:text-[#828282] focus:outline-none focus:border-black focus:shadow-xl`}
               />
               <div className="text-red-500">
                 {errors.business_name && (
@@ -151,8 +151,8 @@ export default function Account() {
                 id="street"
                 required
                 className={`border ${
-                  errors.street ? 'border-red' : 'border-black'
-                } w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                  errors.street ? 'border-red' : 'border-[#E0E0E0]'
+                } w-96 md:w-full rounded-full px-6 py-2 tracking-[0.04em] placeholder:text-[#828282] focus:outline-none focus:border-black focus:shadow-xl`}
               />
               <span className="text-red-500">
                 {errors.street && 'Please enter your street address'}
@@ -168,7 +168,7 @@ export default function Account() {
                 {...register('state', {
                   required: true,
                 })}
-                className="border w-full border-black rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
+                className="border w-full border-[#E0E0E0] focus:border-black rounded-full px-6 py-2 focus:outline-none focus:shadow-xl tracking-[0.04em]"
                 name="state"
                 id="state"
                 onChange={(e) => setSelectedState(e.target.value)}>
@@ -190,7 +190,7 @@ export default function Account() {
             </label>
             <div className="relative md:w-full mb-6 mt-2">
               <select
-                className="border w-full border-black rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
+                className="border w-full border-[#E0E0E0] focus:border-black rounded-full px-6 py-2 focus:outline-none focus:shadow-xl tracking-[0.04em]"
                 name="city"
                 id="city"
                 {...register('city', {
@@ -227,8 +227,8 @@ export default function Account() {
                 id="tin"
                 required
                 className={`border ${
-                  errors.tin ? 'border-red' : 'border-black'
-                } w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                  errors.tin ? 'border-red' : 'border-[#E0E0E0]'
+                } w-96 md:w-full rounded-full px-6 py-2 tracking-[0.04em] placeholder:text-[#828282] focus:outline-none focus:border-black focus:shadow-xl`}
               />
               <div className="text-red-500">
                 {errors.tin && <span>{errors.tin.message}</span>}
@@ -250,8 +250,8 @@ export default function Account() {
                 id="business_num"
                 required
                 className={`border ${
-                  errors.business_num ? 'border-red' : 'border-black'
-                } w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                  errors.business_num ? 'border-red' : 'border-[#E0E0E0]'
+                } w-96 md:w-full rounded-full px-6 py-2 tracking-[0.04em] placeholder:text-[#828282] focus:outline-none focus:border-black focus:shadow-xl`}
               />
               <div className="text-red-500">
                 {errors.business_num && (
@@ -272,11 +272,11 @@ export default function Account() {
               />
             ) : (
               <Button
-                primary
+                primaryOutline
                 roundedMd
                 icon={
                   <div className="animate-bounceSide">
-                    <ArrowRight color="white" />
+                    <ArrowRight color="black" />
                   </div>
                 }
                 text="Save Changes"

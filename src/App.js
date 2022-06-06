@@ -9,6 +9,7 @@ import PrivateOTPRoute from './auth/Otp';
 import { auth } from './reducers/initialState';
 import userReducer from './reducers/auth';
 import { loadUser } from './requests';
+import BaseErrorBoundary from 'error-boundary/base-boundary';
 
 const SuccessError = lazy(() => import('./Views/Success-Error/index'));
 const Dashboard = lazy(() => import('./Views/Dashboard'));
@@ -31,46 +32,48 @@ function App() {
   }, [dispatch]);
 
   return (
-    <ToastProvider>
-      <Router>
-        <Suspense fallback={<Spinner />}>
-          <ContextUser.Provider value={[state, dispatch]}>
-            <Switch>
-              <PrivateRoute path="/shopping">
-                <Dashboard />
-              </PrivateRoute>
-              <PrivateRoute path="/tickets">
-                <Dashboard />
-              </PrivateRoute>
-              <PrivateRoute path="/food">
-                <Dashboard />
-              </PrivateRoute>
-              <PrivateRoute path="/settings">
-                <ProfileSettings />
-              </PrivateRoute>
-              <Route path="/success-error">
-                <SuccessError />
-              </Route>
-              <PrivateOTPRoute path="/verifyOTP">
-                <Otp />
-              </PrivateOTPRoute>
-              <Route path="/seller-kyc">
-                <SellerKyc />
-              </Route>
-              <Route path="/login">
-                <LoginPage />
-              </Route>
-              <Route path="/signup">
-                <SignUpPage />
-              </Route>
-              <Route path="/">
-                <SamplePage />
-              </Route>
-            </Switch>
-          </ContextUser.Provider>
-        </Suspense>
-      </Router>
-    </ToastProvider>
+    <BaseErrorBoundary>
+      <ToastProvider>
+        <Router>
+          <Suspense fallback={<Spinner />}>
+            <ContextUser.Provider value={[state, dispatch]}>
+              <Switch>
+                <PrivateRoute path="/shopping">
+                  <Dashboard />
+                </PrivateRoute>
+                <PrivateRoute path="/tickets">
+                  <Dashboard />
+                </PrivateRoute>
+                <PrivateRoute path="/food">
+                  <Dashboard />
+                </PrivateRoute>
+                <PrivateRoute path="/settings">
+                  <ProfileSettings />
+                </PrivateRoute>
+                <Route path="/success-error">
+                  <SuccessError />
+                </Route>
+                <PrivateOTPRoute path="/verifyOTP">
+                  <Otp />
+                </PrivateOTPRoute>
+                <Route path="/seller-kyc">
+                  <SellerKyc />
+                </Route>
+                <Route path="/login">
+                  <LoginPage />
+                </Route>
+                <Route path="/signup">
+                  <SignUpPage />
+                </Route>
+                <Route path="/">
+                  <SamplePage />
+                </Route>
+              </Switch>
+            </ContextUser.Provider>
+          </Suspense>
+        </Router>
+      </ToastProvider>
+    </BaseErrorBoundary>
   );
 }
 

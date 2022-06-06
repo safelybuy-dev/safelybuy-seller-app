@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { ArrowRight } from 'svg';
 import DatePicker from 'react-date-picker/dist/entry.nostyle';
@@ -6,7 +6,6 @@ import Button from 'components/Button';
 import { useToasts } from 'react-toast-notifications';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { ContextUser } from 'context';
 import { updateUser } from 'actions/auth';
 
 const isValidEmail = (email) =>
@@ -34,8 +33,9 @@ const signUpSchema = yup.object().shape({
   gender: yup.string().required(),
 });
 
-export default function Account() {
-  const [{ user, loadingUser }, dispatch] = useContext(ContextUser);
+export default function Account({ userContext }) {
+  const [{ user, loadingUser }, dispatch] = userContext;
+  console.log(user);
   const { addToast } = useToasts();
   const [dob, setDob] = useState(!user.dob ? '' : new Date(user.dob));
   const {
@@ -48,7 +48,6 @@ export default function Account() {
   });
 
   useEffect(() => {
-    console.log(user);
     if (user.firstname) {
       const fields = [
         'firstname',
@@ -62,7 +61,7 @@ export default function Account() {
       setDob(new Date(user.dob));
     }
     return () => {};
-  }, [loadingUser, setValue, user]);
+  }, [setValue, user]);
 
   const onSubmit = async (data) => {
     data.dob = dob;
@@ -95,8 +94,8 @@ export default function Account() {
                 id="firstname"
                 required
                 className={`border ${
-                  errors.firstname ? 'border-red' : 'border-black'
-                } w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                  errors.firstname ? 'border-red' : 'border-[#E0E0E0]'
+                } w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:border-black focus:shadow-xl`}
               />
               <div className="text-red-500">
                 {errors.firstname && <span>{errors.firstname.message}</span>}
@@ -118,8 +117,8 @@ export default function Account() {
                 id="lastname"
                 required
                 className={`border ${
-                  errors.lastname ? 'border-red' : 'border-black'
-                } w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                  errors.lastname ? 'border-red' : 'border-[#E0E0E0]'
+                } w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:border-black focus:shadow-xl`}
               />
               <div className="text-red-500">
                 {errors.lastname && <span>{errors.lastname.message}</span>}
@@ -141,8 +140,8 @@ export default function Account() {
                 id="phone"
                 required
                 className={`border ${
-                  errors.phone ? 'border-red' : 'border-black'
-                } w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                  errors.phone ? 'border-red' : 'border-[#E0E0E0]'
+                } w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:border-black focus:shadow-xl`}
               />
               <div className="text-red-500">
                 {errors.phone && <span>{errors.phone.message}</span>}
@@ -165,8 +164,8 @@ export default function Account() {
                 id="email"
                 required
                 className={`border ${
-                  errors.email ? 'border-red' : 'border-black'
-                } w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                  errors.email ? 'border-red' : 'border-[#E0E0E0]'
+                } w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:border-black focus:shadow-xl`}
               />
               <div className="text-red-500">
                 {errors.email && 'Email is not valid'}
@@ -178,7 +177,7 @@ export default function Account() {
               Date of Birth
             </label>
             <div className="relative md:w-full mb-6 mt-2">
-              <div className="relative border border-black w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl">
+              <div className="relative border focus:border-black border-[#E0E0E0] w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl">
                 <DatePicker onChange={setDob} value={dob} />
               </div>
             </div>
@@ -195,11 +194,11 @@ export default function Account() {
               />
             ) : (
               <Button
-                primary
+                primaryOutline
                 roundedMd
                 icon={
                   <div className="animate-bounceSide">
-                    <ArrowRight color="white" />
+                    <ArrowRight color="black" />
                   </div>
                 }
                 text="Save Changes"
