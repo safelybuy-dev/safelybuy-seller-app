@@ -64,7 +64,7 @@ export default function Account() {
     try {
       data.legal_form = 'N/A';
       data.vat_registered = true;
-      const { status } = await requests.post('/seller/business', data);
+      const { status } = await requests.post('/seller/business/update', data);
       if (status === 'success') {
         addToast('Successfully updated seller business information', {
           appearance: 'success',
