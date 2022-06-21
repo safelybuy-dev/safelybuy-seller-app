@@ -15,6 +15,12 @@ module.exports = {
       height: {
         70: '70vh',
       },
+      backgroundImage: {
+        landing: 'linear-gradient(166.22deg, #FFFFFF 12.49%, #EEEDFF 24.29%)',
+        hero: "url('./assets/images/herobg.svg')",
+        'landing-widget-one':
+          'radial-gradient(117% 117% at -19.41% -17%, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0) 100%)',
+      },
     },
   },
   plugins: [],
