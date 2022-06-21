@@ -15,27 +15,6 @@ function TableBody({
   setItem,
   setEdit,
 }) {
-  console.log(items);
-  // const handleDelete = React.useCallback(
-  //   (id) => {
-  //     confirmAlert({
-  //       title: "Delete Item",
-  //       message: "Are you sure you want to delete the item?",
-  //       buttons: [
-  //         {
-  //           label: "Yes",
-  //           onClick: () => deleteItem(id),
-  //         },
-  //         {
-  //           label: "No",
-  //           onClick: () => {},
-  //         },
-  //       ],
-  //     });
-  //   },
-  //   [deleteItem]
-  // );
-
   const data = React.useMemo(
     () =>
       items
@@ -45,11 +24,13 @@ function TableBody({
           sn: <span>{index + 1}</span>,
           status: <span className="capitalize">{item.status}</span>,
           image: (
-            <img
-              src={item.main_image}
-              alt={item.name}
-              className="h-[40px] w-[40px] rounded-[4px] object-cover cursor-pointer"
-            />
+            <div className="h-[2.5rem] w-[2.5rem]  rounded-[4px]">
+              <img
+                src={item.main_image}
+                alt={item.name}
+                className=" object-cover cursor-pointer h-full w-full"
+              />
+            </div>
           ),
           sku: item.sku,
           title: (
@@ -59,7 +40,7 @@ function TableBody({
                 onClick={() => setSelectedProduct(item)}>
                 {item.name}
               </p>
-              <p className="text-gray-400 capitalize">
+              <p className="text-gray-400 text-xs md:text-sm capitalize">
                 {item.drinks_and_xtras?.length > 0 &&
                   item.drinks_and_xtras?.map((extra) => extra.name).join(', ')}
               </p>
@@ -173,9 +154,9 @@ function TableBody({
   }
 
   return (
-    <div className="mt-8">
+    <div className="mt-8 overflow-scroll lg:overflow-hidden w-full">
       <table {...getTableProps()} className="w-full text-sm">
-        <thead className="text-left border-b-2 border-gray-100">
+        <thead className="text-left border-b-2 border-gray-100 w-full">
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
@@ -194,8 +175,7 @@ function TableBody({
                 {row.cells.map((cell) => {
                   return (
                     <td
-                      // style={{ minWidth: '120px' }}
-                      className="py-4 pr-8"
+                      className="py-4 pr-8 min-w-[170px] lg:min-w-fit"
                       {...cell.getCellProps()}>
                       {cell.render('Cell')}
                     </td>

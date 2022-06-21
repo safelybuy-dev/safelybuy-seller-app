@@ -27,8 +27,8 @@ function ProductLocation({
     return () => {};
   }, [setFourthContinueBtn, shipping_state, shipping_city, shipping_weight]);
   return (
-    <div className="flex ">
-      <div className="flex w-5/12 justify-center">
+    <div className="flex flex-col md:flex-row ">
+      <div className="flex md:w-5/12 justify-center">
         <div className="divide-y divide-light-blue-400 w-full">
           <div className="text-xs pb-2">
             <BackArrowSVG setSteps={setSteps} value={3} />
@@ -56,11 +56,11 @@ function ProductLocation({
           </div>
         </div>
       </div>
-      <div className="flex w-7/12 justify-center ">
-        <div className="flex mt-5">
+      <div className="flex md:w-7/12 justify-center ">
+        <div className="flex mt-5 w-full md:w-fit">
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-col w-96 md:max-w-7xl md:px-8">
+            className="flex flex-col w-full md:w-96 md:max-w-7xl md:px-8">
             <div className="text-left mr-2">
               <label className="text-sm my-2" htmlFor="email">
                 State
@@ -78,7 +78,7 @@ function ProductLocation({
                     });
                   }}
                   defaultValue=""
-                  className="border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl">
+                  className="border focus:border-black border-[#E0E0E0] w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl">
                   <option value="" disabled>
                     State
                   </option>
@@ -109,7 +109,7 @@ function ProductLocation({
                         field: 'shipping_city',
                       });
                     }}
-                    className="border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
+                    className="border border-[#E0E0E0]  md:border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
                     // {...register('shipping_city', { required: true })}
                   >
                     <option value="" disabled>
@@ -307,7 +307,9 @@ function ProductLocation({
                     }}
                     placeholder="Enter your city / town"
                     className={`border ${
-                      errors.shipping_city ? 'border-red' : 'border-black'
+                      errors.shipping_city
+                        ? 'border-red'
+                        : 'md:border-black border-[#E0E0E0]'
                     } w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
                   />
                 )}
@@ -329,7 +331,7 @@ function ProductLocation({
                       field: 'shipping_weight',
                     });
                   }}
-                  className="border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
+                  className="border border-[#E0E0E0] md:border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
                   // {...register('shipping_weight', { required: true })}
                 >
                   <option value="" disabled>

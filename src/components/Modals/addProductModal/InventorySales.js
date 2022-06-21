@@ -52,8 +52,8 @@ function InventorySales({
     return () => {};
   }, [setSecondContinueBtn, watchFields]);
   return (
-    <div className="flex ">
-      <div className="flex w-5/12 justify-center">
+    <div className="flex flex-col md:flex-row">
+      <div className="flex md:w-5/12 justify-center">
         <div className="divide-y divide-light-blue-400 w-full">
           <div className="text-xs pb-2">
             <BackArrowSVG setSteps={setSteps} value={1} />
@@ -83,7 +83,7 @@ function InventorySales({
               </small>
             </p>
 
-            <div className="mt-10 font-thin text-sm text-gray-400">
+            <div className="mt-5 md:mt-10 font-thin text-sm text-gray-400">
               <svg
                 width="20"
                 height="20"
@@ -98,11 +98,11 @@ function InventorySales({
           </div>
         </div>
       </div>
-      <div className="flex w-7/12 justify-center ">
-        <div className="flex mt-5">
+      <div className="flex md:w-7/12 justify-center">
+        <div className="flex mt-5 w-full md:w-fit">
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-col w-96 md:max-w-7xl md:px-8">
+            className="flex flex-col w-full md:w-96 md:max-w-7xl md:px-8">
             {fieldValues.map(
               ({ name, placeholder, title, isNumOnly }, index) => (
                 <div key={index} className="text-left mr-2">
@@ -130,8 +130,8 @@ function InventorySales({
                       }}
                       placeholder={placeholder}
                       className={`border ${
-                        errors.name ? 'border-red' : 'border-black'
-                      } w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                        errors.name ? 'border-red' : 'border-[#E0E0E0]'
+                      } w-full rounded-full px-6 py-2 focus:outline-none focus:border-black focus:shadow-xl`}
                     />
 
                     {errors.Product_title && (
@@ -169,8 +169,8 @@ function InventorySales({
                   thousandSeparator
                   prefix=" ₦ "
                   className={`border ${
-                    errors.name ? 'border-red' : 'border-black'
-                  } w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                    errors.name ? 'border-red' : 'border-[#E0E0E0]'
+                  } w-full rounded-full px-6 py-2 focus:outline-none focus:border-black focus:shadow-xl`}
                 />
               )}
             />

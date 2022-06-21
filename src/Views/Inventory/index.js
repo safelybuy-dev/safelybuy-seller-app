@@ -67,10 +67,10 @@ function Inventory({ value }) {
   }, [url]);
 
   return (
-    <div className="flex flex-col w-full items-start mt-12">
-      <div className="flex justify-between w-full">
+    <div className="flex flex-col w-full items-start mt-24 md:mt-12">
+      <div className="flex justify-between w-full px-3 mb-8 md:mb-0 items-center">
         <h2 className="text-xl">Manage Inventory</h2>
-        <span className="inline-block">
+        <span className="hidden lg:inline-block">
           <Button
             canClick
             clickHandler={() => setSelectedProduct(true)}
@@ -80,17 +80,17 @@ function Inventory({ value }) {
             roundedFull
             icon={<PlusIcon scale={1.2} />}
           />
-          {/* {value === 'Tickets' && (
-            <Button
-              canClick={true}
-              clickHandler={() => setTicketModal(true)}
-              event='onClick'
-              text='Create a ticket or an event'
-              primary
-              roundedFull
-              icon='+'
-            />
-          )} */}
+        </span>
+        <span className="inline-block lg:hidden">
+          <Button
+            canClick
+            clickHandler={() => setSelectedProduct(true)}
+            event="onClick"
+            text="Add"
+            primary
+            roundedFull
+            icon={<PlusIcon scale={1} />}
+          />
         </span>
       </div>
       <InventoryTableView

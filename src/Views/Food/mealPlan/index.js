@@ -32,29 +32,39 @@ function Inventory() {
     if (url.match(/\/add$/i)) return setOpenModal(true);
   }, [url]);
   return (
-    <div className="flex flex-col w-full items-start mt-10">
-      <Breadcrumb
-        parentText="Food"
-        parentLink="/food"
-        childText="Manage Meal Plan Inventory"
-        childLink="/food/meal-plan"
-      />
-      <div className="flex justify-between w-full">
-        <h2 className="text-xl">Meal Plan Inventory</h2>
-        <span className="md:inline-block hidden">
-          <Button
-            canClick
-            clickHandler={() => setOpenModal(true)}
-            event="onClick"
-            text="Create a meal plan"
-            primary
-            roundedFull
-            icon="+"
-          />
-        </span>
-        <span className="md:hidden inline-block">
-          <Button text="Recent" secondary roundedFull preTagText="50" />
-        </span>
+    <div className="flex flex-col w-full  items-start mt-24 md:mt-10">
+      <div className="w-[90%] md:w-full mx-auto">
+        <Breadcrumb
+          parentText="Food"
+          parentLink="/food"
+          childText="Manage Meal Plan Inventory"
+          childLink="/food/meal-plan"
+        />
+        <div className="flex justify-between items-center w-full">
+          <h2 className="text-base md:text-xl">Meal Plan Inventory</h2>
+          <span className="md:inline-block hidden">
+            <Button
+              canClick
+              clickHandler={() => setOpenModal(true)}
+              event="onClick"
+              text="Create a meal plan"
+              primary
+              roundedFull
+              icon="+"
+            />
+          </span>
+          <span className="md:hidden inline-block">
+            <Button
+              canClick
+              clickHandler={() => setOpenModal(true)}
+              event="onClick"
+              text="Create"
+              primary
+              roundedFull
+              icon="+"
+            />
+          </span>
+        </div>
       </div>
       <InventoryTableView
         loading={loading}

@@ -25,15 +25,17 @@ function Inventory() {
   }, []);
 
   return (
-    <div className="flex flex-col w-full items-start mt-10">
-      <Breadcrumb
-        parentText="Food"
-        parentLink="/food"
-        childText="Manage Inventory"
-        childLink="/food/inventory"
-      />
-      <div className="flex justify-between w-full">
-        <h2 className="text-xl">Manage Order</h2>
+    <div className="flex flex-col w-full items-start mt-24 md:mt-10">
+      <div className="w-[90%] mx-auto md:w-full">
+        <Breadcrumb
+          parentText="Food"
+          parentLink="/food"
+          childText="Manage Inventory"
+          childLink="/food/inventory"
+        />
+        <div className="flex justify-between w-full">
+          <h2 className="text-xl">Manage Order</h2>
+        </div>
       </div>
       <InventoryTableView loading={loading} items={restaurantInventory} />
     </div>

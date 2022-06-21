@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from 'react';
+import React, { useState, useReducer, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { CloseIcon, FowardSymbolSVG } from 'svg';
 import Button from 'components/Button';
@@ -388,64 +388,83 @@ function Modal({ selectedProduct, setSelectedProduct }) {
     );
   }
 
+  useEffect(() => {
+    const body = document.body;
+
+    if (selectedProduct) {
+      body.style.overflow = 'hidden';
+    }
+    return () => {
+      body.style.overflow = 'scroll';
+    };
+  }, [selectedProduct]);
+
   if (!selectedProduct) return null;
 
   return (
     <div
       onClick={() => setSelectedProduct(null)}
-      className="fixed overflow-y-scroll top-0 left-0 z-50 w-screen md:py-40 md:px-40 py-0 px-0 h-screen bg-purple-600 bg-opacity-30">
+      className="fixed overflow-y-scroll top-0 left-0 z-50 w-screen md:p-10 lg:py-40 lg:px-40 py-0 px-0 h-screen bg-purple-600 bg-opacity-30">
       <Container>
         <div
           onClick={(e) => e.stopPropagation()}
-          className="flex flex-col relative md:rounded-3xl rounded-none md:px-10 md:py-10 px-4 py-4 left-0 bg-white opacity-100 min-h-1/2">
-          <div className="flex justify-between w-full pb-10 items-start">
-            <h3 className="text-2xl">
+          className="flex flex-col relative md:rounded-3xl rounded-none md:px-10 md:py-10 px-4 py-4 left-0 bg-white opacity-100  h-full lg:h-fit overflow-scroll md:overflow-visible">
+          <div className="flex justify-between w-full pb-10 items-center md:items-start">
+            <h3 className="text-base md:text-2xl">
               {' '}
-              {step === 5 ? 'Product Details' : 'Add a new product'}
+              {step === 5 ? (
+                'Product Details'
+              ) : (
+                <>
+                  <span>
+                    Add <span className="hidden md:inline">a new</span> product
+                  </span>
+                </>
+              )}
             </h3>
+            <span className="hidden md:inline">
+              {!loading && step === 0 && (
+                <ModalButton
+                  able={subcategory_id && condition && brand}
+                  handler={() => setSteps(1)}
+                />
+              )}
 
-            {!loading && step === 0 && (
-              <ModalButton
-                able={subcategory_id && condition && brand}
-                handler={() => setSteps(1)}
-              />
-            )}
+              {!loading && step === 1 && (
+                <ModalButton
+                  able={enableFirstContinueBtn}
+                  handler={() => setSteps(2)}
+                />
+              )}
 
-            {!loading && step === 1 && (
-              <ModalButton
-                able={enableFirstContinueBtn}
-                handler={() => setSteps(2)}
-              />
-            )}
+              {!loading && step === 2 && (
+                <ModalButton
+                  able={enableSecondContinueBtn}
+                  handler={() => setSteps(3)}
+                />
+              )}
 
-            {!loading && step === 2 && (
-              <ModalButton
-                able={enableSecondContinueBtn}
-                handler={() => setSteps(3)}
-              />
-            )}
+              {!loading && step === 3 && (
+                <ModalButton
+                  able={enableThirdContinueBtn}
+                  handler={() => setSteps(4)}
+                />
+              )}
 
-            {!loading && step === 3 && (
-              <ModalButton
-                able={enableThirdContinueBtn}
-                handler={() => setSteps(4)}
-              />
-            )}
+              {!loading && step === 4 && (
+                <ModalButton
+                  able={enableFourthContinueBtn}
+                  handler={() => setSteps(5)}
+                />
+              )}
 
-            {!loading && step === 4 && (
-              <ModalButton
-                able={enableFourthContinueBtn}
-                handler={() => setSteps(5)}
-              />
-            )}
-
-            {!loading && step === 5 && (
-              <ModalButton
-                able={enableFifthContinueBtn}
-                handler={submitSellerProduct}
-              />
-            )}
-
+              {!loading && step === 5 && (
+                <ModalButton
+                  able={enableFifthContinueBtn}
+                  handler={submitSellerProduct}
+                />
+              )}
+            </span>
             {loading && (
               <svg
                 className="animate-spin -ml-1 mr-3 h-5 w-5 text-purple-500"
@@ -470,7 +489,7 @@ function Modal({ selectedProduct, setSelectedProduct }) {
 
             <span
               onClick={() => setSelectedProduct(null)}
-              className="inline-block cursor-pointer rounded-full bg-red-500 p-3  absolute -right-8 -top-7">
+              className="inline-block cursor-pointer rounded-full bg-red-500 p-3  absolute md:-right-8 right-2 top-2 md:-top-7">
               <CloseIcon color="white" />
             </span>
           </div>
@@ -520,10 +539,10 @@ function Modal({ selectedProduct, setSelectedProduct }) {
           {step === 0 && (
             <>
               <div className="flex mr-4 md:mr-0 md:flex-col">
-                <div className="flex flex-col  ml-4 md:w-full">
+                <div className="flex flex-col  md:ml-4 md:w-full">
                   <div className="flex flex-col  w-full md:ml-0 md:mt-4">
                     <h4 className="text-xl text-purple-500">Select category</h4>
-                    <p>
+                    <p className="hidden md:block">
                       Pick a category listed below, after completing this
                       process your product will be reviewed.
                     </p>
@@ -531,8 +550,8 @@ function Modal({ selectedProduct, setSelectedProduct }) {
                   </div>
                 </div>
               </div>
-              <div className="flex">
-                <div className="flex-1 ...">
+              <div className="flex flex-col md:flex-row">
+                <div className="md:flex-1 ...">
                   <p>Category</p>
                   <ul>
                     {[
@@ -579,7 +598,7 @@ function Modal({ selectedProduct, setSelectedProduct }) {
                     ))}
                   </ul>
                 </div>
-                <div className="flex-1 border-l-2 p-3">
+                <div className="flex-1 mt-4 md:mt-0 md:border-l-2 md:p-3">
                   <p>Sub-category</p>
                   <ul>
                     {subCategoryObj[category_id].map((each, index) => (
@@ -605,7 +624,7 @@ function Modal({ selectedProduct, setSelectedProduct }) {
                     ))}
                   </ul>
                 </div>
-                <div className="flex-1 border-l-2 p-3">
+                <div className="flex-1 mt-4 md:mt-0 md:border-l-2 md:p-3">
                   <p>Condition</p>
                   <ul>
                     {[
@@ -642,7 +661,7 @@ function Modal({ selectedProduct, setSelectedProduct }) {
                     ))}
                   </ul>
                 </div>
-                <div className="flex-1 ... border-l-2 p-3">
+                <div className="flex-1 mt-4 md:mt-0 md:border-l-2 md:p-3 ...">
                   <p>Brand</p>
                   <ul>
                     {[
@@ -705,6 +724,51 @@ function Modal({ selectedProduct, setSelectedProduct }) {
               </div>
             </>
           )}
+          <div className="flex justify-center items-center my-5">
+            <span className="md:hidden inline">
+              {!loading && step === 0 && (
+                <ModalButton
+                  able={subcategory_id && condition && brand}
+                  handler={() => setSteps(1)}
+                />
+              )}
+
+              {!loading && step === 1 && (
+                <ModalButton
+                  able={enableFirstContinueBtn}
+                  handler={() => setSteps(2)}
+                />
+              )}
+
+              {!loading && step === 2 && (
+                <ModalButton
+                  able={enableSecondContinueBtn}
+                  handler={() => setSteps(3)}
+                />
+              )}
+
+              {!loading && step === 3 && (
+                <ModalButton
+                  able={enableThirdContinueBtn}
+                  handler={() => setSteps(4)}
+                />
+              )}
+
+              {!loading && step === 4 && (
+                <ModalButton
+                  able={enableFourthContinueBtn}
+                  handler={() => setSteps(5)}
+                />
+              )}
+
+              {!loading && step === 5 && (
+                <ModalButton
+                  able={enableFifthContinueBtn}
+                  handler={submitSellerProduct}
+                />
+              )}
+            </span>
+          </div>
         </div>
       </Container>
     </div>

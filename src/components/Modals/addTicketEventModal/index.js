@@ -49,9 +49,9 @@ function BorderImageUpload({
   return (
     <label
       className="border-2 p-4 border-gray-200 
-        border-dashed  w-32 cursor-pointer
-        rounded-lg block  text-center 
-         mr-3  ">
+      border-dashed w-24 h-24  md:h-fit md:w-32 cursor-pointer
+      rounded-lg block  text-center 
+       mr-3 ">
       <input
         type="file"
         accept=".png, .jpg, .jpeg"
@@ -60,9 +60,8 @@ function BorderImageUpload({
       />
 
       <div
-        style={{ height: imgSrc ? '100px' : '0px' }}
-        className={` "w-full h-1/4 m-0 rounded-full ${
-          imgSrc ? 'visible' : 'invisible'
+        className={` "w-full   m-0 rounded-full ${
+          imgSrc ? 'visible h-full md:h-[6.25rem] ' : 'invisible h-0'
         } `}>
         <img
           className="object-cover w-full h-full"
@@ -72,8 +71,7 @@ function BorderImageUpload({
         />
       </div>
       {!imgSrc && <CameraSVG />}
-
-      {!imgSrc && title}
+      <span className="hidden md:inline">{!imgSrc && title}</span>
     </label>
   );
 }
@@ -272,6 +270,17 @@ function TicketModal({ openTicketModal, setTicketModal }) {
 
   const onSubmit = () => console.log('f');
 
+  useEffect(() => {
+    const body = document.body;
+
+    if (openTicketModal) {
+      body.style.overflow = 'hidden';
+    }
+    return () => {
+      body.style.overflow = 'scroll';
+    };
+  }, [openTicketModal]);
+
   if (!openTicketModal) return null;
 
   const handleEventCreation = async () => {
@@ -334,6 +343,8 @@ function TicketModal({ openTicketModal, setTicketModal }) {
         pathname: '/success-error',
         state: {
           data: true,
+          ticket: true,
+          path: '/tickets/inventory',
         },
       });
     } catch (err) {
@@ -351,16 +362,24 @@ function TicketModal({ openTicketModal, setTicketModal }) {
       });
     }
   };
+
   return (
     <div
       onClick={() => setTicketModal(null)}
-      className="fixed overflow-y-scroll top-0 left-0 z-50 w-screen md:py-40 md:px-40 py-0 px-0 h-screen bg-purple-600 bg-opacity-30">
+      className="fixed overflow-scroll md:overflow-hidden md:overflow-y-scroll top-0 left-0 z-50 w-screen md:py-40   lg:px-40 md:px-10 py-0 px-0 h-screen bg-purple-600 bg-opacity-30">
       <div
         onClick={(e) => e.stopPropagation()}
-        className="flex flex-col relative md:rounded-3xl rounded-none md:px-10 md:py-10 px-4 py-4 left-0 bg-white opacity-100 min-h-1/2">
+        className="flex flex-col relative md:rounded-3xl rounded-none md:px-10 md:py-10 px-4 py-4 left-0 bg-white opacity-100 h-full  overflow-y-scroll md:overflow-visible  md:h-fit">
         <div className="flex justify-between w-full pb-10 items-start">
           <h3 className="text-2xl">
-            {step === 4 ? 'Review details' : 'Create a ticket or an event'}
+            {step === 4 ? (
+              'Review details'
+            ) : (
+              <span>
+                Create <span className="hidden md:inline">a ticket or</span> an
+                event
+              </span>
+            )}
             {step === 4 && (
               <div onClick={() => setStep(3)} className="text-xs pb-2">
                 <BackArrowSVG setSteps={setStep} value={3} />
@@ -370,93 +389,94 @@ function TicketModal({ openTicketModal, setTicketModal }) {
           </h3>
 
           <div className="">
-            {step === 1 &&
-              (formValuesLength_1 >= 5 ? (
+            <span className="hidden md:inline">
+              {step === 1 &&
+                (formValuesLength_1 >= 5 ? (
+                  <Button
+                    className="focus:outline-none"
+                    text="Continue"
+                    canClick
+                    clickHandler={() => setStep(2)}
+                    primary
+                    roundedFull
+                    icon={<FowardSymbolSVG />}
+                  />
+                ) : formValuesLength_1 !== 6 ? (
+                  <Button
+                    className="focus:outline-none"
+                    text="Continue"
+                    disabled
+                    roundedFull
+                    icon={<FowardSymbolSVG />}
+                  />
+                ) : null)}
+
+              {step === 2 &&
+                (formValuesLength_2 === 1 ? (
+                  <Button
+                    className="focus:outline-none"
+                    text="Continue"
+                    canClick
+                    clickHandler={() => setStep(3)}
+                    primary
+                    roundedFull
+                    icon={<FowardSymbolSVG />}
+                  />
+                ) : formValuesLength_2 !== 4 ? (
+                  <Button
+                    className="focus:outline-none"
+                    text="Continue"
+                    disabled
+                    roundedFull
+                    icon={<FowardSymbolSVG />}
+                  />
+                ) : null)}
+
+              {step === 3 &&
+                (mainImageUploaded ? (
+                  <Button
+                    className="focus:outline-none"
+                    text="Continue"
+                    canClick
+                    clickHandler={() => setStep(4)}
+                    primary
+                    roundedFull
+                    icon={<FowardSymbolSVG />}
+                  />
+                ) : !mainImageUploaded ? (
+                  <Button
+                    className="focus:outline-none"
+                    text="Continue"
+                    disabled
+                    roundedFull
+                    icon={<FowardSymbolSVG />}
+                  />
+                ) : null)}
+
+              {step === 4 ? (
+                // {/* (formValuesLength_2 > 2 ? ( */}
                 <Button
                   className="focus:outline-none"
-                  text="Continue"
+                  text="Submit"
                   canClick
-                  clickHandler={() => setStep(2)}
+                  clickHandler={handleEventCreation}
+                  roundedFull
                   primary
-                  roundedFull
                   icon={<FowardSymbolSVG />}
                 />
-              ) : formValuesLength_1 !== 6 ? (
+              ) : step === 4 && loading ? (
                 <Button
                   className="focus:outline-none"
-                  text="Continue"
+                  text="Submit"
+                  roundedFull
                   disabled
-                  roundedFull
                   icon={<FowardSymbolSVG />}
                 />
-              ) : null)}
-
-            {step === 2 &&
-              (formValuesLength_2 === 1 ? (
-                <Button
-                  className="focus:outline-none"
-                  text="Continue"
-                  canClick
-                  clickHandler={() => setStep(3)}
-                  primary
-                  roundedFull
-                  icon={<FowardSymbolSVG />}
-                />
-              ) : formValuesLength_2 !== 4 ? (
-                <Button
-                  className="focus:outline-none"
-                  text="Continue"
-                  disabled
-                  roundedFull
-                  icon={<FowardSymbolSVG />}
-                />
-              ) : null)}
-
-            {step === 3 &&
-              (mainImageUploaded ? (
-                <Button
-                  className="focus:outline-none"
-                  text="Continue"
-                  canClick
-                  clickHandler={() => setStep(4)}
-                  primary
-                  roundedFull
-                  icon={<FowardSymbolSVG />}
-                />
-              ) : !mainImageUploaded ? (
-                <Button
-                  className="focus:outline-none"
-                  text="Continue"
-                  disabled
-                  roundedFull
-                  icon={<FowardSymbolSVG />}
-                />
-              ) : null)}
-
-            {step === 4 ? (
-              // {/* (formValuesLength_2 > 2 ? ( */}
-              <Button
-                className="focus:outline-none"
-                text="Submit"
-                canClick
-                clickHandler={handleEventCreation}
-                roundedFull
-                primary
-                icon={<FowardSymbolSVG />}
-              />
-            ) : step === 4 && loading ? (
-              <Button
-                className="focus:outline-none"
-                text="Submit"
-                roundedFull
-                disabled
-                icon={<FowardSymbolSVG />}
-              />
-            ) : null}
-
+              ) : null}
+            </span>
             <span
               onClick={() => setTicketModal(null)}
-              className="inline-block cursor-pointer rounded-full bg-red-500 p-3  absolute -right-8 -top-7">
+              className="inline-block cursor-pointer rounded-full bg-red-500 p-3  absolute md:-right-8 right-2 top-2 md:-top-7">
               <div>
                 <CloseIcon color="white" />
               </div>
@@ -465,8 +485,8 @@ function TicketModal({ openTicketModal, setTicketModal }) {
         </div>
 
         {step === 1 && (
-          <div className="flex justify-between">
-            <div className="flex w-5/12 justify-center">
+          <div className="flex flex-col md:flex-row justify-between">
+            <div className="flex md:w-5/12 mb-2 md:mb-0 justify-center">
               <div className="divide-y divide-light-blue-400 w-full">
                 <div className="text-xs pb-2">
                   &nbsp;&nbsp;&nbsp; 1{' '}
@@ -488,7 +508,7 @@ function TicketModal({ openTicketModal, setTicketModal }) {
               </div>
             </div>
 
-            <div className="flex w-6/12 justify-center">
+            <div className="flex md:w-6/12 justify-center">
               <div className="flex">
                 <form
                   onSubmit={handleSubmit(onSubmit)}
@@ -499,7 +519,7 @@ function TicketModal({ openTicketModal, setTicketModal }) {
                     </label>
                     <div className="relative md:w-full mb-2 mt-2">
                       <select
-                        className="border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
+                        className="border border-[#E0E0E0] focus:border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
                         {...register('category')}
                         onChange={(e) => {
                           dispatch({
@@ -538,7 +558,7 @@ function TicketModal({ openTicketModal, setTicketModal }) {
                         });
                       }}
                       placeholder="Live Concert"
-                      className="border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
+                      className="border border-[#E0E0E0] focus:border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
                     />
                   </div>
 
@@ -549,7 +569,9 @@ function TicketModal({ openTicketModal, setTicketModal }) {
 
                     <textarea
                       className={`border ${
-                        errors.name ? 'border-red' : 'border-black'
+                        errors.name
+                          ? 'border-red'
+                          : 'border-[#E0E0E0] focus:border-black'
                       } w-full  px-6 py-2 rounded-md focus:outline-none focus:shadow-xl`}
                       rows="4"
                       cols="50"
@@ -584,7 +606,7 @@ function TicketModal({ openTicketModal, setTicketModal }) {
                         });
                       }}
                       placeholder="Enter date"
-                      className={`border border-black
+                      className={`border  border-[#E0E0E0] focus:border-black
                            w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
                     />
                   </div>
@@ -607,7 +629,7 @@ function TicketModal({ openTicketModal, setTicketModal }) {
                       }}
                       placeholder="Enter event time"
                       className={`border 
-                             border-black
+                             focus:border-black border-[#E0E0E0]
                            w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
                     />
                   </div>
@@ -629,7 +651,7 @@ function TicketModal({ openTicketModal, setTicketModal }) {
                         });
                       }}
                       placeholder="Enter event location"
-                      className="border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
+                      className="border focus:border-black border-[#E0E0E0] w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
                     />
                   </div>
                 </form>
@@ -639,8 +661,8 @@ function TicketModal({ openTicketModal, setTicketModal }) {
         )}
 
         {step === 2 && (
-          <div className="flex justify-between">
-            <div className="flex w-5/12 justify-center">
+          <div className="flex flex-col md:flex-row justify-between">
+            <div className="flex md:w-5/12 justify-center">
               <div className="divide-y divide-light-blue-400 w-full">
                 <div className="text-xs pb-2">
                   <BackArrowSVG setSteps={setStep} value={1} />
@@ -687,7 +709,7 @@ function TicketModal({ openTicketModal, setTicketModal }) {
                 </div>
               </div>
             </div>
-            <div className="flex w-6/12 justify-center ">
+            <div className="flex md:w-6/12 justify-center ">
               <div className="flex">
                 <form className="flex flex-col md:max-w-7xl md:px-8">
                   <div className="text-left  mt-8 mb-8">
@@ -716,7 +738,7 @@ function TicketModal({ openTicketModal, setTicketModal }) {
 
                     {event_seats.map((data, index) => (
                       <div
-                        className="flex flex-row justify-between"
+                        className="flex flex-col border-b-2 pb-3 md:pb-0 border-grey-600 md:border-0 md:flex-row justify-between"
                         key={index}>
                         <div className="mr-2">
                           <label className="text-sm my-2" htmlFor="email">
@@ -831,8 +853,8 @@ function TicketModal({ openTicketModal, setTicketModal }) {
         )}
 
         {step === 3 && (
-          <div className="flex justify-between">
-            <div className="flex w-5/12 justify-center">
+          <div className="flex flex-col md:flex-row px-4 md:px-0 justify-between">
+            <div className="flex md:w-5/12 justify-center mb-5 md:mb-0">
               <div className="divide-y divide-light-blue-400 w-full">
                 <div className="text-xs pb-2">
                   <BackArrowSVG setSteps={setStep} value={2} />
@@ -875,7 +897,7 @@ function TicketModal({ openTicketModal, setTicketModal }) {
                 </div>
               </div>
             </div>
-            <div className="flex w-6/12 justify-center ">
+            <div className="flex md:w-6/12 justify-center ">
               <div>
                 <BorderImageUpload
                   title="Cover Image"
@@ -924,7 +946,7 @@ function TicketModal({ openTicketModal, setTicketModal }) {
 
         {step === 4 && (
           <div className="flex md:mr-4 mr-0 flex-col md:flex-row">
-            <div className="flex flex-col md:w-6/12 w-full">
+            <div className="flex flex-col md:w-6/12 mb-5 md:mb-0 w-full">
               <div className="border-b border-gray-100 pb-4 w-full">
                 <div className="md:w-64 w-24 rounded-xl md:h-32 h-24 bg-gray-200">
                   <img
@@ -965,18 +987,18 @@ function TicketModal({ openTicketModal, setTicketModal }) {
               </div>
             </div>
 
-            <div className="flex flex-col md:w-6/12 ml-4 w-full">
+            <div className="flex flex-col md:w-6/12 md:ml-4 w-full">
               <div className="flex flex-col border-b pb-4 w-full md:ml-0 md:mt-4">
                 <h4 className="text-xl text-purple-500">Display Information</h4>
                 <div className="flex mt-6 flex-col">
-                  <div className="flex justify-between w-full">
+                  <div className="flex flex-col md:flex-row justify-between w-full">
                     <KeyValue title="Event Category" value={category} />
                     <KeyValue title="Event Title" value={title} />
                   </div>
                   <div className="flex justify-between w-full">
                     <KeyValue title="Event Details" value={details} />
                   </div>
-                  <div className="flex justify-between w-full">
+                  <div className="flex flex-col md:flex-row justify-between w-full">
                     <KeyValue
                       title="Event Date/Time"
                       value={`${event_date}  ${event_time}`}
@@ -994,7 +1016,7 @@ function TicketModal({ openTicketModal, setTicketModal }) {
                   <h5 className="text-lg">Seat Category</h5>
                   {event_seats.map((seat, index) => (
                     <div
-                      className="flex border-b justify-between w-full"
+                      className="flex flex-col md:flex-row border-b justify-between w-full"
                       key={index}>
                       <KeyValue title="Seat Type" value={seat.type} />
                       <KeyValue title="Seat Price" value={seat.price} />
@@ -1009,6 +1031,93 @@ function TicketModal({ openTicketModal, setTicketModal }) {
             </div>
           </div>
         )}
+        <div className="my-5 flex justify-center items-center">
+          <span className="md:hidden    inline">
+            {step === 1 &&
+              (formValuesLength_1 >= 5 ? (
+                <Button
+                  className="focus:outline-none"
+                  text="Continue"
+                  canClick
+                  clickHandler={() => setStep(2)}
+                  primary
+                  roundedFull
+                  icon={<FowardSymbolSVG />}
+                />
+              ) : formValuesLength_1 !== 6 ? (
+                <Button
+                  className="focus:outline-none"
+                  text="Continue"
+                  disabled
+                  roundedFull
+                  icon={<FowardSymbolSVG />}
+                />
+              ) : null)}
+
+            {step === 2 &&
+              (formValuesLength_2 === 1 ? (
+                <Button
+                  className="focus:outline-none"
+                  text="Continue"
+                  canClick
+                  clickHandler={() => setStep(3)}
+                  primary
+                  roundedFull
+                  icon={<FowardSymbolSVG />}
+                />
+              ) : formValuesLength_2 !== 4 ? (
+                <Button
+                  className="focus:outline-none"
+                  text="Continue"
+                  disabled
+                  roundedFull
+                  icon={<FowardSymbolSVG />}
+                />
+              ) : null)}
+
+            {step === 3 &&
+              (mainImageUploaded ? (
+                <Button
+                  className="focus:outline-none"
+                  text="Continue"
+                  canClick
+                  clickHandler={() => setStep(4)}
+                  primary
+                  roundedFull
+                  icon={<FowardSymbolSVG />}
+                />
+              ) : !mainImageUploaded ? (
+                <Button
+                  className="focus:outline-none"
+                  text="Continue"
+                  disabled
+                  roundedFull
+                  icon={<FowardSymbolSVG />}
+                />
+              ) : null)}
+
+            {step === 4 ? (
+              // {/* (formValuesLength_2 > 2 ? ( */}
+              <Button
+                className="focus:outline-none"
+                text="Submit"
+                canClick
+                clickHandler={handleEventCreation}
+                roundedFull
+                primary
+                icon={<FowardSymbolSVG />}
+              />
+            ) : step === 4 && loading ? (
+              <Button
+                className="focus:outline-none"
+                text="Submit"
+                roundedFull
+                disabled
+                icon={<FowardSymbolSVG />}
+              />
+            ) : null}
+          </span>
+        </div>
       </div>
     </div>
   );

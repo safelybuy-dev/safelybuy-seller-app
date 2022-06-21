@@ -26,7 +26,7 @@ function SidebarLink({
           }'-mt-1'`}>
           {title}
         </h4>
-        <small className="text-sm tracking-wider text-gray-400">
+        <small className="text-xs md:text-sm tracking-wider text-gray-400">
           {subtitle}
         </small>
       </div>
@@ -38,9 +38,9 @@ export default function Sidebar({ setActive, active, handleSettingsOpen }) {
   const [{ user, loadingUser }] = useContext(ContextUser);
   const history = useHistory();
   return (
-    <div className="bg-white  h-screen  shadow-inner  flex-[0.35]">
+    <div className="bg-white  h-screen  shadow-inner w-full  md:flex-[0.35]">
       <div className="flex md:pt-8 md:px-12 justify-between items-center pt-4 px-6">
-        <h3 className="text-2xl font-medium text-purple-600">
+        <h3 className="text-base md:text-2xl font-medium text-purple-600">
           Profile Settings
         </h3>
         <button
@@ -52,16 +52,24 @@ export default function Sidebar({ setActive, active, handleSettingsOpen }) {
       </div>
       <div
         onClick={() => setActive('personal')}
-        className="flex w-full items-center cursor-pointer md:w-[75%] my-6 mx-auto">
+        className="flex mx-3 my-4 items-center cursor-pointer md:w-[75%] md:my-6 md:mx-auto">
         <div className="avatar p-2 bg-white rounded-full shadow-2xl md:py-1">
-          <UserAvatar scale={2.6} />
+          <span className="hidden md:inline">
+            <UserAvatar scale={2.6} />
+          </span>
+          <span className="inline md:hidden">
+            <UserAvatar scale={1.5} />
+          </span>
         </div>
-        <div className="avatar flex justify-between items-center bg-white rounded-full shadow-2xl md:px-6 md:py-4 ml-4 leading-none flex-1 px-3 py-2">
+        <div className="avatar flex justify-between items-center bg-white rounded-full shadow-2xl md:px-6 md:py-4 ml-4 leading-none flex-1 px-4 py-2">
           <div>
             {loadingUser ? (
               '•••'
             ) : (
-              <h4 className={active === 'personal' ? 'text-purple-400' : ''}>
+              <h4
+                className={`${
+                  active === 'personal' && 'text-purple-400'
+                } text-sm md:text-base`}>
                 {user.firstname} {user.lastname}
               </h4>
             )}
@@ -86,7 +94,7 @@ export default function Sidebar({ setActive, active, handleSettingsOpen }) {
       </div>
       <div className="flex-col border-t-2 border-b-2 border-gray-200 p-3 my-5">
         {/* Profile information  */}
-        <div className="w-[80%] mx-auto">
+        <div className="w-[80%] mx-3  md:mx-auto">
           <SidebarLink
             title="Edit Business Information"
             subtitle="Details about your business"
@@ -153,8 +161,8 @@ export default function Sidebar({ setActive, active, handleSettingsOpen }) {
           />
         </div>
       </div>
-      <div className="flex-col p-3 my-5">
-        <div className="md:w-[75%] mx-auto">
+      <div className="flex-col p-2 md:p-3 my-5">
+        <div className="w-[80%] mx-3  md:mx-auto">
           {/* Help and Logout  */}
           <div className="flex my-3 w-full justify-between items-center cursor-pointer">
             <div className="flex">

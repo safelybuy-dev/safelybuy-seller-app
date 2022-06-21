@@ -11,7 +11,7 @@ export default function ItemsPerPage({ selectRef, isVisible, setIsVisible }) {
   const [selected, setSelected] = useState(options[0]);
 
   return (
-    <div className="mx-2 w-48 relative md:w-1/2 md:mx-0">
+    <div className="mx-2 w-40 relative md:w-1/2 md:mx-0">
       <button
         onClick={(e) => {
           if (isVisible) setIsVisible(false);
@@ -20,13 +20,18 @@ export default function ItemsPerPage({ selectRef, isVisible, setIsVisible }) {
         }}
         className="relative w-full pl-3 pr-10 py-3 text-left cursor-pointer focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm md:pr-3">
         <span className="flex items-center">
-          <span className="ml-3 block text-purple-500 truncate md:ml-0">
+          <span className="ml-3 text-sm md:text-base block text-purple-500 truncate md:ml-0">
             {selected}
           </span>
         </span>
         <span className="ml-3 absolute inset-y-0 right-0 flex items-center pr-6 pointer-events-none">
           {/* <!-- Heroicon name: selector --> */}
-          <ArrowDown scale={2} />
+          <span className="hidden md:inline">
+            <ArrowDown scale={2} />
+          </span>
+          <span className="inline md:hidden">
+            <ArrowDown scale={1.2} />
+          </span>
         </span>
       </button>
       <div

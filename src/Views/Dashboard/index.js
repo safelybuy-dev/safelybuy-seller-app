@@ -52,6 +52,13 @@ export default function Dashboard() {
     []
   );
 
+  const handlePreferenceChange = useCallback(
+    (text) => {
+      setValue(text);
+    },
+    [setValue]
+  );
+
   useEffect(() => {
     if (!localStorage.getItem('dashboard_view_preference'))
       setValue('Shopping');
@@ -72,7 +79,7 @@ export default function Dashboard() {
     <div className="relative bg-purple-50 min-h-screen">
       <Header
         prefrence={value}
-        setPrefrence={setValue}
+        setPrefrence={handlePreferenceChange}
         setIsMenuOpen={setIsMenuOpen}
         isMenuOpen={isMenuOpen}
         handleSettingsOpen={handleSettingsOpen}
@@ -81,7 +88,7 @@ export default function Dashboard() {
       {isSettingsOpen && (
         <ProfileSettings handleSettingsOpen={handleSettingsOpen} />
       )}
-      <div className="flex pb-20 md:pb-30 md:flex-wrap md:justify-center  md:px-6">
+      <div className="flex pb-20 md:pb-30 md:flex-wrap md:justify-center   md:px-6">
         <Container topPadding>
           <Suspense fallback={<Spinner partial dashboard />}>
             <Switch>

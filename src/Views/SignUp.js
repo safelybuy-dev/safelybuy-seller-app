@@ -105,19 +105,19 @@ function SignUpPage() {
   return (
     <div className="relative  justify-between flex flex-col min-h-screen text-center">
       <div>
-        <header className="flex tracking-wide justify-center mx-12 my-8 md:mx-6 md:my-3">
+        <header className="flex tracking-wide justify-center mx-12 md:my-8 md:mx-6 my-3">
           <Link to="/">
             {' '}
-            <Logo color="black" text="transact with no regret" />{' '}
+            <Logo color="purple" text="SELLER CENTER" />{' '}
           </Link>
         </header>
-        <h1 className="tracking-wide pt-8 pb-2 font-bold px-12 text-4xl z-10 md:px-8 md:text-3xl">
+        <h1 className="tracking-wide pt-8 pb-2 font-bold px-12 text-2xl z-10 md:px-8 md:text-3xl">
           Sign up on Safelybuy
         </h1>
         <div className="flex justify-center">
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="flex my-12 flex-col w-96 md:max-w-7xl md:px-8">
+            className="flex my-12 flex-col w-[85%] md:w-[40%]  md:px-8">
             {loadingUser && (
               <div className="animate-pulse">
                 <div className="flex flex-col">
@@ -146,8 +146,8 @@ function SignUpPage() {
                         id="firstname"
                         required
                         className={`border ${
-                          errors.firstname ? 'border-red' : 'border-black'
-                        } w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                          errors.firstname ? 'border-red' : 'border-[#E0E0E0]'
+                        } w-full rounded-full px-6 py-2 focus:outline-none focus:border-black focus:shadow-xl`}
                       />
 
                       <span className="text-red-500">
@@ -170,8 +170,8 @@ function SignUpPage() {
                         id="lastname"
                         required
                         className={`border ${
-                          errors.lastname ? 'border-red' : 'border-black'
-                        } w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                          errors.lastname ? 'border-red' : 'border-[#E0E0E0]'
+                        } w-full rounded-full px-6 py-2 focus:outline-none border-black focus:shadow-xl`}
                       />
                       <span className="text-red-500">
                         {errors.lastname && (
@@ -196,8 +196,8 @@ function SignUpPage() {
                       id="email"
                       required
                       className={`border ${
-                        errors.email ? 'border-red' : 'border-black'
-                      } w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                        errors.email ? 'border-red' : 'border-[#E0E0E0]'
+                      } w-full rounded-full px-6 py-2 focus:outline-none border-black focus:shadow-xl`}
                     />
                     <span className="text-red-500">
                       {errors.email && 'Email is not valid'}
@@ -216,8 +216,8 @@ function SignUpPage() {
                       id="phone"
                       required
                       className={`border ${
-                        errors.phone ? 'border-red' : 'border-black'
-                      } w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                        errors.phone ? 'border-red' : 'border-[#E0E0E0]'
+                      } w-full rounded-full px-6 py-2 focus:outline-none border-black focus:shadow-xl`}
                     />
                     <span className="text-red-500">
                       {errors.phone && <span>{errors.phone.message}</span>}
@@ -234,7 +234,7 @@ function SignUpPage() {
                       placeholder="*********"
                       {...register('password', { required: true })}
                       id="password"
-                      className="border w-full border-black rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
+                      className="border w-full border-[#E0E0E0] focus:border-black rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
                     />
                     <span className="text-red-500">
                       {errors.password && errors.password.message}
@@ -267,10 +267,24 @@ function SignUpPage() {
                       />
                     </span>
                   </div>
-                  <div className="my-8 flex justify-center">
+                  <div className="my-8 md:flex hidden justify-center">
                     <Button
                       primaryOutline
                       roundedMd
+                      icon={
+                        <div className="animate-bounceSide">
+                          <ArrowRight color="black" />
+                        </div>
+                      }
+                      text="Sign Up"
+                      submit
+                    />
+                  </div>
+                  <div className="my-8 flex md:hidden justify-center">
+                    <Button
+                      primaryOutline
+                      roundedMd
+                      full
                       icon={
                         <div className="animate-bounceSide">
                           <ArrowRight color="black" />

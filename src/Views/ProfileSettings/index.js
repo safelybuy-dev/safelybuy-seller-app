@@ -18,7 +18,14 @@ export default function ProfileSettings({ handleSettingsOpen }) {
         active={active}
         handleSettingsOpen={handleSettingsOpen}
       />
-      <MainContent active={active} setActive={setActive} />
+      <div className="hidden md:block flex-[0.65]">
+        <MainContent active={active} setActive={setActive} />
+      </div>
+      <div className="block md:hidden">
+        {active !== 'none' && (
+          <MainContent active={active} setActive={setActive} />
+        )}
+      </div>
     </div>
   );
 }

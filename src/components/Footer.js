@@ -9,7 +9,7 @@ export default function Footer({ admin }) {
     <footer className="bg-gray-100 border-t border-gray-200 py-8 w-full z-10">
       <Container>
         <div className="flex flex-wrap items-center">
-          <div className="flex md:w-5/12 lg:w-6/12 w-full md:justify-start justify-center transform scale-75 pb-4">
+          <div className="flex  lg:w-6/12 w-full md:justify-start justify-center transform scale-75 md:scale-100 lg:scale-75 pb-4">
             <img
               src={googleplay}
               alt="googleplay"
@@ -21,7 +21,7 @@ export default function Footer({ admin }) {
               <AppleDownload />
             </div>
           </div>
-          <div className="flex flex-col items-center md:text-left md:w-5/12 lg:w-3/12 w-full md:items-start justify-center text-center">
+          <div className="flex flex-col items-center md:text-left  lg:w-3/12 w-full md:items-start justify-center text-center md:ml-4 lg:ml-0">
             {!admin && (
               <Button primary rounded>
                 Refer a Friend

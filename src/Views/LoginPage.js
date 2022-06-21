@@ -45,16 +45,16 @@ function LoginPage() {
   return (
     <div className="relative justify-between  flex flex-col min-h-screen text-center">
       <div>
-        <header className="flex tracking-wide justify-center mx-12 my-8 md:mx-6 md:my-3">
-          <Logo color="black" text="transact with no regret" />
+        <header className="flex tracking-wide justify-center md:mx-12 md:my-8 mx-6 my-3">
+          <Logo color="purple" text="SELLER CENTER" />
         </header>
-        <h1 className="tracking-wide pt-8 pb-2 font-bold px-12 text-4xl z-10 md:px-8 md:text-3xl">
+        <h1 className="tracking-wide pt-8 pb-2 font-bold px-12 text-2xl z-10 md:px-8 md:text-3xl">
           Login to Safelybuy
         </h1>
         <div className="flex justify-center">
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="flex my-12 flex-col w-96 md:max-w-7xl md:px-8"
+            className="flex my-12 flex-col w-[85%] md:w-[40%]   m:max-w-7xl md:px-8"
             autoComplete="off">
             {state.loadingUser && (
               <div className="animate-pulse">
@@ -86,8 +86,8 @@ function LoginPage() {
                       id="email"
                       required
                       className={`border ${
-                        errors.email ? 'border-red' : 'border-black'
-                      } w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                        errors.email ? 'border-red' : 'border-[#E0E0E0]'
+                      } w-full rounded-full px-6 py-2 focus:outline-none border-black focus:shadow-xl`}
                     />
                     <span className="text-red-500">
                       {errors.email && 'Email is not valid'}
@@ -104,7 +104,7 @@ function LoginPage() {
                       placeholder="*********"
                       {...register('password', { required: true })}
                       id="password"
-                      className="border w-full border-black rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
+                      className="border w-full border-[#E0E0E0] focus:border-black rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
                     />
                     <span className="text-red-500">
                       {errors.password && errors.password.message}
@@ -137,10 +137,24 @@ function LoginPage() {
                       />
                     </span>
                   </div>
-                  <div className="my-8 flex justify-center">
+                  <div className="my-8 hidden md:flex justify-center">
                     <Button
                       primaryOutline
                       roundedMd
+                      icon={
+                        <div className="animate-bounceSide">
+                          <ArrowRight color="black" />
+                        </div>
+                      }
+                      text="Sign In"
+                      submit
+                    />
+                  </div>
+                  <div className="my-8 md:hidden flex justify-center">
+                    <Button
+                      primaryOutline
+                      roundedMd
+                      full
                       icon={
                         <div className="animate-bounceSide">
                           <ArrowRight color="black" />

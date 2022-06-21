@@ -154,16 +154,16 @@ function Food() {
   }, []);
 
   return (
-    <div>
+    <div className="px-3 md:px-0">
       {/* Total Orders And Transactions */}
-      <div className="mt-12 flex flex-col md:flex-row justify-between ">
+      <div className="mt-24 md:mt-12 flex flex-col lg:flex-row justify-between">
         <div className="flex-0.7">
-          <div className="mt-5 md:p-10 py-5 px-5 md:mt-0 rounded-3xl bg-white md:h-[400px]">
-            <h3 className="text-2xl md:pb-6 text-gray-800 md:bg-white md:mt-2 tracking-wider">
+          <div className="mt-5 md:p-10 py-5 px-5 md:mt-0 rounded-3xl bg-white lg:h-[400px]">
+            <h3 className="text-2xl mb-4 md:mb-6 text-center md:text-left text-gray-800 md:bg-white md:mt-2 tracking-wider">
               Your Orders
             </h3>
             <div className="flex space-x-4 flex-col md:flex-row">
-              <div className="flex flex-1 items-center">
+              <div className="flex flex-1 items-center justify-center md:justify-start">
                 <div className="w-60 relative">
                   <PieChart
                     data={[
@@ -236,7 +236,7 @@ function Food() {
           />
         </div>
       </div>
-      <div className="mt-8 mb-4  md:bg-white md:py-8 md:px-10 rounded-3xl ">
+      <div className="mt-8 mb-4 bg-white py-6 px-5 md:py-8 md:px-10 rounded-2xl md:rounded-3xl ">
         <div className="flex justify-between items-center mb-10">
           <ItemsPerPage
             selectRef={salesRef}
@@ -248,7 +248,7 @@ function Food() {
             salesToggle
             customWidth
           />
-          <div className="flex justify-between items-center rounded-full border-2 border-[#F1F0FF] py-2 px-4 md:w-[400px]">
+          <div className="hidden lg:flex justify-between items-center rounded-full border-2 border-[#F1F0FF] py-2 px-4 md:w-[400px]">
             <SearchIcon color="#8661FF" />
             <input
               type="text"

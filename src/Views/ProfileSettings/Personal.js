@@ -75,15 +75,15 @@ export default function Account({ userContext }) {
 
   return (
     <div className="py-4">
-      <div className="flex justify-start">
+      <div className="flex justify-start ">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex mt-6 flex-col md:px-5 w-full">
+          className="flex mt-6 flex-col md:px-5 w-full ">
           <div className="text-left">
-            <label className="text-sm my-2" htmlFor="firstname">
+            <label className="text-xs md:text-sm my-2" htmlFor="firstname">
               First Name
             </label>
-            <div className="relative md:w-full mb-6 mt-2">
+            <div className="relative w-full mb-6 mt-2">
               <input
                 // defaultValue={user.firstname}
                 type="text"
@@ -95,7 +95,7 @@ export default function Account({ userContext }) {
                 required
                 className={`border ${
                   errors.firstname ? 'border-red' : 'border-[#E0E0E0]'
-                } w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:border-black focus:shadow-xl`}
+                }  w-full rounded-full px-6 py-2 focus:outline-none focus:border-black focus:shadow-xl`}
               />
               <div className="text-red-500">
                 {errors.firstname && <span>{errors.firstname.message}</span>}
@@ -103,7 +103,7 @@ export default function Account({ userContext }) {
             </div>
           </div>
           <div className="text-left">
-            <label className="text-sm my-2" htmlFor="lastname">
+            <label className="text-xs md:text-sm my-2" htmlFor="lastname">
               Last Name
             </label>
             <div className="relative md:w-full mb-6 mt-2">
@@ -118,7 +118,7 @@ export default function Account({ userContext }) {
                 required
                 className={`border ${
                   errors.lastname ? 'border-red' : 'border-[#E0E0E0]'
-                } w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:border-black focus:shadow-xl`}
+                } w-full rounded-full px-6 py-2 focus:outline-none focus:border-black focus:shadow-xl`}
               />
               <div className="text-red-500">
                 {errors.lastname && <span>{errors.lastname.message}</span>}
@@ -126,7 +126,7 @@ export default function Account({ userContext }) {
             </div>
           </div>
           <div className="text-left ">
-            <label className="text-sm my-2" htmlFor="phone">
+            <label className="text-xs md:text-sm my-2" htmlFor="phone">
               Phone Number
             </label>
             <div className="relative md:w-full mb-6 mt-2">
@@ -141,7 +141,7 @@ export default function Account({ userContext }) {
                 required
                 className={`border ${
                   errors.phone ? 'border-red' : 'border-[#E0E0E0]'
-                } w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:border-black focus:shadow-xl`}
+                } w-full rounded-full px-6 py-2 focus:outline-none focus:border-black focus:shadow-xl`}
               />
               <div className="text-red-500">
                 {errors.phone && <span>{errors.phone.message}</span>}
@@ -149,7 +149,7 @@ export default function Account({ userContext }) {
             </div>
           </div>
           <div className="text-left">
-            <label className="text-sm my-2" htmlFor="email">
+            <label className="text-xs md:text-sm my-2" htmlFor="email">
               Email address
             </label>
             <div className="relative md:w-full mb-6 mt-2">
@@ -165,7 +165,7 @@ export default function Account({ userContext }) {
                 required
                 className={`border ${
                   errors.email ? 'border-red' : 'border-[#E0E0E0]'
-                } w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:border-black focus:shadow-xl`}
+                } w-full rounded-full px-6 py-2 focus:outline-none focus:border-black focus:shadow-xl`}
               />
               <div className="text-red-500">
                 {errors.email && 'Email is not valid'}
@@ -173,11 +173,11 @@ export default function Account({ userContext }) {
             </div>
           </div>
           <div className="text-left">
-            <label className="text-sm my-2" htmlFor="dob">
+            <label className="text-xs md:text-sm my-2" htmlFor="dob">
               Date of Birth
             </label>
             <div className="relative md:w-full mb-6 mt-2">
-              <div className="relative border focus:border-black border-[#E0E0E0] w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl">
+              <div className="relative border focus:border-black border-[#E0E0E0] w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl">
                 <DatePicker onChange={setDob} value={dob} />
               </div>
             </div>

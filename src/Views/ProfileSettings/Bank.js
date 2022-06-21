@@ -147,12 +147,12 @@ function BankForm({ setIsLoading, dispatch }) {
           className="flex mt-6 flex-col md:px-8 w-full"
           onSubmit={handleSubmit(onSubmit)}>
           <div className="text-left">
-            <label className="text-sm my-2" htmlFor="bank_code">
+            <label className="text-xs md:text-sm my-2" htmlFor="bank_code">
               Bank
             </label>
             <div className="relative md:w-full mb-6 mt-2">
               <select
-                className="border border-[#E0E0E0] focus:border-black w-96 md:w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
+                className="border border-[#E0E0E0] focus:border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
                 {...register('bank_code', { required: true })}
                 value={bankCode}
                 onChange={(e) => {

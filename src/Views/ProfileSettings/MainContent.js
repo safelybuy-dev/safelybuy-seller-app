@@ -53,7 +53,7 @@ export default function MainContent({ active, setActive }) {
   }
 
   return (
-    <div className="flex-[0.65]  overflow-y-scroll  h-screen   py-8">
+    <div className=" fixed md:static bg-white md:bg-transparent w-full top-0 left-0  overflow-y-scroll  h-screen   py-8">
       <div className="w-[85%] mx-auto">{renderSections()}</div>
     </div>
   );

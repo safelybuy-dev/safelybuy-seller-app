@@ -108,10 +108,10 @@ function ReviewProducts({
       <div className="flex justify-between w-full pb-10 items-start">
         <BackArrowSVG setSteps={setSteps} value={4} />
       </div>
-      <div className="flex mr-4 md:mr-0 md:flex-col">
-        <div className="flex flex-col w-6/12 md:w-full">
+      <div className="flex md:mr-4 mr-0 flex-col-reverse md:flex-row px-2 md:px-0">
+        <div className="flex flex-col md:w-6/12 w-full">
           <div className="border-b w-2/3 border-gray-100 pb-4">
-            <div className="w-28 md:w-24 rounded-xl h-28 md:h-24 bg-gray-200">
+            <div className="md:w-28 w-24 rounded-xl md:h-28 h-24 bg-gray-200">
               <img
                 className="object-cover w-full h-full"
                 src={ProductsFormAndUpdater[0].main_image}
@@ -119,8 +119,8 @@ function ReviewProducts({
               />
             </div>
           </div>
-          <div className="flex w-2/3 justify-between flex-wrap">
-            <div className="w-28 md:w-24 rounded-xl mt-4 mr-4 h-28 md:h-24 bg-gray-200">
+          <div className="flex md:w-2/3 md:justify-between flex-wrap">
+            <div className="md:w-28 w-24 rounded-xl mt-4 mr-4 md:h-28 h-24 bg-gray-200">
               {ProductsFormAndUpdater[0].other_product_img_1 && (
                 <img
                   className="object-cover w-full h-full"
@@ -129,7 +129,7 @@ function ReviewProducts({
                 />
               )}
             </div>
-            <div className="w-28 md:w-24 rounded-xl mt-4 mr-4 h-28 md:h-24 bg-gray-200">
+            <div className="md:w-28 w-24 rounded-xl mt-4 mr-4 md:h-28 h-24 bg-gray-200">
               {ProductsFormAndUpdater[0].other_product_img_2 && (
                 <img
                   className="object-cover w-full h-full"
@@ -138,7 +138,7 @@ function ReviewProducts({
                 />
               )}
             </div>
-            <div className="w-28 md:w-24 rounded-xl mt-4 mr-4 h-28 md:h-24 bg-gray-200">
+            <div className="md:w-28 w-24 rounded-xl mt-4 mr-4 md:h-28 h-24 bg-gray-200">
               {ProductsFormAndUpdater[0].other_product_img_3 && (
                 <img
                   className="object-cover w-full h-full"
@@ -147,7 +147,7 @@ function ReviewProducts({
                 />
               )}
             </div>
-            <div className="w-28 md:w-24 rounded-xl mt-4 mr-4 h-28 md:h-24 bg-gray-200">
+            <div className="md:w-28 w-24 rounded-xl mt-4 mr-4 md:h-28 h-24 bg-gray-200">
               {ProductsFormAndUpdater[0].other_product_img_4 && (
                 <img
                   className="object-cover w-full h-full"
@@ -156,7 +156,7 @@ function ReviewProducts({
                 />
               )}
             </div>
-            <div className="w-28 md:w-24 rounded-xl mt-4 mr-4 h-28 md:h-24 bg-gray-200">
+            <div className="md:w-28 w-24 rounded-xl mt-4 mr-4 md:h-28 h-24 bg-gray-200">
               {ProductsFormAndUpdater[0].other_product_img_5 && (
                 <img
                   className="object-cover w-full h-full"
@@ -165,7 +165,7 @@ function ReviewProducts({
                 />
               )}
             </div>
-            <div className="w-28 md:w-24 rounded-xl mt-4 mr-4 h-28 md:h-24 bg-gray-200">
+            <div className="md:w-28 w-24 rounded-xl mt-4 mr-4 md:h-28 h-24 bg-gray-200">
               {ProductsFormAndUpdater[0].other_product_img_6 && (
                 <img
                   className="object-cover w-full h-full"
@@ -177,14 +177,14 @@ function ReviewProducts({
           </div>
         </div>
 
-        <div className="flex flex-col w-6/12  md:w-full md:ml-0 md:mt-4">
+        <div className="flex flex-col md:w-6/12  w-full md:ml-0 md:mt-4">
           <div className="each-category-wrapper  divide-y divide-light-blue-400">
             {/*   */}
             <div className="each-category-wrapper">
               <h4 className="each-category-title text-xl text-purple-500">
                 Category
               </h4>
-              <div className="each-category grid grid-cols-2 gap-4 ">
+              <div className="each-category grid grid-cols-1 md:grid-cols-2  gap-4 ">
                 <KeyValue
                   title="Category"
                   value={
@@ -212,7 +212,7 @@ function ReviewProducts({
               </h4>
 
               {category_id === 4 && (
-                <div className="each-category grid grid-cols-1 gap-4 ">
+                <div className="each-category grid grid-cols-1 md:grid-cols-2   gap-4 ">
                   <KeyValue
                     title="Product Title"
                     value={ProductsFormAndUpdater[0].title}
@@ -231,7 +231,7 @@ function ReviewProducts({
               )}
 
               {category_id === 3 && (
-                <div className="each-category grid grid-cols-2 gap-4 ">
+                <div className="each-category grid  grid-cols-1 md:grid-cols-2 gap-4 ">
                   <KeyValue
                     title="Product Title"
                     value={ProductsFormAndUpdater[0].title}
@@ -288,7 +288,7 @@ function ReviewProducts({
               )}
 
               {category_id === 2 && (
-                <div className="each-category grid grid-cols-2 gap-4 ">
+                <div className="each-category grid grid-cols-1 md:grid-cols-2 gap-4 ">
                   <KeyValue
                     title="Product Title"
                     value={ProductsFormAndUpdater[0].title}
@@ -349,67 +349,65 @@ function ReviewProducts({
               )}
 
               {category_id === 1 && (
-                <div className="each-category grid grid-cols-2 gap-4 ">
-                  <div className="each-category grid grid-cols-2 gap-4 ">
-                    <KeyValue
-                      title="Product Title"
-                      value={ProductsFormAndUpdater[0].title}
-                    />
-                    <KeyValue
-                      title="RAM"
-                      value={ProductsFormAndUpdater[0].ram_size}
-                    />
-                    <KeyValue
-                      title="Processor"
-                      value={ProductsFormAndUpdater[0].processor}
-                    />
+                <div className="each-category grid grid-cols-1 md:grid-cols-2 gap-4 ">
+                  <KeyValue
+                    title="Product Title"
+                    value={ProductsFormAndUpdater[0].title}
+                  />
+                  <KeyValue
+                    title="RAM"
+                    value={ProductsFormAndUpdater[0].ram_size}
+                  />
+                  <KeyValue
+                    title="Processor"
+                    value={ProductsFormAndUpdater[0].processor}
+                  />
 
-                    {/* not available for laptop */}
-                    <KeyValue
-                      title="Front Camera"
-                      value={ProductsFormAndUpdater[0].front_camera}
-                    />
-                    <KeyValue
-                      title="Rear Camera"
-                      value={ProductsFormAndUpdater[0].rear_camera}
-                    />
-                    <KeyValue
-                      title="Battery"
-                      value={ProductsFormAndUpdater[0].battery}
-                    />
-                    {/* not available for laptop */}
+                  {/* not available for laptop */}
+                  <KeyValue
+                    title="Front Camera"
+                    value={ProductsFormAndUpdater[0].front_camera}
+                  />
+                  <KeyValue
+                    title="Rear Camera"
+                    value={ProductsFormAndUpdater[0].rear_camera}
+                  />
+                  <KeyValue
+                    title="Battery"
+                    value={ProductsFormAndUpdater[0].battery}
+                  />
+                  {/* not available for laptop */}
 
-                    <KeyValue
-                      title="Display"
-                      value={ProductsFormAndUpdater[0].display}
-                    />
+                  <KeyValue
+                    title="Display"
+                    value={ProductsFormAndUpdater[0].display}
+                  />
 
-                    <KeyValue
-                      title="Internal Memory"
-                      value={ProductsFormAndUpdater[0].internal_memory}
-                    />
-                    <KeyValue
-                      title="CPU Speed"
-                      value={ProductsFormAndUpdater[0].cpu_speed}
-                    />
-                    <KeyValue
-                      title="Network Connectivity"
-                      value={ProductsFormAndUpdater[0].network}
-                    />
-                    <KeyValue
-                      title="Operating System"
-                      value={ProductsFormAndUpdater[0].operating_system}
-                    />
+                  <KeyValue
+                    title="Internal Memory"
+                    value={ProductsFormAndUpdater[0].internal_memory}
+                  />
+                  <KeyValue
+                    title="CPU Speed"
+                    value={ProductsFormAndUpdater[0].cpu_speed}
+                  />
+                  <KeyValue
+                    title="Network Connectivity"
+                    value={ProductsFormAndUpdater[0].network}
+                  />
+                  <KeyValue
+                    title="Operating System"
+                    value={ProductsFormAndUpdater[0].operating_system}
+                  />
 
-                    <KeyValue
-                      title="Color"
-                      value={ProductsFormAndUpdater[0].colour}
-                    />
-                    <KeyValue
-                      title="Weight"
-                      value={ProductsFormAndUpdater[0].weight}
-                    />
-                  </div>
+                  <KeyValue
+                    title="Color"
+                    value={ProductsFormAndUpdater[0].colour}
+                  />
+                  <KeyValue
+                    title="Weight"
+                    value={ProductsFormAndUpdater[0].weight}
+                  />
                 </div>
               )}
             </div>
@@ -420,7 +418,7 @@ function ReviewProducts({
               <h4 className="mt-3 each-category-title text-xl text-purple-500">
                 Inventory and Sales
               </h4>
-              <div className="each-category grid grid-cols-2 gap-4 ">
+              <div className="each-category grid grid-cols-1 md:grid-cols-2 gap-4 ">
                 <KeyValue
                   title="Seller SKU"
                   value={ProductsFormAndUpdater[0].seller_sku}
@@ -442,7 +440,7 @@ function ReviewProducts({
               <h4 className="mt-3 each-category-title text-xl text-purple-500">
                 Product Location
               </h4>
-              <div className="each-category grid grid-cols-2 gap-4 ">
+              <div className="each-category grid  grid-cols-1 md:grid-cols-2 gap-4 ">
                 <KeyValue
                   title="State"
                   value={ProductsFormAndUpdater[0].shipping_state}
