@@ -738,11 +738,11 @@ export function SafelyBuyLogo({ scale = 1 }) {
   );
 }
 
-export function BackroundGradient() {
+export function BackroundGradient({ scale = 1 }) {
   return (
     <svg
-      width="834"
-      height="381"
+      width={scale * 834}
+      height={scale * 381}
       viewBox="0 0 846 381"
       fill="none"
       xmlns="http://www.w3.org/2000/svg">
