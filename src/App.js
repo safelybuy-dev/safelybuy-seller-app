@@ -41,6 +41,9 @@ function App() {
                 <PrivateRoute path="/shopping">
                   <Dashboard />
                 </PrivateRoute>
+                <PrivateRoute path="/messages">
+                  <Dashboard />
+                </PrivateRoute>
                 <PrivateRoute path="/tickets">
                   <Dashboard />
                 </PrivateRoute>

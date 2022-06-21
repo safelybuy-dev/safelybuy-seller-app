@@ -1,27 +1,49 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { AngleRight, CloseIcon, ArrowDown, UserAvatar, LogOut } from 'svg';
-import { navMenuItems } from 'data';
+import { foodNavMenuItems, navMenuItems, ticketNavMenuItems } from 'data';
 import { useComponentVisible } from 'hooks';
 import { Link, useHistory } from 'react-router-dom';
 
-function NavItem({ color, svg, hasDropdown, children, last, dropDownLinks }) {
+const preferences = {
+  Shopping: navMenuItems,
+  Tickets: ticketNavMenuItems,
+  Food: foodNavMenuItems,
+};
+function NavItem({
+  svg,
+  hasDropdown,
+  children,
+  last,
+  dropDownLinks,
+  url,
+  closeMenuCallback,
+}) {
   const { ref, isComponentVisible, setIsComponentVisible } =
     useComponentVisible(false);
+  const history = useHistory();
   return (
     <div className="relative py-3">
       <button
         onClick={(e) => {
+          if (!hasDropdown) {
+            closeMenuCallback();
+            history.push(url);
+          }
           if (isComponentVisible) setIsComponentVisible(false);
-          else setIsComponentVisible(true);
+          else {
+            setIsComponentVisible(true);
+          }
           e.stopPropagation();
         }}
         className={`flex ${
           !last ? 'mr-14' : 'mr-0'
-        } items-center focus:outline-none cursor-pointer hover:bg-${color}-100 transform active:shadow-sm active:bg-${color}-200 hover:scale-105 active:scale-100 hover:shadow-xl rounded-full pr-4 text-sm`}>
-        <div className={`bg-${color}-400 mr-2 rounded-full inline-block p-2`}>
-          {svg}
-        </div>
-        <span>{children}</span>
+        } items-center focus:outline-none cursor-pointer    pr-4 text-sm`}>
+        <div className={`mr-2 rounded-full inline-block p-2`}>{svg}</div>
+        <span
+          className="text-[#828282]
+           tracking-[0.06em]">
+          {children}
+        </span>
         {hasDropdown && (
           <span
             className={`mt-px ml-2 inline-block transform duration-200 ${
@@ -33,13 +55,16 @@ function NavItem({ color, svg, hasDropdown, children, last, dropDownLinks }) {
       </button>
       <div ref={ref}>
         {hasDropdown && isComponentVisible && (
-          <ul className="header-dropdown text-gray-400 ml-4">
+          <ul className="header-dropdown text-[#828282]  ml-4">
             {dropDownLinks.map((e) => (
               <Link
                 key={Date.now() + Math.random()}
-                onClick={e.onClick}
+                onClick={() => {
+                  closeMenuCallback();
+                }}
                 to={e.url}>
-                <li className={`py-3 px-4 rounded-xl hover:bg-${color}-100`}>
+                <li
+                  className={`py-3 px-4 text-sm rounded-xl tracking-[0.06em]`}>
                   {e.text}
                 </li>
               </Link>
@@ -51,21 +76,32 @@ function NavItem({ color, svg, hasDropdown, children, last, dropDownLinks }) {
   );
 }
 
-export function UserMenuMobile({ isMenuOpen, setIsMenuOpen }) {
+export function UserMenuMobile({
+  isMenuOpen,
+  setIsMenuOpen,
+  username,
+  preference,
+  setPrefrence,
+  handleSettingsOpen,
+}) {
+  const [activePreference, setActivePreference] = useState(false);
+
   const history = useHistory();
   if (!isMenuOpen) {
     return null;
   }
   return (
-    <div className="invisible left-0 top-0 flex flex-col fixed w-full h-screen bg-white z-30 md:visible">
-      <div className="flex px-6 py-8 fixed w-full justify-between items-center">
-        <div className="flex px-4 py-2 rounded-full shadow-2xl items-center">
+    <div
+      className="left-0 top-0 flex flex-col fixed w-full h-screen bg-[#E5E5E5] z-30"
+      onClick={(e) => e.stopPropagation()}>
+      <div className="flex px-6 py-8 fixed w-full justify-between items-center bg-[#E5E5E5] z-50">
+        <div className="flex px-4 py-2 rounded-full shadow-2xl items-center bg-white">
           <UserAvatar scale={1.5} />
           <div className="ml-3 flex flex-col">
-            <span className="font-normal text-xs">Kareem Chibuzor</span>
-            <span className="uppercase text-gray-400 text-xs">
-              Administrator
+            <span className="font-normal text-xs">
+              {username || 'Loading...'}
             </span>
+            <span className="uppercase text-gray-400 text-xs">SELLER</span>
           </div>
         </div>
         <button
@@ -89,15 +125,67 @@ export function UserMenuMobile({ isMenuOpen, setIsMenuOpen }) {
             <AngleRight scale={1.6} />
           </button>
         </Link>
-        <small className="pt-10 pb-4 text-xs uppercase">Navigation</small>
-        <div className="flex flex-col py-4 rounded-3xl shadow-2xl p-6">
-          {navMenuItems.map((item) => (
+        <button
+          onClick={() => {
+            setIsMenuOpen(false);
+            handleSettingsOpen();
+          }}
+          className="flex py-4 justify-between w-full items-center">
+          <div>
+            <span className="font-normal text-xl tracking-wide">Settings</span>
+          </div>
+          <AngleRight scale={1.6} />
+        </button>
+        <div>
+          <button
+            onClick={() => {
+              setActivePreference((prev) => !prev);
+            }}
+            className="flex py-4 justify-between w-full items-center outline-none">
+            <div>
+              <span className="font-normal text-xl tracking-wide">
+                Switch From {preference}
+              </span>
+            </div>
+            <span
+              className={`${
+                activePreference && 'rotate-90'
+              } transition-transform`}>
+              <AngleRight scale={1.6} />
+            </span>
+          </button>
+          {activePreference && (
+            <div className="bg-white p-4 w-full  rounded-xl">
+              <ul>
+                {Object.keys(preferences)
+                  .filter((pref) => pref !== preference)
+                  .map((pref) => (
+                    <li key={pref} className="mb-2">
+                      <Link
+                        onClick={() => {
+                          setPrefrence(pref);
+                          setIsMenuOpen(false);
+                        }}
+                        to={`/${pref.toLowerCase()}`}
+                        className="text-[#828282]">
+                        {pref}
+                      </Link>
+                    </li>
+                  ))}
+              </ul>
+            </div>
+          )}
+        </div>
+        <small className="pt-7 pb-4 text-xs uppercase">Navigation</small>
+        <div className="flex flex-col py-4 rounded-3xl bg-white shadow-2xl p-6">
+          {preferences[preference].map((item) => (
             <NavItem
               key={`${Math.random()}+${Date.now()}`}
-              color={item.color}
               hasDropdown={item.hasDropdown}
-              svg={<item.SVG scale={0.255319148936} color="white" />}
-              dropDownLinks={item.dropdownLinks}>
+              svg={<item.SVG scale={0.255319148936} color="#828282" />}
+              dropDownLinks={item.dropdownLinks}
+              closeMenuCallback={() => setIsMenuOpen(false)}
+              url={item.url}>
               {item.text}
             </NavItem>
           ))}

@@ -1,19 +1,23 @@
 import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { ArrowDown, ArrowUp, AngleRight, UserAvatar } from 'svg';
 import { ContextUser } from 'context';
 import { buttonStyles } from './Header';
-// import { UserMenuMobile } from './UserMenuMobile';
+import { UserMenuMobile } from './UserMenuMobile';
 
 function User({
   userIsVisible,
   setUserIsVisible,
   userRef,
   handleSettingsOpen,
+  preference,
+  setPrefrence,
 }) {
   const [state] = useContext(ContextUser);
   const dropdownItems = [
     {
       text: 'Messages',
+      path: '/messages',
       hasNotification: true,
       hasIcon: true,
       icon: <AngleRight />,
@@ -21,12 +25,14 @@ function User({
     },
     {
       text: 'Settings',
+      path: '#',
       clickHandler() {
         handleSettingsOpen();
       },
     },
     {
       text: 'Logout',
+      path: '/login',
       clickHandler() {},
       color: 'red',
     },
@@ -64,28 +70,39 @@ function User({
           </div>
         </button>
         {userIsVisible && (
-          <div
-            ref={userRef}
-            className="absolute bg-white w-full h-[9rem] p-4 -mt-4 rounded-[0.625rem] border-2 border-[#F7F7F7]">
-            <ul className="h-full w-full flex flex-col justify-between">
-              {dropdownItems.map((item) => (
-                <li
-                  key={item.text}
-                  className={` cursor-pointer relative ${
-                    item.color && 'text-' + item.color + '-500'
-                  } `}>
-                  <button
-                    className="flex justify-between items-center w-full"
-                    onClick={item.clickHandler}>
-                    <span>{item.text}</span>
-                    {item.hasIcon && <span>{item.icon}</span>}
-                    {item.hasNotification && (
-                      <span className="absolute bg-[#EB5757] h-[0.375rem] w-[0.375rem] top-1 left-[4.3rem] rounded-full"></span>
-                    )}
-                  </button>
-                </li>
-              ))}
-            </ul>
+          <div ref={userRef}>
+            <div className="hidden md:block absolute bg-white -left-20 md:left-0   w-[10rem] md:w-full h-[9rem] p-4 -mt-4 rounded-[0.625rem] border-2 border-[#F7F7F7]">
+              <ul className="h-full w-full flex flex-col justify-between">
+                {dropdownItems.map((item) => (
+                  <li
+                    key={item.text}
+                    className={` cursor-pointer relative ${
+                      item.color && 'text-' + item.color + '-500'
+                    } `}>
+                    <Link
+                      className="flex justify-between items-center w-full"
+                      onClick={item.clickHandler}
+                      to={item.path}>
+                      <span>{item.text}</span>
+                      {item.hasIcon && <span>{item.icon}</span>}
+                      {item.hasNotification && (
+                        <span className="absolute bg-[#EB5757] h-[0.375rem] w-[0.375rem] top-1 left-[4.3rem] rounded-full"></span>
+                      )}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="block md:hidden">
+              <UserMenuMobile
+                isMenuOpen={userIsVisible}
+                setIsMenuOpen={setUserIsVisible}
+                username={`${state?.user?.firstname} ${state?.user?.lastname}`}
+                preference={preference}
+                setPrefrence={setPrefrence}
+                handleSettingsOpen={handleSettingsOpen}
+              />
+            </div>
           </div>
         )}
       </div>

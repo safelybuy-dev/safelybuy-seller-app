@@ -118,7 +118,7 @@ function TableBody({
             </div>
           ),
           actions: (
-            <div className=" ">
+            <div className="">
               {item.approval_status === 'pending' ? (
                 <span onClick={() => handleDelete(item.id)}>
                   <Button rounded danger>
@@ -137,7 +137,7 @@ function TableBody({
                   </Button>
                 </div> */}
                   {/* <span className='inline-block p-px'></span> */}
-                  <div className="justify-around">
+                  <div className="flex justify-around">
                     <span onClick={() => handleSellout(item.id)}>
                       <Button rounded alternate>
                         Sold Out
@@ -210,7 +210,7 @@ function TableBody({
   }
 
   return (
-    <div className="overflow-x-scroll mt-8">
+    <div className="overflow-x-scroll md:overflow-hidden mt-8">
       <table {...getTableProps()} className="w-full text-sm">
         <thead className="text-left border-b-2 border-gray-100">
           {headerGroups.map((headerGroup) => (
@@ -231,8 +231,8 @@ function TableBody({
                 {row.cells.map((cell) => {
                   return (
                     <td
-                      style={{ minWidth: '50px', maxWidth: '250px' }}
-                      className="border-b-2 pr-4 border-gray-100 py-4"
+                      // style={{ minWidth: '50px', maxWidth: '250px' }}
+                      className="border-b-2 pr-4 border-gray-100 py-4 min-w-[150px] lg:min-w-fit"
                       {...cell.getCellProps()}>
                       {cell.render('Cell')}
                     </td>

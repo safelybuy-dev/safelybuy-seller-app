@@ -21,7 +21,7 @@ function InventoryTableView({ loading, items }) {
           items?.filter((item) => item?.meal_plan?.status !== 'active').length
         }
       />
-      <div className="bg-white overflow-x relative rounded-b-2xl rounded-tr-2xl md:p-10 z-40 p-4 -mx-6 ">
+      <div className="bg-white overflow-x relative md:rounded-b-2xl md:rounded-tr-2xl md:p-10 z-40 p-4 -mx-6 ">
         <TableHeader active={active} setActive={setActive} />
         {loading ? (
           <div className="mt-20 mb-20 flex justify-center">

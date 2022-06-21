@@ -9,30 +9,24 @@ function SuccessError() {
   const history = useHistory();
 
   return (
-    <div className="relative justify-between flex flex-col min-h-screen text-center">
+    <div className="relative justify-between flex   flex-col min-h-screen text-center">
       <div className="pb-60">
         <header className="flex tracking-wide justify-center mx-12 my-8 md:mx-6 md:my-3">
           <Logo color="black" text="transact with no regret" />
         </header>
-        <div className="flex justify-center flex-col items-center">
+        <div className="flex w-[90%] md:w-full mx-auto justify-center flex-col items-center">
           {history.location.state?.data ? <SuccessIcon /> : <FailureIcon />}
 
-          {
-            //  Meal Plan creation
-
-            history.location.state?.mealPlan && (
-              <div>
-                <h3 className="text-[#4BBF75] mt-6 mb-3 text-[30px]">
-                  {history.location.state?.isEdit
-                    ? 'Meal Plan Updated'
-                    : 'Meal Plan Created'}
-                </h3>
-                <p>
-                  Your item has been added successfully and pending approval
-                </p>
-              </div>
-            )
-          }
+          {history.location.state?.mealPlan && (
+            <div>
+              <h3 className="text-[#4BBF75] mt-6 mb-3 text-[30px]">
+                {history.location.state?.isEdit
+                  ? 'Meal Plan Updated'
+                  : 'Meal Plan Created'}
+              </h3>
+              <p>Your item has been added successfully and pending approval</p>
+            </div>
+          )}
           {
             // Restaurant Menu
             history.location.state?.menu && (
@@ -41,6 +35,19 @@ function SuccessError() {
                   {history.location.state?.isEdit
                     ? 'Menu Updated'
                     : 'Menu  Created'}
+                </h3>
+                <p>
+                  Your item has been added successfully and pending approval
+                </p>
+              </div>
+            )
+          }
+          {
+            // Event Creation
+            history.location.state?.ticket && (
+              <div>
+                <h3 className="text-[#4BBF75] mt-6 mb-3 text-[30px]">
+                  Event Created
                 </h3>
                 <p>
                   Your item has been added successfully and pending approval

@@ -36,7 +36,7 @@ function BorderImageUpload({
   return (
     <label
       className="border-2 p-4 border-gray-200 
-      border-dashed  w-32 cursor-pointer
+      border-dashed w-24 h-24  md:h-fit md:w-32 cursor-pointer
       rounded-lg block  text-center 
        mr-3  ">
       <input
@@ -47,9 +47,8 @@ function BorderImageUpload({
       />
 
       <div
-        style={{ height: imgSrc ? '100px' : '0px' }}
-        className={` "w-full h-1/4 m-0 rounded-full ${
-          imgSrc ? 'visible' : 'invisible'
+        className={` "w-full   m-0 rounded-full ${
+          imgSrc ? 'visible h-full md:h-[6.25rem] ' : 'invisible h-0'
         } `}>
         <img
           className="object-cover w-full h-full"
@@ -59,8 +58,7 @@ function BorderImageUpload({
         />
       </div>
       {!imgSrc && <CameraSVG />}
-
-      {!imgSrc && title}
+      <span className="hidden md:inline">{!imgSrc && title}</span>
     </label>
   );
 }
@@ -76,8 +74,8 @@ function ProductImages({
   const { main_image } = ProductsFormAndUpdater[0];
 
   return (
-    <div className="flex ">
-      <div className="flex w-5/12 justify-center">
+    <div className="flex flex-col md:flex-row px-3 md:px-0">
+      <div className="flex md:w-5/12 justify-center mb-5 md:mb-0">
         <div className="divide-y divide-light-blue-400 w-full">
           <div className="text-xs pb-2">
             <BackArrowSVG setSteps={setSteps} value={2} />
@@ -117,7 +115,7 @@ function ProductImages({
           </div>
         </div>
       </div>
-      <div className="flex w-7/12 justify-center ">
+      <div className="flex md:w-7/12 justify-center ">
         <div>
           <BorderImageUpload
             title="Main Image"
@@ -133,7 +131,7 @@ function ProductImages({
             <div className="mt-8 " />
             <div className="mb-8" />
           </div>
-          <div className="flex mt-5">
+          <div className="flex  mt-5">
             {[
               'other_product_img_1',
               'other_product_img_2',

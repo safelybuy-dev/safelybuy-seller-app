@@ -88,7 +88,7 @@ function TableBody({
             <img
               src={item.main_image}
               alt="event"
-              className="h-20 w-20 rounded-sm object-contain"
+              className="h-16 w-16 md:h-20 md:w-20 rounded-sm object-contain"
             />
           ),
           category: item.category === 1 ? 'Concerts' : 'Tickets',
@@ -105,7 +105,7 @@ function TableBody({
             </div>
           ),
           actions: (
-            <div className=" ">
+            <div className="">
               {item.approval_status === 'pending' ? (
                 <span onClick={() => handleDelete(item.id)}>
                   <Button rounded danger>
@@ -124,7 +124,7 @@ function TableBody({
                 </Button>
               </div> */}
                   {/* <span className='inline-block p-px'></span> */}
-                  <div className="justify-around">
+                  <div className="flex items-center justify-around">
                     <span onClick={() => handleSellout(item.id)}>
                       <Button rounded alternate>
                         Sold Out

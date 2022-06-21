@@ -3,7 +3,7 @@ import Logo from 'components/Logo';
 import { useComponentVisible } from 'hooks';
 // import { Hamburger, CloseIcon } from 'svg';
 import { navMenuItems, ticketNavMenuItems, foodNavMenuItems } from 'data';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Container from 'components/Container';
 import NavItem from './NavItem';
 import Notifications from './Notifications';
@@ -22,6 +22,12 @@ function closeNav() {
   document.getElementById('myNav').style.width = '0%';
 }
 
+const preferences = {
+  Shopping: navMenuItems,
+  Tickets: ticketNavMenuItems,
+  Food: foodNavMenuItems,
+};
+
 function Header({ prefrence, setPrefrence, handleSettingsOpen }) {
   const history = useHistory();
   const {
@@ -35,18 +41,19 @@ function Header({ prefrence, setPrefrence, handleSettingsOpen }) {
     isComponentVisible: userIsVisible,
     setIsComponentVisible: setUserIsVisible,
   } = useComponentVisible(false);
+
   return (
-    <header className="flex bg-white flex-col  pt-6  md:pt-3 fixed top-0 z-50 w-full shadow-md">
+    <header className="flex bg-white flex-col  md:pt-6   p-3 md:p-0  fixed top-0 z-50 w-full shadow-md">
       <Container>
         <NotificationDetails
           setNotIsVisible={setNotIsVisible}
           closeNav={closeNav}
         />
-        <div className="flex tracking-wide justify-between">
-          <Link to="/" className="flex md:hidden">
-            <Logo color="purple" text="SELLER CENTER" />
-          </Link>
-          <div className="hidden md:flex items-center">
+        <div className="flex tracking-wide justify-between items-center">
+          <div className="flex lg:hidden">
+            <Logo color="purple" text="SELLER" />
+          </div>
+          <div className="hidden lg:flex items-center">
             {/* <div className="mr-2 mb-1">
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -58,12 +65,9 @@ function Header({ prefrence, setPrefrence, handleSettingsOpen }) {
                 )}
               </button>
             </div> */}
-
-            <Link to="/">
-              <Logo color="purple" text="SELLER CENTER" allowSub />
-            </Link>
+            <Logo color="purple" text="SELLER CENTER" allowSub />
           </div>
-          <div className="flex items-center pl-12">
+          <div className="flex items-center md:pl-12">
             <OptionsSelector
               preference={
                 localStorage.getItem('dashboard_view_preference')
@@ -90,6 +94,8 @@ function Header({ prefrence, setPrefrence, handleSettingsOpen }) {
               setUserIsVisible={setUserIsVisible}
               userIsVisible={userIsVisible}
               handleSettingsOpen={handleSettingsOpen}
+              preference={prefrence}
+              setPrefrence={setPrefrence}
             />
           </div>
         </div>
@@ -101,42 +107,17 @@ function Header({ prefrence, setPrefrence, handleSettingsOpen }) {
         }}
         className="hidden md:flex items-center px-50 md:py-2  tracking-wide justify-center mt-6 ">
         <ul className="flex">
-          {prefrence === 'Shopping' &&
-            navMenuItems.map((item) => (
-              <NavItem
-                key={`${Math.random()}+${Date.now()}`}
-                color={item.color}
-                hasDropdown={item.hasDropdown}
-                svg={<item.SVG scale={0.255319148936} color="white" />}
-                url={item.url}
-                dropDownLinks={item.dropdownLinks}>
-                {item.text}
-              </NavItem>
-            ))}
-          {prefrence === 'Tickets' &&
-            ticketNavMenuItems.map((item) => (
-              <NavItem
-                key={`${Math.random()}+${Date.now()}`}
-                color={item.color}
-                hasDropdown={item.hasDropdown}
-                svg={<item.SVG scale={0.255319148936} color="white" />}
-                url={item.url}
-                dropDownLinks={item.dropdownLinks}>
-                {item.text}
-              </NavItem>
-            ))}
-          {prefrence === 'Food' &&
-            foodNavMenuItems.map((item) => (
-              <NavItem
-                key={`${Math.random()}+${Date.now()}`}
-                color={item.color}
-                hasDropdown={item.hasDropdown}
-                svg={<item.SVG scale={0.255319148936} color="white" />}
-                url={item.url}
-                dropDownLinks={item.dropdownLinks}>
-                {item.text}
-              </NavItem>
-            ))}
+          {preferences[prefrence].map((item) => (
+            <NavItem
+              key={`${Math.random()}+${Date.now()}`}
+              color={item.color}
+              hasDropdown={item.hasDropdown}
+              svg={<item.SVG scale={0.255319148936} color="white" />}
+              url={item.url}
+              dropDownLinks={item.dropdownLinks}>
+              {item.text}
+            </NavItem>
+          ))}
         </ul>
       </nav>
     </header>

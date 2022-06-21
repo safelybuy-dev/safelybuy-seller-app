@@ -34,7 +34,7 @@ function ProductDetails({ selectedProduct, setSelectedProduct }) {
           </span>
         </div>
         <div className="flex md:mr-4 mr-0 flex-col md:flex-row">
-          <div className="flex flex-col w-6/12 md:w-full">
+          <div className="flex flex-col w-full">
             <div className="border-b border-gray-100 pb-4 w-full">
               <div className="md:w-64 w-24 rounded-xl md:h-32 h-24 bg-gray-200 overflow-hidden">
                 <img
@@ -45,18 +45,18 @@ function ProductDetails({ selectedProduct, setSelectedProduct }) {
               </div>
             </div>
           </div>
-          <div className="flex flex-col w-6/12 ml-4 md:w-full">
+          <div className="flex flex-col  md:ml-4 w-full">
             <div className="flex flex-col  pb-4 w-full mt-4 md:mt-0">
               <div className="flex  flex-col">
                 <div className="border-[#e0e0e066] pb-3  border-b-2 mb-3 ">
                   <h4 className="text-lg text-purple-500">
                     Title and Specifications
                   </h4>
-                  <div className="flex justify-between w-full">
+                  <div className="flex flex-col md:flex-row justify-between w-full">
                     <KeyValue title="Food Title" value={selectedProduct.name} />
                     <KeyValue title="Food SKU" value={selectedProduct.sku} />
                   </div>
-                  <div className="flex justify-between w-full">
+                  <div className="flex flex-col md:flex-row justify-between w-full">
                     <KeyValue
                       title="Food Price"
                       value={`${(+selectedProduct.cost).toLocaleString()}NGN`}
@@ -72,7 +72,7 @@ function ProductDetails({ selectedProduct, setSelectedProduct }) {
                       }
                     />
                   </div>
-                  <div className="flex  w-full">
+                  <div className="flex flex-col md:flex-row w-full">
                     <KeyValue
                       title="Extras And Drinks"
                       value={
@@ -80,8 +80,8 @@ function ProductDetails({ selectedProduct, setSelectedProduct }) {
                           {selectedProduct?.drinks_and_xtras.map((xtra) => (
                             <div
                               key={Math.random() * Date.now()}
-                              className="flex justify-between mb-2 w-full">
-                              <span className="md:mr-6">{xtra?.name}</span>
+                              className="flex  mb-2 w-full">
+                              <span className="mr-6">{xtra?.name}</span>
                               <span>{xtra?.cost}NGN</span>
                             </div>
                           ))}
@@ -89,7 +89,7 @@ function ProductDetails({ selectedProduct, setSelectedProduct }) {
                       }
                     />
                   </div>
-                  <div className="flex justify-between w-full">
+                  <div className="flex flex-col md:flex-row justify-between w-full">
                     <KeyValue
                       title="Cities"
                       value={selectedProduct.cities
@@ -102,7 +102,7 @@ function ProductDetails({ selectedProduct, setSelectedProduct }) {
                   <h4 className="text-lg text-purple-500">
                     Inventory and Sales
                   </h4>
-                  <div className="flex justify-between w-full">
+                  <div className="flex flex-col md:flex-row justify-between w-full">
                     <KeyValue title="Seller SKU" value="SB-#2123434343" />
                     <KeyValue
                       title="Your Price"
@@ -112,7 +112,7 @@ function ProductDetails({ selectedProduct, setSelectedProduct }) {
                 </div>
                 <div>
                   <h4 className="text-lg text-purple-500">Meal Location</h4>
-                  <div className="flex justify-between w-full">
+                  <div className="flex flex-col md:flex-row justify-between w-full">
                     <KeyValue
                       title="Cities"
                       value={selectedProduct.cities

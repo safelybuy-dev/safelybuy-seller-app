@@ -1,36 +1,40 @@
 import React from 'react';
 import moment from 'moment';
-import { isToday } from '../NotificationDetails';
+import { Avatar } from './Avatar';
 
-function ContactList({ contacts, setSelectedContact }) {
+const Contact = ({ contact, handleContactSelection }) => {
+  const { imageUrl, lastMessageTime, name, lastMessage } = contact;
+  return (
+    <div
+      className="flex border-b border-[#E0E0E0] py-5 px-4  cursor-pointer "
+      onClick={() => handleContactSelection(contact)}>
+      <Avatar image={imageUrl} styles="h-[3.125rem] w-[3.125rem]" />
+      <div className="ml-3 flex justify-between items-center flex-1">
+        <div className="">
+          <h4 className="text-lg">{name}</h4>
+          <p className="text-[#828282] text-sm w-[17rem] truncate">
+            {lastMessage}
+          </p>
+        </div>
+        <div>
+          <small className="text-[#828282]">
+            {moment(lastMessageTime).format('LL').split(',')[0]}
+          </small>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+function ContactList({ contacts, handleContactSelection }) {
   return (
     <div>
       {contacts.map((contact) => (
-        <div
-          key={Math.random()}
-          onClick={() => setSelectedContact(contact)}
-          className="contact cursor-pointer flex items-center border-b last:border-b-0 py-4 justify-between hover:bg-purple-50 active:bg-purple-100">
-          <div className="flex items-center w-9/12">
-            <img
-              className="rounded-full flex-shrink-0"
-              height="50"
-              width="50"
-              src={contact.imageUrl}
-              alt={contact.name}
-            />
-            <div className="whitespace-nowrap px-3 overflow-hidden overflow-ellipsis flex-grow-1">
-              <h4 className="text-xl tracking-wide">{contact.name}</h4>
-              <p className="text-gray-500 text-sm whitespace-nowrap overflow-hidden overflow-ellipsis">
-                {contact.lastMessage}
-              </p>
-            </div>
-          </div>
-          <div className="w-3/12 text-right text-gray-400 pr-8">
-            {isToday(new Date(contact.lastMessageTime))
-              ? moment(contact.lastMessageTime).format('HH:mm')
-              : moment(contact.lastMessageTime).format('MMM D')}
-          </div>
-        </div>
+        <Contact
+          key={contact.name}
+          contact={contact}
+          handleContactSelection={handleContactSelection}
+        />
       ))}
     </div>
   );

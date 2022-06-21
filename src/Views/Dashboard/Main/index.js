@@ -149,14 +149,14 @@ function Main() {
   if (loading) return <Spinner partial dashboard />;
 
   return (
-    <div className="flex flex-wrap md:justify-between mt-12">
-      <div className="flex flex-col flex-0.7 w-6/12 md:w-full">
-        <div className="mt-5 p-10 md:py-5 md:px-5 md:mt-0 rounded-3xl bg-white">
-          <h3 className="text-2xl md:pb-6 text-gray-800 md:bg-white md:mt-2 tracking-wider">
+    <div className="flex flex-wrap md:justify-between mt-20  md:mt-12 px-3 md:px-0">
+      <div className="flex flex-col  lg:flex-row w-full mx-auto md:justify-between items-center">
+        <div className="mt-5 md:p-10 py-5 px-5 w-full flex-[0.65] md:mt-0 rounded-3xl bg-white">
+          <h3 className="text-2xl text-center md:text-left mb-6 text-gray-800 md:bg-white md:mt-2 tracking-wider">
             Your Orders
           </h3>
           <div className="flex space-x-4 flex-col md:flex-row">
-            <div className="flex flex-1 items-center">
+            <div className="flex justify-center md:justify-start flex-1 items-center">
               <div className="w-60 relative">
                 <PieChart
                   data={[
@@ -216,23 +216,17 @@ function Main() {
             </div>
           </div>
         </div>
-        <div className="mt-8 mb-4  md:bg-white md:py-8 md:px-10 rounded-3xl">
-          <h3 className="text-2xl md:pb-6 text-gray-800  md:bg-white tracking-wider">
-            Recent Sales
-          </h3>
-          <div className="mt-5 py-8 px-10 md:py-0 md:px-0 md:mt-0  bg-white">
-            <RecentSalesTable />
-            {/* <div className='flex justify-between mt-8 pb-8 w-full'>
-              <span className='text-gray-500'>Showing 8 of 100</span>
-              <div className='flex items-center text-purple-500'>
-                See all &nbsp; <ArrowRight />
-              </div>
-            </div> */}
-          </div>
+        <div className="flex flex-0.3 ml-2 flex-col  tracking-wide w-full lg:w-6/12">
+          <Highlight balance={shoppingIndex?.wallet_balance} />
         </div>
       </div>
-      <div className="flex flex-0.3 ml-2 flex-col w-3/12 tracking-wide md:w-6/12 sm:w-10/12">
-        <Highlight balance={shoppingIndex?.wallet_balance} />
+      <div className="mt-8 mb-4  bg-white p-6 w-full md:py-8 md:px-10 rounded-3xl">
+        <h3 className="text-lg md:text-2xl md:pb-6 text-gray-800  md:bg-white tracking-wider">
+          Recent Sales
+        </h3>
+        <div className="mt-5 md:py-8 md:px-10 py-0 px-0 md:mt-0  bg-white">
+          <RecentSalesTable />
+        </div>
       </div>
     </div>
   );

@@ -69,38 +69,49 @@ function Inventory() {
   }, [url]);
 
   return (
-    <div className="flex flex-col w-full items-start">
-      <Breadcrumb
-        parentText="Tickets"
-        parentLink="/tickets"
-        childText="Manage Inventory"
-        childLink="/tickets/inventory"
-      />
-      <div className="flex justify-between w-full">
-        <h2 className="text-xl">Manage Inventory</h2>
-        <span className="md:inline-block hidden">
-          <Button
-            canClick
-            clickHandler={() => setTicketModal(true)}
-            event="onClick"
-            text="Create a ticket or an event"
-            primary
-            roundedFull
-            icon="+"
-          />
-        </span>
-        <span className="md:hidden inline-block">
+    <div className="flex flex-col w-full items-start  mt-24  md:mt-10 ">
+      <div className="px-3 md:px-0 w-full">
+        <Breadcrumb
+          parentText="Tickets"
+          parentLink="/tickets"
+          childText="Manage Inventory"
+          childLink="/tickets/inventory"
+        />
+        <div className="flex justify-between w-full">
+          <h2 className="text-xl">Manage Inventory</h2>
+          <span className="md:inline-block hidden">
+            <Button
+              canClick
+              clickHandler={() => setTicketModal(true)}
+              event="onClick"
+              text="Create a ticket or an event"
+              primary
+              roundedFull
+              icon="+"
+            />
+          </span>
+          <span className="md:hidden inline-block">
+            <Button
+              canClick
+              clickHandler={() => setTicketModal(true)}
+              event="onClick"
+              text="Create"
+              primary
+              roundedFull
+              icon="+"
+            />
+          </span>
+          {/* <span className="md:hidden inline-block">
           <Button text="Recent" secondary roundedFull preTagText="50" />
-        </span>
+        </span> */}
+        </div>
       </div>
-      {/* test */}
       <InventoryTableView
         loading={loading}
         items={ticketInventory}
         deleteItem={deleteItem}
         selloutItem={selloutItem}
       />
-      {/* test  */}
       <TicketModal
         openTicketModal={openTicketModal}
         setTicketModal={setTicketModal}

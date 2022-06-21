@@ -16,16 +16,16 @@ export default function TableHeader({ active, setActive }) {
     setIsComponentVisible: setIsItemVisible,
   } = useComponentVisible(false);
   return (
-    <div className="flex justify-between w-full md:flex-col md:flex-wrap">
+    <div className="flex justify-between w-[90%] mx-auto md:w-full flex-col md:flex-row md:flex-wrap">
       {/* Search box */}
       <div className="flex md:w-full flex-col md:flex-row md:flex-wrap">
-        <div className="relative w-96 mr-4">
+        <div className="w-full flex justify-between border-2 border-purple-100 items-center mb-4 px-6 md:px-12 py-2 rounded-full">
           <input
-            className="border-2 border-purple-100 w-full focus:outline-none mb-4 px-12 py-2 rounded-full"
+            className=" text-sm md:text-base w-full focus:outline-none mr-2"
             type="search"
             placeholder="Search by SKU, Product Name..."
           />
-          <span className="absolute top-3 left-4">
+          <span className="">
             <SearchIcon color="#8661FF" />
           </span>
         </div>

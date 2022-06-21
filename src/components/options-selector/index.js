@@ -23,25 +23,23 @@ function OptionsSelector({ preference, options, cb }) {
   }, [timeout]);
   return (
     <div
-      className="mx-2 w-48 relative  md:mx-0"
+      className="mx-2 hidden md:w-40 relative  md:mx-0 md:flex flex-col"
       onFocus={handleFocus}
       onBlur={handleBlur}>
       <button
         type="button"
         onClick={handleClick}
-        className="relative w-full pl-3 pr-10 py-3 text-left cursor-pointer focus:outline-none focus:ring-1 focus:ring-indigo-500  sm:text-sm md:pr-3">
-        <span className="flex items-center">
-          <span className="ml-3 block text-purple-500 truncate md:ml-0">
-            {current}
-          </span>
+        className="w-full flex justify-between items-center px-3  py-2 text-left cursor-pointer focus:outline-none focus:ring-1 focus:ring-indigo-500  sm:text-sm">
+        <span className="ml-3 block text-purple-500 truncate md:ml-0">
+          {current}
         </span>
-        <span className="ml-3 absolute inset-y-0 right-0 flex items-center pr-6 pointer-events-none">
+        <span className="ml-3  inset-y-0  flex items-center  pointer-events-none">
           {/* <!-- Heroicon name: selector --> */}
           <ArrowDown scale={2} />
         </span>
       </button>
       {isOptionOPen && (
-        <div className="transition ease-in duration-100 absolute mt-1 w-full rounded-md bg-white shadow-lg z-50">
+        <div className="transition  ease-in duration-100 absolute mt-10  w-full rounded-md bg-white shadow-lg z-50">
           <ul className="max-h-56 rounded-md  text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
             {options.map((option) => (
               <li

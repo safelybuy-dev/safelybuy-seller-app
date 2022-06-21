@@ -1,17 +1,19 @@
 import React from 'react';
 import { SearchIcon } from 'svg';
 
-function Search() {
+function Search({ searchText, handleChange }) {
   return (
-    <div className="relative md:hidden">
+    <div className="flex justify-between items-center rounded-full w-[85%] px-3 h-[2.813rem] border-2 border-[#8661FF] border-opacity-40 mb-8">
       <input
-        className="w-11/12 border-2 border-purple-300 focus:outline-none mb-4 px-8 py-2 rounded-full"
-        type="search"
+        type="text"
+        value={searchText}
+        onChange={handleChange}
+        className="flex-1 mx-3 outline-none bg-transparent placeholder:text-[#8661ff] placeholder:text-opacity-40 h-full"
         placeholder="Search chats"
       />
-      <span className="absolute top-3 right-16">
+      <button type="button">
         <SearchIcon />
-      </span>
+      </button>
     </div>
   );
 }

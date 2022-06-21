@@ -14,7 +14,7 @@ const PasswordInput = React.forwardRef((props, ref) => {
     <div
       className={`border  ${
         active ? 'border-black shadow-xl' : 'border-[#E0E0E0]'
-      } w-96 md:w-full rounded-full px-6 py-2   flex justify-between items-center`}>
+      } w-full rounded-full px-6 py-2   flex justify-between items-center`}>
       <input
         type={isHidden ? 'password' : 'text'}
         {...props}
@@ -26,7 +26,7 @@ const PasswordInput = React.forwardRef((props, ref) => {
         onBlur={() => setActive(false)}
       />
       <button type="button" onClick={clickHandler}>
-        {isHidden ? <HidePassword /> : <ViewPassword />}
+        {isHidden ? <HidePassword color="lightgray" /> : <ViewPassword />}
       </button>
     </div>
   );
@@ -73,7 +73,9 @@ function SamplePage() {
             <>
               <div className="text-left">
                 <div className="flex justify-between my-2">
-                  <label htmlFor="old_password">Old password</label>
+                  <label htmlFor="old_password" className="text-sm">
+                    Old password
+                  </label>
                 </div>
                 <div className="relative md:w-full mb-6 mt-2">
                   {/* <input
@@ -99,7 +101,9 @@ function SamplePage() {
               </div>
               <div className="text-left">
                 <div className="flex justify-between my-2">
-                  <label htmlFor="password">New password</label>
+                  <label htmlFor="password" className="text-sm">
+                    New password
+                  </label>
                 </div>
                 <div className="relative md:w-full mb-6 mt-2">
                   {/* <input
@@ -133,7 +137,9 @@ function SamplePage() {
               </div>
               <div className="text-left">
                 <div className="flex justify-between my-2">
-                  <label htmlFor="confirm_password">Confirm password</label>
+                  <label htmlFor="confirm_password" className="text-sm">
+                    Confirm password
+                  </label>
                 </div>
                 <div className="relative md:w-full mb-6 mt-2">
                   {/* <input

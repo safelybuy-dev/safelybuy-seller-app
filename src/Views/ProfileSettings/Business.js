@@ -64,7 +64,7 @@ export default function Account() {
     try {
       data.legal_form = 'N/A';
       data.vat_registered = true;
-      const { status } = await requests.post('/seller/business', data);
+      const { status } = await requests.post('/seller/business/update', data);
       if (status === 'success') {
         addToast('Successfully updated seller business information', {
           appearance: 'success',
@@ -113,7 +113,7 @@ export default function Account() {
           className="flex mt-6 flex-col md:px-5 w-full">
           {/* {!loadingUser && ( */}{' '}
           <div className="text-left mr-2">
-            <label className="text-sm my-2" htmlFor="firstname">
+            <label className=" text-xs md:text-sm my-2" htmlFor="firstname">
               Business Name
             </label>
             <div className="relative md:w-full mb-6 mt-2">
@@ -128,7 +128,7 @@ export default function Account() {
                 required
                 className={`border ${
                   errors.business_name ? 'border-red' : 'border-[#E0E0E0]'
-                } w-96 md:w-full rounded-full px-6 py-2 tracking-[0.04em] placeholder:text-[#828282] focus:outline-none focus:border-black focus:shadow-xl`}
+                } w-full rounded-full px-6 py-2 tracking-[0.04em] placeholder:text-[#828282] focus:outline-none focus:border-black focus:shadow-xl`}
               />
               <div className="text-red-500">
                 {errors.business_name && (
@@ -138,7 +138,7 @@ export default function Account() {
             </div>
           </div>
           <div className="text-left  md:mr-0 w-full">
-            <label className="text-sm my-2" htmlFor="street">
+            <label className="text-xs md:text-sm my-2" htmlFor="street">
               Street Address
             </label>
             <div className="relative md:w-full mb-6 mt-2">
@@ -152,7 +152,7 @@ export default function Account() {
                 required
                 className={`border ${
                   errors.street ? 'border-red' : 'border-[#E0E0E0]'
-                } w-96 md:w-full rounded-full px-6 py-2 tracking-[0.04em] placeholder:text-[#828282] focus:outline-none focus:border-black focus:shadow-xl`}
+                } w-full rounded-full px-6 py-2 tracking-[0.04em] placeholder:text-[#828282] focus:outline-none focus:border-black focus:shadow-xl`}
               />
               <span className="text-red-500">
                 {errors.street && 'Please enter your street address'}
@@ -160,7 +160,7 @@ export default function Account() {
             </div>
           </div>
           <div className="text-left  md:mr-0 w-full">
-            <label className="text-sm my-2" htmlFor="email">
+            <label className="text-xs md:text-sm my-2" htmlFor="email">
               State
             </label>
             <div className="relative md:w-full mb-6 mt-2">
@@ -185,7 +185,7 @@ export default function Account() {
             </div>
           </div>
           <div className="text-left  md:mr-0 w-full">
-            <label className="text-sm my-2" htmlFor="town">
+            <label className="text-xs md:text-sm my-2" htmlFor="town">
               Town/City
             </label>
             <div className="relative md:w-full mb-6 mt-2">
@@ -213,7 +213,7 @@ export default function Account() {
             </div>
           </div>
           <div className="text-left">
-            <label className="text-sm my-2" htmlFor="tin">
+            <label className="text-xs md:text-sm my-2" htmlFor="tin">
               Tax Identification Number{' '}
             </label>
             <div className="relative md:w-full mb-6 mt-2">
@@ -228,7 +228,7 @@ export default function Account() {
                 required
                 className={`border ${
                   errors.tin ? 'border-red' : 'border-[#E0E0E0]'
-                } w-96 md:w-full rounded-full px-6 py-2 tracking-[0.04em] placeholder:text-[#828282] focus:outline-none focus:border-black focus:shadow-xl`}
+                } w-full rounded-full px-6 py-2 tracking-[0.04em] placeholder:text-[#828282] focus:outline-none focus:border-black focus:shadow-xl`}
               />
               <div className="text-red-500">
                 {errors.tin && <span>{errors.tin.message}</span>}
@@ -236,7 +236,7 @@ export default function Account() {
             </div>
           </div>
           <div className="text-left ">
-            <label className="text-sm my-2" htmlFor="business_num">
+            <label className=" text-xs md:text-sm my-2" htmlFor="business_num">
               Business Registration Number
             </label>
             <div className="relative md:w-full mb-6 mt-2">
@@ -251,7 +251,7 @@ export default function Account() {
                 required
                 className={`border ${
                   errors.business_num ? 'border-red' : 'border-[#E0E0E0]'
-                } w-96 md:w-full rounded-full px-6 py-2 tracking-[0.04em] placeholder:text-[#828282] focus:outline-none focus:border-black focus:shadow-xl`}
+                } w-full rounded-full px-6 py-2 tracking-[0.04em] placeholder:text-[#828282] focus:outline-none focus:border-black focus:shadow-xl`}
               />
               <div className="text-red-500">
                 {errors.business_num && (

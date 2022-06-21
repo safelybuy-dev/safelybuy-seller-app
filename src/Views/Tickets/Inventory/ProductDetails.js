@@ -28,7 +28,7 @@ function ProductDetails({ selectedProduct, setSelectedProduct }) {
           </span>
         </div>
         <div className="flex md:mr-4 mr-0 flex-col md:flex-row">
-          <div className="flex flex-col w-6/12 md:w-full">
+          <div className="flex flex-col w-full">
             <div className="border-b border-gray-100 pb-4 w-full">
               <div className="w-64 md:w-24 rounded-xl h-32 md:h-24 bg-gray-200 overflow-hidden">
                 <img
@@ -52,11 +52,11 @@ function ProductDetails({ selectedProduct, setSelectedProduct }) {
               ))}
             </div>
           </div>
-          <div className="flex flex-col w-6/12 ml-4 md:w-full">
+          <div className="flex flex-col mt-4 md:mt-0  md:ml-4 w-full">
             <div className="flex flex-col border-b pb-4 w-full md:ml-0 md:mt-4">
               <h4 className="text-xl text-purple-500">Display Information</h4>
               <div className="flex mt-6 flex-col">
-                <div className="flex justify-between w-full">
+                <div className="flex flex-col md:flex-row justify-between w-full">
                   <KeyValue
                     title="Event Category"
                     value={
@@ -65,13 +65,13 @@ function ProductDetails({ selectedProduct, setSelectedProduct }) {
                   />
                   <KeyValue title="Event Title" value={selectedProduct.title} />
                 </div>
-                <div className="flex justify-between w-full">
+                <div className="flex flex-col md:flex-row justify-between w-full">
                   <KeyValue
                     title="Event Details"
                     value={selectedProduct.details}
                   />
                 </div>
-                <div className="flex justify-between w-full">
+                <div className="flex flex-col md:flex-row justify-between w-full">
                   <KeyValue
                     title="Event Date/Time"
                     value={selectedProduct.event_date}
@@ -85,7 +85,7 @@ function ProductDetails({ selectedProduct, setSelectedProduct }) {
             </div>
             <div className="flex flex-col w-full pt-4 md:ml-0 md:mt-4">
               <h4 className="text-xl text-purple-500">Ticket Number & Seats</h4>
-              <div className="flex mt-6 flex-col">
+              <div className="flex  mt-6 flex-col">
                 <KeyValue
                   title="Listing Number"
                   value={`#${selectedProduct.listing_number}`}
@@ -93,7 +93,7 @@ function ProductDetails({ selectedProduct, setSelectedProduct }) {
                 <h5 className="text-lg">Seat Category</h5>
                 {selectedProduct.seats.map((seat, index) => (
                   <div
-                    className="flex border-b justify-between w-full"
+                    className="flex border-b flex-col md:flex-row justify-between w-full"
                     key={index}>
                     <KeyValue title="Seat Type" value={seat.type} />
                     <KeyValue title="Seat Price" value={seat.price} />

@@ -17,24 +17,26 @@ export default function ItemsPerPage({
   salesToggle,
 }) {
   const [selected, setSelected] = useState(options[0]);
-
+  // start
   return (
-    <div className={`mx-2 w-48 relative ${!customWidth && 'md:w-1/2'} md:mx-0`}>
+    <div className={`md:w-48 relative ${!customWidth && 'md:w-1/2'} md:mx-0`}>
       <button
         onClick={(e) => {
           if (isVisible) setIsVisible(false);
           else setIsVisible(true);
           e.stopPropagation();
         }}
-        className="relative w-full pl-3 pr-10 py-3 text-left cursor-pointer focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm md:pr-3">
-        <span className="flex items-center">
-          <span className="ml-3 block text-purple-500 truncate md:ml-0">
-            {selected}
-          </span>
+        className=" w-full  py-2    text-left cursor-pointer focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm px-3 flex justify-between items-center">
+        <span className=" text-xs md:text-base block text-purple-500">
+          {selected}
         </span>
-        <span className="ml-3 absolute inset-y-0 right-0 flex items-center pr-6 pointer-events-none">
+        <span className="ml-3  inset-y-0  hidden md:flex items-center  pointer-events-none">
           {/* <!-- Heroicon name: selector --> */}
           <ArrowDown scale={2} />
+        </span>
+        <span className="ml-3  inset-y-0  flex md:hidden items-center pointer-events-none">
+          {/* <!-- Heroicon name: selector --> */}
+          <ArrowDown scale={1.2} />
         </span>
       </button>
       <div
@@ -42,7 +44,7 @@ export default function ItemsPerPage({
         className={`transition ease-in duration-100 ${
           isVisible ? 'block' : 'hidden'
         } absolute mt-1 w-full rounded-md bg-white shadow-lg`}>
-        <ul className="max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+        <ul className="max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-xs md:text-base">
           {options.map((option) => (
             <li
               key={Math.random()}

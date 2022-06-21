@@ -195,8 +195,8 @@ function TitleAndSpec({
   }, [setFirstContinueBtn, watchMe, formLength]);
 
   return (
-    <div className="flex ">
-      <div className="flex w-5/12 justify-center">
+    <div className="flex flex-col md:flex-row">
+      <div className="flex md:w-5/12 justify-center">
         <div className="divide-y divide-light-blue-400 w-full">
           <div className="text-xs pb-2">
             <BackArrowSVG setSteps={setSteps} value={0} />
@@ -228,11 +228,11 @@ function TitleAndSpec({
           </div>
         </div>
       </div>
-      <div className="flex w-7/12 justify-center ">
+      <div className="flex md:w-7/12 justify-center ">
         <div className="flex mt-5">
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-col w-96 md:max-w-7xl md:px-8">
+            className="flex flex-col md:w-96 md:max-w-7xl md:px-8">
             {[2, 5, 7].includes(subcategory_id || 80)
               ? fieldValues.map(
                   ({ name, placeholder, title, isNumOnly }, index) => (
@@ -244,8 +244,8 @@ function TitleAndSpec({
                         {name === 'specifications' ? (
                           <textarea
                             className={`border ${
-                              errors.name ? 'border-red' : 'border-black'
-                            } w-full  px-6 py-2 rounded-md focus:outline-none focus:shadow-xl`}
+                              errors.name ? 'border-red' : 'border-[#E0E0E0]'
+                            } w-full  px-6 py-2 rounded-md focus:outline-none focus:border-black focus:shadow-xl`}
                             rows="4"
                             cols="50"
                             placeholder={placeholder}
@@ -281,8 +281,8 @@ function TitleAndSpec({
                             }}
                             placeholder={placeholder}
                             className={`border ${
-                              errors.name ? 'border-red' : 'border-black'
-                            } w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                              errors.name ? 'border-red' : 'border-[#E0E0E0]'
+                            } w-full rounded-full px-6 py-2 focus:border-black focus:outline-none focus:shadow-xl`}
                           />
                         )}
 
@@ -306,8 +306,8 @@ function TitleAndSpec({
                         {name === 'specifications' ? (
                           <textarea
                             className={`border ${
-                              errors.name ? 'border-red' : 'border-black'
-                            } w-full  px-6 py-2 rounded-md focus:outline-none focus:shadow-xl`}
+                              errors.name ? 'border-red' : 'border-[#E0E0E0]'
+                            } w-full  px-6 py-2 rounded-md focus:outline-none focus:border-black focus:shadow-xl`}
                             rows="4"
                             cols="50"
                             placeholder={placeholder}
@@ -343,8 +343,8 @@ function TitleAndSpec({
                             }}
                             placeholder={placeholder}
                             className={`border ${
-                              errors.name ? 'border-red' : 'border-black'
-                            } w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                              errors.name ? 'border-red' : 'border-[#E0E0E0]'
+                            } w-full rounded-full px-6 py-2 focus:outline-none focus:border-black focus:shadow-xl`}
                           />
                         )}
 
