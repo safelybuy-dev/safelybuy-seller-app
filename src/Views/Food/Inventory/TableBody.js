@@ -85,7 +85,9 @@ function TableBody({
                     {
                       text: 'View Menu',
                       clickHandler: () =>
-                        history.push(`/food/restaurant/${item.id}`),
+                        history.push(
+                          `/food/restaurant/${item.name}/${item.id}`
+                        ),
                     },
                     {
                       text: 'View Orders',

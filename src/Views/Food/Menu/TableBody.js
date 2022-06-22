@@ -51,7 +51,9 @@ function TableBody({
         .map((item) => ({
           status: item.status,
           price: item.price_per_portion,
-          available: item.available_days.join(',\t'),
+          available: (
+            <div className="uppercase">{item.available_days.join(',\t')}</div>
+          ),
           desc: (
             <div>
               <p className="text-purple-600 cursor-pointer text-sm">
@@ -60,17 +62,19 @@ function TableBody({
               <div className="flex justify-between">
                 <KeyValue
                   title="Menu Description"
-                  value={<p>{item.description}</p>}
+                  value={<p className="truncate">{item.description}</p>}
                 />
               </div>
             </div>
           ),
           image: (
-            <img
-              src={item.display_image}
-              alt="event"
-              className="h-20 w-20 rounded-sm object-contain"
-            />
+            <div className="h-[4rem] w-[4rem]  rounded-[4px] bg-gray-500">
+              <img
+                src={item.display_image}
+                alt="event"
+                className="object-cover cursor-pointer h-full w-full"
+              />
+            </div>
           ),
           actions: (
             <div className=" flex  items-center ">

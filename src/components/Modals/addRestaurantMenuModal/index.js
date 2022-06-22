@@ -137,8 +137,10 @@ function RestaurantMenuModal({
     description: isEdit ? currentItem.description : '',
     price_per_portion: isEdit ? currentItem.price_per_portion : '',
     display_image: isEdit ? currentItem.display_image : '',
-    available_days: isEdit ? currentItem.available_days : [''],
-    available_time: isEdit ? currentItem.available_time : [''],
+    available_days: isEdit ? currentItem.available_days : [],
+    available_time: isEdit ? currentItem.available_time : [],
+    price_per_wrap: '',
+    menu_type: '',
   };
 
   const [step, setStep] = useState(1);
@@ -159,6 +161,8 @@ function RestaurantMenuModal({
     price_per_portion,
     available_days,
     available_time,
+    price_per_wrap,
+    menu_type,
   } = eventData;
   const {
     register,
@@ -168,6 +172,7 @@ function RestaurantMenuModal({
   } = useForm({
     defaultValues: {},
   });
+  console.log(available_days, available_time);
   const watchFields_Step1 = watch(['name', 'description', 'price_per_portion']);
 
   const formValuesLength_1 = Object.values(watchFields_Step1)
@@ -287,7 +292,10 @@ function RestaurantMenuModal({
 
           <div className="">
             {step === 1 &&
-              (formValuesLength_1 > 1 || isEdit ? (
+              ((formValuesLength_1 > 2 &&
+                available_days.length &&
+                available_time.length) ||
+              isEdit ? (
                 <Button
                   className="focus:outline-none"
                   text="Continue"
@@ -408,7 +416,7 @@ function RestaurantMenuModal({
                         });
                       }}
                       placeholder="Enter Restaurant Menu"
-                      className="border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
+                      className="border  border-[#E0E0E0] focus:border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
                     />
                   </div>
 
@@ -419,7 +427,9 @@ function RestaurantMenuModal({
 
                     <textarea
                       className={`border ${
-                        errors.name ? 'border-red' : 'border-black'
+                        errors.name
+                          ? 'border-red'
+                          : 'border-[#E0E0E0] focus:border-black'
                       } w-full  px-6 py-2 rounded-md focus:outline-none focus:shadow-xl`}
                       rows="4"
                       cols="50"
@@ -438,26 +448,71 @@ function RestaurantMenuModal({
                     />
                   </div>
                   <div className="text-left mr-2 mt-2">
-                    <label className="text-sm my-2" htmlFor="menu_name">
-                      Price Per Portion
+                    <label className="text-sm my-2" htmlFor="menu_type">
+                      Menu Type
                     </label>
-                    <input
-                      type="number"
-                      {...register('price_per_portion', {
-                        required: true,
-                      })}
-                      value={price_per_portion}
+                    <select
+                      className="border border-[#E0E0E0] focus:border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
+                      {...register('state_id')}
+                      value={menu_type}
                       onChange={(e) => {
                         dispatch({
                           type: 'updateRestaurantState',
                           payload: e.target.value,
-                          field: 'price_per_portion',
+                          field: 'menu_type',
                         });
-                      }}
-                      placeholder="Price Per Portion"
-                      className="border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
-                    />
+                      }}>
+                      <option value="">Choose a menu type</option>
+                      <option value="swallow">Swallow Menu</option>
+                      <option value="normal"> Normal Menu</option>
+                    </select>
                   </div>
+                  {menu_type === 'normal' && (
+                    <div className="text-left mr-2 mt-2">
+                      <label className="text-sm my-2" htmlFor="menu_name">
+                        Price Per Portion
+                      </label>
+                      <input
+                        type="number"
+                        {...register('price_per_portion', {
+                          required: true,
+                        })}
+                        value={price_per_portion}
+                        onChange={(e) => {
+                          dispatch({
+                            type: 'updateRestaurantState',
+                            payload: e.target.value,
+                            field: 'price_per_portion',
+                          });
+                        }}
+                        placeholder="Price Per Portion"
+                        className="border border-[#E0E0E0] focus:border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
+                      />
+                    </div>
+                  )}
+                  {menu_type === 'swallow' && (
+                    <div className="text-left mr-2 mt-2">
+                      <label className="text-sm my-2" htmlFor="menu_name">
+                        Price Per Wrap
+                      </label>
+                      <input
+                        type="number"
+                        {...register('price_per_wrap', {
+                          required: true,
+                        })}
+                        value={price_per_wrap}
+                        onChange={(e) => {
+                          dispatch({
+                            type: 'updateRestaurantState',
+                            payload: e.target.value,
+                            field: 'price_per_wrap',
+                          });
+                        }}
+                        placeholder="Price Per Wrap"
+                        className="border border-[#E0E0E0] focus:border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
+                      />
+                    </div>
+                  )}
                   <div className="text-left  border-t-2 mt-5 border-grey-600">
                     <h3 className="my-4">Available Days</h3>
                     {available_days.map((day, index) => (
@@ -467,7 +522,7 @@ function RestaurantMenuModal({
                         </label>
                         <div className="relative md:w-full mb-2 mt-2">
                           <select
-                            className="border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
+                            className="border border-[#E0E0E0] focus:border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
                             value={day}
                             onChange={(e) => handleAvailableDays(index, e)}>
                             <option value="" disabled>
@@ -515,7 +570,7 @@ function RestaurantMenuModal({
                             onChange={(e) => handleAvailableTime(index, e)}
                             value={time}
                             placeholder="Available time"
-                            className={`border border-black
+                            className={`border border-[#E0E0E0] focus:border-black
                            w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
                           />
                         </div>
