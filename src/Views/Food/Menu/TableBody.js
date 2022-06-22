@@ -68,7 +68,7 @@ function TableBody({
             </div>
           ),
           image: (
-            <div className="h-[4rem] w-[4rem]  rounded-[4px] bg-gray-500">
+            <div className="h-[4rem] w-[4rem] overflow-hidden  rounded-[4px] bg-gray-500">
               <img
                 src={item.display_image}
                 alt="event"

@@ -66,16 +66,21 @@ function TableBody({
                 {item.name}
               </p>
               <div className="flex justify-between">
-                <KeyValue title="Address" value={<p>{item.address}</p>} />
+                <KeyValue
+                  title="Address"
+                  value={<p className="truncate">{item.address}</p>}
+                />
               </div>
             </div>
           ),
           image: (
-            <img
-              src={item.display_image}
-              alt="event"
-              className="h-20 w-20 rounded-sm object-contain"
-            />
+            <div className="h-[4rem] w-[4rem]  rounded-[4px] overflow-hidden bg-gray-500">
+              <img
+                src={item.display_image}
+                alt="event"
+                className="object-cover cursor-pointer h-full w-full"
+              />
+            </div>
           ),
           actions: (
             <div className=" flex">
