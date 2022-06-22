@@ -116,7 +116,10 @@ export default function Dashboard() {
               </Route>
               <Route
                 exact
-                path={['/food/restaurant/:id', '/food/inventory/:id/add']}>
+                path={[
+                  '/food/restaurant/:restaurantName/:id',
+                  '/food/inventory/:id/add',
+                ]}>
                 <RestaurantMenus />
               </Route>
               <Route exact path="/tickets">

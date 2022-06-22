@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import Breadcrumb from 'components/Breadcrumb';
 import { axiosWithAuth } from 'auth';
 import { baseUrl } from 'api';
 import RestaurantMenuModal from 'components/Modals/addRestaurantMenuModal';
@@ -7,10 +6,26 @@ import Button from 'components/Button';
 import { useToasts } from 'react-toast-notifications';
 import { useRouteMatch, useParams } from 'react-router-dom';
 import InventoryTableView from './InventoryTableView';
+import Multicrumb from 'components/Multicrumb';
+
+const links = [
+  {
+    text: 'Food',
+    path: '/food',
+  },
+  {
+    text: 'Restaurant Inventory',
+    path: '/food/inventory',
+  },
+  {
+    text: 'Restaurant Menu',
+    path: '#',
+  },
+];
 
 function Inventory() {
   const { url } = useRouteMatch();
-  const { id } = useParams();
+  const { id, restaurantName } = useParams();
   const [openRestaurantMenuModel, setRestaurantMenuModal] = useState(false);
   const { addToast } = useToasts();
   const [restaurantInventory, setRestaurantInventory] = useState([]);
@@ -72,14 +87,9 @@ function Inventory() {
   }, [url]);
   return (
     <div className="flex flex-col w-full items-start mt-10">
-      <Breadcrumb
-        parentText="Food"
-        parentLink="/food"
-        childText="Manage Inventory"
-        childLink="/food/inventory"
-      />
+      <Multicrumb links={links} />
       <div className="flex justify-between w-full">
-        <h2 className="text-xl">Manage Inventory</h2>
+        <h2 className="text-xl">Manage {restaurantName}'s Menus</h2>
         <span className="md:inline-block hidden">
           <Button
             canClick
