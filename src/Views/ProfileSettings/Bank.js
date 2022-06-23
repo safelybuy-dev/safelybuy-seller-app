@@ -17,6 +17,7 @@ function BankForm({ setIsLoading, dispatch }) {
   const [account_name, setAccountName] = useState('');
   const [account_number, setAccountNumber] = useState('');
   const [bankCode, setBankCode] = useState('');
+  const [loadingBank, setLoadingBank] = useState(false);
 
   const schema = yup.object().shape({
     bank_code: yup.string(),
@@ -69,13 +70,10 @@ function BankForm({ setIsLoading, dispatch }) {
     data.bank_id = data.bank_code;
     delete data.bank_code;
     try {
-      const { message, status } = await requests.post(
-        `/seller/bank${userBank.id && '/update/' + userBank.id}`,
-        {
-          ...data,
-          account_name,
-        }
-      );
+      const { message, status } = await requests.post(`/seller/bank`, {
+        ...data,
+        account_name,
+      });
 
       if (status === 'success') {
         addToast('Successfully added bank details', {
@@ -91,7 +89,15 @@ function BankForm({ setIsLoading, dispatch }) {
         });
       }
     } catch (err) {
-      addToast(err.message || 'Failed to save bank details', {
+      let errorResonse;
+      if (err.response && err.response.data) {
+        errorResonse = err.response.data?.message;
+      } else if (err.message) {
+        errorResonse = err.message;
+      } else {
+        errorResonse = 'Unable to add bank details';
+      }
+      addToast(errorResonse, {
         appearance: 'error',
         autoDismiss: true,
       });
@@ -101,8 +107,12 @@ function BankForm({ setIsLoading, dispatch }) {
   useEffect(() => {
     const fetchData = async () => {
       if (banks.length) return;
-      const res = await requests.get('/getbanks');
-      setBanks(res.data);
+      try {
+        const res = await requests.get('/getbanks');
+        setBanks(res.data);
+      } catch (error) {
+        console.error(error);
+      }
     };
 
     fetchData();
@@ -110,15 +120,21 @@ function BankForm({ setIsLoading, dispatch }) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await requests.get('/seller/bank');
-      if (res.data.length > 0) {
-        setUserBank({
-          id: res.data[0].id,
-          account_name: res.data[0].account_name,
-          bank_code: res.data[0].bank_id,
-          account_number: res.data[0].account_number,
-        });
-        setBankCode(res.data[0].bank_id);
+      try {
+        setLoadingBank(true);
+        const res = await requests.get('/seller/bank');
+        if (res.data.length > 0) {
+          setUserBank({
+            id: res.data[0].id,
+            account_name: res.data[0].account_name,
+            bank_code: res.data[0].bank_id,
+            account_number: res.data[0].account_number,
+          });
+          setBankCode(res.data[0].bank_id);
+          setLoadingBank(false);
+        }
+      } catch (error) {
+        setLoadingBank(false);
       }
     };
     fetchData();
@@ -140,6 +156,10 @@ function BankForm({ setIsLoading, dispatch }) {
     }
   }, [bankCode, account_number, getAccountName]);
 
+  if (loadingBank) {
+    return <p className="px-6 my-6">Please Wait...</p>;
+  }
+
   return (
     <div className="py-4">
       <div className="flex justify-start">
@@ -158,7 +178,8 @@ function BankForm({ setIsLoading, dispatch }) {
                 onChange={(e) => {
                   setAccountName('');
                   setBankCode(e.target.value);
-                }}>
+                }}
+                disabled={Object.keys(userBank).length > 0}>
                 <option key="null/bank" value="0">
                   Select Bank
                 </option>
@@ -195,6 +216,7 @@ function BankForm({ setIsLoading, dispatch }) {
                     ? 'border-red'
                     : 'border-[#E0E0E0] focus:border-black'
                 } w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                disabled={Object.keys(userBank).length > 0}
               />
 
               {errors.account_number && (
@@ -223,22 +245,24 @@ function BankForm({ setIsLoading, dispatch }) {
             </div>
           </div>
 
-          <div className="text-left">
-            <div className="my-3 flex">
-              <Button
-                primaryOutline={account_name.length}
-                disabled={!account_name.length}
-                roundedMd
-                icon={
-                  <div className="animate-bounceSide">
-                    <ArrowRight color="black" />
-                  </div>
-                }
-                text="Save Changes"
-                Continue
-              />
+          {Object.keys(userBank).length === 0 && (
+            <div className="text-left">
+              <div className="my-3 flex">
+                <Button
+                  primaryOutline={account_name.length}
+                  disabled={!account_name.length}
+                  roundedMd
+                  icon={
+                    <div className="animate-bounceSide">
+                      <ArrowRight color="black" />
+                    </div>
+                  }
+                  text="Save Changes"
+                  Continue
+                />
+              </div>
             </div>
-          </div>
+          )}
         </form>
       </div>
     </div>
