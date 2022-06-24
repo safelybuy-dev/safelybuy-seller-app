@@ -1,7 +1,7 @@
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 
-export const baseURL = 'https://api.safelybuy.com/api/v1';
+export const baseURL = 'https://devapi.safelybuy.com/api/v1';
 
 export const LOGIN = 'LOGIN';
 export const LOADING = 'LOADING';
@@ -106,14 +106,11 @@ export const action = (type, payload) => ({
 export const loadUser = async (dispatch) => {
   if (isTokenValid()) {
     try {
-      const [res, resData] = await Promise.all([
-        requests.get('/seller/profile'),
-        requests.get('/seller/check'),
-      ]);
+      const res = await requests.get('/seller/profile');
       if (res.status === 'error') {
         dispatch(action(ERROR, res.message));
       } else {
-        const { businessDetails, bankDetails } = resData;
+        const { business: businessDetails, bank: bankDetails } = res;
         dispatch(
           action(GET_USER, {
             ...res.user,

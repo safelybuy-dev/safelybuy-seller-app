@@ -122,15 +122,15 @@ function BankForm({ setIsLoading, dispatch }) {
     const fetchData = async () => {
       try {
         setLoadingBank(true);
-        const res = await requests.get('/seller/bank');
-        if (res.data.length > 0) {
+        const { bank } = await requests.get('/seller/bank');
+        if (bank.length > 0) {
           setUserBank({
-            id: res.data[0].id,
-            account_name: res.data[0].account_name,
-            bank_code: res.data[0].bank_id,
-            account_number: res.data[0].account_number,
+            id: bank[0].id,
+            account_name: bank[0].account_name,
+            bank_code: bank[0].bank_id,
+            account_number: bank[0].account_number,
           });
-          setBankCode(res.data[0].bank_id);
+          setBankCode(bank[0].bank_id);
           setLoadingBank(false);
         }
       } catch (error) {

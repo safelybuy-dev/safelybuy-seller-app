@@ -88,7 +88,9 @@ function ProductDetails({ selectedProduct, setSelectedProduct }) {
                     text="View Menus"
                     canClick
                     clickHandler={() => {
-                      history.push(`/food/restaurant/${selectedProduct.id}`);
+                      history.push(
+                        `/food/restaurant/${selectedProduct.name}/${selectedProduct.id}`
+                      );
                     }}
                     roundedFull
                     primary

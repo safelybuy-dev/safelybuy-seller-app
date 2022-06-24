@@ -169,7 +169,7 @@ function TableBody({
   }
 
   return (
-    <div className="overflow-x-scroll md:overflow-x-hidden mt-8">
+    <div className="overflow-x-scroll md:overflow-visible mt-8">
       <table {...getTableProps()} className="w-full text-sm">
         <thead className="text-left border-b-2 border-gray-100">
           {headerGroups.map((headerGroup) => (

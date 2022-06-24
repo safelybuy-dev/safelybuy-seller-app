@@ -126,7 +126,6 @@ function RestaurantMenuModal({
 }) {
   const initialState = {
     display_image: isEdit ? currentItem.main_image : '',
-    category: '',
     title: isEdit ? currentItem.name : '',
     sku: isEdit ? currentItem.sku : '',
     price: isEdit ? currentItem.cost : '',
@@ -135,11 +134,7 @@ function RestaurantMenuModal({
       ? currentItem.drinks_and_xtras
       : [
           {
-            name: 'Extra Portion',
-            cost: '',
-          },
-          {
-            name: 'Water 50cl',
+            name: 'water 50cl',
             cost: '',
           },
         ],
@@ -148,7 +143,7 @@ function RestaurantMenuModal({
 
   const [restaurantStates, setRestaurantStates] = useState([]);
   const [dbExtras, setDBExtras] = useState([]);
-  const [step, setStep] = useState(isEdit ? 2 : 1);
+  const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [days, setDays] = useState({
     monday: isEdit
@@ -182,22 +177,14 @@ function RestaurantMenuModal({
   const [searchText, setSearchText] = useState('');
   const [eventData, dispatch] = useReducer(restaurant_Reducer, initialState);
 
-  const {
-    title,
-    sku,
-    price,
-    display_image,
-    availability,
-    category,
-    extras,
-    cities,
-  } = eventData;
+  const { title, sku, price, display_image, availability, extras, cities } =
+    eventData;
 
   const handleChange = (e, i) => {
     const { value } = e.target;
 
     // check if price inputed is less than 1
-    if (Number(value) < 1) return;
+    if (value !== '' && Number(value) < 1) return;
 
     // add the price to the corresponding extra
     const newExtras = extras.map((extra, index) => {
@@ -260,6 +247,7 @@ function RestaurantMenuModal({
   };
 
   const handleRestaurantCreation = async () => {
+    setLoading(true);
     const sanitizedPrice = +price.replaceAll(',', '');
     const data = {
       available_cities_ids: cities.map((city) => city.id),
@@ -351,10 +339,10 @@ function RestaurantMenuModal({
         className="flex flex-col relative md:rounded-3xl rounded-none md:px-10 md:py-10 px-4 py-4 left-0 bg-white opacity-100 h-full overflow-y-scroll md:overflow-visible  md:h-fit">
         <div className="flex justify-between w-full mt-8 pb-10  items-center md:items-start">
           <h3 className="text-xl md:text-2xl">
-            {step === 4 ? 'Review meal' : 'Add a food'}
-            {step === 4 && (
-              <div onClick={() => setStep(3)} className="text-xs mt-1 pb-2">
-                <BackArrowSVG setSteps={setStep} value={3} />
+            {step === 3 ? 'Review meal' : 'Add a food'}
+            {step === 3 && (
+              <div onClick={() => setStep(2)} className="text-xs mt-1 pb-2">
+                <BackArrowSVG setSteps={setStep} value={2} />
                 &nbsp;&nbsp; Go back
               </div>
             )}
@@ -363,26 +351,6 @@ function RestaurantMenuModal({
           <div className="">
             <span className="hidden md:inline">
               {step === 1 &&
-                (category ? (
-                  <Button
-                    className="focus:outline-none"
-                    text="Continue"
-                    canClick
-                    clickHandler={() => setStep(2)}
-                    primary
-                    roundedFull
-                    icon={<FowardSymbolSVG />}
-                  />
-                ) : !category ? (
-                  <Button
-                    className="focus:outline-none"
-                    text="Continue"
-                    disabled
-                    roundedFull
-                    icon={<FowardSymbolSVG />}
-                  />
-                ) : null)}
-              {step === 2 &&
                 (((formValuesLength_1 === 3 || formValuesLength_1 === 4) &&
                   availability.length > 0 &&
                   cities.length > 0) ||
@@ -391,7 +359,7 @@ function RestaurantMenuModal({
                     className="focus:outline-none"
                     text="Continue"
                     canClick
-                    clickHandler={() => setStep(3)}
+                    clickHandler={() => setStep(2)}
                     primary
                     roundedFull
                     icon={<FowardSymbolSVG />}
@@ -405,13 +373,13 @@ function RestaurantMenuModal({
                     icon={<FowardSymbolSVG />}
                   />
                 ) : null)}
-              {step === 3 &&
+              {step === 2 &&
                 (mainImageUploaded || isEdit ? (
                   <Button
                     className="focus:outline-none"
                     text="Continue"
                     canClick
-                    clickHandler={() => setStep(4)}
+                    clickHandler={() => setStep(3)}
                     primary
                     roundedFull
                     icon={<FowardSymbolSVG />}
@@ -425,7 +393,15 @@ function RestaurantMenuModal({
                     icon={<FowardSymbolSVG />}
                   />
                 ) : null)}
-              {step === 4 ? (
+              {step === 3 && loading ? (
+                <Button
+                  className="focus:outline-none"
+                  text="Submit"
+                  roundedFull
+                  disabled
+                  icon={<FowardSymbolSVG />}
+                />
+              ) : step === 3 ? (
                 <Button
                   className="focus:outline-none"
                   text="Submit"
@@ -433,14 +409,6 @@ function RestaurantMenuModal({
                   clickHandler={handleRestaurantCreation}
                   roundedFull
                   primary
-                  icon={<FowardSymbolSVG />}
-                />
-              ) : step === 4 && loading ? (
-                <Button
-                  className="focus:outline-none"
-                  text="Submit"
-                  roundedFull
-                  disabled
                   icon={<FowardSymbolSVG />}
                 />
               ) : null}
@@ -459,7 +427,7 @@ function RestaurantMenuModal({
           </div>
         </div>
 
-        {step === 1 && (
+        {/* {step === 1 && (
           <div className="flex-col">
             <div className="flex w-full justify-center">
               <div className="divide-y divide-light-blue-400 w-full">
@@ -540,23 +508,22 @@ function RestaurantMenuModal({
               </div>
             </div>
           </div>
-        )}
+        )} */}
 
-        {step === 2 && (
+        {step === 1 && (
           <div className="flex flex-col md:flex-row justify-between">
             <div className="flex md:w-[36%] justify-center mb-6 md:mb-0">
               <div className="divide-y divide-light-blue-400 w-full">
                 <div className="text-xs pb-2">
-                  <BackArrowSVG setSteps={setStep} value={1} />
                   &nbsp;&nbsp;&nbsp;
                   {((formValuesLength_1 === 3 || formValuesLength_1 === 4) &&
                     availability.length > 0 &&
                     cities.length > 0) ||
                   isEdit ? (
-                    <FowardArrowSVG setSteps={setStep} value={3} />
+                    <FowardArrowSVG setSteps={setStep} value={2} />
                   ) : null}
-                  &nbsp;&nbsp;&nbsp; 2{' '}
-                  <span className="text-gray-400">/ 3</span>
+                  &nbsp;&nbsp;&nbsp; 1{' '}
+                  <span className="text-gray-400">/ 2</span>
                 </div>
 
                 <div>
@@ -872,20 +839,20 @@ function RestaurantMenuModal({
           </div>
         )}
 
-        {step === 3 && (
+        {step === 2 && (
           <div className="flex  flex-col-reverse md:flex-row justify-between">
             <div className="flex p-4 md:p-0 md:w-5/12  md:mt-0  justify-center">
               <div className="divide-y divide-light-blue-400 w-full">
                 <div className="text-xs pb-2">
-                  <BackArrowSVG setSteps={setStep} value={2} />
+                  <BackArrowSVG setSteps={setStep} value={1} />
                   &nbsp;&nbsp;&nbsp;
                   <FowardArrowSVG
                     setSteps={setStep}
-                    value={mainImageUploaded ? 4 : ''}
+                    value={mainImageUploaded ? 3 : ''}
                     // value={main_event_ticket_image.length ? 4 : ""}
                   />
-                  &nbsp;&nbsp;&nbsp; 3{' '}
-                  <span className="text-gray-400">/ 3</span>
+                  &nbsp;&nbsp;&nbsp; 2{' '}
+                  <span className="text-gray-400">/ 2</span>
                 </div>
 
                 <div>
@@ -935,7 +902,7 @@ function RestaurantMenuModal({
           </div>
         )}
 
-        {step === 4 && (
+        {step === 3 && (
           <div className="flex md:mr-4 mr-0 flex-col md:flex-row">
             <div className="flex flex-col md:w-6/12 w-full">
               <div className="border-t-2 border-[#e0e0e066] pt-4 w-full">
@@ -952,12 +919,6 @@ function RestaurantMenuModal({
             <div className="flex flex-col md:w-6/12 md:ml-6 w-full">
               <div className="flex flex-col  pb-4 w-full mt-4 md:mt-0">
                 <div className="flex  flex-col">
-                  <div className="border-[#e0e0e066] pb-3  border-b-2 mb-3 ">
-                    <h4 className="text-lg text-purple-500">Category</h4>
-                    <div className="flex justify-between w-full">
-                      <KeyValue title="Category" value={category} />
-                    </div>
-                  </div>
                   <div className="border-[#e0e0e066] pb-3  border-b-2 mb-3 ">
                     <h4 className="text-lg text-purple-500">
                       Title and Specifications
@@ -1025,26 +986,6 @@ function RestaurantMenuModal({
         <div className="flex justify-center items-center my-5">
           <span className="inline md:hidden">
             {step === 1 &&
-              (category ? (
-                <Button
-                  className="focus:outline-none"
-                  text="Continue"
-                  canClick
-                  clickHandler={() => setStep(2)}
-                  primary
-                  roundedFull
-                  icon={<FowardSymbolSVG />}
-                />
-              ) : !category ? (
-                <Button
-                  className="focus:outline-none"
-                  text="Continue"
-                  disabled
-                  roundedFull
-                  icon={<FowardSymbolSVG />}
-                />
-              ) : null)}
-            {step === 2 &&
               (((formValuesLength_1 === 3 || formValuesLength_1 === 4) &&
                 availability.length > 0 &&
                 cities.length > 0) ||
@@ -1053,7 +994,7 @@ function RestaurantMenuModal({
                   className="focus:outline-none"
                   text="Continue"
                   canClick
-                  clickHandler={() => setStep(3)}
+                  clickHandler={() => setStep(2)}
                   primary
                   roundedFull
                   icon={<FowardSymbolSVG />}
@@ -1067,13 +1008,13 @@ function RestaurantMenuModal({
                   icon={<FowardSymbolSVG />}
                 />
               ) : null)}
-            {step === 3 &&
+            {step === 2 &&
               (mainImageUploaded || isEdit ? (
                 <Button
                   className="focus:outline-none"
                   text="Continue"
                   canClick
-                  clickHandler={() => setStep(4)}
+                  clickHandler={() => setStep(3)}
                   primary
                   roundedFull
                   icon={<FowardSymbolSVG />}
@@ -1087,7 +1028,15 @@ function RestaurantMenuModal({
                   icon={<FowardSymbolSVG />}
                 />
               ) : null)}
-            {step === 4 ? (
+            {step === 3 && loading ? (
+              <Button
+                className="focus:outline-none"
+                text="Submit"
+                roundedFull
+                disabled
+                icon={<FowardSymbolSVG />}
+              />
+            ) : step === 3 ? (
               <Button
                 className="focus:outline-none"
                 text="Submit"
@@ -1095,14 +1044,6 @@ function RestaurantMenuModal({
                 clickHandler={handleRestaurantCreation}
                 roundedFull
                 primary
-                icon={<FowardSymbolSVG />}
-              />
-            ) : step === 4 && loading ? (
-              <Button
-                className="focus:outline-none"
-                text="Submit"
-                roundedFull
-                disabled
                 icon={<FowardSymbolSVG />}
               />
             ) : null}

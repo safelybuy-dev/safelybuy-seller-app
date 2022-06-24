@@ -133,14 +133,9 @@ function RestaurantMenuModal({
   setEdit,
 }) {
   const initialState = {
-    name: isEdit ? currentItem.name : '',
-    description: isEdit ? currentItem.description : '',
-    price_per_portion: isEdit ? currentItem.price_per_portion : '',
     display_image: isEdit ? currentItem.display_image : '',
     available_days: isEdit ? currentItem.available_days : [],
     available_time: isEdit ? currentItem.available_time : [],
-    price_per_wrap: '',
-    menu_type: '',
   };
 
   const [step, setStep] = useState(1);
@@ -154,32 +149,37 @@ function RestaurantMenuModal({
   );
   const [eventData, dispatch] = useReducer(restaurant_Reducer, initialState);
 
-  const {
-    name,
-    description,
-    display_image,
-    price_per_portion,
-    available_days,
-    available_time,
-    price_per_wrap,
-    menu_type,
-  } = eventData;
+  const { display_image, available_days, available_time } = eventData;
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors },
     watch,
   } = useForm({
-    defaultValues: {},
+    defaultValues: {
+      name: isEdit ? currentItem.name : '',
+      description: isEdit ? currentItem.description : '',
+      price_per_portion: isEdit ? currentItem.price_per_portion : '',
+      menu_type: '',
+    },
   });
-  console.log(available_days, available_time);
-  const watchFields_Step1 = watch(['name', 'description', 'price_per_portion']);
+  const watchFields_Step1 = watch([
+    'name',
+    'description',
+    'price_per_portion',
+    'menu_type',
+  ]);
+
+  console.log(watchFields_Step1);
 
   const formValuesLength_1 = Object.values(watchFields_Step1)
     .filter(Boolean)
     .filter((e) => e.trim().length).length;
 
   const onSubmit = () => console.log('f');
+
+  const { name, description, menu_type, price_per_portion } = getValues();
 
   const handleAvailableDays = (index, e) => {
     const newDays = [...available_days];
@@ -202,6 +202,7 @@ function RestaurantMenuModal({
   };
 
   const handleRestaurantCreation = async () => {
+    setLoading(true);
     const data = {
       name,
       description,
@@ -262,6 +263,7 @@ function RestaurantMenuModal({
           error.message ||
           'Something went wrong';
       }
+      setLoading(false);
       addToast(errorMessage, {
         appearance: 'error',
         autoDismiss: true,
@@ -292,10 +294,9 @@ function RestaurantMenuModal({
 
           <div className="">
             {step === 1 &&
-              ((formValuesLength_1 > 2 &&
-                available_days.length &&
-                available_time.length) ||
-              isEdit ? (
+              (formValuesLength_1 === 4 &&
+              available_days.length &&
+              available_time.length ? (
                 <Button
                   className="focus:outline-none"
                   text="Continue"
@@ -336,7 +337,15 @@ function RestaurantMenuModal({
                 />
               ) : null)}
 
-            {step === 3 ? (
+            {step === 3 && loading ? (
+              <Button
+                className="focus:outline-none"
+                text="Submit"
+                roundedFull
+                disabled
+                icon={<FowardSymbolSVG />}
+              />
+            ) : step === 3 ? (
               <Button
                 className="focus:outline-none"
                 text="Submit"
@@ -344,14 +353,6 @@ function RestaurantMenuModal({
                 clickHandler={handleRestaurantCreation}
                 roundedFull
                 primary
-                icon={<FowardSymbolSVG />}
-              />
-            ) : step === 3 && loading ? (
-              <Button
-                className="focus:outline-none"
-                text="Submit"
-                roundedFull
-                disabled
                 icon={<FowardSymbolSVG />}
               />
             ) : null}
@@ -407,14 +408,6 @@ function RestaurantMenuModal({
                       {...register('name', {
                         required: true,
                       })}
-                      value={name}
-                      onChange={(e) => {
-                        dispatch({
-                          type: 'updateRestaurantState',
-                          payload: e.target.value,
-                          field: 'name',
-                        });
-                      }}
                       placeholder="Enter Restaurant Menu"
                       className="border  border-[#E0E0E0] focus:border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
                     />
@@ -434,17 +427,7 @@ function RestaurantMenuModal({
                       rows="4"
                       cols="50"
                       placeholder="Description for the menu"
-                      {...register('description', {
-                        required: 'Required',
-                      })}
-                      value={description}
-                      onChange={(e) => {
-                        dispatch({
-                          type: 'updateRestaurantState',
-                          payload: e.target.value,
-                          field: 'description',
-                        });
-                      }}
+                      {...register('description')}
                     />
                   </div>
                   <div className="text-left mr-2 mt-2">
@@ -453,15 +436,7 @@ function RestaurantMenuModal({
                     </label>
                     <select
                       className="border border-[#E0E0E0] focus:border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
-                      {...register('state_id')}
-                      value={menu_type}
-                      onChange={(e) => {
-                        dispatch({
-                          type: 'updateRestaurantState',
-                          payload: e.target.value,
-                          field: 'menu_type',
-                        });
-                      }}>
+                      {...register('menu_type')}>
                       <option value="">Choose a menu type</option>
                       <option value="swallow">Swallow Menu</option>
                       <option value="normal"> Normal Menu</option>
@@ -477,14 +452,6 @@ function RestaurantMenuModal({
                         {...register('price_per_portion', {
                           required: true,
                         })}
-                        value={price_per_portion}
-                        onChange={(e) => {
-                          dispatch({
-                            type: 'updateRestaurantState',
-                            payload: e.target.value,
-                            field: 'price_per_portion',
-                          });
-                        }}
                         placeholder="Price Per Portion"
                         className="border border-[#E0E0E0] focus:border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
                       />
@@ -497,17 +464,9 @@ function RestaurantMenuModal({
                       </label>
                       <input
                         type="number"
-                        {...register('price_per_wrap', {
+                        {...register('price_per_portion', {
                           required: true,
                         })}
-                        value={price_per_wrap}
-                        onChange={(e) => {
-                          dispatch({
-                            type: 'updateRestaurantState',
-                            payload: e.target.value,
-                            field: 'price_per_wrap',
-                          });
-                        }}
                         placeholder="Price Per Wrap"
                         className="border border-[#E0E0E0] focus:border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
                       />

@@ -12,7 +12,6 @@ import { BackArrowSVG, FowardArrowSVG, CameraSVG } from '../addProductModal';
 function BorderImageUpload({
   title,
   containerID,
-  dispatch,
   dispatchImage,
   imgSrc,
   useReducerKey,
@@ -24,16 +23,12 @@ function BorderImageUpload({
     const reader = new FileReader();
 
     reader.onloadend = function () {
-      dispatch({
-        type: 'updateRestaurantState',
-        payload: reader.result,
-        field: useReducerKey,
-      });
-
       dispatchImage({
         type: 'updateImage',
-        payload: e.target.files[0],
-        field: useReducerKey,
+        payload: {
+          image_in_file: e.target.files[0],
+          image_in_base64: reader.result,
+        },
       });
     };
     reader.readAsDataURL(e.target.files[0]);
@@ -85,32 +80,18 @@ function KeyValue({ title, value }) {
   );
 }
 
-function restaurant_Reducer(state, action) {
-  console.log(action);
-  const { type, payload, field } = action;
-  switch (type) {
-    case 'updateRestaurantState':
-      return {
-        ...state,
-        [field]: payload,
-      };
-    default:
-      return { ...state };
-  }
-}
-
-const initialImageState = {
-  restaurant_image: '',
-};
-
 const imageReducer = (state, action) => {
   console.log(action);
-  const { payload, field, type } = action;
+  const {
+    payload: { image_in_base64, image_in_file },
+    type,
+  } = action;
   switch (type) {
     case 'updateImage':
       return {
         ...state,
-        [field]: payload,
+        image_in_base64,
+        image_in_file,
       };
     default:
       return state;
@@ -123,19 +104,9 @@ function RestaurantModal({
   currentRestaurant,
   setEdit,
 }) {
-  console.log(currentRestaurant, isEdit);
-
-  const initialState = {
-    state_id: isEdit ? currentRestaurant.id : '',
-    name: isEdit ? currentRestaurant.name : '',
-    opening_time: isEdit ? currentRestaurant.opening_time : '',
-    closing_time: isEdit ? currentRestaurant.closing_time : '',
-    min_order_price: isEdit ? currentRestaurant.min_order_price : '',
-    address: isEdit ? currentRestaurant.address : '',
-    contact_email: isEdit ? currentRestaurant.contact_email : '',
-    display_image: isEdit ? currentRestaurant.display_image : '',
-    contact_phone: isEdit ? currentRestaurant.contact_phone : '',
-    time_to_deliver: isEdit ? currentRestaurant.time_to_deliver : '',
+  const initialImageState = {
+    image_in_base64: isEdit ? currentRestaurant.display_image : '',
+    image_in_file: '',
   };
 
   const [step, setStep] = useState(1);
@@ -148,28 +119,24 @@ function RestaurantModal({
     imageReducer,
     initialImageState
   );
-  const [eventData, dispatch] = useReducer(restaurant_Reducer, initialState);
-
-  const {
-    state_id,
-    name,
-    opening_time,
-    closing_time,
-    min_order_price,
-    address,
-    contact_email,
-    display_image,
-    contact_phone,
-    time_to_deliver,
-  } = eventData;
-
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
+    getValues,
   } = useForm({
-    defaultValues: {},
+    defaultValues: {
+      state_id: isEdit ? currentRestaurant.state_id.toString() : '',
+      name: isEdit ? currentRestaurant.name : '',
+      opening_time: isEdit ? currentRestaurant.opening_time : '',
+      closing_time: isEdit ? currentRestaurant.closing_time : '',
+      min_order_price: isEdit ? currentRestaurant.min_order_price : '',
+      address: isEdit ? currentRestaurant.address : '',
+      contact_email: isEdit ? currentRestaurant.contact_email : '',
+      contact_phone: isEdit ? currentRestaurant.contact_phone : '',
+      time_to_deliver: isEdit ? currentRestaurant.time_to_deliver : '',
+    },
   });
 
   const watchFields_Step1 = watch([
@@ -193,7 +160,20 @@ function RestaurantModal({
   const formValuesLength_2 = Object.values(watchFields_Step2)
     .filter(Boolean)
     .filter((e) => e.trim().length).length;
-  const onSubmit = () => console.log('f');
+
+  const {
+    state_id,
+    name,
+    opening_time,
+    closing_time,
+    min_order_price,
+    address,
+    contact_email,
+    contact_phone,
+    time_to_deliver,
+  } = getValues();
+
+  const onSubmit = () => {};
 
   useEffect(() => {
     axios
@@ -222,11 +202,11 @@ function RestaurantModal({
     }
 
     try {
-      if (imageState.display_image) {
+      if (imageState.image_in_file) {
         const cloudinaryURl =
           'https://api.cloudinary.com/v1_1/hack-sc/image/upload';
         const body = new FormData();
-        body.append('file', imageState.display_image);
+        body.append('file', imageState.image_in_file);
         body.append('upload_preset', 'events');
 
         const mainImageUrl = await axios.post(cloudinaryURl, body);
@@ -285,7 +265,7 @@ function RestaurantModal({
 
           <div className="">
             {step === 1 &&
-              (formValuesLength_1 > 1 ? (
+              (formValuesLength_1 === 5 ? (
                 <Button
                   className="focus:outline-none"
                   text="Continue"
@@ -295,7 +275,7 @@ function RestaurantModal({
                   roundedFull
                   icon={<FowardSymbolSVG />}
                 />
-              ) : formValuesLength_1 !== 6 ? (
+              ) : (
                 <Button
                   className="focus:outline-none"
                   text="Continue"
@@ -303,10 +283,10 @@ function RestaurantModal({
                   roundedFull
                   icon={<FowardSymbolSVG />}
                 />
-              ) : null)}
+              ))}
 
             {step === 2 &&
-              (formValuesLength_2 > 1 ? (
+              (formValuesLength_2 === 4 ? (
                 <Button
                   className="focus:outline-none"
                   text="Continue"
@@ -316,7 +296,7 @@ function RestaurantModal({
                   roundedFull
                   icon={<FowardSymbolSVG />}
                 />
-              ) : formValuesLength_2 !== 4 ? (
+              ) : (
                 <Button
                   className="focus:outline-none"
                   text="Continue"
@@ -324,7 +304,7 @@ function RestaurantModal({
                   roundedFull
                   icon={<FowardSymbolSVG />}
                 />
-              ) : null)}
+              ))}
             {step === 3 &&
               (mainImageUploaded || isEdit ? (
                 <Button
@@ -346,7 +326,15 @@ function RestaurantModal({
                 />
               ) : null)}
 
-            {step === 4 ? (
+            {step === 4 && loading ? (
+              <Button
+                className="focus:outline-none"
+                text="Submit"
+                roundedFull
+                disabled
+                icon={<FowardSymbolSVG />}
+              />
+            ) : step === 4 ? (
               <Button
                 className="focus:outline-none"
                 text="Submit"
@@ -354,14 +342,6 @@ function RestaurantModal({
                 clickHandler={handleRestaurantCreation}
                 roundedFull
                 primary
-                icon={<FowardSymbolSVG />}
-              />
-            ) : step === 4 && loading ? (
-              <Button
-                className="focus:outline-none"
-                text="Submit"
-                roundedFull
-                disabled
                 icon={<FowardSymbolSVG />}
               />
             ) : null}
@@ -414,16 +394,17 @@ function RestaurantModal({
                     </label>
                     <div className="relative md:w-full mb-2 mt-2">
                       <select
-                        className="border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
+                        className="border border-[#E0E0E0] focus:border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
                         {...register('state_id')}
-                        value={state_id - 1}
-                        onChange={(e) => {
-                          dispatch({
-                            type: 'updateRestaurantState',
-                            payload: e.target.value,
-                            field: 'state_id',
-                          });
-                        }}>
+                        // value={state_id}
+                        // onChange={(e) => {
+                        //   dispatch({
+                        //     type: 'updateRestaurantState',
+                        //     payload: e.target.value,
+                        //     field: 'state_id',
+                        //   });
+                        // }}
+                      >
                         <option value="" disabled>
                           select state
                         </option>
@@ -442,19 +423,17 @@ function RestaurantModal({
                     </label>
                     <input
                       type="text"
-                      {...register('title', {
-                        required: true,
-                      })}
-                      value={name}
-                      onChange={(e) => {
-                        dispatch({
-                          type: 'updateRestaurantState',
-                          payload: e.target.value,
-                          field: 'name',
-                        });
-                      }}
+                      {...register('name')}
+                      // value={name}
+                      // onChange={(e) => {
+                      //   dispatch({
+                      //     type: 'updateRestaurantState',
+                      //     payload: e.target.value,
+                      //     field: 'name',
+                      //   });
+                      // }}
                       placeholder="Enter Restaurant Name"
-                      className="border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
+                      className="border border-[#E0E0E0] focus:border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
                     />
                   </div>
 
@@ -464,19 +443,17 @@ function RestaurantModal({
                     </label>
                     <input
                       type="time"
-                      {...register('opening_time', {
-                        required: 'Required',
-                      })}
-                      value={opening_time}
-                      onChange={(e) => {
-                        dispatch({
-                          type: 'updateRestaurantState',
-                          payload: e.target.value,
-                          field: 'opening_time',
-                        });
-                      }}
+                      {...register('opening_time')}
+                      // value={opening_time}
+                      // onChange={(e) => {
+                      //   dispatch({
+                      //     type: 'updateRestaurantState',
+                      //     payload: e.target.value,
+                      //     field: 'opening_time',
+                      //   });
+                      // }}
                       placeholder="opening time"
-                      className={`border border-black
+                      className={`border border-[#E0E0E0] focus:border-black
                            w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
                     />
                   </div>
@@ -487,19 +464,17 @@ function RestaurantModal({
                     </label>
                     <input
                       type="time"
-                      {...register('closing_time', {
-                        required: 'Required',
-                      })}
-                      value={closing_time}
-                      onChange={(e) => {
-                        dispatch({
-                          type: 'updateRestaurantState',
-                          payload: e.target.value,
-                          field: 'closing_time',
-                        });
-                      }}
+                      {...register('closing_time')}
+                      // value={closing_time}
+                      // onChange={(e) => {
+                      //   dispatch({
+                      //     type: 'updateRestaurantState',
+                      //     payload: e.target.value,
+                      //     field: 'closing_time',
+                      //   });
+                      // }}
                       placeholder="Closing time"
-                      className={`border border-black
+                      className={`border border-[#E0E0E0] focus:border-black
                            w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
                     />
                   </div>
@@ -509,19 +484,17 @@ function RestaurantModal({
                     </label>
                     <input
                       type="number"
-                      {...register('min_order_price', {
-                        required: 'Required',
-                      })}
-                      value={min_order_price}
-                      onChange={(e) => {
-                        dispatch({
-                          type: 'updateRestaurantState',
-                          payload: e.target.value,
-                          field: 'min_order_price',
-                        });
-                      }}
+                      {...register('min_order_price')}
+                      // value={min_order_price}
+                      // onChange={(e) => {
+                      //   dispatch({
+                      //     type: 'updateRestaurantState',
+                      //     payload: e.target.value,
+                      //     field: 'min_order_price',
+                      //   });
+                      // }}
                       placeholder="minimum order price"
-                      className={`border border-black
+                      className={`border border-[#E0E0E0] focus:border-black
                            w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
                     />
                   </div>
@@ -576,16 +549,16 @@ function RestaurantModal({
                       {...register('contact_email', {
                         required: true,
                       })}
-                      value={contact_email}
-                      onChange={(e) => {
-                        dispatch({
-                          type: 'updateRestaurantState',
-                          payload: e.target.value,
-                          field: 'contact_email',
-                        });
-                      }}
+                      // value={contact_email}
+                      // onChange={(e) => {
+                      //   dispatch({
+                      //     type: 'updateRestaurantState',
+                      //     payload: e.target.value,
+                      //     field: 'contact_email',
+                      //   });
+                      // }}
                       placeholder="Email Address"
-                      className="border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
+                      className="border border-[#E0E0E0] focus:border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
                     />
                   </div>
                   <div className="text-left mr-2 mt-2">
@@ -597,16 +570,16 @@ function RestaurantModal({
                       {...register('contact_phone', {
                         required: true,
                       })}
-                      value={contact_phone}
-                      onChange={(e) => {
-                        dispatch({
-                          type: 'updateRestaurantState',
-                          payload: e.target.value,
-                          field: 'contact_phone',
-                        });
-                      }}
+                      // value={contact_phone}
+                      // onChange={(e) => {
+                      //   dispatch({
+                      //     type: 'updateRestaurantState',
+                      //     payload: e.target.value,
+                      //     field: 'contact_phone',
+                      //   });
+                      // }}
                       placeholder="contact phone"
-                      className="border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
+                      className="border border-[#E0E0E0] focus:border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
                     />
                   </div>
                   <div className="text-left mr-2 mt-2">
@@ -618,16 +591,16 @@ function RestaurantModal({
                       {...register('time_to_deliver', {
                         required: true,
                       })}
-                      value={time_to_deliver}
-                      onChange={(e) => {
-                        dispatch({
-                          type: 'updateRestaurantState',
-                          payload: e.target.value,
-                          field: 'time_to_deliver',
-                        });
-                      }}
+                      // value={time_to_deliver}
+                      // onChange={(e) => {
+                      //   dispatch({
+                      //     type: 'updateRestaurantState',
+                      //     payload: e.target.value,
+                      //     field: 'time_to_deliver',
+                      //   });
+                      // }}
                       placeholder="delivery time"
-                      className="border border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
+                      className="border border-[#E0E0E0] focus:border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
                     />
                   </div>
                   <div className="mt-2">
@@ -637,22 +610,24 @@ function RestaurantModal({
 
                     <textarea
                       className={`border ${
-                        errors.name ? 'border-red' : 'border-black'
+                        errors.address
+                          ? 'border-red'
+                          : 'border-[#E0E0E0] focus:border-black'
                       } w-full  px-6 py-2 rounded-md focus:outline-none focus:shadow-xl`}
                       rows="4"
                       cols="50"
                       placeholder="enter the address of the restaurant"
                       {...register('address', {
-                        required: 'Required',
+                        required: true,
                       })}
-                      value={address}
-                      onChange={(e) => {
-                        dispatch({
-                          type: 'updateRestaurantState',
-                          payload: e.target.value,
-                          field: 'address',
-                        });
-                      }}
+                      // value={address}
+                      // onChange={(e) => {
+                      //   dispatch({
+                      //     type: 'updateRestaurantState',
+                      //     payload: e.target.value,
+                      //     field: 'address',
+                      //   });
+                      // }}
                     />
                   </div>
                 </form>
@@ -711,11 +686,10 @@ function RestaurantModal({
                 <BorderImageUpload
                   title="Cover Image"
                   containerID="cover-product-img"
-                  dispatch={dispatch}
-                  imgSrc={display_image}
-                  useReducerKey="display_image"
+                  imgSrc={imageState.image_in_base64}
                   setMainImageUploaded={setMainImageUploaded}
                   dispatchImage={dispatchImage}
+                  useReducerKey="display_image"
                 />
 
                 <div className="grid grid-cols-1 divide-y divide-grey-500">
@@ -733,7 +707,7 @@ function RestaurantModal({
               <div className="border-b border-gray-100 pb-4 w-full">
                 <div className="md:w-64 w-24 rounded-xl md:h-32 h-24 bg-gray-200">
                   <img
-                    src={display_image}
+                    src={imageState.image_in_base64}
                     className="object-cover w-full h-full"
                     alt="Restaurant"
                   />
@@ -773,7 +747,13 @@ function RestaurantModal({
                     <KeyValue title="Contact Phone" value={contact_phone} />
                   </div>
                   <div className="flex justify-between w-full">
-                    <KeyValue title="State" value={state_id} />
+                    <KeyValue
+                      title="State"
+                      value={
+                        restaurantStates.find((res) => res.id === +state_id)
+                          .name
+                      }
+                    />
                   </div>
                 </div>
               </div>
