@@ -238,6 +238,7 @@ function RestaurantModal({
       } else {
         errorMessage = error.message || 'Something went wrong';
       }
+      setLoading(false);
       addToast(errorMessage, {
         appearance: 'error',
         autoDismiss: true,
