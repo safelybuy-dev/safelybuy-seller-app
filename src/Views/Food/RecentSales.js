@@ -41,7 +41,7 @@ function RecentSales({ items, setSelectedItem, recentType }) {
             <p>{item?.buyer?.phone}</p>
           </div>
         ),
-        price: <p>{item?.meal_plan?.cost}NGN</p>,
+        price: <p>{typeof item?.meal_plan?.cost}NGN</p>,
         time: <p>{item?.delivery_time}</p>,
       })),
     [items, setSelectedItem]

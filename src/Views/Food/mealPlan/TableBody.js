@@ -24,7 +24,7 @@ function TableBody({
           sn: <span>{index + 1}</span>,
           status: <span className="capitalize">{item.status}</span>,
           image: (
-            <div className="h-[2.5rem] w-[2.5rem]  rounded-[4px]">
+            <div className="h-[2.5rem] w-[2.5rem] bg-gray-500 overflow-hidden rounded-[4px]">
               <img
                 src={item.main_image}
                 alt={item.name}
