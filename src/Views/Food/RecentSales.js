@@ -15,11 +15,13 @@ function RecentSales({ items, setSelectedItem, recentType }) {
         ),
         meal: (
           <div className="flex items-center">
-            <img
-              className="w-[40px] h-[40px] rounded-sm"
-              src={item?.meal_plan?.main_image}
-              alt={item?.meal_plan?.name}
-            />
+            <div className="h-[2.5rem] w-[2.5rem] bg-gray-500 overflow-hidden rounded-[4px]">
+              <img
+                src={item?.meal_plan?.main_image}
+                alt={item?.meal_plan?.name}
+                className=" object-cover cursor-pointer h-full w-full"
+              />
+            </div>
             <div className="ml-3">
               <h4
                 className="capitalize text-purple-600 cursor-pointer"
@@ -41,7 +43,7 @@ function RecentSales({ items, setSelectedItem, recentType }) {
             <p>{item?.buyer?.phone}</p>
           </div>
         ),
-        price: <p>{typeof item?.meal_plan?.cost}NGN</p>,
+        price: <p>{Number(item?.meal_plan?.cost).toLocaleString()}NGN</p>,
         time: <p>{item?.delivery_time}</p>,
       })),
     [items, setSelectedItem]
