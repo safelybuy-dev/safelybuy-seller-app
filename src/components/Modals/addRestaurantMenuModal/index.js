@@ -7,6 +7,7 @@ import Button from 'components/Button';
 import axios from 'axios';
 import { baseUrl } from 'api';
 import { BackArrowSVG, FowardArrowSVG, CameraSVG } from '../addProductModal';
+import DayButton from 'components/DayButton';
 
 function BorderImageUpload({
   title,
@@ -135,9 +136,29 @@ function RestaurantMenuModal({
   const initialState = {
     display_image: isEdit ? currentItem.display_image : '',
     available_days: isEdit ? currentItem.available_days : [],
-    available_time: isEdit ? currentItem.available_time : [],
+    menu_type: '',
   };
 
+  const [days, setDays] = useState({
+    monday: isEdit
+      ? currentItem.available_days.find((day) => day === 'monday')
+      : '',
+    tuesday: isEdit
+      ? currentItem.available_days.find((day) => day === 'tuesday')
+      : '',
+    wednesday: isEdit
+      ? currentItem.available_days.find((day) => day === 'wednesday')
+      : '',
+    thursday: isEdit
+      ? currentItem.available_days.find((day) => day === 'thursday')
+      : '',
+    friday: isEdit
+      ? currentItem.available_days.find((day) => day === 'friday')
+      : '',
+    saturday: isEdit
+      ? currentItem.available_days.find((day) => day === 'saturday')
+      : '',
+  });
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const history = useHistory();
@@ -149,7 +170,10 @@ function RestaurantMenuModal({
   );
   const [eventData, dispatch] = useReducer(restaurant_Reducer, initialState);
 
-  const { display_image, available_days, available_time } = eventData;
+  const { display_image, available_days, menu_type } = eventData;
+
+  console.log(available_days);
+
   const {
     register,
     handleSubmit,
@@ -161,17 +185,9 @@ function RestaurantMenuModal({
       name: isEdit ? currentItem.name : '',
       description: isEdit ? currentItem.description : '',
       price_per_portion: isEdit ? currentItem.price_per_portion : '',
-      menu_type: '',
     },
   });
-  const watchFields_Step1 = watch([
-    'name',
-    'description',
-    'price_per_portion',
-    'menu_type',
-  ]);
-
-  console.log(watchFields_Step1);
+  const watchFields_Step1 = watch(['name', 'description', 'price_per_portion']);
 
   const formValuesLength_1 = Object.values(watchFields_Step1)
     .filter(Boolean)
@@ -179,25 +195,20 @@ function RestaurantMenuModal({
 
   const onSubmit = () => console.log('f');
 
-  const { name, description, menu_type, price_per_portion } = getValues();
+  const { name, description, price_per_portion } = getValues();
 
-  const handleAvailableDays = (index, e) => {
-    const newDays = [...available_days];
-    newDays[index] = e.target.value;
+  const handleDays = (state, day) => {
+    let newAvailability;
+    if (!state) {
+      newAvailability = [...available_days, day.toLowerCase()];
+    } else {
+      setDays({ ...days, [state]: '' });
+      newAvailability = available_days.filter((days) => days !== day);
+    }
     dispatch({
       type: 'updateRestaurantState',
-      payload: newDays,
+      payload: newAvailability,
       field: 'available_days',
-    });
-  };
-
-  const handleAvailableTime = (index, e) => {
-    const newTime = [...available_time];
-    newTime[index] = e.target.value;
-    dispatch({
-      type: 'updateRestaurantState',
-      payload: newTime,
-      field: 'available_time',
     });
   };
 
@@ -208,7 +219,7 @@ function RestaurantMenuModal({
       description,
       price_per_portion,
       available_days,
-      available_time,
+      menu_type,
     };
 
     if (isEdit) {
@@ -294,9 +305,9 @@ function RestaurantMenuModal({
 
           <div className="">
             {step === 1 &&
-              (formValuesLength_1 === 4 &&
+              (formValuesLength_1 === 3 &&
               available_days.length &&
-              available_time.length ? (
+              menu_type ? (
                 <Button
                   className="focus:outline-none"
                   text="Continue"
@@ -434,116 +445,89 @@ function RestaurantMenuModal({
                     <label className="text-sm my-2" htmlFor="menu_type">
                       Menu Type
                     </label>
-                    <select
-                      className="border border-[#E0E0E0] focus:border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
-                      {...register('menu_type')}>
-                      <option value="">Choose a menu type</option>
-                      <option value="swallow">Swallow Menu</option>
-                      <option value="normal"> Normal Menu</option>
-                    </select>
-                  </div>
-                  {menu_type === 'normal' && (
-                    <div className="text-left mr-2 mt-2">
-                      <label className="text-sm my-2" htmlFor="menu_name">
-                        Price Per Portion
-                      </label>
-                      <input
-                        type="number"
-                        {...register('price_per_portion', {
-                          required: true,
-                        })}
-                        placeholder="Price Per Portion"
-                        className="border border-[#E0E0E0] focus:border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
-                      />
-                    </div>
-                  )}
-                  {menu_type === 'swallow' && (
-                    <div className="text-left mr-2 mt-2">
-                      <label className="text-sm my-2" htmlFor="menu_name">
-                        Price Per Wrap
-                      </label>
-                      <input
-                        type="number"
-                        {...register('price_per_portion', {
-                          required: true,
-                        })}
-                        placeholder="Price Per Wrap"
-                        className="border border-[#E0E0E0] focus:border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
-                      />
-                    </div>
-                  )}
-                  <div className="text-left  border-t-2 mt-5 border-grey-600">
-                    <h3 className="my-4">Available Days</h3>
-                    {available_days.map((day, index) => (
-                      <div className="text-left mr-2" key={index}>
-                        <label className="text-sm my-2" htmlFor="email">
-                          Day {index + 1}
-                        </label>
-                        <div className="relative md:w-full mb-2 mt-2">
-                          <select
-                            className="border border-[#E0E0E0] focus:border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
-                            value={day}
-                            onChange={(e) => handleAvailableDays(index, e)}>
-                            <option value="" disabled>
-                              Select Day
-                            </option>
-                            {[
-                              'Monday',
-                              'Tuesday',
-                              'Wednesday',
-                              'Thursday',
-                              'Friday',
-                              'Saturday',
-                              'Sunday',
-                            ].map((day, index) => (
-                              <option key={index} value={day.toLowerCase()}>
-                                {day}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                      </div>
-                    ))}
                     <div
-                      style={{ background: 'rgba(134, 97, 255, 0.15)' }}
-                      className="px-5 py-3 border-dashed border-4 border-purple-500 rounded-3xl mt-5 text-center cursor-pointer"
-                      onClick={() =>
-                        dispatch({
-                          type: 'addMoreDays',
-                        })
-                      }>
-                      Add a new day
-                    </div>
-                  </div>
-
-                  <div className="text-left  border-t-2 mt-5 border-grey-600">
-                    <h3 className="my-4">Available Time</h3>
-                    {available_time.map((time, index) => (
-                      <div className="text-left mr-2" key={index}>
-                        <label className="text-sm my-2" htmlFor="email">
-                          Available Time {index + 1}
-                        </label>
-                        <div className="relative md:w-full mb-2 mt-2">
+                      className="border border-[#E0E0E0] 
+                        transition focus:border-gray-800 w-full rounded-[1.875rem] px-6 py-2 focus:outline-none focus:shadow-xl min-h-[90px]">
+                      <div className="flex items-center gap-2 w-[90%] mx-auto ">
+                        <button
+                          className={`
+                        ${
+                          menu_type === 'normal'
+                            ? 'bg-purple-600 text-white'
+                            : 'bg-[#c4c4c44d] text-[#828282]'
+                        } py-1 px-2 mr-2 mb-2  text-sm text-whitefont-medium rounded cursor-pointer tracking-[0.04em] capitalize`}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            dispatch({
+                              type: 'updateRestaurantState',
+                              payload: 'normal',
+                              field: 'menu_type',
+                            });
+                          }}>
+                          Normal Menu
+                        </button>
+                        <button
+                          className={`
+                          ${
+                            menu_type === 'swallow'
+                              ? 'bg-purple-600 text-white'
+                              : 'bg-[#c4c4c44d] text-[#828282]'
+                          }
+                          py-1 px-2 mr-2 mb-2  text-sm text-whitefont-medium rounded cursor-pointer tracking-[0.04em] capitalize`}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            dispatch({
+                              type: 'updateRestaurantState',
+                              payload: 'swallow',
+                              field: 'menu_type',
+                            });
+                          }}>
+                          Swallow Menu
+                        </button>
+                      </div>
+                      {menu_type && (
+                        <div className=" bg-[#c4c4c4] bg-opacity-20 rounded-full w-[90%] mx-auto py-2 px-6  my-4 ">
                           <input
-                            type="time"
-                            onChange={(e) => handleAvailableTime(index, e)}
-                            value={time}
-                            placeholder="Available time"
-                            className={`border border-[#E0E0E0] focus:border-black
-                           w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                            type="text"
+                            name=""
+                            id=""
+                            placeholder={
+                              menu_type === 'swallow'
+                                ? 'price per wrap'
+                                : 'price per portion'
+                            }
+                            className="w-full h-full outline-none bg-transparent  text-sm"
+                            {...register('price_per_portion', {
+                              required: true,
+                            })}
                           />
                         </div>
-                      </div>
-                    ))}
+                      )}
+                    </div>
+                  </div>
+                  <div className="text-left  border-t-2 mt-5 pt-4 border-grey-600">
+                    <label className="text-sm my-2" htmlFor="availability">
+                      Food Availablity
+                    </label>
                     <div
-                      style={{ background: 'rgba(134, 97, 255, 0.15)' }}
-                      className="px-5 py-3 border-dashed border-4 border-purple-500 rounded-3xl mt-5 text-center cursor-pointer"
-                      onClick={() =>
-                        dispatch({
-                          type: 'addMoreTime',
-                        })
-                      }>
-                      Add a new time
+                      className="border border-[#E0E0E0] 
+                        transition focus:border-gray-800 w-full rounded-[1.875rem] px-6 py-2 focus:outline-none focus:shadow-xl h-[90px]">
+                      {[
+                        'monday',
+                        'tuesday',
+                        'wednesday',
+                        'thursday',
+                        'friday',
+                        'saturday',
+                      ].map((day) => (
+                        <DayButton
+                          day={day}
+                          key={day}
+                          days={days}
+                          setDays={setDays}
+                          handleDays={handleDays}
+                        />
+                      ))}
                     </div>
                   </div>
                 </form>
@@ -652,12 +636,6 @@ function RestaurantMenuModal({
                     <KeyValue
                       title="Available Days"
                       value={available_days.join(',\t')}
-                    />
-                  </div>
-                  <div className="flex justify-between w-full">
-                    <KeyValue
-                      title="Available Time"
-                      value={available_time.join(',\t')}
                     />
                   </div>
                 </div>

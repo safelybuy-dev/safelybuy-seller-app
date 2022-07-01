@@ -3,6 +3,7 @@ import { useTable } from 'react-table';
 import Button from 'components/Button';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import { convertToNaira } from 'utilities/getCurrency';
 
 function KeyValue({ title, value }) {
   return (
@@ -50,9 +51,9 @@ function TableBody({
         .filter((item) => item.status === active || active === 'all')
         .map((item) => ({
           status: item.status,
-          price: item.price_per_portion,
+          price: <span>{convertToNaira(item.price_per_portion)}</span>,
           available: (
-            <div className="uppercase">{item.available_days.join(',\t')}</div>
+            <div className="capitalize">{item.available_days.join(',\t')}</div>
           ),
           desc: (
             <div>
@@ -78,22 +79,28 @@ function TableBody({
           ),
           actions: (
             <div className=" flex  items-center ">
-              <span onClick={() => handleDelete(item.id)}>
-                <Button rounded danger>
-                  Delete
-                </Button>
-              </span>
-              <div className="px-2" />
-              <span
-                onClick={() => {
-                  setEdit(true);
-                  setItem(item);
-                  setRestaurantMenuModal(true);
-                }}>
-                <Button rounded primary>
-                  Edit
-                </Button>
-              </span>
+              {item.status === 'Active' ? (
+                <>
+                  <span onClick={() => handleDelete(item.id)}>
+                    <Button rounded danger>
+                      Delete
+                    </Button>
+                  </span>
+                  <div className="px-2" />
+                  <span
+                    onClick={() => {
+                      setEdit(true);
+                      setItem(item);
+                      setRestaurantMenuModal(true);
+                    }}>
+                    <Button rounded primary>
+                      Edit
+                    </Button>
+                  </span>
+                </>
+              ) : (
+                <span className="text-gray-500 opacity-70">Deactivated</span>
+              )}
             </div>
           ),
         })),

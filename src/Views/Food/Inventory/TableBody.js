@@ -52,7 +52,7 @@ function TableBody({
         .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
         .filter((item) => item.status === active || active === 'all')
         .map((item) => ({
-          status: item.status,
+          status: <p className="capitalize">{item.status}</p>,
           name: item.name,
           opening: moment(item.opening_time, 'LT').format('HH:mm a'),
           closing: moment(item.closing_time, 'LT').format('HH:mm a'),

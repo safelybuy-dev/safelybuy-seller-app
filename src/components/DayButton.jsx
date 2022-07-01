@@ -12,7 +12,7 @@ function DayButton({ day, handleDays, days, setDays }) {
       } font-medium rounded cursor-pointer tracking-[0.04em] capitalize`}
       onClick={(e) => {
         e.preventDefault();
-        setDays({ ...days, [day]: day });
+        setDays((prev) => ({ ...prev, [day]: day }));
         handleDays(days[day], day);
       }}>
       {day}

@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { Times } from "svg";
-import { DateRange } from "react-date-range";
-import "react-date-range/dist/styles.css"; // main style file
-import "react-date-range/dist/theme/default.css"; // theme css file
-import { axiosWithAuth } from "auth";
-import { baseUrl } from "api";
-import moment from "moment";
-import { useToasts } from "react-toast-notifications";
+import React, { useState, useEffect } from 'react';
+import { Times } from 'svg';
+import { DateRange } from 'react-date-range';
+import 'react-date-range/dist/styles.css'; // main style file
+import 'react-date-range/dist/theme/default.css'; // theme css file
+import { axiosWithAuth } from 'auth';
+import { baseUrl } from 'api';
+import moment from 'moment';
+import { useToasts } from 'react-toast-notifications';
 
 function SortMealModal({ setTriggerSort, items, setDashboardDetails }) {
   const { addToast } = useToasts();
@@ -18,30 +18,28 @@ function SortMealModal({ setTriggerSort, items, setDashboardDetails }) {
     {
       startDate: new Date(),
       endDate: null,
-      key: "selection",
+      key: 'selection',
     },
   ]);
   const [loading, setLoading] = useState(false);
 
   const handleFilter = async () => {
     setLoading(true);
-    const selectedIds = items
-      .filter((item) => selectedPlans.includes(item?.meal_plan?.name))
-      .map((item) => item?.meal_plan?.id);
+    const selectedIds = [
+      ...new Set(
+        items
+          .filter((item) => selectedPlans.includes(item?.meal_plan?.name))
+          .map((item) => item?.meal_plan?.id)
+      ),
+    ];
 
-    const selectedDates = Object.values(state[0]);
-
-    selectedDates.pop();
-
-    const delivery_dates = selectedDates.map((date) =>
-      moment(date).format("YYYY-MM-DD")
-    );
+    const delivery_dates = moment(state[0]?.startDate).format('YYYY-MM-DD');
 
     const filterByData = {};
-    if (selectedPlans.length > 0) filterByData.name = selectedPlans.join(", ");
+    if (selectedPlans.length > 0) filterByData.name = selectedPlans.join(', ');
     if (selectedTime.length > 0) filterByData.delivery_times = selectedTime;
     if (selectedIds.length > 0) filterByData.meal_plan_ids = selectedIds;
-    if (delivery_dates.length > 0) selectedTime.delivery_dates = delivery_dates;
+    filterByData.delivery_dates = [delivery_dates];
 
     try {
       const response = await axiosWithAuth().post(
@@ -61,15 +59,15 @@ function SortMealModal({ setTriggerSort, items, setDashboardDetails }) {
 
       if (error.response && error.response.data.errors) {
         const errors = Object.values(error.response.data.errors);
-        errorMessage = errors.map((error) => error[0]).join("\n");
+        errorMessage = errors.map((error) => error[0]).join('\n');
       } else {
         errorMessage =
           error.response.data.message ||
           error.message ||
-          "Something went wrong";
+          'Something went wrong';
       }
       addToast(errorMessage, {
-        appearance: "error",
+        appearance: 'error',
         autoDismiss: true,
       });
     }
@@ -93,20 +91,24 @@ function SortMealModal({ setTriggerSort, items, setDashboardDetails }) {
     });
   }, [items, uniqueTime]);
 
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'scroll';
+    };
+  });
+
   return (
     <div
-      className="h-screen p-[6rem] w-screen fixed top-0 left-0 overflow-scroll bg-purple-600 bg-opacity-30 z-50 flex justify-end"
-      onClick={() => setTriggerSort(false)}
-    >
+      className="h-screen p-[6rem] w-screen fixed top-0 left-0 overflow-y-scroll  bg-purple-600 bg-opacity-30 z-50 flex justify-end"
+      onClick={() => setTriggerSort(false)}>
       <div
         className="bg-[#F6F5FF]  w-[contain] p-6 min-h-[980px]  relative flex flex-col justify-center"
-        onClick={(e) => e.stopPropagation()}
-      >
+        onClick={(e) => e.stopPropagation()}>
         <div className="absolute -top-3 -right-2">
           <button
             className="rounded-[50%] bg-[#EB5757] p-2"
-            onClick={() => setTriggerSort(false)}
-          >
+            onClick={() => setTriggerSort(false)}>
             <Times color="#fff" />
           </button>
         </div>
@@ -114,8 +116,8 @@ function SortMealModal({ setTriggerSort, items, setDashboardDetails }) {
           <div className="bg-[#8661ff26] h-16 px-8 flex justify-between items-center text-sm">
             <div className="flex ">
               <button className="text-[#8661FF] mr-3">
-                {" "}
-                <Times />{" "}
+                {' '}
+                <Times />{' '}
               </button>
               <button className="text-[#8661FF]">Filter</button>
             </div>
@@ -191,12 +193,11 @@ function SortMealModal({ setTriggerSort, items, setDashboardDetails }) {
           <div className="my-8 flex justify-center items-center">
             <button
               className={`rounded-full w-3/5 text-white bg-[#8661FF] py-[0.5rem] ${
-                loading && "opacity-30 cursor-not-allowed"
+                loading && 'opacity-30 cursor-not-allowed'
               }`}
               onClick={handleFilter}
-              disabled={loading}
-            >
-              {loading ? "Please wait.." : "Filter"}
+              disabled={loading}>
+              {loading ? 'Please wait..' : 'Filter'}
             </button>
           </div>
         </div>
