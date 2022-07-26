@@ -123,14 +123,14 @@ function BankForm({ setIsLoading, dispatch }) {
       try {
         setLoadingBank(true);
         const { bank } = await requests.get('/seller/bank');
-        if (bank.length > 0) {
+        if (Object.keys(bank).length > 0) {
           setUserBank({
-            id: bank[0].id,
-            account_name: bank[0].account_name,
-            bank_code: bank[0].bank_id,
-            account_number: bank[0].account_number,
+            id: bank.id,
+            account_name: bank.account_name,
+            bank_code: bank.bank_id,
+            account_number: bank.account_number,
           });
-          setBankCode(bank[0].bank_id);
+          setBankCode(bank.bank_id);
           setLoadingBank(false);
         }
       } catch (error) {

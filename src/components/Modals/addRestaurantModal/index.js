@@ -8,6 +8,7 @@ import axios from 'axios';
 import { baseUrl } from 'api';
 import moment from 'moment';
 import { BackArrowSVG, FowardArrowSVG, CameraSVG } from '../addProductModal';
+import { convertToNaira } from 'utilities/getCurrency';
 
 function BorderImageUpload({
   title,
@@ -186,7 +187,7 @@ function RestaurantModal({
     setLoading(true);
 
     const data = {
-      state_id,
+      state_id: +state_id,
       name,
       opening_time: moment(opening_time, 'LT').format('HH:mm'),
       closing_time: moment(closing_time, 'LT').format('HH:mm'),
@@ -252,7 +253,7 @@ function RestaurantModal({
       className="fixed overflow-y-scroll top-0 left-0 z-50 w-screen md:py-40 md:px-40 py-0 px-0 h-screen bg-purple-600 bg-opacity-30">
       <div
         onClick={(e) => e.stopPropagation()}
-        className="flex flex-col relative md:rounded-3xl rounded-none md:px-10 md:py-10 px-4 py-4 left-0 bg-white opacity-100 min-h-1/2">
+        className="flex flex-col relative md:rounded-3xl rounded-none md:px-10 md:py-10 px-4 py-4 left-0 bg-white opacity-100 h-full overflow-y-scroll md:overflow-visible  md:h-fit">
         <div className="flex justify-between w-full pb-10 items-start">
           <h3 className="text-2xl">
             {step === 4 ? 'Review details' : 'Create a restaurant'}
@@ -265,94 +266,96 @@ function RestaurantModal({
           </h3>
 
           <div className="">
-            {step === 1 &&
-              (formValuesLength_1 === 5 ? (
-                <Button
-                  className="focus:outline-none"
-                  text="Continue"
-                  canClick
-                  clickHandler={() => setStep(2)}
-                  primary
-                  roundedFull
-                  icon={<FowardSymbolSVG />}
-                />
-              ) : (
-                <Button
-                  className="focus:outline-none"
-                  text="Continue"
-                  disabled
-                  roundedFull
-                  icon={<FowardSymbolSVG />}
-                />
-              ))}
+            <span className="hidden md:block">
+              {step === 1 &&
+                (formValuesLength_1 === 5 ? (
+                  <Button
+                    className="focus:outline-none"
+                    text="Continue"
+                    canClick
+                    clickHandler={() => setStep(2)}
+                    primary
+                    roundedFull
+                    icon={<FowardSymbolSVG />}
+                  />
+                ) : (
+                  <Button
+                    className="focus:outline-none"
+                    text="Continue"
+                    disabled
+                    roundedFull
+                    icon={<FowardSymbolSVG />}
+                  />
+                ))}
 
-            {step === 2 &&
-              (formValuesLength_2 === 4 ? (
-                <Button
-                  className="focus:outline-none"
-                  text="Continue"
-                  canClick
-                  clickHandler={() => setStep(3)}
-                  primary
-                  roundedFull
-                  icon={<FowardSymbolSVG />}
-                />
-              ) : (
-                <Button
-                  className="focus:outline-none"
-                  text="Continue"
-                  disabled
-                  roundedFull
-                  icon={<FowardSymbolSVG />}
-                />
-              ))}
-            {step === 3 &&
-              (mainImageUploaded || isEdit ? (
-                <Button
-                  className="focus:outline-none"
-                  text="Continue"
-                  canClick
-                  clickHandler={() => setStep(4)}
-                  primary
-                  roundedFull
-                  icon={<FowardSymbolSVG />}
-                />
-              ) : !mainImageUploaded ? (
-                <Button
-                  className="focus:outline-none"
-                  text="Continue"
-                  disabled
-                  roundedFull
-                  icon={<FowardSymbolSVG />}
-                />
-              ) : null)}
+              {step === 2 &&
+                (formValuesLength_2 === 4 ? (
+                  <Button
+                    className="focus:outline-none"
+                    text="Continue"
+                    canClick
+                    clickHandler={() => setStep(3)}
+                    primary
+                    roundedFull
+                    icon={<FowardSymbolSVG />}
+                  />
+                ) : (
+                  <Button
+                    className="focus:outline-none"
+                    text="Continue"
+                    disabled
+                    roundedFull
+                    icon={<FowardSymbolSVG />}
+                  />
+                ))}
+              {step === 3 &&
+                (mainImageUploaded || isEdit ? (
+                  <Button
+                    className="focus:outline-none"
+                    text="Continue"
+                    canClick
+                    clickHandler={() => setStep(4)}
+                    primary
+                    roundedFull
+                    icon={<FowardSymbolSVG />}
+                  />
+                ) : !mainImageUploaded ? (
+                  <Button
+                    className="focus:outline-none"
+                    text="Continue"
+                    disabled
+                    roundedFull
+                    icon={<FowardSymbolSVG />}
+                  />
+                ) : null)}
 
-            {step === 4 && loading ? (
-              <Button
-                className="focus:outline-none"
-                text="Submit"
-                roundedFull
-                disabled
-                icon={<FowardSymbolSVG />}
-              />
-            ) : step === 4 ? (
-              <Button
-                className="focus:outline-none"
-                text="Submit"
-                canClick
-                clickHandler={handleRestaurantCreation}
-                roundedFull
-                primary
-                icon={<FowardSymbolSVG />}
-              />
-            ) : null}
+              {step === 4 && loading ? (
+                <Button
+                  className="focus:outline-none"
+                  text="Submit"
+                  roundedFull
+                  disabled
+                  icon={<FowardSymbolSVG />}
+                />
+              ) : step === 4 ? (
+                <Button
+                  className="focus:outline-none"
+                  text="Submit"
+                  canClick
+                  clickHandler={handleRestaurantCreation}
+                  roundedFull
+                  primary
+                  icon={<FowardSymbolSVG />}
+                />
+              ) : null}
+            </span>
 
             <span
               onClick={() => {
                 setEdit(false);
                 setRestaurantModal(null);
               }}
-              className="inline-block cursor-pointer rounded-full bg-red-500 p-3  absolute -right-8 -top-7">
+              className="inline-block cursor-pointer rounded-full bg-red-500 p-3  absolute md:-right-8 right-2 top-4 md:-top-7">
               <div>
                 <CloseIcon color="white" />
               </div>
@@ -361,8 +364,8 @@ function RestaurantModal({
         </div>
 
         {step === 1 && (
-          <div className="flex justify-between">
-            <div className="flex w-5/12 justify-center">
+          <div className="flex flex-col md:flex-row justify-between">
+            <div className="flex md:w-5/12 mb-4 md:mb-0; justify-center">
               <div className="divide-y divide-light-blue-400 w-full">
                 <div className="text-xs pb-2">
                   &nbsp;&nbsp;&nbsp; 1{' '}
@@ -384,7 +387,7 @@ function RestaurantModal({
               </div>
             </div>
 
-            <div className="flex w-6/12 justify-center">
+            <div className="flex md:w-6/12 justify-center">
               <div className="flex">
                 <form
                   onSubmit={handleSubmit(onSubmit)}
@@ -397,20 +400,12 @@ function RestaurantModal({
                       <select
                         className="border border-[#E0E0E0] focus:border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
                         {...register('state_id')}
-                        // value={state_id}
-                        // onChange={(e) => {
-                        //   dispatch({
-                        //     type: 'updateRestaurantState',
-                        //     payload: e.target.value,
-                        //     field: 'state_id',
-                        //   });
-                        // }}
-                      >
+                        value={state_id}>
                         <option value="" disabled>
                           select state
                         </option>
                         {restaurantStates.map((state) => (
-                          <option value={state.id} key={state.id}>
+                          <option value={state.id.toString()} key={state.id}>
                             {state.name}
                           </option>
                         ))}
@@ -506,8 +501,8 @@ function RestaurantModal({
         )}
 
         {step === 2 && (
-          <div className="flex justify-between">
-            <div className="flex w-5/12 justify-center">
+          <div className="flex flex-col md:flex-row justify-between">
+            <div className="flex md:w-5/12  justify-center">
               <div className="divide-y divide-light-blue-400 w-full">
                 <div className="text-xs pb-2">
                   <BackArrowSVG setSteps={setStep} value={1} />
@@ -536,7 +531,7 @@ function RestaurantModal({
               </div>
             </div>
 
-            <div className="flex w-6/12 justify-center">
+            <div className="flex md:w-6/12 justify-center">
               <div className="flex">
                 <form
                   onSubmit={handleSubmit(onSubmit)}
@@ -638,8 +633,8 @@ function RestaurantModal({
         )}
 
         {step === 3 && (
-          <div className="flex justify-between">
-            <div className="flex w-5/12 justify-center">
+          <div className="flex  flex-col md:flex-row justify-between">
+            <div className="flex md:w-5/12 px-4 md:px-0 mb-4 md:mb-0 justify-center">
               <div className="divide-y divide-light-blue-400 w-full">
                 <div className="text-xs pb-2">
                   <BackArrowSVG setSteps={setStep} value={2} />
@@ -706,7 +701,7 @@ function RestaurantModal({
           <div className="flex md:mr-4 mr-0 flex-col md:flex-row">
             <div className="flex flex-col md:w-6/12 w-full">
               <div className="border-b border-gray-100 pb-4 w-full">
-                <div className="md:w-64 w-24 rounded-xl md:h-32 h-24 bg-gray-200">
+                <div className="md:w-64 w-24 rounded-xl overflow-hidden md:h-32 h-24 bg-gray-200">
                   <img
                     src={imageState.image_in_base64}
                     className="object-cover w-full h-full"
@@ -716,7 +711,7 @@ function RestaurantModal({
               </div>
             </div>
 
-            <div className="flex flex-col md:w-6/12 ml-4 w-full">
+            <div className="flex flex-col md:w-6/12 md:ml-4 w-full">
               <div className="flex flex-col border-b pb-4 w-full md:ml-0 md:mt-4">
                 <h4 className="text-xl text-purple-500">Display Information</h4>
                 <div className="flex mt-6 flex-col">
@@ -726,7 +721,7 @@ function RestaurantModal({
                   <div className="flex justify-between w-full">
                     <KeyValue title="Address" value={address} />
                   </div>
-                  <div className="flex justify-between w-full">
+                  <div className="flex flex-col md:flex-row justify-between w-full">
                     <KeyValue
                       title="Opening Time"
                       value={moment(opening_time, 'LT').format('HH:mm a')}
@@ -736,14 +731,14 @@ function RestaurantModal({
                       value={moment(closing_time, 'LT').format('HH:mm a')}
                     />
                   </div>
-                  <div className="flex justify-between w-full">
+                  <div className="flex flex-col md:flex-row justify-between w-full">
                     <KeyValue
                       title="Minimum Order Price"
-                      value={`₦${min_order_price}`}
+                      value={convertToNaira(min_order_price)}
                     />
                     <KeyValue title="Delivery Time" value={time_to_deliver} />
                   </div>
-                  <div className="flex justify-between w-full">
+                  <div className="flex flex-col md:flex-row justify-between w-full">
                     <KeyValue title="Contact Email" value={contact_email} />
                     <KeyValue title="Contact Phone" value={contact_phone} />
                   </div>
@@ -761,6 +756,89 @@ function RestaurantModal({
             </div>
           </div>
         )}
+        <div className="md:hidden flex justify-center items-center mt-8">
+          {step === 1 &&
+            (formValuesLength_1 === 5 ? (
+              <Button
+                className="focus:outline-none"
+                text="Continue"
+                canClick
+                clickHandler={() => setStep(2)}
+                primary
+                roundedFull
+                icon={<FowardSymbolSVG />}
+              />
+            ) : (
+              <Button
+                className="focus:outline-none"
+                text="Continue"
+                disabled
+                roundedFull
+                icon={<FowardSymbolSVG />}
+              />
+            ))}
+
+          {step === 2 &&
+            (formValuesLength_2 === 4 ? (
+              <Button
+                className="focus:outline-none"
+                text="Continue"
+                canClick
+                clickHandler={() => setStep(3)}
+                primary
+                roundedFull
+                icon={<FowardSymbolSVG />}
+              />
+            ) : (
+              <Button
+                className="focus:outline-none"
+                text="Continue"
+                disabled
+                roundedFull
+                icon={<FowardSymbolSVG />}
+              />
+            ))}
+          {step === 3 &&
+            (mainImageUploaded || isEdit ? (
+              <Button
+                className="focus:outline-none"
+                text="Continue"
+                canClick
+                clickHandler={() => setStep(4)}
+                primary
+                roundedFull
+                icon={<FowardSymbolSVG />}
+              />
+            ) : !mainImageUploaded ? (
+              <Button
+                className="focus:outline-none"
+                text="Continue"
+                disabled
+                roundedFull
+                icon={<FowardSymbolSVG />}
+              />
+            ) : null)}
+
+          {step === 4 && loading ? (
+            <Button
+              className="focus:outline-none"
+              text="Submit"
+              roundedFull
+              disabled
+              icon={<FowardSymbolSVG />}
+            />
+          ) : step === 4 ? (
+            <Button
+              className="focus:outline-none"
+              text="Submit"
+              canClick
+              clickHandler={handleRestaurantCreation}
+              roundedFull
+              primary
+              icon={<FowardSymbolSVG />}
+            />
+          ) : null}
+        </div>
       </div>
     </div>
   );

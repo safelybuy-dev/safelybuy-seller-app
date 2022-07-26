@@ -1,4 +1,6 @@
-import React from 'react';
+import { getWallet } from 'actions/wallet.action';
+import { useWallet } from 'context/wallet.context';
+import React, { useEffect } from 'react';
 import { PieChart } from 'react-minimal-pie-chart';
 import { useTable } from 'react-table';
 import Highlight from 'Views/Dashboard/Main/Highlight';
@@ -128,6 +130,13 @@ function RecentSales({ orders }) {
 }
 
 function Tickets() {
+  const [{ wallet, loadingWallet }, walletDispatch] = useWallet();
+
+  useEffect(() => {
+    if (!wallet) {
+      getWallet(walletDispatch);
+    }
+  }, [walletDispatch, wallet]);
   return (
     <div className="mt-20 md:mt-12 px-3 md:px-0">
       <div className="flex flex-col lg:flex-row justify-between ">
@@ -199,7 +208,7 @@ function Tickets() {
           </div>
         </div>
         <div className="flex-0.3">
-          <Highlight balance="40000" />
+          <Highlight balance={loadingWallet ? 0 : wallet?.balance} />
         </div>
       </div>
       <div className="mt-8 mb-4 p-4  bg-white md:py-8 md:px-10 rounded-3xl">

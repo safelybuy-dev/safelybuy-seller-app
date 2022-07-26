@@ -46,9 +46,13 @@ function SortMealModal({ setTriggerSort, items, setDashboardDetails }) {
         `${baseUrl}/api/v1/meal-plans-orders/search`,
         filterByData
       );
+      console.log(response.data);
       setDashboardDetails((dashboard) => ({
         ...dashboard,
-        meal_plan_recent_sales: response.data?.data,
+        details: {
+          ...dashboard.details,
+          meal_plan_recent_sales: response?.data?.data,
+        },
       }));
       setLoading(false);
       setTriggerSort(false);

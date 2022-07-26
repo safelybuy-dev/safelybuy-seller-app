@@ -1,4 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { TOGGLE_WITHDRAWAL_MODAL } from 'actions/wallet.action';
+import { ContextUser } from 'context';
+import { useToasts } from 'react-toast-notifications';
+import { useWallet } from 'context/wallet.context';
 
 export const options = {
   year: 'numeric',
@@ -15,6 +19,33 @@ export const optionsAlt = {
 
 export default function Highlight({ balance }) {
   const date = new Date();
+  const [{ user }] = useContext(ContextUser);
+  const [, walletDispatch] = useWallet();
+
+  const { addToast } = useToasts();
+
+  const handleWidrawal = () => {
+    if (!Object.values(user).length) {
+      addToast('Please hold on...', {
+        appearance: 'info',
+        autoDismiss: true,
+      });
+      return;
+    }
+    if (
+      !user.isBankDetailsVerified ||
+      Object.keys(user.isBankDetailsVerified).length === 0
+    ) {
+      addToast('No Banks Added For This Account', {
+        appearance: 'error',
+        autoDismiss: true,
+      });
+      return;
+    }
+    walletDispatch({
+      type: TOGGLE_WITHDRAWAL_MODAL,
+    });
+  };
 
   return (
     <div className=" md:text-center py-4 px-6 pb-8 text-white md:mr-0">
@@ -53,7 +84,9 @@ export default function Highlight({ balance }) {
           </span>
         </div>
         <div className="py-5">
-          <button className="px-3 py-2 text-center w-full bg-white text-black rounded-md">
+          <button
+            className="px-3 py-2 text-center w-full bg-white text-black rounded-md"
+            onClick={handleWidrawal}>
             Withdraw Funds
           </button>
         </div>

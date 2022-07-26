@@ -926,6 +926,46 @@ export function Instagram() {
   );
 }
 
+export function DownloadIcon({ scale = 1 }) {
+  return (
+    <svg
+      width={scale * 20}
+      height={scale * 20}
+      viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg">
+      <mask
+        id="mask0_9564_58189"
+        style={{ maskType: 'alpha' }}
+        maskUnits="userSpaceOnUse"
+        x="0"
+        y="0"
+        width="20"
+        height="20">
+        <rect width="20" height="20" fill="url(#pattern0)" />
+      </mask>
+      <g mask="url(#mask0_9564_58189)">
+        <rect width="20" height="20" fill="#4BBF75" />
+      </g>
+      <defs>
+        <pattern
+          id="pattern0"
+          patternContentUnits="objectBoundingBox"
+          width="1"
+          height="1">
+          <use xlinkHref="#image0_9564_58189" transform="scale(0.0111111)" />
+        </pattern>
+        <image
+          id="image0_9564_58189"
+          width="90"
+          height="90"
+          xlinkHref="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAABaCAYAAAA4qEECAAAABmJLR0QA/wD/AP+gvaeTAAACgElEQVR4nO3cvW4TQRSG4RckSEdERQIIRAsXgii4EygTG4n7iAh1biVUECoqaBASvYOU2I0pdleg1a7tmZ0585PvkaaJtfbk1dEqm7UNIiIiIiIiIiIyZh84Ar4AC2Bd2FoAn9vf4V7gNsG8AH6QPlao9R14HrRQAPvAT9LHCb1+AfcDdprshPRRYq2TgJ0meQIsSR8k1loBz6ZGuj31CYD3wN0Az5OrO8A89SY2TfNpwn35+kjEqZ7idGBTWWzM01PGB+dDqk3VNs2d7Ka6tmnuZDXVtU5zJ5uprnWaO1lMde3T3Ek+1bVPcyf5VK9GXrymae5smmontzxefO1xTI2c2oW4BJcdKLQRhTai0EYU2ohCG1FoIwptpKTQS2AGPGrXHI8rtJKkukl6PLCXWcL9OCnpEvwh8Lv3s4OBn1lxaldS6LG95rafQSWdo4um0EYU2ohCG1FoIwptRKGNKLQRhTai0EYU2ohCG1FoIwptJJfQK5o7JoftmtPcUXG1HHieYu/CxLhbMRt4nVfANdvvaHSPX7fH9M0j7Tm6GJs+GHmtl8AV20Mvgdcjjz+ItOfoLEPDv9hjNkWG5haYQrdr2wcmh04JuzwG8C7SnqOLsemx8+tU/fP8jQ+9ZvspwNX/53eF7q1QsWNHLj50iNgWkasIPSW2VeRqQvvEtoxcVWiX2NaRqwu9S+wUkasMvSl2qsjVhl7TXHj0/zMX62IkeOiS3k2aG72bNEcKbcQn9J/guyjPwvUAn9DfPI6pjXMDn9BnHsfUxqTBHvCVdH9WpV4XGH5z5WNuZuwLms84mtoD3gKfgEvPjZewLoFz4A11fweriIiIiIiIiMjO/gJIs1jJmwai2QAAAABJRU5ErkJggg=="
+        />
+      </defs>
+    </svg>
+  );
+}
+
 export function AppleDownload() {
   return (
     <svg

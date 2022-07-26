@@ -74,7 +74,7 @@ function TableBody({
             </div>
           ),
           image: (
-            <div className="h-[4rem] w-[4rem]  rounded-[4px] overflow-hidden bg-gray-500">
+            <div className="h-[3.5rem] w-[3.5rem]  md:h-[4rem] md:w-[4rem]  rounded-[4px] overflow-hidden bg-gray-500">
               <img
                 src={item.display_image}
                 alt="event"
@@ -169,7 +169,7 @@ function TableBody({
   }
 
   return (
-    <div className="overflow-x-scroll md:overflow-visible mt-8">
+    <div className="overflow-scroll lg:overflow-visible mt-8">
       <table {...getTableProps()} className="w-full text-sm">
         <thead className="text-left border-b-2 border-gray-100">
           {headerGroups.map((headerGroup) => (
@@ -186,12 +186,11 @@ function TableBody({
           {rows.map((row) => {
             prepareRow(row);
             return (
-              <tr {...row.getRowProps()}>
+              <tr {...row.getRowProps()} className="border-b-2 border-gray-100">
                 {row.cells.map((cell) => {
                   return (
                     <td
-                      style={{ minWidth: '120px' }}
-                      className="border-b-2 pr-4   border-gray-100 py-4"
+                      className="py-4 pr-8 min-w-[170px] lg:min-w-fit"
                       {...cell.getCellProps()}>
                       {cell.render('Cell')}
                     </td>

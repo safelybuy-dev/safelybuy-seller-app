@@ -32,7 +32,7 @@ function Inventory() {
   const [loading, setLoading] = useState(false);
   const [currentItem, setItem] = useState({});
   const [isEdit, setEdit] = useState(false);
-  console.log(restaurantInventory);
+
   const fetchInventory = useCallback(async () => {
     setLoading(true);
     const response = await axiosWithAuth().get(
@@ -86,24 +86,30 @@ function Inventory() {
     if (url.includes('add')) return setRestaurantMenuModal(true);
   }, [url]);
   return (
-    <div className="flex flex-col w-full items-start mt-10">
-      <Multicrumb links={links} />
-      <div className="flex justify-between w-full">
-        <h2 className="text-xl">Manage {restaurantName}'s Menus</h2>
-        <span className="md:inline-block hidden">
-          <Button
-            canClick
-            clickHandler={() => setRestaurantMenuModal(true)}
-            event="onClick"
-            text="Create a menu"
-            primary
-            roundedFull
-            icon="+"
-          />
-        </span>
-        <span className="md:hidden inline-block">
-          <Button text="Recent" secondary roundedFull preTagText="50" />
-        </span>
+    <div className="flex flex-col w-full items-start mt-24 md:mt-10">
+      <div className="w-[90%] md:w-full mx-auto">
+        <Multicrumb links={links} />
+        <div className="flex justify-between w-full mt-4 md:mt-0">
+          <h2 className="text-xl">Manage {restaurantName}'s Menus</h2>
+          <span className="">
+            <Button
+              canClick
+              clickHandler={() => setRestaurantMenuModal(true)}
+              event="onClick"
+              text={
+                <span>
+                  Create <span className="hidden md:inline">a menu</span>{' '}
+                </span>
+              }
+              primary
+              roundedFull
+              icon="+"
+            />
+          </span>
+          {/* <span className="md:hidden inline-block">
+            <Button text="Recent" secondary roundedFull preTagText="50" />
+          </span> */}
+        </div>
       </div>
       {/* test */}
       <InventoryTableView

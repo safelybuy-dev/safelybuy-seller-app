@@ -154,12 +154,11 @@ function TableBody({
           {rows.map((row) => {
             prepareRow(row);
             return (
-              <tr {...row.getRowProps()}>
+              <tr {...row.getRowProps()} className="border-b-2 border-gray-100">
                 {row.cells.map((cell) => {
                   return (
                     <td
-                      style={{ minWidth: '120px' }}
-                      className="border-b-2 pr-4   border-gray-100 py-4"
+                      className="py-4 pr-8 min-w-[170px] lg:min-w-fit"
                       {...cell.getCellProps()}>
                       {cell.render('Cell')}
                     </td>

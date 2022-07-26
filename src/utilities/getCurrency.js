@@ -3,4 +3,4 @@ const GET_CURRENCY = new Intl.NumberFormat(undefined, {
   style: 'currency',
 });
 
-export const convertToNaira = (number) => GET_CURRENCY.format(number);
+export const convertToNaira = (number) => GET_CURRENCY.format(+number);

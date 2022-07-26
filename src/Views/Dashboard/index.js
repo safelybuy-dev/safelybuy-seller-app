@@ -19,6 +19,8 @@ import { Spinner } from 'components/Spinner';
 // import { MobileMenu } from './Main/MobileMenu';
 import Header from './Main/Header';
 import ProfileSettings from 'Views/ProfileSettings';
+import { useWallet } from 'context/wallet.context';
+import MakeWithdrawal from 'components/Modals/makeWithdrawal';
 
 const Main = lazy(() => import('./Main'));
 const Messaging = lazy(() => import('./Main/Messaging'));
@@ -46,7 +48,7 @@ export default function Dashboard() {
   const history = useHistory();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-
+  const [{ withdrawalModal }] = useWallet();
   const handleSettingsOpen = useCallback(
     () => setIsSettingsOpen((prev) => !prev),
     []
@@ -88,6 +90,7 @@ export default function Dashboard() {
       {isSettingsOpen && (
         <ProfileSettings handleSettingsOpen={handleSettingsOpen} />
       )}
+      {withdrawalModal && <MakeWithdrawal />}
       <div className="flex pb-20 md:pb-30 md:flex-wrap md:justify-center   md:px-6">
         <Container topPadding>
           <Suspense fallback={<Spinner partial dashboard />}>

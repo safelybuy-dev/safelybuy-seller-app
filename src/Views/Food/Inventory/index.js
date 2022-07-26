@@ -72,31 +72,40 @@ function Inventory() {
     if (url.includes('add')) return setRestaurantModal(true);
   }, [url]);
   return (
-    <div className="flex flex-col w-full items-start mt-10">
-      <Breadcrumb
-        parentText="Food"
-        parentLink="/food"
-        childText="Manage Inventory"
-        childLink="/food/inventory"
-      />
-      <div className="flex justify-between w-full">
-        <h2 className="text-xl">Manage Inventory</h2>
-        <span className="md:inline-block hidden">
-          <Button
-            canClick
-            clickHandler={() => setRestaurantModal(true)}
-            event="onClick"
-            text="Create a restaurant"
-            primary
-            roundedFull
-            icon="+"
-          />
-        </span>
-        <span className="md:hidden inline-block">
-          <Button text="Recent" secondary roundedFull preTagText="50" />
-        </span>
+    <div className="flex flex-col w-full items-start mt-24 md:mt-10">
+      <div className="w-[90%] md:w-full mx-auto">
+        <Breadcrumb
+          parentText="Food"
+          parentLink="/food"
+          childText="Manage Inventory"
+          childLink="/food/inventory"
+        />
+        <div className="flex justify-between w-full">
+          <h2 className="text-xl">Manage Inventory</h2>
+          <span className="md:inline-block hidden">
+            <Button
+              canClick
+              clickHandler={() => setRestaurantModal(true)}
+              event="onClick"
+              text="Create a restaurant"
+              primary
+              roundedFull
+              icon="+"
+            />
+          </span>
+          <span className="md:hidden inline-block">
+            <Button
+              canClick
+              clickHandler={() => setRestaurantModal(true)}
+              event="onClick"
+              text="Create"
+              primary
+              roundedFull
+              icon="+"
+            />
+          </span>
+        </div>
       </div>
-      {/* test */}
       <InventoryTableView
         loading={loading}
         items={restaurantInventory}
@@ -106,7 +115,6 @@ function Inventory() {
         setEdit={setEdit}
         setCurrentRestaurant={setCurrentRestaurant}
       />
-      {/* test  */}
       {openRestaurantModal && (
         <RestaurantModal
           openRestaurantModal={openRestaurantModal}

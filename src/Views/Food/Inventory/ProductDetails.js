@@ -2,6 +2,8 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { CloseIcon } from 'svg';
 import Button from 'components/Button';
+import { convertToNaira } from 'utilities/getCurrency';
+import moment from 'moment';
 
 function KeyValue({ title, value }) {
   return (
@@ -18,10 +20,10 @@ function ProductDetails({ selectedProduct, setSelectedProduct }) {
   return (
     <div
       onClick={() => setSelectedProduct(null)}
-      className="fixed overflow-scroll top-0 left-0 z-50 w-screen md:py-40 md:px-40 py-0 px-0 h-screen bg-purple-600 bg-opacity-30">
+      className="fixed overflow-y-scroll top-0 left-0 z-50 w-screen md:py-40 md:px-40 py-0 px-0 h-screen bg-purple-600 bg-opacity-30">
       <div
         onClick={(e) => e.stopPropagation()}
-        className="flex flex-col relative md:rounded-3xl rounded-none md:px-10 md:py-10 px-4 py-4 left-0 bg-white opacity-100 min-h-1/2">
+        className="flex flex-col relative md:rounded-3xl rounded-none md:px-10 md:py-10 px-4 py-8 left-0 bg-white opacity-100 min-h-1/2">
         <div className="flex justify-between w-full pb-10 items-start">
           <h3 className="text-2xl">Restaurant Details</h3>
           <span
@@ -42,7 +44,7 @@ function ProductDetails({ selectedProduct, setSelectedProduct }) {
               </div>
             </div>
           </div>
-          <div className="flex flex-col w-6/12 ml-4 md:w-full">
+          <div className="flex flex-col md:w-6/12 md:ml-4 w-full mt-3 md:mt-0">
             <div className="flex flex-col border-b pb-4 w-full md:ml-0 md:mt-4">
               <h4 className="text-xl text-purple-500">Display Information</h4>
               <div className="flex mt-6 flex-col">
@@ -55,23 +57,27 @@ function ProductDetails({ selectedProduct, setSelectedProduct }) {
                 <div className="flex justify-between w-full">
                   <KeyValue title="Location" value={selectedProduct.address} />
                 </div>
-                <div className="flex justify-between w-full">
+                <div className="flex flex-col md:flex-row justify-between w-full">
                   <KeyValue
                     title="Opening Time"
-                    value={selectedProduct.opening_time}
+                    value={moment(selectedProduct.opening_time, 'LT').format(
+                      'HH:mm a'
+                    )}
                   />
                   <KeyValue
                     title="Closing Time"
-                    value={selectedProduct.closing_time}
+                    value={moment(selectedProduct.closing_time, 'LT').format(
+                      'HH:mm a'
+                    )}
                   />
                 </div>
                 <div className="flex justify-between w-full">
                   <KeyValue
                     title="Minimum Order Price"
-                    value={selectedProduct.min_order_price}
+                    value={convertToNaira(selectedProduct.min_order_price)}
                   />
                 </div>
-                <div className="flex justify-between w-full">
+                <div className="flex flex-col md:flex-row justify-between w-full">
                   <KeyValue
                     title="Contact Email"
                     value={selectedProduct.contact_email}
@@ -82,20 +88,22 @@ function ProductDetails({ selectedProduct, setSelectedProduct }) {
                   />
                 </div>
 
-                <div className="flex justify-end w-full mt-5">
-                  <Button
-                    className="focus:outline-none"
-                    text="View Menus"
-                    canClick
-                    clickHandler={() => {
-                      history.push(
-                        `/food/restaurant/${selectedProduct.name}/${selectedProduct.id}`
-                      );
-                    }}
-                    roundedFull
-                    primary
-                  />
-                </div>
+                {selectedProduct.status === 'active' && (
+                  <div className="flex justify-center md:justify-end w-full mt-5">
+                    <Button
+                      className="focus:outline-none"
+                      text="View Menus"
+                      canClick
+                      clickHandler={() => {
+                        history.push(
+                          `/food/restaurant/${selectedProduct.name}/${selectedProduct.id}`
+                        );
+                      }}
+                      roundedFull
+                      primary
+                    />
+                  </div>
+                )}
               </div>
             </div>
           </div>

@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { PieChart } from 'react-minimal-pie-chart';
 import { useTable } from 'react-table';
+import { useReactToPrint } from 'react-to-print';
 import Highlight from 'Views/Dashboard/Main/Highlight';
-import { SearchIcon } from 'svg';
+import { DownloadIcon, SearchIcon } from 'svg';
 import SortMealModal from 'components/Modals/sortMealModal';
 import { axiosWithAuth } from 'auth';
 import { baseUrl } from 'api';
@@ -10,6 +11,8 @@ import { useComponentVisible } from 'hooks';
 import ItemsPerPage from './Inventory/ItemsPerPage';
 import RecentPurchases from './RecentSales';
 import RecentDetails from './RecentDetails';
+import { useWallet } from 'context/wallet.context';
+import { getWallet } from 'actions/wallet.action';
 
 function RecentSales({ orders }) {
   const data = React.useMemo(
@@ -114,14 +117,18 @@ function RecentSales({ orders }) {
 
 function Food() {
   const [triggerSort, setTriggerSort] = useState(false);
-
+  const [{ wallet, loadingWallet }, walletDispatch] = useWallet();
   const [selectedItem, setSelectedItem] = useState(null);
   const [dashboardDetails, setDashboardDetails] = useState({
     loading: false,
     details: {},
   });
-
   const [recentType, setRecentType] = useState('restaurant');
+  const componentToDownloadRef = useRef();
+
+  const handleComponentDownload = useReactToPrint({
+    content: () => componentToDownloadRef.current,
+  });
 
   const {
     ref: salesRef,
@@ -153,9 +160,14 @@ function Food() {
     fetchDashboardDetails();
   }, []);
 
+  useEffect(() => {
+    if (!wallet) {
+      getWallet(walletDispatch);
+    }
+  }, [walletDispatch, wallet]);
+
   return (
     <div className="px-3 md:px-0">
-      {/* Total Orders And Transactions */}
       <div className="mt-24 md:mt-12 flex flex-col lg:flex-row justify-between">
         <div className="flex-0.7">
           <div className="mt-5 md:p-10 py-5 px-5 md:mt-0 rounded-3xl bg-white lg:h-[400px]">
@@ -227,13 +239,7 @@ function Food() {
           </div>
         </div>
         <div className="flex-0.3">
-          <Highlight
-            balance={
-              dashboardDetails.loading
-                ? '0'
-                : dashboardDetails.details?.wallet?.balance
-            }
-          />
+          <Highlight balance={loadingWallet ? 0 : Number(wallet?.balance)} />
         </div>
       </div>
       <div className="mt-8 mb-4 bg-white py-6 px-5 md:py-8 md:px-10 rounded-2xl md:rounded-3xl ">
@@ -256,10 +262,15 @@ function Food() {
               className="flex-1 mx-3 placeholder:text-sm text-sm outline-none border-none"
             />
             <button
-              className="text-xs  md:w-16 text-[#8661FF] bg-[#8661ff26] rounded-full py-1 px-2"
+              className="text-xs  md:w-16 text-[#8661FF] bg-[#8661ff26] rounded-full py-1 px-2 mr-2"
               onClick={() => setTriggerSort(true)}
               disabled={recentType === 'restaurant'}>
               Sort
+            </button>
+            <button
+              onClick={handleComponentDownload}
+              className="py-1 px-2 hover:bg-green-100 rounded-full">
+              <DownloadIcon />
             </button>
           </div>
           <div>
@@ -306,6 +317,7 @@ function Food() {
             }
             setSelectedItem={setSelectedItem}
             recentType={recentType}
+            ref={componentToDownloadRef}
           />
         )}
       </div>

@@ -154,7 +154,7 @@ function TableBody({
   }
 
   return (
-    <div className="mt-8 overflow-scroll lg:overflow-hidden w-full">
+    <div className="mt-8 overflow-scroll lg:overflow-visible w-full">
       <table {...getTableProps()} className="w-full text-sm">
         <thead className="text-left border-b-2 border-gray-100 w-full">
           {headerGroups.map((headerGroup) => (

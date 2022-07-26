@@ -126,7 +126,6 @@ const imageReducer = (state, action) => {
 };
 
 function RestaurantMenuModal({
-  openRestaurantMenuModel,
   setRestaurantMenuModal,
   id,
   isEdit,
@@ -136,7 +135,7 @@ function RestaurantMenuModal({
   const initialState = {
     display_image: isEdit ? currentItem.display_image : '',
     available_days: isEdit ? currentItem.available_days : [],
-    menu_type: '',
+    menu_type: isEdit ? currentItem.menu_type : '',
   };
 
   const [days, setDays] = useState({
@@ -291,7 +290,7 @@ function RestaurantMenuModal({
       className="fixed overflow-y-scroll top-0 left-0 z-50 w-screen md:py-40 md:px-40 py-0 px-0 h-screen bg-purple-600 bg-opacity-30">
       <div
         onClick={(e) => e.stopPropagation()}
-        className="flex flex-col relative md:rounded-3xl rounded-none md:px-10 md:py-10 px-4 py-4 left-0 bg-white opacity-100 min-h-1/2">
+        className="flex flex-col relative md:rounded-3xl rounded-none md:px-10 md:py-10 px-4 py-8 left-0 bg-white opacity-100 h-full overflow-y-scroll md:overflow-visible  md:h-fit">
         <div className="flex justify-between w-full pb-10 items-start">
           <h3 className="text-2xl">
             {step === 3 ? 'Review details' : 'Create a restaurant menu'}
@@ -304,76 +303,78 @@ function RestaurantMenuModal({
           </h3>
 
           <div className="">
-            {step === 1 &&
-              (formValuesLength_1 === 3 &&
-              available_days.length &&
-              menu_type ? (
-                <Button
-                  className="focus:outline-none"
-                  text="Continue"
-                  canClick
-                  clickHandler={() => setStep(2)}
-                  primary
-                  roundedFull
-                  icon={<FowardSymbolSVG />}
-                />
-              ) : formValuesLength_1 !== 6 ? (
-                <Button
-                  className="focus:outline-none"
-                  text="Continue"
-                  disabled
-                  roundedFull
-                  icon={<FowardSymbolSVG />}
-                />
-              ) : null)}
+            <span className="hidden md:inline">
+              {step === 1 &&
+                (formValuesLength_1 === 3 &&
+                available_days.length &&
+                menu_type ? (
+                  <Button
+                    className="focus:outline-none"
+                    text="Continue"
+                    canClick
+                    clickHandler={() => setStep(2)}
+                    primary
+                    roundedFull
+                    icon={<FowardSymbolSVG />}
+                  />
+                ) : formValuesLength_1 !== 6 ? (
+                  <Button
+                    className="focus:outline-none"
+                    text="Continue"
+                    disabled
+                    roundedFull
+                    icon={<FowardSymbolSVG />}
+                  />
+                ) : null)}
 
-            {step === 2 &&
-              (mainImageUploaded || isEdit ? (
-                <Button
-                  className="focus:outline-none"
-                  text="Continue"
-                  canClick
-                  clickHandler={() => setStep(3)}
-                  primary
-                  roundedFull
-                  icon={<FowardSymbolSVG />}
-                />
-              ) : !mainImageUploaded ? (
-                <Button
-                  className="focus:outline-none"
-                  text="Continue"
-                  disabled
-                  roundedFull
-                  icon={<FowardSymbolSVG />}
-                />
-              ) : null)}
+              {step === 2 &&
+                (mainImageUploaded || isEdit ? (
+                  <Button
+                    className="focus:outline-none"
+                    text="Continue"
+                    canClick
+                    clickHandler={() => setStep(3)}
+                    primary
+                    roundedFull
+                    icon={<FowardSymbolSVG />}
+                  />
+                ) : !mainImageUploaded ? (
+                  <Button
+                    className="focus:outline-none"
+                    text="Continue"
+                    disabled
+                    roundedFull
+                    icon={<FowardSymbolSVG />}
+                  />
+                ) : null)}
 
-            {step === 3 && loading ? (
-              <Button
-                className="focus:outline-none"
-                text="Submit"
-                roundedFull
-                disabled
-                icon={<FowardSymbolSVG />}
-              />
-            ) : step === 3 ? (
-              <Button
-                className="focus:outline-none"
-                text="Submit"
-                canClick
-                clickHandler={handleRestaurantCreation}
-                roundedFull
-                primary
-                icon={<FowardSymbolSVG />}
-              />
-            ) : null}
+              {step === 3 && loading ? (
+                <Button
+                  className="focus:outline-none"
+                  text="Submit"
+                  roundedFull
+                  disabled
+                  icon={<FowardSymbolSVG />}
+                />
+              ) : step === 3 ? (
+                <Button
+                  className="focus:outline-none"
+                  text="Submit"
+                  canClick
+                  clickHandler={handleRestaurantCreation}
+                  roundedFull
+                  primary
+                  icon={<FowardSymbolSVG />}
+                />
+              ) : null}
+            </span>
 
             <span
               onClick={() => {
                 setEdit(false);
                 setRestaurantMenuModal(false);
               }}
-              className="inline-block cursor-pointer rounded-full bg-red-500 p-3  absolute -right-8 -top-7">
+              className="inline-block cursor-pointer rounded-full bg-red-500 p-3  absolute md:-right-8 right-2 top-6 md:-top-7">
               <div>
                 <CloseIcon color="white" />
               </div>
@@ -382,8 +383,8 @@ function RestaurantMenuModal({
         </div>
 
         {step === 1 && (
-          <div className="flex justify-between">
-            <div className="flex w-5/12 justify-center">
+          <div className="flex flex-col md:flex-row justify-between">
+            <div className="flex md:w-5/12 mb-4 justify-center">
               <div className="divide-y divide-light-blue-400 w-full">
                 <div className="text-xs pb-2">
                   &nbsp;&nbsp;&nbsp; 1{' '}
@@ -405,7 +406,7 @@ function RestaurantMenuModal({
               </div>
             </div>
 
-            <div className="flex w-6/12 justify-center">
+            <div className="flex  md:w-6/12 justify-center">
               <div className="flex">
                 <form
                   onSubmit={handleSubmit(onSubmit)}
@@ -537,8 +538,8 @@ function RestaurantMenuModal({
         )}
 
         {step === 2 && (
-          <div className="flex justify-between">
-            <div className="flex w-5/12 justify-center">
+          <div className="flex flex-col md:flex-row  justify-between">
+            <div className="flex md:w-5/12 mb-5 md:mb-0 px-4 justify-center">
               <div className="divide-y divide-light-blue-400 w-full">
                 <div className="text-xs pb-2">
                   <BackArrowSVG setSteps={setStep} value={1} />
@@ -581,7 +582,7 @@ function RestaurantMenuModal({
                 </div>
               </div>
             </div>
-            <div className="flex w-6/12 justify-center ">
+            <div className="flex md:w-6/12 justify-center ">
               <div>
                 <BorderImageUpload
                   title="Cover Image"
@@ -606,7 +607,7 @@ function RestaurantMenuModal({
           <div className="flex md:mr-4 mr-0 flex-col md:flex-row">
             <div className="flex flex-col md:w-6/12 w-full">
               <div className="border-b border-gray-100 pb-4 w-full">
-                <div className="md:w-64 w-24 rounded-xl md:h-32 h-24 bg-gray-200">
+                <div className="md:w-64 w-24 rounded-xl overflow-hidden md:h-32 h-24 bg-gray-200">
                   <img
                     src={display_image}
                     className="object-cover w-full h-full"
@@ -616,7 +617,7 @@ function RestaurantMenuModal({
               </div>
             </div>
 
-            <div className="flex flex-col md:w-6/12 ml-4 w-full">
+            <div className="flex flex-col md:w-6/12 md:ml-4 w-full">
               <div className="flex flex-col border-b pb-4 w-full md:ml-0 md:mt-4">
                 <h4 className="text-xl text-purple-500">Display Information</h4>
                 <div className="flex mt-6 flex-col">
@@ -643,6 +644,69 @@ function RestaurantMenuModal({
             </div>
           </div>
         )}
+        <div className="flex justify-center items-center mt-8 md:hidden">
+          {step === 1 &&
+            (formValuesLength_1 === 3 && available_days.length && menu_type ? (
+              <Button
+                className="focus:outline-none"
+                text="Continue"
+                canClick
+                clickHandler={() => setStep(2)}
+                primary
+                roundedFull
+                icon={<FowardSymbolSVG />}
+              />
+            ) : formValuesLength_1 !== 6 ? (
+              <Button
+                className="focus:outline-none"
+                text="Continue"
+                disabled
+                roundedFull
+                icon={<FowardSymbolSVG />}
+              />
+            ) : null)}
+
+          {step === 2 &&
+            (mainImageUploaded || isEdit ? (
+              <Button
+                className="focus:outline-none"
+                text="Continue"
+                canClick
+                clickHandler={() => setStep(3)}
+                primary
+                roundedFull
+                icon={<FowardSymbolSVG />}
+              />
+            ) : !mainImageUploaded ? (
+              <Button
+                className="focus:outline-none"
+                text="Continue"
+                disabled
+                roundedFull
+                icon={<FowardSymbolSVG />}
+              />
+            ) : null)}
+
+          {step === 3 && loading ? (
+            <Button
+              className="focus:outline-none"
+              text="Submit"
+              roundedFull
+              disabled
+              icon={<FowardSymbolSVG />}
+            />
+          ) : step === 3 ? (
+            <Button
+              className="focus:outline-none"
+              text="Submit"
+              canClick
+              clickHandler={handleRestaurantCreation}
+              roundedFull
+              primary
+              icon={<FowardSymbolSVG />}
+            />
+          ) : null}
+        </div>
       </div>
     </div>
   );

@@ -6,6 +6,8 @@ import { requests, baseURL } from 'requests';
 import { Spinner } from 'components/Spinner';
 import RecentSalesTable from './RecentSales';
 import Highlight from './Highlight';
+import { useWallet } from 'context/wallet.context';
+import { getWallet } from 'actions/wallet.action';
 
 function RecentSales({ orders }) {
   const data = React.useMemo(
@@ -132,9 +134,15 @@ function RecentSales({ orders }) {
 }
 
 function Main() {
-  // const { admin, loading } = state;
   const [shoppingIndex, setShoppingIndex] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [{ wallet, loadingWallet }, walletDispatch] = useWallet();
+
+  useEffect(() => {
+    if (!wallet) {
+      getWallet(walletDispatch);
+    }
+  }, [walletDispatch, wallet]);
 
   useEffect(() => {
     (async () => {
@@ -217,7 +225,7 @@ function Main() {
           </div>
         </div>
         <div className="flex flex-0.3 ml-2 flex-col  tracking-wide w-full lg:w-6/12">
-          <Highlight balance={shoppingIndex?.wallet_balance} />
+          <Highlight balance={loadingWallet ? 0 : wallet?.balance} />
         </div>
       </div>
       <div className="mt-8 mb-4  bg-white p-6 w-full md:py-8 md:px-10 rounded-3xl">
