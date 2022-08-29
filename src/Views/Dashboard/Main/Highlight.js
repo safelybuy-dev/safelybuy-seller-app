@@ -21,8 +21,9 @@ export default function Highlight({ balance }) {
   const date = new Date();
   const [{ user }] = useContext(ContextUser);
   const [, walletDispatch] = useWallet();
-
   const { addToast } = useToasts();
+
+  console.log(user);
 
   const handleWidrawal = () => {
     if (!Object.values(user).length) {

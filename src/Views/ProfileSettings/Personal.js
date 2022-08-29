@@ -35,7 +35,6 @@ const signUpSchema = yup.object().shape({
 
 export default function Account({ userContext }) {
   const [{ user, loadingUser }, dispatch] = userContext;
-  console.log(user);
   const { addToast } = useToasts();
   const [dob, setDob] = useState(!user.dob ? '' : new Date(user.dob));
   const {

@@ -1,77 +1,52 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { ArrowRight } from 'svg';
 import Button from 'components/Button';
 import { useToasts } from 'react-toast-notifications';
-// import * as yup from 'yup';
-// import { yupResolver } from '@hookform/resolvers/yup';
 import utilities from 'utilities';
 import { cities } from 'data';
-import { requests } from 'requests';
+import { loadUser, requests } from 'requests';
 
-export default function Account() {
+export default function Account({ userContext }) {
+  const [
+    {
+      user: { isBusinessDetails: business },
+      loadingUser,
+    },
+    dispatch,
+  ] = userContext;
   const { addToast } = useToasts();
   const [isLoading, setIsLoading] = useState(false);
-  const [bizInfo, setBizInfo] = useState({});
-  const [selectedState, setSelectedState] = useState('');
-  // const [selectedTown, setSelectedTown] = useState('');
-  const [states] = useState(Object.keys(cities).sort());
-  const [towns, setTowns] = useState([]);
+  const [selectedState, setSelectedState] = useState(
+    (business && business?.state) || ''
+  );
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-    setValue,
-  } = useForm();
-
-  const fetchData = async () => {
-    setIsLoading(true);
-    const res = await requests.get('/seller/business');
-    // console.log(res.data[res.data.length - 1]);
-    setBizInfo(res.data[res.data.length - 1]);
-    setIsLoading(false);
-  };
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    if (bizInfo?.business_name) {
-      if (bizInfo.state) setSelectedState(bizInfo.state);
-      if (bizInfo.city) {
-        let newTowns = [...towns, bizInfo.city];
-        newTowns = new Set(newTowns);
-        setTowns([...newTowns]);
-      }
-      const fields = [
-        'business_name',
-        'city',
-        'state',
-        'tin',
-        'vat_num',
-        'street',
-        'business_num',
-      ];
-      fields.forEach((field) => setValue(field, bizInfo[field]));
-      setValue('city', bizInfo.city);
-    }
-    return () => {};
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bizInfo, bizInfo?.business_name, setValue]);
+  } = useForm({
+    defaultValues: {
+      business_name: (business && business?.business_name) || '',
+      city: (business && business?.city) || '',
+      state: (business && business?.state) || '',
+      street: (business && business?.street) || '',
+      business_num: (business && business?.business_num) || '',
+      tin: (business && business?.tin) || '',
+    },
+  });
 
   const onSubmit = async (data) => {
     setIsLoading(true);
     try {
       data.legal_form = 'N/A';
-      data.vat_registered = true;
-      const { status } = await requests.post('/seller/business/update', data);
-      if (status === 'success') {
-        addToast('Successfully updated seller business information', {
-          appearance: 'success',
-          autoDismiss: true,
-        });
-        fetchData();
-      }
+      data.vat_registered = 'no';
+      await requests.post('/seller/business/update', data);
+      addToast('Successfully updated seller business information', {
+        appearance: 'success',
+        autoDismiss: true,
+      });
+      await loadUser(dispatch);
       setIsLoading(false);
     } catch (err) {
       setIsLoading(false);
@@ -92,26 +67,12 @@ export default function Account() {
     }
   };
 
-  // useEffect(() => {
-  //   if (existing && modalOpen[1] === 'edit') {
-  //     setValue('street', existing.street);
-  //     setValue('state', existing.state);
-  //     setSelectedState(existing.state);
-  //     setTowns(cities[existing.state].sort());
-  //   }
-  // }, []);
-
-  useEffect(() => {
-    if (selectedState) setTowns(cities[selectedState].sort());
-  }, [selectedState]);
-
   return (
     <div className="py-4">
       <div className="flex justify-start">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex mt-6 flex-col md:px-5 w-full">
-          {/* {!loadingUser && ( */}{' '}
           <div className="text-left mr-2">
             <label className=" text-xs md:text-sm my-2" htmlFor="firstname">
               Business Name
@@ -168,12 +129,12 @@ export default function Account() {
                 {...register('state', {
                   required: true,
                 })}
+                onChange={(e) => setSelectedState(e.target.value)}
                 className="border w-full border-[#E0E0E0] focus:border-black rounded-full px-6 py-2 focus:outline-none focus:shadow-xl tracking-[0.04em]"
                 name="state"
-                id="state"
-                onChange={(e) => setSelectedState(e.target.value)}>
+                id="state">
                 <option value="">Select State</option>
-                {states.map((e) => (
+                {Object.keys(cities).map((e) => (
                   <option key={e} value={e}>
                     {e}
                   </option>
@@ -195,17 +156,14 @@ export default function Account() {
                 id="city"
                 {...register('city', {
                   required: true,
-                })}
-                // defaultValue={
-                //   existing && modalOpen[1] === 'edit' ? existing.city : ''
-                // }
-              >
+                })}>
                 <option value="">Select City</option>
-                {towns.map((e) => (
-                  <option key={e} value={e}>
-                    {e}
-                  </option>
-                ))}
+                {selectedState &&
+                  cities[selectedState]?.map((e) => (
+                    <option key={e} value={e}>
+                      {e}
+                    </option>
+                  ))}
               </select>
               <span className="text-red-500">
                 {errors.city && <span>{errors.city.message}</span>}
@@ -261,7 +219,7 @@ export default function Account() {
             </div>
           </div>
           <div onClick={handleSubmit(onSubmit)} className="my-3">
-            {isLoading ? (
+            {isLoading || loadingUser ? (
               <span
                 style={{
                   borderRightWidth: '2px',

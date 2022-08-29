@@ -156,7 +156,7 @@ function SortMealModal({ setTriggerSort, items, setDashboardDetails }) {
               </div>
             ))}
           </div>
-          <div className="mx-8 mt-5 pb-5 border-b-[1.3278px] border-[#E0E0E0]">
+          <div className="mx-8 mt-5 pb-5 border-b-[1.3278px]  border-[#E0E0E0]">
             <h4 className="mb-4">Delivery Date</h4>
             <div className="border-[#8661FF] border-[1.5px]  rounded border-opacity-[0.2]  p-4">
               <DateRange

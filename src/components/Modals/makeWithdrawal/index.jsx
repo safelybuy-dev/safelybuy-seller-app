@@ -42,10 +42,12 @@ const MakeWithdrawal = () => {
         amount,
         is_commission: false,
       });
-      walletDispatch({
-        type: WITHDRAW_TO_ACCOUNT,
-        payload: amount,
-      });
+      if (Number(amount) && Number(amount) <= 250000) {
+        walletDispatch({
+          type: WITHDRAW_TO_ACCOUNT,
+          payload: Number(amount),
+        });
+      }
       setSteps((prev) => prev + 1);
     } catch (error) {
       if (

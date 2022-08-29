@@ -13,7 +13,6 @@ export default function userReducer(state, action) {
         ...state,
         loadingUser: false,
         error: '',
-        user: action.payload.user,
         token: localStorage.safely_buy_token,
         isAuthenticated: true,
       };

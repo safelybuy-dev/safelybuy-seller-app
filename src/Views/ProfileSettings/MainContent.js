@@ -25,7 +25,7 @@ export default function MainContent({ active, setActive }) {
             title="Business Information"
             subtitle="Details about your company information"
             setActive={setActive}>
-            <Business />
+            <Business userContext={userContext} />
           </Container>
         );
       case 'password':
