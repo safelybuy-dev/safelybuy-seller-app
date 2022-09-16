@@ -1,19 +1,17 @@
 import React, {
-  useReducer,
   useState,
   Suspense,
   lazy,
   useEffect,
   useCallback,
+  useContext,
 } from 'react';
 import Footer from 'components/Footer';
 import { Route, Switch, useHistory } from 'react-router-dom';
 import { useLocalStorage } from 'react-use';
 import Auth from 'auth';
 import { useToasts } from 'react-toast-notifications';
-import userReducer from 'reducers/auth';
 import { loadUser } from 'requests';
-import { auth } from 'reducers/initialState';
 import Container from 'components/Container';
 import { Spinner } from 'components/Spinner';
 // import { MobileMenu } from './Main/MobileMenu';
@@ -21,6 +19,7 @@ import Header from './Main/Header';
 import ProfileSettings from 'Views/ProfileSettings';
 import { useWallet } from 'context/wallet.context';
 import MakeWithdrawal from 'components/Modals/makeWithdrawal';
+import { ContextUser } from 'context';
 
 const Main = lazy(() => import('./Main'));
 const Messaging = lazy(() => import('./Main/Messaging'));
@@ -39,7 +38,7 @@ const Inventory = lazy(() => import('../Inventory'));
 const TicketSales = lazy(() => import('../Tickets/Sales'));
 
 export default function Dashboard() {
-  const [state, dispatch] = useReducer(userReducer, auth);
+  const [state, dispatch] = useContext(ContextUser);
   const [value, setValue] = useLocalStorage(
     'dashboard_view_preference',
     localStorage.getItem('dashboard_view_preference') || 'Shopping'
@@ -67,7 +66,10 @@ export default function Dashboard() {
   }, [setValue]);
 
   useEffect(() => {
+    // if (Object.keys(state.user).length === 0) {
+    // console.log(state.user, 'here');
     loadUser(dispatch);
+    // }
   }, [dispatch]);
 
   useEffect(() => {

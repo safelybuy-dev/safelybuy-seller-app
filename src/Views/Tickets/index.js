@@ -1,6 +1,4 @@
-import { getWallet } from 'actions/wallet.action';
-import { useWallet } from 'context/wallet.context';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { PieChart } from 'react-minimal-pie-chart';
 import { useTable } from 'react-table';
 import Highlight from 'Views/Dashboard/Main/Highlight';
@@ -130,13 +128,6 @@ function RecentSales({ orders }) {
 }
 
 function Tickets() {
-  const [{ wallet, loadingWallet }, walletDispatch] = useWallet();
-
-  useEffect(() => {
-    if (!wallet) {
-      getWallet(walletDispatch);
-    }
-  }, [walletDispatch, wallet]);
   return (
     <div className="mt-20 md:mt-12 px-3 md:px-0">
       <div className="flex flex-col lg:flex-row justify-between ">
@@ -206,23 +197,23 @@ function Tickets() {
               </div>
             </div>
           </div>
-        </div>
-        <div className="flex-0.3">
-          <Highlight balance={loadingWallet ? 0 : wallet?.balance} />
-        </div>
-      </div>
-      <div className="mt-8 mb-4 p-4  bg-white md:py-8 md:px-10 rounded-3xl">
-        <h3 className="text-lg  md:text-2xl md:pb-6 text-gray-800  md:bg-white tracking-wider">
-          Recent Sales
-        </h3>
-        <div className="mt-5 py-8 px-10 md:py-0 md:px-0 md:mt-0  bg-white">
-          {/* <RecentSalesTable /> */}
-          {/* <div className='flex justify-between mt-8 pb-8 w-full'>
+          <div className="mt-8 mb-4 p-4  bg-white md:py-8 md:px-10 rounded-3xl">
+            <h3 className="text-lg  md:text-2xl md:pb-6 text-gray-800  md:bg-white tracking-wider">
+              Recent Sales
+            </h3>
+            <div className="mt-5 py-8 px-10 md:py-0 md:px-0 md:mt-0  bg-white">
+              {/* <RecentSalesTable /> */}
+              {/* <div className='flex justify-between mt-8 pb-8 w-full'>
               <span className='text-gray-500'>Showing 8 of 100</span>
               <div className='flex items-center text-purple-500'>
                 See all &nbsp; <ArrowRight />
               </div>
             </div> */}
+            </div>
+          </div>
+        </div>
+        <div className="flex-0.3">
+          <Highlight />
         </div>
       </div>
     </div>

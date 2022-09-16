@@ -774,7 +774,6 @@ function RestaurantMenuModal({
 
                 <div>
                   <p className="py-4">
-                    {' '}
                     <small>
                       Meals without a main image will not appear in the search
                       or browse area unless added. Ensure the images are clear,

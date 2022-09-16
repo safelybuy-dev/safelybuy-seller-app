@@ -1,6 +1,7 @@
 import * as type from 'actions/auth';
 
 export default function userReducer(state, action) {
+  console.log(action);
   switch (action.type) {
     case type.LOADING:
       return {
@@ -12,6 +13,7 @@ export default function userReducer(state, action) {
       return {
         ...state,
         loadingUser: false,
+        user: action.payload,
         error: '',
         token: localStorage.safely_buy_token,
         isAuthenticated: true,

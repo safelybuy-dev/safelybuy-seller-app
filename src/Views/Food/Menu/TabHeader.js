@@ -30,7 +30,12 @@ function TabbedButton({ text, position = 1, active, svg, tag }) {
   );
 }
 
-export default function TabHeader({ active, setActive }) {
+export default function TabHeader({
+  active,
+  setActive,
+  activeLength,
+  inactiveLength,
+}) {
   return (
     <div className="flex overflow-x md:-mx-6">
       <div
@@ -51,49 +56,49 @@ export default function TabHeader({ active, setActive }) {
           text="All"
           position={3}
           active={active === 'all'}
-          tag={40}
+          tag={activeLength + inactiveLength}
         />
       </div>
       <div
         className="wrapper"
         onClick={() => {
-          setActive('active');
+          setActive('Active');
         }}>
         <TabbedButton
           text="Active"
           position={2}
-          active={active === 'active'}
+          active={active === 'Active'}
           svg={
             <Active
               color={`${
-                active === 'active'
+                active === 'Active'
                   ? '#8661FF'
                   : 'rgba(196, 181, 253, var(--tw-text-opacity))'
               }`}
             />
           }
-          tag="23"
+          tag={activeLength}
         />
       </div>
       <div
         className="wrapper"
         onClick={() => {
-          setActive('inactive');
+          setActive('Inactive');
         }}>
         <TabbedButton
           text="Inactive"
           position={1}
-          active={active === 'inactive'}
+          active={active === 'Inactive'}
           svg={
             <Inactive
               color={`${
-                active === 'inactive'
+                active === 'Inactive'
                   ? '#8661FF'
                   : 'rgba(196, 181, 253, var(--tw-text-opacity))'
               }`}
             />
           }
-          tag="11"
+          tag={inactiveLength}
         />
       </div>
     </div>

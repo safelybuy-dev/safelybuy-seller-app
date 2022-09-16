@@ -420,14 +420,6 @@ function RestaurantModal({
                     <input
                       type="text"
                       {...register('name')}
-                      // value={name}
-                      // onChange={(e) => {
-                      //   dispatch({
-                      //     type: 'updateRestaurantState',
-                      //     payload: e.target.value,
-                      //     field: 'name',
-                      //   });
-                      // }}
                       placeholder="Enter Restaurant Name"
                       className="border border-[#E0E0E0] focus:border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
                     />
@@ -461,14 +453,6 @@ function RestaurantModal({
                     <input
                       type="time"
                       {...register('closing_time')}
-                      // value={closing_time}
-                      // onChange={(e) => {
-                      //   dispatch({
-                      //     type: 'updateRestaurantState',
-                      //     payload: e.target.value,
-                      //     field: 'closing_time',
-                      //   });
-                      // }}
                       placeholder="Closing time"
                       className={`border border-[#E0E0E0] focus:border-black
                            w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
@@ -481,14 +465,6 @@ function RestaurantModal({
                     <input
                       type="number"
                       {...register('min_order_price')}
-                      // value={min_order_price}
-                      // onChange={(e) => {
-                      //   dispatch({
-                      //     type: 'updateRestaurantState',
-                      //     payload: e.target.value,
-                      //     field: 'min_order_price',
-                      //   });
-                      // }}
                       placeholder="minimum order price"
                       className={`border border-[#E0E0E0] focus:border-black
                            w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
@@ -655,10 +631,8 @@ function RestaurantModal({
                   <p>
                     {' '}
                     <small>
-                      Events or tickets without a main image will not appear in
-                      the search or browse area unless added. Ensure the images
-                      are clear, crisp, informative and appealing. Follow the
-                      requirements below:
+                      Ensure the images are clear, crisp, informative and
+                      appealing. Follow the requirements below:
                     </small>
                   </p>
 

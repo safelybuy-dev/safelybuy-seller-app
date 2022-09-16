@@ -6,8 +6,6 @@ import { requests, baseURL } from 'requests';
 import { Spinner } from 'components/Spinner';
 import RecentSalesTable from './RecentSales';
 import Highlight from './Highlight';
-import { useWallet } from 'context/wallet.context';
-import { getWallet } from 'actions/wallet.action';
 
 function RecentSales({ orders }) {
   const data = React.useMemo(
@@ -136,13 +134,7 @@ function RecentSales({ orders }) {
 function Main() {
   const [shoppingIndex, setShoppingIndex] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [{ wallet, loadingWallet }, walletDispatch] = useWallet();
-
-  useEffect(() => {
-    if (!wallet) {
-      getWallet(walletDispatch);
-    }
-  }, [walletDispatch, wallet]);
+  // const [{ wallet, loadingWallet }, walletDispatch] = useWallet();
 
   useEffect(() => {
     (async () => {
@@ -158,7 +150,7 @@ function Main() {
 
   return (
     <div className="flex flex-wrap md:justify-between mt-20  md:mt-12 px-3 md:px-0">
-      <div className="flex flex-col  lg:flex-row w-full mx-auto md:justify-between items-center">
+      <div className="flex flex-col  lg:flex-row w-full mx-auto md:justify-between items-start">
         <div className="mt-5 md:p-10 py-5 px-5 w-full flex-[0.65] md:mt-0 rounded-3xl bg-white">
           <h3 className="text-2xl text-center md:text-left mb-6 text-gray-800 md:bg-white md:mt-2 tracking-wider">
             Your Orders
@@ -225,7 +217,7 @@ function Main() {
           </div>
         </div>
         <div className="flex flex-0.3 ml-2 flex-col  tracking-wide w-full lg:w-6/12">
-          <Highlight balance={loadingWallet ? 0 : wallet?.balance} />
+          <Highlight />
         </div>
       </div>
       <div className="mt-8 mb-4  bg-white p-6 w-full md:py-8 md:px-10 rounded-3xl">

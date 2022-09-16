@@ -33,7 +33,9 @@ function User({
     {
       text: 'Logout',
       path: '/login',
-      clickHandler() {},
+      clickHandler() {
+        // window.location.reload();
+      },
       color: 'red',
     },
   ];

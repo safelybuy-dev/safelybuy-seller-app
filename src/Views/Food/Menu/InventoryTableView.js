@@ -20,8 +20,8 @@ function InventoryTableView({
       <TabHeader
         active={active}
         setActive={setActive}
-        activeLength={items.filter((item) => item.status === 'active').length}
-        inactiveLength={items.filter((item) => item.status !== 'active').length}
+        activeLength={items.filter((item) => item.status === 'Active').length}
+        inactiveLength={items.filter((item) => item.status !== 'Active').length}
       />
       <div className="bg-white  overflow-x relative md:rounded-b-2xl md:rounded-tr-2xl md:p-10 z-40 p-2 md:-mx-6 ">
         <TableHeader active={active} setActive={setActive} />

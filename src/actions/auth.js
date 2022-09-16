@@ -16,12 +16,12 @@ export const login = (dispatch, data, history, toast) => {
   dispatch(action(LOADING));
   signIn(
     (res) => {
-      dispatch(action(LOGIN));
       if (res?.data?.user?.role !== 'seller') {
         toast('Access not granted', { appearance: 'error', autoDismiss: true });
         return;
       }
-      toast(`Welcome back, ${res.data.user.firstname}`, {
+      dispatch(action(LOGIN, res?.data?.user));
+      toast(`Welcome back, ${res?.data?.user?.firstname}`, {
         appearance: 'success',
         autoDismiss: true,
       });
@@ -74,7 +74,7 @@ export const updateUser = (dispatch, data, toast) => {
   updateProfile(
     (res) => {
       dispatch(action(UPDATE_USER, res.data));
-      fetchUser(dispatch);
+      // fetchUser(dispatch);
       toast('User profile updated', {
         appearance: 'success',
         autoDismiss: true,

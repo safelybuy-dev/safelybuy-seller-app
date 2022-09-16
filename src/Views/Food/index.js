@@ -11,8 +11,6 @@ import { useComponentVisible } from 'hooks';
 import ItemsPerPage from './Inventory/ItemsPerPage';
 import RecentPurchases from './RecentSales';
 import RecentDetails from './RecentDetails';
-import { useWallet } from 'context/wallet.context';
-import { getWallet } from 'actions/wallet.action';
 
 function RecentSales({ orders }) {
   const data = React.useMemo(
@@ -117,7 +115,6 @@ function RecentSales({ orders }) {
 
 function Food() {
   const [triggerSort, setTriggerSort] = useState(false);
-  const [{ wallet, loadingWallet }, walletDispatch] = useWallet();
   const [selectedItem, setSelectedItem] = useState(null);
   const [dashboardDetails, setDashboardDetails] = useState({
     loading: false,
@@ -159,12 +156,6 @@ function Food() {
     };
     fetchDashboardDetails();
   }, []);
-
-  useEffect(() => {
-    if (!wallet) {
-      getWallet(walletDispatch);
-    }
-  }, [walletDispatch, wallet]);
 
   return (
     <div className="px-3 md:px-0">
@@ -239,7 +230,7 @@ function Food() {
           </div>
         </div>
         <div className="flex-0.3">
-          <Highlight balance={loadingWallet ? 0 : Number(wallet?.balance)} />
+          <Highlight />
         </div>
       </div>
       <div className="mt-8 mb-4 bg-white py-6 px-5 md:py-8 md:px-10 rounded-2xl md:rounded-3xl ">
