@@ -43,6 +43,9 @@ function App() {
                   <PrivateRoute path="/shopping">
                     <Dashboard />
                   </PrivateRoute>
+                  <PrivateRoute path="/wallet-history">
+                    <Dashboard />
+                  </PrivateRoute>
                   <PrivateRoute path="/messages">
                     <Dashboard />
                   </PrivateRoute>

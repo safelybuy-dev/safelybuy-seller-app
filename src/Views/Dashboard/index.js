@@ -36,6 +36,7 @@ const RestaurantMenus = lazy(() => import('../Food/Menu'));
 const MealPlanInventory = lazy(() => import('../Food/mealPlan'));
 const Inventory = lazy(() => import('../Inventory'));
 const TicketSales = lazy(() => import('../Tickets/Sales'));
+const WalletInventory = lazy(() => import('../wallet-history'));
 
 export default function Dashboard() {
   const [state, dispatch] = useContext(ContextUser);
@@ -144,6 +145,9 @@ export default function Dashboard() {
               </Route>
               <Route exact path="/tickets/sales">
                 <TicketSales />
+              </Route>
+              <Route exact path="/wallet-history">
+                <WalletInventory />
               </Route>
               <Route path="/">
                 <Main />

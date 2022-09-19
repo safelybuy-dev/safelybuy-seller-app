@@ -4,6 +4,9 @@ import {
   GET_WALLET_SUCCESS,
   TOGGLE_WITHDRAWAL_MODAL,
   WITHDRAW_TO_ACCOUNT,
+  GET_WALLET_HISTORY,
+  GET_WALLET_HISTORY_FAILURE,
+  GET_WALLET_HISTORY_SUCCESS,
 } from 'actions/wallet.action';
 
 export const initialWalletState = {
@@ -19,6 +22,7 @@ export const initialWalletState = {
 };
 
 const reducer = (currentState, action) => {
+  console.log(action);
   switch (action.type) {
     case GET_WALLET:
       return {
@@ -52,6 +56,29 @@ const reducer = (currentState, action) => {
           balance: currentState.wallet.balance - action.payload,
         },
       };
+
+    case GET_WALLET_HISTORY:
+      return {
+        ...currentState,
+        loadingWalletHistory: true,
+      };
+
+    case GET_WALLET_HISTORY_SUCCESS:
+      return {
+        ...currentState,
+        walletHistory: action.payload,
+        walletHistoryError: '',
+        loadingWalletHistory: false,
+      };
+
+    case GET_WALLET_HISTORY_FAILURE:
+      return {
+        ...currentState,
+        walletHistoryError: action.payload,
+        walletHistory: initialWalletState.walletHistory,
+        loadingWalletHistory: true,
+      };
+
     default:
       return currentState;
   }

@@ -3,33 +3,21 @@ import moment from 'moment';
 import ItemsPerPage from 'components/ItemsPerPage';
 import { convertToNaira } from 'utilities/getCurrency';
 import { ArrowRight, CloseIcon } from 'svg';
-import { fetchWalletHistory } from 'api/wallet.service';
-import { errorFormatter } from 'utilities/error-formatter';
 import { LoadingIcon } from 'components/Spinner/LoadingIcon';
+import { useWallet } from 'context/wallet.context';
+import { getWalletHistory } from 'actions/wallet.action';
 
 const options = ['Last 5days', 'Last 15days', 'Last 20days', 'Last 50days'];
 
 export const Transactions = () => {
   const [transactionsPerPage, setTransactionsPerPage] = useState(options[0]);
-  const [loadingWalletHistory, setLoadingWalletHistory] = useState(false);
-  const [walletHistory, setWalletHistory] = useState([]);
+  const [{ walletHistory, loadingWalletHistory }, dispatch] = useWallet();
 
   useEffect(() => {
-    setLoadingWalletHistory(true);
-    fetchWalletHistory(
-      (response) => {
-        if (response?.data?.length) {
-          setWalletHistory(response.data);
-        }
-        setLoadingWalletHistory(false);
-      },
-      (error) => {
-        const message = errorFormatter(error);
-        console.log(message);
-        setLoadingWalletHistory(false);
-      }
-    );
-  }, []);
+    if (!walletHistory?.data?.length) {
+      getWalletHistory(dispatch);
+    }
+  }, [dispatch, walletHistory]);
 
   if (loadingWalletHistory) {
     return (
@@ -39,7 +27,7 @@ export const Transactions = () => {
     );
   }
 
-  if (!loadingWalletHistory && walletHistory?.length === 0) {
+  if (!loadingWalletHistory && walletHistory?.data?.length === 0) {
     return (
       <div className="text-gray-400 text-center py-5 text-sm ">
         <p>No Recent History</p>
@@ -67,9 +55,8 @@ export const Transactions = () => {
         </div>
         <div className="">
           <div className="flex flex-col gap-y-3">
-            {walletHistory
-              .slice(0, 5)
-              .map(({ amount, created_at, id, transaction_type, status }) => (
+            {walletHistory?.data?.map(
+              ({ amount, created_at, id, transaction_type, status }) => (
                 <div
                   className="flex justify-between items-center border-b-2 pb-2 border-[#E0E0E0] border-opacity-40"
                   key={id}>
@@ -90,7 +77,8 @@ export const Transactions = () => {
                     </p>
                   </div>
                 </div>
-              ))}
+              )
+            )}
           </div>
           <div className="text-center mt-2">
             <button className="align-center rounded-xl hover:bg-purple-100 w-full p-4 border-gray-100 ">
