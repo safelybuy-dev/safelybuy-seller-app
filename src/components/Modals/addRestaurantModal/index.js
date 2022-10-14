@@ -99,6 +99,18 @@ const imageReducer = (state, action) => {
   }
 };
 
+const DAYS_OF_THE_WEEK = [
+  'monday',
+  'tuesday',
+  'wednesday',
+  'thursday',
+  'friday',
+  'saturday',
+  'sunday',
+];
+
+const DELIVERY_OPTIONS = ['PICKUP', 'HOME-DELIVERY', 'DINE-IN'];
+
 function RestaurantModal({
   setRestaurantModal,
   isEdit,
@@ -113,6 +125,12 @@ function RestaurantModal({
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [restaurantStates, setRestaurantStates] = useState([]);
+  const [selectedDays, setSelectedDays] = useState(
+    isEdit ? currentRestaurant.available_days : []
+  );
+  const [selectedOptions, setSelectedOptions] = useState(
+    isEdit ? currentRestaurant.delivery_options : []
+  );
   const history = useHistory();
   const { addToast } = useToasts();
   const [mainImageUploaded, setMainImageUploaded] = useState(false);
@@ -126,6 +144,7 @@ function RestaurantModal({
     formState: { errors },
     watch,
     getValues,
+    setValue,
   } = useForm({
     defaultValues: {
       state_id: isEdit ? currentRestaurant.state_id.toString() : '',
@@ -137,6 +156,9 @@ function RestaurantModal({
       contact_email: isEdit ? currentRestaurant.contact_email : '',
       contact_phone: isEdit ? currentRestaurant.contact_phone : '',
       time_to_deliver: isEdit ? currentRestaurant.time_to_deliver : '',
+      longtitude: isEdit ? currentRestaurant.longtitude : '',
+      latitude: isEdit ? currentRestaurant.latitude : '',
+      description: isEdit ? currentRestaurant.description : '',
     },
   });
 
@@ -146,6 +168,9 @@ function RestaurantModal({
     'opening_time',
     'closing_time',
     'min_order_price',
+    'longtitude',
+    'latitude',
+    'description',
   ]);
 
   const watchFields_Step2 = watch([
@@ -172,9 +197,22 @@ function RestaurantModal({
     contact_email,
     contact_phone,
     time_to_deliver,
+    latitude,
+    longtitude,
+    description,
   } = getValues();
 
   const onSubmit = () => {};
+
+  useEffect(() => {
+    if (navigator.geolocation && !isEdit) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const { latitude, longitude } = position.coords;
+        setValue('latitude', latitude.toString());
+        setValue('longtitude', longitude.toString());
+      });
+    }
+  }, [setValue, isEdit]);
 
   useEffect(() => {
     axios
@@ -196,6 +234,11 @@ function RestaurantModal({
       contact_email,
       contact_phone,
       time_to_deliver,
+      longtitude,
+      latitude,
+      available_days: selectedDays,
+      delivery_options: selectedOptions,
+      description,
     };
 
     if (isEdit) {
@@ -247,9 +290,34 @@ function RestaurantModal({
     }
   };
 
+  const handleDaySelection = (day) => {
+    const isAdded = selectedDays.find((addedDay) => addedDay === day);
+    if (isAdded) {
+      setSelectedDays((prev) => prev.filter((addedDay) => addedDay !== day));
+    } else {
+      setSelectedDays((prev) => [...prev, day]);
+    }
+  };
+
+  const handleDeliveryOptions = (option) => {
+    const isAdded = selectedOptions.find(
+      (addedOption) => addedOption === option
+    );
+    if (isAdded) {
+      setSelectedOptions((prev) =>
+        prev.filter((addedOption) => addedOption !== option)
+      );
+    } else {
+      setSelectedOptions((prev) => [...prev, option]);
+    }
+  };
+
   return (
     <div
-      onClick={() => setRestaurantModal(null)}
+      onClick={() => {
+        setEdit(false);
+        setRestaurantModal(null);
+      }}
       className="fixed overflow-y-scroll top-0 left-0 z-50 w-screen md:py-40 md:px-40 py-0 px-0 h-screen bg-purple-600 bg-opacity-30">
       <div
         onClick={(e) => e.stopPropagation()}
@@ -268,7 +336,9 @@ function RestaurantModal({
           <div className="">
             <span className="hidden md:block">
               {step === 1 &&
-                (formValuesLength_1 === 5 ? (
+                (formValuesLength_1 === 8 &&
+                selectedDays.length &&
+                selectedOptions.length ? (
                   <Button
                     className="focus:outline-none"
                     text="Continue"
@@ -392,7 +462,39 @@ function RestaurantModal({
                 <form
                   onSubmit={handleSubmit(onSubmit)}
                   className="flex flex-col  md:max-w-7xl md:px-8">
-                  <div className="text-left mr-2">
+                  <div className="text-left mr-2 ">
+                    <label className="text-sm my-2" htmlFor="Product_title">
+                      Restaurant Name
+                    </label>
+                    <input
+                      type="text"
+                      {...register('name')}
+                      placeholder="Enter Restaurant Name"
+                      className="border border-[#E0E0E0] focus:border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
+                    />
+                  </div>
+
+                  <div className="mt-2">
+                    <label className="text-sm my-2" htmlFor="description">
+                      Description
+                    </label>
+
+                    <textarea
+                      className={`border ${
+                        errors.address
+                          ? 'border-red'
+                          : 'border-[#E0E0E0] focus:border-black'
+                      } w-full  px-6 py-2 rounded-md focus:outline-none focus:shadow-xl`}
+                      rows="4"
+                      cols="50"
+                      placeholder="desciption..."
+                      {...register('description', {
+                        required: true,
+                      })}
+                    />
+                  </div>
+
+                  <div className="text-left mr-2 mt-2">
                     <label className="text-sm my-2" htmlFor="email">
                       Enter State
                     </label>
@@ -413,18 +515,6 @@ function RestaurantModal({
                     </div>
                   </div>
 
-                  <div className="text-left mr-2 mt-2">
-                    <label className="text-sm my-2" htmlFor="Product_title">
-                      Restaurant Name
-                    </label>
-                    <input
-                      type="text"
-                      {...register('name')}
-                      placeholder="Enter Restaurant Name"
-                      className="border border-[#E0E0E0] focus:border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl"
-                    />
-                  </div>
-
                   <div className="mt-2">
                     <label className="text-sm my-2" htmlFor="opening_time">
                       Opening Time
@@ -432,14 +522,6 @@ function RestaurantModal({
                     <input
                       type="time"
                       {...register('opening_time')}
-                      // value={opening_time}
-                      // onChange={(e) => {
-                      //   dispatch({
-                      //     type: 'updateRestaurantState',
-                      //     payload: e.target.value,
-                      //     field: 'opening_time',
-                      //   });
-                      // }}
                       placeholder="opening time"
                       className={`border border-[#E0E0E0] focus:border-black
                            w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
@@ -470,6 +552,89 @@ function RestaurantModal({
                            w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
                     />
                   </div>
+
+                  <div className="text-left mr-2 mt-2">
+                    <label
+                      className="text-sm my-2"
+                      htmlFor="restaurant_longitude">
+                      Restaurant Longitude
+                    </label>
+                    <input
+                      type="number"
+                      {...register('longtitude')}
+                      placeholder="Restaurant Longitude"
+                      className={`border border-[#E0E0E0] focus:border-black
+                           w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                    />
+                  </div>
+
+                  <div className="text-left mr-2 mt-2">
+                    <label
+                      className="text-sm my-2"
+                      htmlFor="restaurant_latitude">
+                      Restaurant Latitude
+                    </label>
+                    <input
+                      type="number"
+                      {...register('latitude')}
+                      placeholder="Restaurant Latitude"
+                      className={`border border-[#E0E0E0] focus:border-black
+                           w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl`}
+                    />
+                  </div>
+
+                  <div className="text-left mr-2 mt-2">
+                    <label className="text-sm my-2" htmlFor="available_days">
+                      Available Days
+                    </label>
+                    <div
+                      className="border border-[#E0E0E0] 
+                        transition focus:border-gray-800 w-full rounded-[1.875rem] px-6 py-2 focus:outline-none focus:shadow-xl min-h-[90px] flex gap-2 flex-wrap items-start">
+                      {DAYS_OF_THE_WEEK.map((item) => {
+                        const isAdded = selectedDays.find(
+                          (addedDay) => addedDay === item
+                        );
+                        return (
+                          <button
+                            type="button"
+                            key={item}
+                            className={`
+      ${
+        isAdded ? 'bg-purple-600 text-white' : 'bg-[#c4c4c44d] text-[#828282]'
+      } py-1 px-2 mr-2 mb-2  text-xs  font-medium rounded cursor-pointer tracking-[0.04em] capitalize`}
+                            onClick={() => handleDaySelection(item)}>
+                            {item}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                  <div className="text-left mr-2 mt-2">
+                    <label className="text-sm my-2" htmlFor="delivery_options">
+                      Delivery Options
+                    </label>
+                    <div
+                      className="border border-[#E0E0E0] 
+                        transition focus:border-gray-800 w-full rounded-[1.875rem] px-6 py-2 focus:outline-none focus:shadow-xl h-[90px] flex gap-3 flex-wrap items-start ">
+                      {DELIVERY_OPTIONS.map((item) => {
+                        const isAdded = selectedOptions.find(
+                          (addedOption) => addedOption === item
+                        );
+                        return (
+                          <button
+                            type="button"
+                            key={item}
+                            className={`
+      ${
+        isAdded ? 'bg-purple-600 text-white' : 'bg-[#c4c4c44d] text-[#828282]'
+      } py-1 px-2 mr-2 mb-2  text-xs  font-medium rounded cursor-pointer tracking-[0.04em] capitalize`}
+                            onClick={() => handleDeliveryOptions(item)}>
+                            {item}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
                 </form>
               </div>
             </div>
@@ -485,8 +650,7 @@ function RestaurantModal({
                   &nbsp;&nbsp;&nbsp;
                   <FowardArrowSVG
                     setSteps={setStep}
-                    value={3}
-                    // value={main_event_ticket_image.length ? 4 : ""}
+                    value={formValuesLength_2 === 4 ? 3 : 2}
                   />
                   &nbsp;&nbsp;&nbsp; 2{' '}
                   <span className="text-gray-400">/ 3</span>
@@ -592,14 +756,6 @@ function RestaurantModal({
                       {...register('address', {
                         required: true,
                       })}
-                      // value={address}
-                      // onChange={(e) => {
-                      //   dispatch({
-                      //     type: 'updateRestaurantState',
-                      //     payload: e.target.value,
-                      //     field: 'address',
-                      //   });
-                      // }}
                     />
                   </div>
                 </form>
@@ -617,8 +773,7 @@ function RestaurantModal({
                   &nbsp;&nbsp;&nbsp;
                   <FowardArrowSVG
                     setSteps={setStep}
-                    value={mainImageUploaded ? 4 : ''}
-                    // value={main_event_ticket_image.length ? 4 : ""}
+                    value={mainImageUploaded || isEdit ? 4 : 3}
                   />
                   &nbsp;&nbsp;&nbsp; 3{' '}
                   <span className="text-gray-400">/ 3</span>

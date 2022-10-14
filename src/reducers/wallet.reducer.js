@@ -14,7 +14,10 @@ export const initialWalletState = {
   loadingWallet: false,
   walletError: '',
 
-  walletHistory: null,
+  walletHistory: {
+    last_page: 1,
+    data: [],
+  },
   loadingWalletHistory: false,
   walletHistoryError: '',
 
@@ -22,7 +25,6 @@ export const initialWalletState = {
 };
 
 const reducer = (currentState, action) => {
-  console.log(action);
   switch (action.type) {
     case GET_WALLET:
       return {

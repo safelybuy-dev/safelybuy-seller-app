@@ -1,19 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ArrowDown } from 'svg';
 
 export default function ItemsPerPage({
   selectRef,
   isVisible,
   setIsVisible,
-  options = [
-    '10 Items per page',
-    '20 Items per page',
-    '50 Items per page',
-    '100 Items per page',
-  ],
+  itemsPerPage,
+  setItemsPerPage,
+  options,
 }) {
-  const [selected, setSelected] = useState(options[0]);
-
   return (
     <div className="mx-2 w-48 relative md:w-1/2 md:mx-0">
       <button
@@ -25,7 +20,7 @@ export default function ItemsPerPage({
         className="relative w-full pl-3 pr-10 py-3 text-left cursor-pointer focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm md:pr-3">
         <span className="flex items-center">
           <span className="ml-3 block text-purple-500 truncate md:ml-0">
-            {selected}
+            {itemsPerPage}
           </span>
         </span>
         <span className="ml-3 absolute inset-y-0 right-0 flex items-center pr-6 pointer-events-none">
@@ -43,17 +38,17 @@ export default function ItemsPerPage({
             <li
               key={Math.random()}
               onClick={() => {
-                setSelected(option);
+                setItemsPerPage(option);
                 setIsVisible(false);
               }}
               className="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9 hover:text-white hover:bg-purple-600">
               <span
                 className={`${
-                  selected === option ? 'font-semibold' : 'font-normal'
+                  itemsPerPage === option ? 'font-semibold' : 'font-normal'
                 } ml-3 block font-normal truncate`}>
                 {option}
               </span>
-              {selected === option && (
+              {itemsPerPage === option && (
                 <span className="absolute inset-y-0 right-0 flex items-center pr-4">
                   {/* <!-- Heroicon name: check --> */}
                   <svg

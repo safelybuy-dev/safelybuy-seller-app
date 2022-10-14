@@ -7,6 +7,8 @@ import { useToasts } from 'react-toast-notifications';
 import { useRouteMatch, useParams } from 'react-router-dom';
 import InventoryTableView from './InventoryTableView';
 import Multicrumb from 'components/Multicrumb';
+import { markMenuSoldOut } from 'api/shopping';
+import { errorFormatter } from 'utilities/error-formatter';
 
 const links = [
   {
@@ -59,23 +61,25 @@ function Inventory() {
     }
   };
 
-  const selloutItem = async (id) => {
-    try {
-      setLoading(true);
-      await axiosWithAuth().post(
-        `${baseUrl}/api/v1/seller/event/sellout/${id}`
-      );
-      setLoading(false);
-      addToast('Item sold out', {
-        appearance: 'success',
-        autoDismiss: true,
-      });
-      fetchInventory();
-    } catch (error) {
-      setLoading(false);
-      console.log(error.message, error.response);
-      addToast(error.message, { appearance: 'error', autoDismiss: true });
-    }
+  const selloutItem = async (data) => {
+    setLoading(true);
+    markMenuSoldOut(
+      (response) => {
+        addToast('STATUS UPDATED', {
+          appearance: 'success',
+          autoDismiss: true,
+        });
+        fetchInventory();
+      },
+      (error) => {
+        const message = errorFormatter(error);
+        addToast(message, {
+          appearance: 'error',
+          autoDismiss: true,
+        });
+      },
+      data
+    );
   };
 
   useEffect(() => {
@@ -121,7 +125,6 @@ function Inventory() {
         setItem={setItem}
         setEdit={setEdit}
       />
-      {/* test  */}
       {openRestaurantMenuModel && (
         <RestaurantMenuModal
           openRestaurantMenuModel={openRestaurantMenuModel}

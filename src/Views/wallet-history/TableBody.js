@@ -6,7 +6,9 @@ function TableBody({ active, items = [] }) {
   const data = React.useMemo(
     () =>
       items
-        .filter((item) => item.status === active || active === 'all')
+        .filter(
+          (item) => item.status.toLowerCase() === active || active === 'all'
+        )
         .map((item) => ({
           id: item.id,
           reference: '#' + item.reference,
@@ -18,7 +20,9 @@ function TableBody({ active, items = [] }) {
           ),
           type: (
             <div>
-              <p className="mb-2 text-gray-800">{item.transaction_type}</p>
+              <p className="mb-2 text-gray-800 uppercase">
+                {item.transaction_type}
+              </p>
               <p className="w-[70%] text-xs text-gray-300">{item.comment}</p>
             </div>
           ),

@@ -27,15 +27,32 @@ export const getWallet = (dispatch) => {
   );
 };
 
-export const getWalletHistory = (dispatch) => {
+export const getWalletHistory = (
+  dispatch,
+  searchTerm,
+  currentPage,
+  perPage
+) => {
   dispatch(action(GET_WALLET_HISTORY));
   fetchWalletHistory(
     (res) => {
-      dispatch(action(GET_WALLET_HISTORY_SUCCESS, res.data));
+      const { data } = res;
+      dispatch(
+        action(
+          GET_WALLET_HISTORY_SUCCESS,
+          data || {
+            last_page: 1,
+            data: [],
+          }
+        )
+      );
     },
     (error) => {
       const message = errorFormatter(error);
       dispatch(action(GET_WALLET_HISTORY_FAILURE, message));
-    }
+    },
+    searchTerm,
+    currentPage,
+    perPage
   );
 };

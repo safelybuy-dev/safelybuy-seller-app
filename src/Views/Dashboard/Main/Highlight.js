@@ -62,7 +62,7 @@ export default function Highlight() {
 
   return (
     <div className="w-full relative">
-      <div className=" md:text-center py-4 px-6 pb-8 text-white md:mr-0">
+      <div className=" md:text-center  relative z-20 py-4 px-6 pb-8 text-white md:mr-0">
         <p className="text-xs opacity-70">
           {new Intl.DateTimeFormat('en-GB', options).format(date)}
         </p>

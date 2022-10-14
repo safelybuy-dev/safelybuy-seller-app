@@ -35,7 +35,7 @@ function ProductDetails({ selectedProduct, setSelectedProduct }) {
         <div className="flex md:mr-4 mr-0 flex-col md:flex-row">
           <div className="flex flex-col w-6/12 md:w-full">
             <div className="border-b border-gray-100 pb-4 w-full">
-              <div className="w-64 md:w-24 rounded-xl h-32 md:h-24 bg-gray-200 overflow-hidden">
+              <div className="md:w-64 w-24 rounded-xl md:h-32 h-24 bg-gray-200 overflow-hidden">
                 <img
                   src={selectedProduct.display_image}
                   alt=""
@@ -44,7 +44,7 @@ function ProductDetails({ selectedProduct, setSelectedProduct }) {
               </div>
             </div>
           </div>
-          <div className="flex flex-col md:w-6/12 md:ml-4 w-full mt-3 md:mt-0">
+          <div className="flex flex-col w-6/12 md:ml-4 md:w-full mt-3 md:mt-0">
             <div className="flex flex-col border-b pb-4 w-full md:ml-0 md:mt-4">
               <h4 className="text-xl text-purple-500">Display Information</h4>
               <div className="flex mt-6 flex-col">

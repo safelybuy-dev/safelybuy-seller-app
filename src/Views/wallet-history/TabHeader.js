@@ -63,16 +63,16 @@ export default function TabHeader({
       <div
         className="wrapper"
         onClick={() => {
-          setActive('Paid');
+          setActive('paid');
         }}>
         <TabbedButton
           text="Paid"
           position={2}
-          active={active === 'Paid'}
+          active={active === 'paid'}
           svg={
             <Active
               color={`${
-                active === 'Paid'
+                active === 'paid'
                   ? '#8661FF'
                   : 'rgba(196, 181, 253, var(--tw-text-opacity))'
               }`}
@@ -84,16 +84,16 @@ export default function TabHeader({
       <div
         className="wrapper"
         onClick={() => {
-          setActive('Pending');
+          setActive('denied');
         }}>
         <TabbedButton
-          text="Pending"
+          text="Denied"
           position={1}
-          active={active === 'Pending'}
+          active={active === 'denied'}
           svg={
             <Inactive
               color={`${
-                active === 'Pending'
+                active === 'denied'
                   ? '#8661FF'
                   : 'rgba(196, 181, 253, var(--tw-text-opacity))'
               }`}

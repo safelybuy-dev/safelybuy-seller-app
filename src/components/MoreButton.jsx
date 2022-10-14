@@ -1,6 +1,6 @@
-import React from "react";
-import { MoreSVG } from "svg";
-import { useComponentVisible } from "hooks";
+import React from 'react';
+import { MoreSVG } from 'svg';
+import { useComponentVisible } from 'hooks';
 
 function MoreButton({ links }) {
   const { ref, isComponentVisible, setIsComponentVisible } =
@@ -12,8 +12,7 @@ function MoreButton({ links }) {
         onClick={(e) => {
           setIsComponentVisible(!isComponentVisible);
           e.stopPropagation();
-        }}
-      >
+        }}>
         <MoreSVG />
       </button>
       {isComponentVisible && (
@@ -22,10 +21,9 @@ function MoreButton({ links }) {
             <li
               key={index}
               className={` ${
-                option.text === "Delete" && "text-red-500"
+                option.text === 'Delete' && 'text-red-500'
               } py-2 px-3 border-b border-gray-100 cursor-pointer hover:bg-slate-50`}
-              onClick={option.clickHandler}
-            >
+              onClick={option.clickHandler}>
               {option.text}
             </li>
           ))}

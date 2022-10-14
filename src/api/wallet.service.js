@@ -8,9 +8,17 @@ export const fetchWallet = (success, failure) => {
     .catch((error) => failure(error));
 };
 
-export const fetchWalletHistory = (success, failure) => {
+export const fetchWalletHistory = (
+  success,
+  failure,
+  searchTerm = '',
+  page = 1,
+  perPage = 10
+) => {
   axiosWithAuth()
-    .get(`${baseUrl}/api/v1/my-wallet-historyv2?page=1&per_page=5`)
+    .get(
+      `${baseUrl}/api/v1/my-wallet-historyv2?page=${page}&per_page=${perPage}&keyword=${searchTerm}`
+    )
     .then((res) => success(res.data))
     .catch((error) => failure(error));
 };

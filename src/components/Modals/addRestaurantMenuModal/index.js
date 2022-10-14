@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from 'react';
+import React, { useState, useReducer, useEffect } from 'react';
 import { CloseIcon, FowardSymbolSVG } from 'svg';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
@@ -8,6 +8,8 @@ import axios from 'axios';
 import { baseUrl } from 'api';
 import { BackArrowSVG, FowardArrowSVG, CameraSVG } from '../addProductModal';
 import DayButton from 'components/DayButton';
+import { getAllMealClass } from 'api/shopping';
+import { errorFormatter } from 'utilities/error-formatter';
 
 function BorderImageUpload({
   title,
@@ -167,11 +169,13 @@ function RestaurantMenuModal({
     imageReducer,
     initialImageState
   );
+  const [mealClasses, setMealClasses] = useState({
+    last_page: 1,
+    data: [],
+  });
   const [eventData, dispatch] = useReducer(restaurant_Reducer, initialState);
 
-  const { display_image, available_days, menu_type } = eventData;
-
-  console.log(available_days);
+  const { display_image, available_days } = eventData;
 
   const {
     register,
@@ -184,9 +188,18 @@ function RestaurantMenuModal({
       name: isEdit ? currentItem.name : '',
       description: isEdit ? currentItem.description : '',
       price_per_portion: isEdit ? currentItem.price_per_portion : '',
+      menu_class_id: isEdit ? currentItem.menu_class_id : '',
     },
   });
-  const watchFields_Step1 = watch(['name', 'description', 'price_per_portion']);
+
+  // console.log(currentItem, mealClasses.data, getValues().menu_class_id);
+
+  const watchFields_Step1 = watch([
+    'name',
+    'description',
+    'price_per_portion',
+    'menu_class_id',
+  ]);
 
   const formValuesLength_1 = Object.values(watchFields_Step1)
     .filter(Boolean)
@@ -194,7 +207,7 @@ function RestaurantMenuModal({
 
   const onSubmit = () => console.log('f');
 
-  const { name, description, price_per_portion } = getValues();
+  const { name, description, price_per_portion, menu_class_id } = getValues();
 
   const handleDays = (state, day) => {
     let newAvailability;
@@ -218,11 +231,12 @@ function RestaurantMenuModal({
       description,
       price_per_portion,
       available_days,
-      menu_type,
+      menu_class_id,
     };
 
     if (isEdit) {
       data.id = currentItem.id;
+      data.restuarant_id = currentItem.restuarant_id;
     } else {
       data.restuarant_id = id;
     }
@@ -281,6 +295,32 @@ function RestaurantMenuModal({
     }
   };
 
+  useEffect(() => {
+    (async () => {
+      try {
+        setLoading(true);
+        const { data } = await getAllMealClass();
+        if (data?.status === 'error') {
+          return addToast(data?.message || 'Unknown Error', {
+            appearance: 'error',
+            autoDismiss: true,
+          });
+        }
+        if (data?.data) {
+          setMealClasses(data?.data);
+        }
+      } catch (error) {
+        const message = errorFormatter(error);
+        addToast(message, {
+          appearance: 'error',
+          autoDismiss: true,
+        });
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, [addToast]);
+
   return (
     <div
       onClick={() => {
@@ -305,9 +345,7 @@ function RestaurantMenuModal({
           <div className="">
             <span className="hidden md:inline">
               {step === 1 &&
-                (formValuesLength_1 === 3 &&
-                available_days.length &&
-                menu_type ? (
+                (formValuesLength_1 === 4 && available_days.length ? (
                   <Button
                     className="focus:outline-none"
                     text="Continue"
@@ -317,7 +355,7 @@ function RestaurantMenuModal({
                     roundedFull
                     icon={<FowardSymbolSVG />}
                   />
-                ) : formValuesLength_1 !== 6 ? (
+                ) : (
                   <Button
                     className="focus:outline-none"
                     text="Continue"
@@ -325,7 +363,7 @@ function RestaurantMenuModal({
                     roundedFull
                     icon={<FowardSymbolSVG />}
                   />
-                ) : null)}
+                ))}
 
               {step === 2 &&
                 (mainImageUploaded || isEdit ? (
@@ -425,6 +463,25 @@ function RestaurantMenuModal({
                     />
                   </div>
 
+                  <div className="text-left mr-2 mt-2">
+                    <label className="text-sm my-2" htmlFor="menu_class">
+                      Menu Class
+                    </label>
+                    <select
+                      {...register('menu_class_id', {
+                        required: true,
+                      })}
+                      value={menu_class_id}
+                      className="border  border-[#E0E0E0] focus:border-black w-full rounded-full px-6 py-2 focus:outline-none focus:shadow-xl">
+                      <option value="">Select a menu class</option>
+                      {mealClasses.data.map((item) => (
+                        <option key={item.id} value={item.id.toString()}>
+                          {item.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
                   <div className="mt-2">
                     <label className="text-sm my-2" htmlFor="address">
                       Menu Description
@@ -443,67 +500,23 @@ function RestaurantMenuModal({
                     />
                   </div>
                   <div className="text-left mr-2 mt-2">
-                    <label className="text-sm my-2" htmlFor="menu_type">
-                      Menu Type
+                    <label className="text-sm my-2" htmlFor="price_per_portion">
+                      Price Per Portion
                     </label>
                     <div
-                      className="border border-[#E0E0E0] 
-                        transition focus:border-gray-800 w-full rounded-[1.875rem] px-6 py-2 focus:outline-none focus:shadow-xl min-h-[90px]">
-                      <div className="flex items-center gap-2 w-[90%] mx-auto ">
-                        <button
-                          className={`
-                        ${
-                          menu_type === 'normal'
-                            ? 'bg-purple-600 text-white'
-                            : 'bg-[#c4c4c44d] text-[#828282]'
-                        } py-1 px-2 mr-2 mb-2  text-sm text-whitefont-medium rounded cursor-pointer tracking-[0.04em] capitalize`}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            dispatch({
-                              type: 'updateRestaurantState',
-                              payload: 'normal',
-                              field: 'menu_type',
-                            });
-                          }}>
-                          Normal Menu
-                        </button>
-                        <button
-                          className={`
-                          ${
-                            menu_type === 'swallow'
-                              ? 'bg-purple-600 text-white'
-                              : 'bg-[#c4c4c44d] text-[#828282]'
-                          }
-                          py-1 px-2 mr-2 mb-2  text-sm text-whitefont-medium rounded cursor-pointer tracking-[0.04em] capitalize`}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            dispatch({
-                              type: 'updateRestaurantState',
-                              payload: 'swallow',
-                              field: 'menu_type',
-                            });
-                          }}>
-                          Swallow Menu
-                        </button>
-                      </div>
-                      {menu_type && (
-                        <div className=" bg-[#c4c4c4] bg-opacity-20 rounded-full w-[90%] mx-auto py-2 px-6  my-4 ">
-                          <input
-                            type="text"
-                            name=""
-                            id=""
-                            placeholder={
-                              menu_type === 'swallow'
-                                ? 'price per wrap'
-                                : 'price per portion'
-                            }
-                            className="w-full h-full outline-none bg-transparent  text-sm"
-                            {...register('price_per_portion', {
-                              required: true,
-                            })}
-                          />
-                        </div>
-                      )}
+                      className={`border ${
+                        errors.price_per_portion
+                          ? 'border-red'
+                          : 'border-[#E0E0E0] focus:border-black'
+                      } w-full  px-6 py-2 rounded-full focus:outline-none focus:shadow-xl`}>
+                      <input
+                        type="text"
+                        placeholder="Price Per Portion"
+                        className="w-full h-full outline-none bg-transparent  text-sm"
+                        {...register('price_per_portion', {
+                          required: true,
+                        })}
+                      />
                     </div>
                   </div>
                   <div className="text-left  border-t-2 mt-5 pt-4 border-grey-600">
@@ -546,8 +559,7 @@ function RestaurantMenuModal({
                   &nbsp;&nbsp;&nbsp;
                   <FowardArrowSVG
                     setSteps={setStep}
-                    value={mainImageUploaded ? 3 : ''}
-                    // value={main_event_ticket_image.length ? 4 : ""}
+                    value={mainImageUploaded || isEdit ? 3 : 2}
                   />
                   &nbsp;&nbsp;&nbsp; 2{' '}
                   <span className="text-gray-400">/ 2</span>
@@ -646,7 +658,7 @@ function RestaurantMenuModal({
         )}
         <div className="flex justify-center items-center mt-8 md:hidden">
           {step === 1 &&
-            (formValuesLength_1 === 3 && available_days.length && menu_type ? (
+            (formValuesLength_1 === 4 && available_days.length ? (
               <Button
                 className="focus:outline-none"
                 text="Continue"

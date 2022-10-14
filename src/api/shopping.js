@@ -91,3 +91,16 @@ export const selloutItem = (success, failure, id) => {
     .then((response) => success(response))
     .catch((error) => failure(error));
 };
+
+export const getAllMealClass = () => {
+  return axiosWithAuth().get(
+    `${baseUrl}/api/v1/admin/menu-class?per_page=10000000000000000`
+  );
+};
+
+export const markMenuSoldOut = (success, failure, data) => {
+  axiosWithAuth()
+    .post(`${baseUrl}/api/v1/menus/mark-sold-out`, data)
+    .then((response) => success(response.data))
+    .catch((error) => failure(error));
+};

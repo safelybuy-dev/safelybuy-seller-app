@@ -1,10 +1,42 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import TabHeader from './TabHeader';
 import TableHeader from './TableHeader';
 import TableBody from './TableBody';
+import { useWallet } from 'context/wallet.context';
+import { getWalletHistory } from 'actions/wallet.action';
+import { useOptimizedSearch } from 'hooks';
 
-function InventoryTableView({ loading, items }) {
+const options = [
+  '10 Items per page',
+  '20 Items per page',
+  '50 Items per page',
+  '100 Items per page',
+];
+
+function InventoryTableView() {
   const [active, setActive] = useState('all');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const optimizedSearchTerm = useOptimizedSearch(searchTerm);
+  const [itemsPerPage, setItemsPerPage] = useState(options[0]);
+
+  const [{ walletHistory, loadingWalletHistory }, dispatch] = useWallet();
+  const items = walletHistory?.data || [];
+
+  useEffect(() => {
+    getWalletHistory(
+      dispatch,
+      optimizedSearchTerm,
+      currentPage,
+      itemsPerPage.split(' ')[0]
+    );
+  }, [dispatch, optimizedSearchTerm, currentPage, itemsPerPage]);
+
+  const handleSearchTerm = useCallback(
+    (e) => setSearchTerm(e.target.value),
+    []
+  );
+
   return (
     <div className="w-full  md:mt-8">
       <TabHeader
@@ -15,12 +47,21 @@ function InventoryTableView({ loading, items }) {
           items.filter((item) => item.status.toLowerCase() === 'paid').length
         }
         inactiveLength={
-          items.filter((item) => item.status.toLowerCase() !== 'paid').length
+          items.filter((item) => item.status.toLowerCase() === 'denied').length
         }
       />
       <div className="bg-white overflow-x relative rounded-b-2xl rounded-tr-2xl md:p-10 z-40 p-4 md:-mx-6">
-        <TableHeader active={active} setActive={setActive} />
-        {loading ? (
+        <TableHeader
+          handleSearchTerm={handleSearchTerm}
+          searchTerm={searchTerm}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          lastPage={walletHistory.last_page}
+          options={options}
+          itemsPerPage={itemsPerPage}
+          setItemsPerPage={setItemsPerPage}
+        />
+        {loadingWalletHistory && items.length === 0 ? (
           <div className="mt-20 mb-20 flex justify-center">
             <svg
               className="animate-spin -ml-1 mr-3 h-5 w-5 text-purple-500"

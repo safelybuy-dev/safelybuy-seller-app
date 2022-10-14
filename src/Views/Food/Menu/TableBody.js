@@ -4,6 +4,7 @@ import Button from 'components/Button';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import { convertToNaira } from 'utilities/getCurrency';
+import MoreButton from 'components/MoreButton';
 
 function KeyValue({ title, value }) {
   return (
@@ -22,8 +23,8 @@ function TableBody({
   setRestaurantMenuModal,
   setItem,
   setEdit,
+  selloutItem,
 }) {
-  console.log(items);
   const handleDelete = React.useCallback(
     (id) => {
       confirmAlert({
@@ -42,6 +43,26 @@ function TableBody({
       });
     },
     [deleteItem]
+  );
+
+  const handleSoldOut = React.useCallback(
+    (data) => {
+      confirmAlert({
+        title: 'Mark Menu Sold Out',
+        message: 'Are you sure you want to mark the menu sold out?',
+        buttons: [
+          {
+            label: 'Yes',
+            onClick: () => selloutItem(data),
+          },
+          {
+            label: 'No',
+            onClick: () => {},
+          },
+        ],
+      });
+    },
+    [selloutItem]
   );
 
   const data = React.useMemo(
@@ -69,24 +90,28 @@ function TableBody({
             </div>
           ),
           image: (
-            <div className="h-[4rem] w-[4rem] overflow-hidden  rounded-[4px] bg-gray-500">
-              <img
-                src={item.display_image}
-                alt="event"
-                className="object-cover cursor-pointer h-full w-full"
-              />
+            <div className="relative">
+              <div className="h-[4rem] w-[4rem] overflow-hidden  rounded-[4px] bg-gray-500">
+                <img
+                  src={item.display_image}
+                  alt="event"
+                  className="object-cover cursor-pointer h-full w-full"
+                />
+              </div>
+              {Boolean(item.is_sold_out) && (
+                <div
+                  className="absolute text-[0.65rem] rounded-sm bg-red-500 text-gray-50 px-3 py-[0.1rem]
+               rotate-45 -left-0 top-5
+              ">
+                  <span>SOLD OUT</span>
+                </div>
+              )}
             </div>
           ),
           actions: (
-            <div className=" flex  items-center ">
-              {item.status === 'Active' ? (
+            <div className=" flex justify-start  items-center ">
+              {item.status.toLowerCase() === 'active' ? (
                 <>
-                  <span onClick={() => handleDelete(item.id)}>
-                    <Button rounded danger>
-                      Delete
-                    </Button>
-                  </span>
-                  <div className="px-2" />
                   <span
                     onClick={() => {
                       setEdit(true);
@@ -97,6 +122,26 @@ function TableBody({
                       Edit
                     </Button>
                   </span>
+                  {/* <div className="px-2" /> */}
+                  <MoreButton
+                    links={[
+                      {
+                        text: item?.is_sold_out ? 'Available' : 'Sold Out',
+                        clickHandler() {
+                          handleSoldOut({
+                            menu_id: item.id,
+                            is_sold_out: item.is_sold_out ? false : true,
+                          });
+                        },
+                      },
+                      {
+                        text: 'Delete',
+                        clickHandler() {
+                          handleDelete(item.id);
+                        },
+                      },
+                    ]}
+                  />
                 </>
               ) : (
                 <span className="text-gray-500 opacity-70">Deactivated</span>
@@ -104,7 +149,15 @@ function TableBody({
             </div>
           ),
         })),
-    [handleDelete, items, active, setEdit, setRestaurantMenuModal, setItem]
+    [
+      handleDelete,
+      items,
+      active,
+      setEdit,
+      setRestaurantMenuModal,
+      setItem,
+      handleSoldOut,
+    ]
   );
 
   const columns = React.useMemo(
@@ -137,7 +190,7 @@ function TableBody({
   }
 
   return (
-    <div className="overflow-x-scroll md:overflow-x-hidden mt-8">
+    <div className="overflow-x-scroll lg:overflow-visible mt-8">
       <table {...getTableProps()} className="w-full text-sm">
         <thead className="text-left border-b-2 border-gray-100">
           {headerGroups.map((headerGroup) => (

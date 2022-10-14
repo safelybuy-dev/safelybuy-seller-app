@@ -3,14 +3,6 @@ import React from 'react';
 import { ArrowDown } from 'svg';
 
 export default function ItemsPerPage({ options, selected, setSelected }) {
-  //   const options = [
-  //     '10 Items per page',
-  //     '20 Items per page',
-  //     '50 Items per page',
-  //     '100 Items per page',
-  //   ];
-  //   const [selected, setSelected] = useState(options[0]);
-
   const {
     ref: selectRef,
     isComponentVisible: isVisible,

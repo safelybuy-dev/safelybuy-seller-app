@@ -28,3 +28,19 @@ export const useComponentVisible = (initialIsVisible) => {
 
   return { ref, isComponentVisible, setIsComponentVisible };
 };
+
+export const useOptimizedSearch = (state, delay = 500) => {
+  const [text, setText] = useState(state);
+
+  useEffect(() => {
+    const timeOut = setTimeout(() => {
+      setText(state);
+    }, delay);
+
+    return () => {
+      clearTimeout(timeOut);
+    };
+  }, [delay, state]);
+
+  return text;
+};

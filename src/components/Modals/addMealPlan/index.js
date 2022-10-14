@@ -323,7 +323,7 @@ function RestaurantMenuModal({
       body.style.overflow = 'hidden';
     }
     return () => {
-      body.style.overflow = 'scroll';
+      body.style.overflowY = 'scroll';
     };
   }, [menuModal]);
 

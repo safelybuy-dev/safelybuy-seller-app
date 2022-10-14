@@ -1,20 +1,33 @@
 import React from 'react';
 import { AngleRight, SearchIcon } from 'svg';
-// import SortBy from "./SortBy";
 import { useComponentVisible } from 'hooks';
 import ItemsPerPage from './ItemsPerPage';
 
-export default function TableHeader({ active, setActive }) {
-  // const {
-  //   ref: sortRef,
-  //   isComponentVisible: isSortVisible,
-  //   setIsComponentVisible: setIsSortVisible,
-  // } = useComponentVisible(false);
+export default function TableHeader({
+  searchTerm,
+  handleSearchTerm,
+  currentPage,
+  setCurrentPage,
+  lastPage,
+  itemsPerPage,
+  setItemsPerPage,
+  options,
+}) {
   const {
     ref: itemsRef,
     isComponentVisible: isItemsVisible,
     setIsComponentVisible: setIsItemVisible,
   } = useComponentVisible(false);
+
+  const handlePagination = (number) => {
+    if (
+      (number === 1 && currentPage < lastPage) ||
+      (number === -1 && currentPage > 1)
+    ) {
+      setCurrentPage((prev) => prev + number);
+    }
+  };
+
   return (
     <div className="flex justify-between w-[90%] mx-auto md:w-full flex-col md:flex-row md:flex-wrap">
       {/* Search box */}
@@ -23,7 +36,9 @@ export default function TableHeader({ active, setActive }) {
           <input
             className=" text-sm md:text-base w-full focus:outline-none mr-2"
             type="text"
-            placeholder="Search by SKU, Product Name..."
+            placeholder="Search by amount, comment, reference..."
+            value={searchTerm}
+            onChange={handleSearchTerm}
           />
           <span className="">
             <SearchIcon color="#8661FF" />
@@ -41,21 +56,35 @@ export default function TableHeader({ active, setActive }) {
           selectRef={itemsRef}
           isVisible={isItemsVisible}
           setIsVisible={setIsItemVisible}
+          itemsPerPage={itemsPerPage}
+          setItemsPerPage={setItemsPerPage}
+          options={options}
         />
         <div className="flex text-sm md:text-base items-center md:w-1/2 md:justify-center">
           Page
           <input
             className="inline-block py-1 w-8 text-center mx-1 border rounded-md"
-            defaultValue={1}
+            value={currentPage}
+            onChange={(e) => {
+              const { value } = e.target;
+              if (value > lastPage || value < 1) {
+                return null;
+              }
+              setCurrentPage(Number(value));
+            }}
           />
-          of 5
+          of {lastPage}
           <div className="flex ml-3">
-            <span className="mr-3 transform rotate-180">
+            <button
+              className="mr-3 transform rotate-180 cursor-pointer"
+              onClick={() => handlePagination(-1)}>
               <AngleRight scale={1.5} />
-            </span>
-            <span className="">
+            </button>
+            <button
+              className="cursor-pointer"
+              onClick={() => handlePagination(1)}>
               <AngleRight scale={1.5} />
-            </span>
+            </button>
           </div>
         </div>
       </div>
